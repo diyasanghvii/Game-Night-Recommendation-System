@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSetting = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 // Example to Make a GET request, add functions and add the requires URL and headers

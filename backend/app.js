@@ -19,7 +19,7 @@ const testRoutes = require("./routes/route");
 app.use("/", testRoutes);
 
 // setup port
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 
 // setup listner
 const server = app.listen(port, () =>
