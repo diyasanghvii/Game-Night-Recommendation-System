@@ -1,30 +1,40 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "backendURLHERE";
-axios.defaults.headers.common["Authorization"] = "Bearer yourAccessToken"; // user Auth token here
+const axiosSetting = axios.create({
+  baseURL: "http://localhost:8080",
+});
 
-// Example to Make a GET request
-axios
-  .get("https://jsonplaceholder.typicode.com/posts/1")
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error("Error fetching data:", error);
+// Example to Make a GET request, add functions and add the requires URL and headers
+export const getTestData = (data) => {
+  return new Promise((resolve, reject) => {
+    axiosSetting
+      .get("/testApi")
+      .then((response) => {
+        if (response && response.status === 200) {
+          resolve(response);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
-
-// Example to Make a POST request
-const postData = {
-  title: "foo",
-  body: "bar",
-  userId: 1,
 };
 
-axios
-  .post("https://jsonplaceholder.typicode.com/posts", postData)
-  .then((response) => {
-    console.log("Post successful:", response.data);
-  })
-  .catch((error) => {
-    console.error("Error posting data:", error);
+// Example with headers to send auth tokens and other data
+export const example = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("https://example.com/api/data", {
+        headers: {
+          Authorization: "Bearer your_access_token", // change to any token for steam apis
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
+};
