@@ -9,6 +9,14 @@ require("dotenv").config();
 const app = express();
 
 // add mongo db using mongose
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("DB connected successfully!");
+  })
+  .catch((err) => {
+    console.log("DB connection error :", err);
+  });
 
 // add middlewares
 app.use(morgan("dev"));
@@ -20,6 +28,21 @@ app.use("/", testRoutes);
 
 // setup port
 const port = process.env.PORT;
+
+// // push to DB
+// // app.js
+// const User = require("./models/login");
+// const user = new User({
+//   userId: "001",
+//   fullName: "john_doe",
+//   password: "helloWorld",
+//   email: "john@example.com",
+// });
+
+// user
+//   .save()
+//   .then(() => console.log("User saved to database"))
+//   .catch((err) => console.error(err));
 
 // setup listner
 const server = app.listen(port, () =>
