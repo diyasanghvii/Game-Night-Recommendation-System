@@ -4,3 +4,5 @@
 /backend/*env
 /node_modules
 /build
+/frontend/package-lock.json
+/backend/package-lock.json

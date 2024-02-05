@@ -21,28 +21,14 @@ mongoose
 // add middlewares
 app.use(morgan("dev"));
 app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
 
 // add routes
-const testRoutes = require("./routes/route");
-app.use("/", testRoutes);
+const testUserRoutes = require("./routes/testUserRoutes");
+app.use("/user", testUserRoutes);
 
 // setup port
 const port = process.env.PORT;
-
-// // push to DB
-// // app.js
-// const User = require("./models/login");
-// const user = new User({
-//   userId: "001",
-//   fullName: "john_doe",
-//   password: "helloWorld",
-//   email: "john@example.com",
-// });
-
-// user
-//   .save()
-//   .then(() => console.log("User saved to database"))
-//   .catch((err) => console.error(err));
 
 // setup listner
 const server = app.listen(port, () =>
