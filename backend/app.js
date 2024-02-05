@@ -25,7 +25,10 @@ app.use(express.json());
 
 // add routes
 const testUserRoutes = require("./routes/testUserRoutes");
-app.use("/user", testUserRoutes);
+app.use("/usertest", testUserRoutes);
+
+const userAuthRoutes = require("./routes/userAuthRoute");
+app.use("/user", userAuthRoutes);
 
 // setup port
 const port = process.env.PORT;
