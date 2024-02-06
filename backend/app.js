@@ -30,10 +30,4 @@ app.use("/usertest", testUserRoutes);
 const userAuthRoutes = require("./routes/userAuthRoute");
 app.use("/user", userAuthRoutes);
 
-// setup port
-const port = process.env.PORT;
-
-// setup listner
-const server = app.listen(port, () =>
-  console.log("Server is Running on port : ", port)
-);
+module.exports = app;
