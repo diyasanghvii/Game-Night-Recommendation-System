@@ -5,6 +5,7 @@ import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import { Login as loginApi } from "../../Services/index";
 import Dashboard from "../../Pages/Dashboard";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -33,13 +34,13 @@ const Login = () => {
   };
 
   if (redirectToHome) {
-    return Dashboard;
+    return <Dashboard/>;
   }
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Login"} />
  
-      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+      {error && <ErrorMessage message={error} />}
 
       <TextBox
         label="Username"
