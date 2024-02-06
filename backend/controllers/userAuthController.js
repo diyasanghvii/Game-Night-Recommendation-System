@@ -5,7 +5,7 @@ const login = async (req, res) => {
   try {
     let data = await User.findOne({ email: req.body.email }).exec();
     console.log("Data : ", data);
-    if (data.password === req.body.password) {
+    if (data && data.password === req.body.password) {
       res.status(200).json({
         message: "Login Sucessful!",
       });
