@@ -9,19 +9,25 @@ require("dotenv").config();
 const app = express();
 
 // add mongo db using mongose
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("DB connected successfully!");
+  })
+  .catch((err) => {
+    console.log("DB connection error :", err);
+  });
 
 // add middlewares
 app.use(morgan("dev"));
 app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
 
 // add routes
-const testRoutes = require("./routes/route");
-app.use("/", testRoutes);
+const testUserRoutes = require("./routes/Test/testUserRoutes");
+app.use("/usertest", testUserRoutes);
 
-// setup port
-const port = process.env.PORT;
+const userAuthRoutes = require("./routes/User/userAuthRoute");
+app.use("/user", userAuthRoutes);
 
-// setup listner
-const server = app.listen(port, () =>
-  console.log("Server is Running on port : ", port)
-);
+module.exports = app;

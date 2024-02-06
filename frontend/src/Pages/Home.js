@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Btn from "../Components/Button/Btn";
 import TextBox from "../Components/TextBox/TextBox";
 import { getTestData } from "../Services";
+import Login from "../Components/Login/Login";
 
 class Home extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class Home extends Component {
     const { backendResponse } = this.state;
     return (
       <div>
-        <h1>Game-Night-Recommendation-System</h1>
+        {/* <h1>Game-Night-Recommendation-System</h1>
         <Btn
           label={"Material UI Button"}
           onClick={() => {
@@ -40,6 +41,8 @@ class Home extends Component {
         {backendResponse !== "" && (
           <p>Response from backend : {backendResponse.message}</p>
         )}
+         */}
+         <Login />
       </div>
     );
   }
