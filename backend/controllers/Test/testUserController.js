@@ -1,4 +1,4 @@
-const User = require("../models/userModal");
+const User = require("../../models/User/userModal");
 
 // add user to DB test
 const addUserToDbTest = async (req, res) => {
