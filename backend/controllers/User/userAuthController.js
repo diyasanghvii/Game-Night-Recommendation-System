@@ -1,4 +1,4 @@
-const User = require("../models/userModal");
+const User = require("../../models/User/userModal");
 
 // Simple Login API
 const login = async (req, res) => {
