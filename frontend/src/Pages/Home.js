@@ -9,6 +9,7 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
+      // State variables here
       backendResponse: "",
     };
   }
@@ -29,15 +30,22 @@ class Home extends Component {
   render() {
     const { backendResponse } = this.state;
     return (
-      <div style={{ backgroundColor: "#f0f0f0", textAlign: "center", padding: "50px", height: "100vh", position: "relative" }}>
-        <div style={{ backgroundColor: "lightblue", padding: "10px", marginBottom: "20px" }}>
-          <h1 style={{ margin: 0, fontFamily: 'Sharp Sans, sans-serif' }}>Game Night Recommender</h1>
-        </div>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", backgroundColor: "white", textAlign: "center", padding: "10px", width: "80vh", height: "50vh" }}>
-          <Login /> 
-        </div>
-      </div> 
-   /*<Signup2/>*/
+      <div>
+        {/* <h1>Game-Night-Recommendation-System</h1>
+        <Btn
+          label={"Material UI Button"}
+          onClick={() => {
+            alert("Button Clicked");
+          }}
+        />
+        <TextBox label={"Sample text box"} />
+        {backendResponse !== "" && (
+          <p>Response from backend : {backendResponse.message}</p>
+        )}
+         */}
+         <Signup2/>
+         {/*<Login />*/}
+      </div>
     );
   }
 }
