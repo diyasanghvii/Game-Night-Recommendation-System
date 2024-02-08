@@ -3,14 +3,34 @@ import TextBox from "../TextBox/TextBox";
 import { Container, Grid } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
+import { Login as loginApi } from "../../Services/index";
+import Dashboard from "../../Pages/Dashboard";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [redirectToHome, setRedirectToHome] = useState(false);
 
   const handleLogin = () => {
     console.log("Username:", username);
-    console.log("Password:", password);
+
+    // Calling the Login API
+    loginApi({ email: username, password })
+      .then((response) => {
+        console.log("Login successful!", response);
+        setRedirectToHome(true);
+      })
+      .catch((error) => {
+        console.error("Login failed:", error);
+
+        if (error.response && error.response.data && error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError(error.response);
+        }
+      });
   };
 
   const handleSignUp = () => {
