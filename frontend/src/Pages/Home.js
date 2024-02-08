@@ -3,7 +3,7 @@ import Btn from "../Components/Button/Btn";
 import TextBox from "../Components/TextBox/TextBox";
 import { getTestData } from "../Services";
 import Login from "../Components/Login/Login";
-
+import Signup1 from "../Components/Signup1/Signup1"
 class Home extends Component {
   constructor() {
     super();
@@ -41,9 +41,11 @@ class Home extends Component {
         {backendResponse !== "" && (
           <p>Response from backend : {backendResponse.message}</p>
         )}
-         */}
-         <Login />
+         */} 
+         {/*<Login/>*/}
+         <Signup1/>
       </div>
+
     );
   }
 }
