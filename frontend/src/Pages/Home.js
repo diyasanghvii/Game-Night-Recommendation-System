@@ -4,6 +4,7 @@ import TextBox from "../Components/TextBox/TextBox";
 import { getTestData } from "../Services";
 import Login from "../Components/Login/Login";
 import Signup2 from "../Components/Signup2/Signup2";
+import Signup3 from "../Components/Signup3/Signup3";
 
 class Home extends Component {
   constructor() {
@@ -43,6 +44,7 @@ class Home extends Component {
           <p>Response from backend : {backendResponse.message}</p>
         )}
          */}
+       
          <Signup2/>
          {/*<Login />*/}
       </div>
