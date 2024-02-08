@@ -7,7 +7,7 @@ const {
   editUserToDbTest,
   getUserFromDbTest,
   deleteUserFromDbTest,
-} = require("../controllers/testUserApi");
+} = require("../../controllers/Test/testUserController");
 
 // api routes
 testUserRouter.post("/addUserToDbTest", addUserToDbTest);

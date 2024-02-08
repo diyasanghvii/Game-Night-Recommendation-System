@@ -24,16 +24,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // add routes
-const testUserRoutes = require("./routes/testUserRoutes");
+const testUserRoutes = require("./routes/Test/testUserRoutes");
 app.use("/usertest", testUserRoutes);
 
-const userAuthRoutes = require("./routes/userAuthRoute");
+const userAuthRoutes = require("./routes/User/userAuthRoute");
 app.use("/user", userAuthRoutes);
 
-// setup port
-const port = process.env.PORT;
-
-// setup listner
-const server = app.listen(port, () =>
-  console.log("Server is Running on port : ", port)
-);
+module.exports = app;

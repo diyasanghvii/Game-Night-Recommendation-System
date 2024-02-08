@@ -38,3 +38,20 @@ export const example = (data) => {
       });
   });
 };
+
+// Login API
+export const Login = (data) => {
+  return new Promise((resolve, reject) => {
+    axiosSetting
+      .post("/user/login", {
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

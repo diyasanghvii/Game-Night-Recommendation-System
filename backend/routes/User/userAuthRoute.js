@@ -2,7 +2,7 @@ const express = require("express");
 const testUserRouter = express.Router();
 
 // controllers
-const { login } = require("../controllers/userAuthController");
+const { login } = require("../../controllers/User/userAuthController");
 
 // api routes
 testUserRouter.post("/login", login);
