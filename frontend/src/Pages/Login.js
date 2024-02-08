@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import TextBox from "../TextBox/TextBox";
+import TextBox from "../Components/TextBox/TextBox";
 import { Container } from "@mui/material";
-import Btn from "../Button/Btn";
-import Text from "../Typography/Text";
-import { Login as loginApi } from "../../Services/index";
-import Dashboard from "../../Pages/Dashboard";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Btn from "../Components/Button/Btn";
+import Text from "../Components/Typography/Text";
+import { Login as loginApi } from "../Services/index";
+import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -33,9 +32,6 @@ const Login = () => {
       });
   };
 
-  if (redirectToHome) {
-    return <Dashboard/>;
-  }
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Login"} />
