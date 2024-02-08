@@ -5,7 +5,7 @@ class Dashboard extends Component {
     super();
     this.state = {
       backendResponse: "",
-    }; 
+    };
   }
 
   render() {

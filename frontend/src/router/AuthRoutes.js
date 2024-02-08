@@ -1,7 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
 
 const AuthRoutes = () => {
-  let auth = { token: false };
+  var storedAuthToken = sessionStorage.getItem("authToken");
+  let auth = { token: storedAuthToken ? true : false };
   return auth.token ? <Outlet /> : <Navigate to="/login" />;
 };
 
