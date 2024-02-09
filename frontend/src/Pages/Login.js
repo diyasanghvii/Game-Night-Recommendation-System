@@ -16,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     var storedAuthToken = sessionStorage.getItem("authToken");
     if (storedAuthToken) {
-      // navigate("/dashboard");
+      navigate("/dashboard");
     }
   }, []);
 
@@ -25,7 +25,7 @@ const Login = () => {
     loginApi({ email: username, password })
       .then((response) => {
         sessionStorage.setItem("authToken", "Success");
-        // navigate("/dashboard");
+        navigate("/dashboard");
       })
       .catch((error) => {
         sessionStorage.removeItem("authToken");
@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   const handleSignUp = () => {
-    // navigate("/signup");
+    navigate("/signup");
   };
 
   return (
