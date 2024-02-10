@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from '@testing-library/react';
-import Signup2 from "../../Components/Signup2/Signup2";
+import Signup2 from "../../../Components/Signup2/Signup2";
 
 describe('Signup2 Component', () => {
   test('renders the Signup2 component', () => {
@@ -27,4 +27,5 @@ describe('Signup2 Component', () => {
   });
 
   
+
 });
