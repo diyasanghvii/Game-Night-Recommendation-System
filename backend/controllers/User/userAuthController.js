@@ -1,4 +1,5 @@
 const User = require("../../models/User/userModal");
+const { hashPassword, comparePasswords } = require("../../utils/authHelpers");
 
 // @desc Login API
 // @route POST /user/login
@@ -6,10 +7,20 @@ const User = require("../../models/User/userModal");
 const login = async (req, res) => {
   try {
     let data = await User.findOne({ email: req.body.email }).exec();
-    if (data && data.password === req.body.password) {
-      res.status(200).json({
-        message: "Login Sucessful!",
-      });
+    if (data) {
+      const passwordMatch = await comparePasswords(
+        req.body.password,
+        data.password
+      );
+      if (passwordMatch) {
+        res.status(200).json({
+          message: "Login Sucessful!",
+        });
+      } else {
+        res.status(401).json({
+          message: "Invalid Password, Try again!",
+        });
+      }
     } else {
       res.status(401).json({
         message: "Invalid Credientials, Try again!",
@@ -31,10 +42,11 @@ const signUpOne = async (req, res) => {
         message: "User Already Exists!",
       });
     } else {
+      const hashedPassword = await hashPassword(req.body.password);
       const user = await new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
       });
       await user.save();
       res.status(200).json({
