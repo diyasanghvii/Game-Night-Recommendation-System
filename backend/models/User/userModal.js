@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const preferenceSchema = new Schema({
+  gameName: String,
+  ratings: Number,
+});
+
 const userSchema = new Schema({
   name: {
     type: String,
@@ -27,6 +32,11 @@ const userSchema = new Schema({
   discordId: {
     type: String,
   },
+  webhookUrl: {
+    type: String,
+  },
+  preferredGenres: [{ type: String }],
+  preferences: [preferenceSchema],
 });
 
 const userModal = mongoose.model("User", userSchema);
