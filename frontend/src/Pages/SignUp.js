@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SignUp1 from "../Components/SignUp1/SignUp1";
+import SignUp1 from "../Components/Signup1/Signup1";
 import Signup2 from "../Components/Signup2/Signup2";
 
 
