@@ -11,7 +11,7 @@ describe("Login API", () => {
   };
 
   beforeEach(async () => {
-    await User.create(userData);
+    await request(app).post("/user/signupone").send(userData).expect(200);
   });
 
   afterEach(async () => {
@@ -31,7 +31,7 @@ describe("Login API", () => {
     expect(response.body.message).toBe("Login Sucessful!");
   });
 
-  it("should respond with a 401 status and error message for invalid credentials", async () => {
+  it("should respond with a 401 status and error message for invalid Password", async () => {
     const invalidUserData = {
       email: "testemail",
       password: "wrongpassword",
@@ -42,7 +42,7 @@ describe("Login API", () => {
       .send(invalidUserData)
       .expect(401);
 
-    expect(response.body.message).toBe("Invalid Credientials, Try again!");
+    expect(response.body.message).toBe("Invalid Password, Try again!");
   });
 
   it("should respond with a 401 status and error message for non-existent user", async () => {
