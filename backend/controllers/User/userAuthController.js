@@ -58,7 +58,58 @@ const signUpOne = async (req, res) => {
   }
 };
 
+// @desc Sign up step 2 Update API
+// @route POST /user/signuptwo
+// @access Public
+const signUpTwo = async (req, res) => {
+  try {
+    let data = await User.findOne({ email: req.body.email }).exec();
+    if (data) {
+      await data.updateOne({
+        steamId: req.body.steamId,
+        discordId: req.body.discordId,
+        webhookUrl: req.body.webhookUrl,
+      });
+      res.status(200).json({
+        message: "Updated User Information Successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exists!",
+      });
+    }
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Sign up step 3 Update API
+// @route POST /user/signupthree
+// @access Public
+const signUpThree = async (req, res) => {
+  try {
+    let data = await User.findOne({ email: req.body.email }).exec();
+    if (data) {
+      await data.updateOne({
+        preferredGenres: req.body.preferredGenres,
+        preferences: req.body.preferences,
+      });
+      res.status(200).json({
+        message: "Updated User Preferences Successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exists!",
+      });
+    }
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
+  signUpTwo,
+  signUpThree,
 };
