@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
+import { Container, Select, MenuItem, Box, Rating, Grid } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -8,8 +8,12 @@ const Signup3 = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [error, setError] = useState("");
   const [games, setGames] = useState([
-    { name: "pubg", rating: null },
-    { name: "mine", rating: null }
+    { name: "Pubg", rating: null },
+    { name: "The Forest", rating: null },
+    { name: "Apex Legends", rating: null },
+    { name: "Halo Infinite", rating: null },
+    { name: "Counter Strike 2", rating: null },
+    { name: "Warframe", rating: null }
   ]);
 
   const handleGenreSelection = (event) => {
@@ -23,14 +27,23 @@ const Signup3 = () => {
   };
 
   const handleSignup = () => {
-    if (selectedGenres.length < 5) {
+    const numSelectedGenres = selectedGenres.length;
+    const numRatedGames = games.filter(game => game.rating !== null).length;
+    if (numSelectedGenres < 5 && numRatedGames < 5) {
+      setError("Please select at least 5 genres and rate at least 5 games.");
+      return;
+    }
+    if (numSelectedGenres < 5) {
       setError("Please select at least 5 genres.");
+      return;
+    }
+    if (numRatedGames < 5) {
+      setError("Please rate at least 5 games.");
       return;
     }
     console.log("Selected Genres:", selectedGenres);
     console.log("Game Ratings:", games);
   };
-
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
@@ -67,18 +80,22 @@ const Signup3 = () => {
         />
       </Box>
 
-      {games.map((game, index) => (
-        <Box key={index} style={{ marginBottom: "20px" }}>
-          <Text variant="body1" gutterBottom={true} label={`Rate ${game.name}:`} style={{ marginRight: "20px" }} />
-          <Rating
-            name={`rating-${index}`}
-            value={game.rating}
-            precision={0.5}
-            onChange={(event) => handleRatingChange(event, index)}
-            max={5}
-          />
-        </Box>
-      ))}
+      <Grid container spacing={2}>
+        {games.map((game, index) => (
+          <Grid item xs={4} key={index}>
+            <Box>
+              <Text variant="body1" gutterBottom={true} label={game.name} style={{ marginRight: "20px" }} />
+              <Rating
+                name={`rating-${index}`}
+                value={game.rating}
+                precision={0.5}
+                onChange={(event) => handleRatingChange(event, index)}
+                max={5}
+              />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
 
       <Btn fullWidth={true} label={"Complete Registration"} onClick={handleSignup} />
     </Container>
