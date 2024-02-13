@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Select, MenuItem, Box, Rating, Grid } from "@mui/material";
+import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -44,6 +44,7 @@ const Signup3 = () => {
     console.log("Selected Genres:", selectedGenres);
     console.log("Game Ratings:", games);
   };
+
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
@@ -80,9 +81,9 @@ const Signup3 = () => {
         />
       </Box>
 
-      <Grid container spacing={2}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {games.map((game, index) => (
-          <Grid item xs={4} key={index}>
+          <div key={index} style={{ marginRight: "20px", marginBottom: "20px" }}>
             <Box>
               <Text variant="body1" gutterBottom={true} label={game.name} style={{ marginRight: "20px" }} />
               <Rating
@@ -93,9 +94,9 @@ const Signup3 = () => {
                 max={5}
               />
             </Box>
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
 
       <Btn fullWidth={true} label={"Complete Registration"} onClick={handleSignup} />
     </Container>
