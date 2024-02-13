@@ -1,29 +1,5 @@
 const User = require("../../models/User/userModal");
 
-// add user to DB test
-const addUserToDbTest = async (req, res) => {
-  try {
-    const user = await new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      age: req.body.age,
-      gender: req.body.gender,
-      steamId: req.body.steamId,
-      discordId: req.body.discordId,
-    });
-    await user.save();
-    res.status(200).json({
-      message: "Successfully added user to DB!",
-    });
-  } catch (e) {
-    console.log("Error : ", e);
-    if (err.code == "11000") {
-      res.status(500).send("User Already Exists!");
-    }
-  }
-};
-
 // edit user to DB test
 const editUserToDbTest = async (req, res) => {
   try {
@@ -67,7 +43,6 @@ const deleteUserFromDbTest = async (req, res) => {
 };
 
 module.exports = {
-  addUserToDbTest,
   editUserToDbTest,
   getUserFromDbTest,
   deleteUserFromDbTest,
