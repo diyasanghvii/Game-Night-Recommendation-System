@@ -1,9 +1,5 @@
 const User = require("../../models/User/userModal");
-const {
-  hashPassword,
-  comparePasswords,
-  generateJwtToken,
-} = require("../../utils/authHelpers");
+const { hashPassword, comparePasswords } = require("../../utils/authHelpers");
 
 // @desc Login API
 // @route POST /user/login
@@ -18,9 +14,6 @@ const login = async (req, res) => {
       );
       if (passwordMatch) {
         res.status(200).json({
-          name: req.body.name,
-          email: req.body.email,
-          token: generateJwtToken(req.body.email),
           message: "Login Sucessful!",
         });
       } else {
@@ -58,9 +51,6 @@ const signUpOne = async (req, res) => {
       await user.save();
       res.status(200).json({
         message: "Account Created Successfully!",
-        name: req.body.name,
-        email: req.body.email,
-        token: generateJwtToken(req.body.email),
       });
     }
   } catch (e) {
@@ -70,7 +60,7 @@ const signUpOne = async (req, res) => {
 
 // @desc Sign up step 2 Update API
 // @route POST /user/signuptwo
-// @access Private
+// @access Public
 const signUpTwo = async (req, res) => {
   try {
     let data = await User.findOne({ email: req.body.email }).exec();
@@ -95,7 +85,7 @@ const signUpTwo = async (req, res) => {
 
 // @desc Sign up step 3 Update API
 // @route POST /user/signupthree
-// @access Private
+// @access Public
 const signUpThree = async (req, res) => {
   try {
     let data = await User.findOne({ email: req.body.email }).exec();

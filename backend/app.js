@@ -24,8 +24,8 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // add routes
-const authRoutes = require("./routes/Auth/authRoute");
-app.use("/auth", authRoutes);
+const testUserRoutes = require("./routes/Test/testUserRoutes");
+app.use("/usertest", testUserRoutes);
 
 const userAuthRoutes = require("./routes/User/userAuthRoute");
 app.use("/user", userAuthRoutes);
