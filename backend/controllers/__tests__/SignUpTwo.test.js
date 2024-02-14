@@ -24,8 +24,16 @@ describe("Sign up step two update API testing", () => {
     webhookUrl: "webhookUrl",
   };
 
+  let authToken;
+
   beforeAll(async () => {
-    await request(app).post("/user/signupone").send(paramBody).expect(200);
+    const response = await request(app)
+      .post("/user/signupone")
+      .send(paramBody)
+      .expect(200);
+
+    let res = JSON.parse(response.text);
+    authToken = res.token;
   });
 
   afterAll(async () => {
@@ -36,6 +44,7 @@ describe("Sign up step two update API testing", () => {
   it("should return 200 status and success message after user step two updation", async () => {
     const response = await request(app)
       .post("/user/signuptwo")
+      .set("Authorization", `Bearer ${authToken}`)
       .send(updateData)
       .expect(200);
 
@@ -45,6 +54,7 @@ describe("Sign up step two update API testing", () => {
   it("should return 400 status if user is not present in the DB", async () => {
     const response = await request(app)
       .post("/user/signuptwo")
+      .set("Authorization", `Bearer ${authToken}`)
       .send(updateDataInvalid)
       .expect(400);
 
@@ -54,6 +64,7 @@ describe("Sign up step two update API testing", () => {
   it("data should be updated successfullt in DB after updation", async () => {
     const response = await request(app)
       .post("/user/signuptwo")
+      .set("Authorization", `Bearer ${authToken}`)
       .send(updateData)
       .expect(200);
 
@@ -62,5 +73,24 @@ describe("Sign up step two update API testing", () => {
     expect(data.steamId).toBe("steamId");
     expect(data.discordId).toBe("discordId");
     expect(data.webhookUrl).toBe("webhookUrl");
+  });
+
+  it("should return 401 status if user is not authorised, Not passing auth token", async () => {
+    const response = await request(app)
+      .post("/user/signuptwo")
+      .send(updateData)
+      .expect(401);
+
+    expect(response.body.message).toBe("Not Authorised, No token!");
+  });
+
+  it("should return 401 status if user is not authorised, passing wrong auth token", async () => {
+    const response = await request(app)
+      .post("/user/signupthree")
+      .set("Authorization", `Bearer 123`)
+      .send(updateData)
+      .expect(401);
+
+    expect(response.body.message).toBe("Not Authorised!");
   });
 });
