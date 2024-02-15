@@ -15,16 +15,24 @@ const SignUp1 = () => {
       alert("Passwords do not match!");
       return;
     }
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // You can add further logic here to handle sign up process
+
+    // Prepare data object in JSON format
+    const data = {
+      username: username,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+    const jsonData = JSON.stringify(data);
+
+    // Log the JSON data
+    console.log("Sign Up Data:", jsonData);
   };
 
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
- 
+
       <TextBox
         label="Username"
         value={username}
