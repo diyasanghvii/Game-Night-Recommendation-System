@@ -26,7 +26,7 @@ const Signup2 = () => {
     if (!steamId || !discordId) {
       if (!steamId && discordId) {
         setError("Please provide your Steam ID.");
-        return; 
+        return;
       }
       if (steamId && !discordId) {
         setError("Please provide your Discord ID.");
@@ -35,10 +35,19 @@ const Signup2 = () => {
       setWarning("Please provide your Steam ID and Discord ID.");
       return;
     }
-    console.log("Steam ID:", steamId);
-    console.log("Discord ID:", discordId);
-    console.log("Discord Webhook URL:", webhookUrl);
+  
+    // Prepare data object in JSON format
+    const data = {
+      steamId: steamId,
+      discordId: discordId,
+      webhookUrl: webhookUrl
+    };
+    const jsonData = JSON.stringify(data);
+    console.log("Signup Data:", jsonData);
+  
+    // You can add further logic here to handle the signup process
   };
+  
 
   return (
     <Container maxWidth="sm">
