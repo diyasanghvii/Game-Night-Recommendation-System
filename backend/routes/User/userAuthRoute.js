@@ -8,10 +8,12 @@ const {
   signUpThree,
 } = require("../../controllers/User/userAuthController");
 
+const { authoriseCheck } = require("../../middleware/authMiddleware");
+
 // API Routes
 userRoutes.post("/login", login);
 userRoutes.post("/signupone", signUpOne);
-userRoutes.post("/signuptwo", signUpTwo);
-userRoutes.post("/signupthree", signUpThree);
+userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
+userRoutes.post("/signupthree", authoriseCheck, signUpThree);
 
 module.exports = userRoutes;
