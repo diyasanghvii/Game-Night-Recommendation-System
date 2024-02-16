@@ -84,6 +84,11 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    // const token = sessionStorage.getItem("authToken");
+    // profileCheck(token)
+    //   .then(() => {})
+    //   .catch(() => {});
+    
     this.setState({ isLoading: true });
 
     const API_KEY = process.env.STEAM_API_KEY; // Replace with your actual Steam API Key
@@ -97,13 +102,6 @@ class Dashboard extends Component {
         this.setState({ games: data.response.games, isLoading: false })
       )
       .catch((error) => this.setState({ error, isLoading: false }));
-  }
-
-  componentDidMount = () => {
-    const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {})
-      .catch(() => {});
   };
 
   render() {
