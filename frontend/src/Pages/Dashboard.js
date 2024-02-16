@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { profileCheck } from "../Services";
 
 class Dashboard extends Component {
   constructor() {
@@ -7,6 +8,13 @@ class Dashboard extends Component {
       backendResponse: "",
     };
   }
+
+  componentDidMount = () => {
+    const token = sessionStorage.getItem("authToken");
+    profileCheck(token)
+      .then(() => {})
+      .catch(() => {});
+  };
 
   render() {
     return (

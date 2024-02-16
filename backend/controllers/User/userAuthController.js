@@ -118,7 +118,7 @@ const signUpThree = async (req, res) => {
 };
 
 // @desc Get User Information API
-// @route POST /user/getUserDetails
+// @route GET /user/getUserDetails
 // @access Private
 const getUserDetails = async (req, res) => {
   try {
