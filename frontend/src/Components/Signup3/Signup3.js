@@ -41,9 +41,18 @@ const Signup3 = () => {
       setError("Please rate at least 5 games.");
       return;
     }
-    console.log("Selected Genres:", selectedGenres);
-    console.log("Game Ratings:", games);
+    const data = {
+      selectedGenres: selectedGenres,
+      games: games
+    };
+    const jsonData = JSON.stringify(data);
+  
+    // Log the JSON data
+    console.log("Signup Data:", jsonData);
+  
+    // You can add further logic here to handle the signup process
   };
+  
 
   return (
     <Container maxWidth="sm">
