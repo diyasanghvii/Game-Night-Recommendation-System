@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { profileCheck } from "../Services";
+import steamService from '../Services/steamService';
+
+//import { profileCheck } from "../Services";
 
 class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
       backendResponse: "",
-      games: [], // To store fetched game data
+      games: [],
       isLoading: false,
       error: null
 
@@ -89,19 +91,19 @@ class Dashboard extends Component {
     //   .then(() => {})
     //   .catch(() => {});
     
+    
+    const apiKey = process.env.STEAM_API_KEY;
+    console.log(apiKey);
+    const steamId = '76561198807764656';
     this.setState({ isLoading: true });
 
-    const API_KEY = process.env.STEAM_API_KEY; // Replace with your actual Steam API Key
-    const steamID = '76561198807764656';
-
-    fetch(
-      `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamID}&format=json&include_appinfo=True&include_played_free_games=True`
+    steamService.getOwnedGames(apiKey, steamId)
+    .then((response) => response.json())
+    .then((data) =>
+      this.setState({ games: data.response.games, isLoading: false })
     )
-      .then((response) => response.json())
-      .then((data) =>
-        this.setState({ games: data.response.games, isLoading: false })
-      )
-      .catch((error) => this.setState({ error, isLoading: false }));
+    .catch((error) => this.setState({ error, isLoading: false }));
+    
   };
 
   render() {
