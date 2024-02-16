@@ -117,9 +117,30 @@ const signUpThree = async (req, res) => {
   }
 };
 
+// @desc Get User Information API
+// @route GET /user/getUserDetails
+// @access Private
+const getUserDetails = async (req, res) => {
+  try {
+    res.status(200).json({
+      email: req.user.email,
+      name: req.user.name,
+      steamId: req.user.steamId,
+      discordId: req.user.discordId,
+      webhookUrl: req.user.webhookUrl,
+      preferredGenres: req.user.preferredGenres,
+      preferences: req.user.preferences,
+      message: "User Details Fetched Sucessfully!",
+    });
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
   signUpTwo,
   signUpThree,
+  getUserDetails,
 };
