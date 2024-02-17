@@ -3,8 +3,9 @@ import TextBox from "../TextBox/TextBox";
 import { Container } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
+import { SignUpOne } from "../../Services";
 
-const SignUp1 = () => {
+const SignUp1 = ({ stepOneDone }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,16 +19,23 @@ const SignUp1 = () => {
 
     // Prepare data object in JSON format
     const data = {
-      username: username,
+      name: username,
       email: email,
       password: password,
-      confirmPassword: confirmPassword,
     };
-    const jsonData = JSON.stringify(data);
 
-    // Log the JSON data
-    console.log("Sign Up Data:", jsonData);
+    SignUpOne(data)
+      .then((response) => {
+        if (response && response.data) {
+          sessionStorage.setItem("authToken", response.data.token);
+          stepOneDone(email);
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.message);
+      });
   };
+  
 
   return (
     <Container maxWidth="sm">
