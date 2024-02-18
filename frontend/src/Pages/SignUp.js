@@ -1,27 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { Stepper, Step, StepLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SignUp1 from "../Components/Signup1/Signup1";
-import Signup2 from "../Components/Signup2/Signup2";
-import Signup3 from "../Components/Signup3/Signup3";
-
+import SignUp2 from "../Components/Signup2/Signup2";
+import SignUp3 from "../Components/Signup3/Signup3";
 
 const SignUp = () => {
-  let navigate = useNavigate();
+  const [activeStep, setActiveStep] = useState(0);
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    var storedAuthToken = sessionStorage.getItem("authToken");
-    if (storedAuthToken) {
-      navigate("/dashboard");
-    }
-  }, []);
+  const stepOneDone = (data) => {
+    setEmail(data);
+    setActiveStep(1);
+  };
+
+  const stepTwoDone = () => {
+    setActiveStep(2);
+  };
+
+  const stepThreeDone = () => {
+    navigate("/dashboard");
+  };
+
+  console.log("Email : ", email);
 
   return (
     <div>
       <h1>Sign Up Page</h1>
-      <h3>Add Your Signup Page Here</h3>
-      <SignUp1 />
-      <Signup2 />
-      <Signup3/>
+      <Stepper activeStep={activeStep} alternativeLabel>
+        <Step key={0}>
+          <StepLabel>Step 1</StepLabel>
+        </Step>
+        <Step key={1}>
+          <StepLabel>Step 2</StepLabel>
+        </Step>
+        <Step key={2}>
+          <StepLabel>Step 3</StepLabel>
+        </Step>
+      </Stepper>
+      <div>
+        {activeStep === 0 ? (
+          <SignUp1 stepOneDone={(data) => stepOneDone(data)} />
+        ) : activeStep === 1 ? (
+          <SignUp2 email={email} stepTwoDone={() => stepTwoDone()} />
+        ) : (
+          <SignUp3 email={email} stepThreeDone={() => stepThreeDone()} />
+        )}
+      </div>
     </div>
   );
 };
