@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import steamService from '../Services/steamService';
+import MenuHeader from '../Components/MenuHeader/MenuHeader'
 
 //import { profileCheck } from "../Services";
 
@@ -92,26 +93,30 @@ class Dashboard extends Component {
     //   .catch(() => {});
     
     
-    const apiKey = process.env.STEAM_API_KEY;
-    console.log(apiKey);
+    const apiKey = process.env.REACT_APP_STEAM_API_KEY;
     const steamId = '76561198807764656';
     this.setState({ isLoading: true });
 
     steamService.getOwnedGames(apiKey, steamId)
     .then((response) => response.json())
-    .then((data) =>
+    .then((data) => 
       this.setState({ games: data.response.games, isLoading: false })
     )
     .catch((error) => this.setState({ error, isLoading: false }));
     
   };
 
+  componentDidUpdate() {
+    console.log('Hello');
+    console.log(this.state.games);
+  }
+
   render() {
     const { games, isLoading, error } = this.state;
 
     return (
       <div>
-        <p>DASHBOARD</p>
+        <MenuHeader />
 
         {error ? (
           <p>Error fetching data. Please check your API key and Steam ID.</p>
