@@ -1,10 +1,21 @@
 const express = require("express");
-const testUserRouter = express.Router();
+const userRoutes = express.Router();
 
-// controllers
-const { login } = require("../../controllers/User/userAuthController");
+const {
+  login,
+  signUpOne,
+  signUpTwo,
+  signUpThree,
+  getUserDetails,
+} = require("../../controllers/User/userAuthController");
 
-// api routes
-testUserRouter.post("/login", login);
+const { authoriseCheck } = require("../../middleware/authMiddleware");
 
-module.exports = testUserRouter;
+// API Routes
+userRoutes.post("/login", login);
+userRoutes.post("/signupone", signUpOne);
+userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
+userRoutes.post("/signupthree", authoriseCheck, signUpThree);
+userRoutes.get("/getuserdetails", authoriseCheck, getUserDetails);
+
+module.exports = userRoutes;

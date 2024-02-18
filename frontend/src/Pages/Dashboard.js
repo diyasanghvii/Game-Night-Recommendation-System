@@ -1,18 +1,25 @@
 import React, { Component } from "react";
+import { profileCheck } from "../Services";
 
 class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      // State variables here
       backendResponse: "",
     };
   }
 
+  componentDidMount = () => {
+    const token = sessionStorage.getItem("authToken");
+    profileCheck(token)
+      .then(() => {})
+      .catch(() => {});
+  };
+
   render() {
-    const { backendResponse } = this.state;
     return (
-      <div>Dashboard
+      <div>
+        <p>DASHBOARD</p>
       </div>
     );
   }
