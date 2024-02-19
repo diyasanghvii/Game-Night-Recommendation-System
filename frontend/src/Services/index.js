@@ -115,7 +115,7 @@ export const SignUpThree = (data) => {
 };
 
 // Get user's details API
-export const GetUserDetails = (token) => {
+export const GetUserDetails = () => {
   return new Promise((resolve, reject) => {
     authRequest
       .get("/user/getuserdetails")
