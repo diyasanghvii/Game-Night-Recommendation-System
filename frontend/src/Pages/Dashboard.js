@@ -28,7 +28,7 @@ class Dashboard extends Component {
     
     //get logged in user's name and Steam ID
     GetUserDetails(token)
-      .then((response) => this.setState({username: response.name}))
+      .then((response) => this.setState({username: response.data.name}))
       // update getUserDetails to return steam id and set it here.
       .catch(() => {});
 
