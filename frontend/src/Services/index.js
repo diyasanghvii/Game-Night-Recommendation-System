@@ -113,3 +113,17 @@ export const SignUpThree = (data) => {
       });
   });
 };
+
+// Get user's details API
+export const GetUserDetails = (token) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getuserdetails")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
