@@ -9,6 +9,7 @@
 .gameList {
     display: flex;
     flex-wrap: nowrap; 
+    overflow-x: auto; 
 }
   .gameGrid {
     display: flex;
@@ -19,15 +20,6 @@
   .gameCard {
     margin: 10px;
     width: 200px; 
-  }
-  
-  .gameList {
-    display: flex;
-    flex-wrap: nowrap; 
-    overflow-x: auto; 
-  }
-  
-  .gameCard { 
     flex: 0 0 auto; 
     background-color: #f0f0f0; 
     margin-right: 15px;      
