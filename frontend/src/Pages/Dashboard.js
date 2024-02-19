@@ -53,7 +53,10 @@ class Dashboard extends Component {
     return (
       <div>
         <MenuHeader />
-        <div>Welcome, {username}!<Btn label={"Recommend Multiplayer Games"}/></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '17px'}}>
+          <h2>Welcome, {username}!</h2>
+          <span><Btn label={"Recommend Multiplayer Games"}/></span>
+        </div>
 
         {error ? (
           <p>Error fetching data. Please check your API key and Steam ID.</p>
@@ -61,9 +64,7 @@ class Dashboard extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-          <GameSection title="Your most played games" games={games} />
-          <GameSection title="Your friends are playing" games={games} />
-          <GameSection title="New Releases" games={games} />
+          <GameSection title="Your games" games={games} />
           </div>
         )}
       </div>
