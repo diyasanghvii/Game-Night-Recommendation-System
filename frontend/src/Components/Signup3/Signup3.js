@@ -3,17 +3,18 @@ import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { SignUpThree } from "../../Services";
 
-const Signup3 = () => {
+const Signup3 = ({ email, stepThreeDone }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [error, setError] = useState("");
   const [games, setGames] = useState([
-    { name: "Pubg", rating: null },
-    { name: "The Forest", rating: null },
-    { name: "Apex Legends", rating: null },
-    { name: "Halo Infinite", rating: null },
-    { name: "Counter Strike 2", rating: null },
-    { name: "Warframe", rating: null }
+    { gameName: "Pubg", ratings: null },
+    { gameName: "The Forest", ratings: null },
+    { gameName: "Apex Legends", ratings: null },
+    { gameName: "Halo Infinite", ratings: null },
+    { gameName: "Counter Strike 2", ratings: null },
+    { gameName: "Warframe", ratings: null },
   ]);
 
   const handleGenreSelection = (event) => {
@@ -22,13 +23,13 @@ const Signup3 = () => {
 
   const handleRatingChange = (event, index) => {
     const updatedGames = [...games];
-    updatedGames[index].rating = event.target.value;
+    updatedGames[index].ratings = event.target.value;
     setGames(updatedGames);
   };
 
   const handleSignup = () => {
     const numSelectedGenres = selectedGenres.length;
-    const numRatedGames = games.filter(game => game.rating !== null).length;
+    const numRatedGames = games.filter((game) => game.ratings !== null).length;
     if (numSelectedGenres < 5 && numRatedGames < 5) {
       setError("Please select at least 5 genres and rate at least 5 games.");
       return;
@@ -41,27 +42,45 @@ const Signup3 = () => {
       setError("Please rate at least 5 games.");
       return;
     }
+
     const data = {
-      selectedGenres: selectedGenres,
-      games: games
+      email: email,
+      preferredGenres: selectedGenres,
+      preferences: games,
     };
-    const jsonData = JSON.stringify(data);
-  
-    // Log the JSON data
-    console.log("Signup Data:", jsonData);
-  
-    // You can add further logic here to handle the signup process
+
+    console.log("");
+
+    SignUpThree(data)
+      .then((response) => {
+        if (response && response.data) {
+          stepThreeDone();
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.message);
+      });
   };
-  
 
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      
+
       {error && <ErrorMessage message={error} />}
-      
-      <Box style={{ maxWidth: "700px", margin: "auto", marginTop: "20px", marginBottom: "20px" }}>
-        <Text variant="body1" gutterBottom={true} label={"Select your preferred Genre:"} />
+
+      <Box
+        style={{
+          maxWidth: "700px",
+          margin: "auto",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <Text
+          variant="body1"
+          gutterBottom={true}
+          label={"Select your preferred Genre:"}
+        />
         <Select
           multiple
           value={selectedGenres}
@@ -92,12 +111,20 @@ const Signup3 = () => {
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {games.map((game, index) => (
-          <div key={index} style={{ marginRight: "20px", marginBottom: "20px" }}>
+          <div
+            key={index}
+            style={{ marginRight: "20px", marginBottom: "20px" }}
+          >
             <Box>
-              <Text variant="body1" gutterBottom={true} label={game.name} style={{ marginRight: "20px" }} />
+              <Text
+                variant="body1"
+                gutterBottom={true}
+                label={game.gameName}
+                style={{ marginRight: "20px" }}
+              />
               <Rating
                 name={`rating-${index}`}
-                value={game.rating}
+                value={game.ratings}
                 precision={0.5}
                 onChange={(event) => handleRatingChange(event, index)}
                 max={5}
@@ -107,7 +134,11 @@ const Signup3 = () => {
         ))}
       </div>
 
-      <Btn fullWidth={true} label={"Complete Registration"} onClick={handleSignup} />
+      <Btn
+        fullWidth={true}
+        label={"Complete Registration"}
+        onClick={handleSignup}
+      />
     </Container>
   );
 };

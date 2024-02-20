@@ -67,3 +67,63 @@ export const Login = (data) => {
       });
   });
 };
+
+// Signup One API
+export const SignUpOne = (data) => {
+  return new Promise((resolve, reject) => {
+    unAuthRequest
+      .post("/user/signupone", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Signup Two API
+export const SignUpTwo = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/signuptwo", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Signup Three API
+export const SignUpThree = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/signupthree", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get user's details API
+export const GetUserDetails = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getuserdetails")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

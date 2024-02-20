@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stepper, Step, StepLabel, Button } from "@mui/material";
+import { Stepper, Step, StepLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SignUp1 from "../Components/Signup1/Signup1";
 import SignUp2 from "../Components/Signup2/Signup2";
@@ -7,19 +7,23 @@ import SignUp3 from "../Components/Signup3/Signup3";
 
 const SignUp = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const stepOneDone = (data) => {
+    setEmail(data);
+    setActiveStep(1);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const stepTwoDone = () => {
+    setActiveStep(2);
   };
 
-  const handleFinish = () => {
+  const stepThreeDone = () => {
     navigate("/dashboard");
   };
+
+  console.log("Email : ", email);
 
   return (
     <div>
@@ -37,21 +41,11 @@ const SignUp = () => {
       </Stepper>
       <div>
         {activeStep === 0 ? (
-          <SignUp1 />
+          <SignUp1 stepOneDone={(data) => stepOneDone(data)} />
         ) : activeStep === 1 ? (
-          <SignUp2 />
+          <SignUp2 email={email} stepTwoDone={() => stepTwoDone()} />
         ) : (
-          <SignUp3 />
-        )}
-      </div>
-      <div>
-        <Button disabled={activeStep === 0} onClick={handleBack}>
-          Back
-        </Button>
-        {activeStep === 2 ? (
-          <Button onClick={handleFinish}>Finish</Button>
-        ) : (
-          <Button onClick={handleNext}>Next</Button>
+          <SignUp3 email={email} stepThreeDone={() => stepThreeDone()} />
         )}
       </div>
     </div>
