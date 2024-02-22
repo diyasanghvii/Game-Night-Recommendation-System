@@ -3,6 +3,7 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import AuthRoutes from "./router/AuthRoutes";
 import SignUp from "./Pages/SignUp";
+import EditPreferences from "./Pages/EditPreferences";
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
         <Route element={<AuthRoutes />}>
           <Route element={<Dashboard />} path="/" exact />
           <Route element={<Dashboard />} path="/dashboard" />
+          <Route element={<EditPreferences />} path="/" exact />
+          <Route element={<EditPreferences />} path="/edit-preferences" />
         </Route>
         <Route element={<Login />} path="/login" />
         <Route element={<SignUp />} path="/signup" />
