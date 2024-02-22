@@ -30,4 +30,7 @@ app.use("/auth", authRoutes);
 const userAuthRoutes = require("./routes/User/userAuthRoute");
 app.use("/user", userAuthRoutes);
 
+const gameRoutes = require("./routes/Games/gameInfoRoute");
+app.use("/game", gameRoutes);
+
 module.exports = app;
