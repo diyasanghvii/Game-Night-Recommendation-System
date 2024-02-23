@@ -1,22 +1,21 @@
-import axios from 'axios';
+import { authRequest } from ".";
 
-const BASE_URL = 'http://api.steampowered.com';
-
-export const getOwnedGames = (apiKey, steamId) => {
-  const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
-
-  return axios.get(url)
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      console.error('Error fetching Steam games:', error);
-      throw error;
-    });
+export const getOwnedGames = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/steam/getusersteamgamelist")
+      .then((response) => {
+        console.log("Im here")
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 const steamService = {
-    getOwnedGames
-  };
+  getOwnedGames,
+};
 
-export default steamService; 
+export default steamService;
