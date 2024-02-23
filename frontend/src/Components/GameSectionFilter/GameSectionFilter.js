@@ -20,7 +20,7 @@ function GameSectionFilter({ title, games }) {
 
   return (
     <section className="gameSection"> 
-      <h2>{title}</h2>
+      <h2>{title}</h2>  
       <div className="gameCarousel">
         <Btn fullWidth={true} label={"Prev"} onClick={handlePrev} disabled={startIndex === 0}/>
         <div className="gameList">
