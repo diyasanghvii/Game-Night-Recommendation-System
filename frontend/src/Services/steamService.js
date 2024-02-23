@@ -5,7 +5,6 @@ export const getOwnedGames = () => {
     authRequest
       .get("/steam/getusersteamgamelist")
       .then((response) => {
-        console.log("Im here")
         resolve(response);
       })
       .catch((error) => {
