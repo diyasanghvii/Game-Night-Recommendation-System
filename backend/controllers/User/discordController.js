@@ -58,7 +58,7 @@ const fetchPresence = async (req, res) => {
       );
 
       res.status(200).json({
-        message: "Successful",
+        message: "Successfully fetched discord presence!",
         memberStatus: membersInGuild,
         voiceMembers: membersInVoiceChannel,
       });
