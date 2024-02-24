@@ -28,14 +28,15 @@ function GameSection({ title, games }) {
   const visibleGames = games.slice(startIndex, endIndex); 
 
   return (
+    <section className="gameSection"> 
     {showPopup && (
       <RatingPopUp
-        gameId={popupGameData.appid} // Adapt if needed
+        gameId={popupGameData.appid}
+        gameName={popupGameData.name}
         onClose={() => setShowPopup(false)}
-        isOwned={/* your logic here */}
+        isOwned={true}
       />
     )}
-    <section className="gameSection"> 
       <h2>{title}</h2>
       <div className="gameCarousel">
         <Btn fullWidth={true} label={"Prev"} onClick={handlePrev} disabled={startIndex === 0}/>
