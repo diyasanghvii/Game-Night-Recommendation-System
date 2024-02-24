@@ -15,11 +15,8 @@ const fetchPresence = async (req, res) => {
     ],
   });
   try {
-    client.login(
-      "MTIwMTMxNjk0Mjk1OTYxMTk2NA.GkrAg1.TTF_ERBeaMGYREH0F4pz-m2ads27ijjGUQ3puc"
-    );
+    client.login(process.env.BOT_TOKEN);
     client.once("ready", async () => {
-      console.log("Bot is ready!");
       const targetGuildName = "diya_san's test server";
       const targetChannelName = "Lobby";
       const guild = client.guilds.cache.find(
@@ -29,18 +26,46 @@ const fetchPresence = async (req, res) => {
         (channel) => channel.name === targetChannelName
       );
 
-      if (channel) {
-        channel.send("Hi! I am now connected and ready to fetch presences.");
-      } else {
-        console.error(
-          "Channel not found. Make sure the provided channel ID is correct."
-        );
+      if (!channel) {
+        res.send(400).json({ message: "Channel not found." });
       }
 
-      
+      await guild.members.fetch();
+      const membersPresence = guild.members.cache.map((member) => {
+        const presenceStatus = member.presence
+          ? member.presence.status
+          : "Offline";
+        return {
+          username: member.user.username,
+          id: member.user.id,
+          presence: presenceStatus,
+        };
+      });
+
+      // Fetch members in the voice channel
+      const membersInVoiceChannel = channel
+        ? channel.members.map((member) => ({
+            username: member.user.username,
+            id: member.user.id,
+            presence: "Online and listening to Voice Channel",
+          }))
+        : [];
+
+      // Exclude members in the voice channel from the presence list
+      const membersInGuild = membersPresence.filter(
+        (member) =>
+          !membersInVoiceChannel.some((vcMember) => vcMember.id === member.id)
+      );
+
+      res.status(200).json({
+        message: "Successful",
+        memberStatus: membersInGuild,
+        voiceMembers: membersInVoiceChannel,
+      });
     });
-    res.status(200).json({message: "Successful"})
-  } catch (e) {}
+  } catch (e) {
+    res.send(500).json({ message: "Error occured, try again." });
+  }
 };
 
 module.exports = {
