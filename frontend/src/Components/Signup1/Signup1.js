@@ -3,8 +3,9 @@ import TextBox from "../TextBox/TextBox";
 import { Container } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
+import { SignUpOne } from "../../Services";
 
-const SignUp1 = () => {
+const SignUp1 = ({ stepOneDone }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,16 +16,31 @@ const SignUp1 = () => {
       alert("Passwords do not match!");
       return;
     }
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // You can add further logic here to handle sign up process
+
+    // Prepare data object in JSON format
+    const data = {
+      name: username,
+      email: email,
+      password: password,
+    };
+
+    SignUpOne(data)
+      .then((response) => {
+        if (response && response.data) {
+          sessionStorage.setItem("authToken", response.data.token);
+          stepOneDone(email);
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.message);
+      });
   };
+  
 
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
- 
+
       <TextBox
         label="Username"
         value={username}

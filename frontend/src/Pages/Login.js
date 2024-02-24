@@ -3,7 +3,7 @@ import TextBox from "../Components/TextBox/TextBox";
 import { Container, Grid } from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
-import { Login as loginApi } from "../Services/index";
+import { Login as loginApi, profileCheck } from "../Services/index";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 
@@ -14,18 +14,26 @@ const Login = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    var storedAuthToken = sessionStorage.getItem("authToken");
-    if (storedAuthToken) {
-      navigate("/dashboard");
+    const token = sessionStorage.getItem("authToken");
+    if (token) {
+      profileCheck(token)
+        .then(() => {
+          navigate("/dashboard");
+        })
+        .catch(() => {
+          sessionStorage.removeItem("authToken");
+        });
     }
-  }, []);
+  });
 
   const handleLogin = () => {
     // Calling the Login API
     loginApi({ email: username, password })
       .then((response) => {
-        sessionStorage.setItem("authToken", "Success");
-        navigate("/dashboard");
+        if (response.data && response.data.token) {
+          sessionStorage.setItem("authToken", response.data.token);
+          navigate("/dashboard");
+        }
       })
       .catch((error) => {
         sessionStorage.removeItem("authToken");

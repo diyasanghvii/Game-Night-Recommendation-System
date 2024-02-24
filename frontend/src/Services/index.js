@@ -1,35 +1,47 @@
 import axios from "axios";
 
-const axiosSetting = axios.create({
+const unAuthRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-// Example to Make a GET request, add functions and add the requires URL and headers
-export const getTestData = (data) => {
-  return new Promise((resolve, reject) => {
-    axiosSetting
-      .get("/testApi")
-      .then((response) => {
-        if (response && response.status === 200) {
-          resolve(response);
-        }
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+export const authRequest = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-// Example with headers to send auth tokens and other data
-export const example = (data) => {
+authRequest.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+authRequest.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      sessionStorage.removeItem("authToken");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Profile API to check if user is authorised
+export const profileCheck = (token) => {
   return new Promise((resolve, reject) => {
-    axios
-      .get("https://example.com/api/data", {
-        headers: {
-          Authorization: "Bearer your_access_token", // change to any token for steam apis
-          "Content-Type": "application/json",
-        },
-      })
+    authRequest
+      .get("/auth/profile")
       .then((response) => {
         resolve(response);
       })
@@ -42,11 +54,71 @@ export const example = (data) => {
 // Login API
 export const Login = (data) => {
   return new Promise((resolve, reject) => {
-    axiosSetting
+    unAuthRequest
       .post("/user/login", {
         email: data.email,
         password: data.password,
       })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Signup One API
+export const SignUpOne = (data) => {
+  return new Promise((resolve, reject) => {
+    unAuthRequest
+      .post("/user/signupone", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Signup Two API
+export const SignUpTwo = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/signuptwo", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Signup Three API
+export const SignUpThree = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/signupthree", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get user's details API
+export const GetUserDetails = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getuserdetails")
       .then((response) => {
         resolve(response);
       })

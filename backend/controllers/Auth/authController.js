@@ -1,7 +1,7 @@
 const User = require("../../models/User/userModal");
 
 // @desc Profile Authentication API
-// @route POST /user/profile
+// @route GET /user/profile
 // @access Public
 const profile = async (req, res) => {
   try {
