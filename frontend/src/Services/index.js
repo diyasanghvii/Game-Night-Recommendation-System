@@ -4,7 +4,7 @@ const unAuthRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-const authRequest = axios.create({
+export const authRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     "Content-Type": "application/json",
