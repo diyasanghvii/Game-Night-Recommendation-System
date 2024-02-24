@@ -26,10 +26,8 @@ class Popup extends Component {
     let newSelectedGenres = [...selectedGenres];
 
     if (selectedIndex === -1) {
-      // Add the genre if it's not already selected
       newSelectedGenres.push(genre);
     } else {
-      // Remove the genre if it's already selected
       newSelectedGenres.splice(selectedIndex, 1);
     }
 
@@ -37,7 +35,6 @@ class Popup extends Component {
   };
 
   handleSave = () => {
-    // Pass the selected genres back to the parent component
     this.props.onSelection(this.state.selectedGenres);
   };
 
