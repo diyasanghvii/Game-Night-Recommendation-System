@@ -12,7 +12,6 @@ function App() {
         <Route element={<AuthRoutes />}>
           <Route element={<Dashboard />} path="/" exact />
           <Route element={<Dashboard />} path="/dashboard" />
-          <Route element={<EditPreferences />} path="/" exact />
           <Route element={<EditPreferences />} path="/edit-preferences" />
         </Route>
         <Route element={<Login />} path="/login" />

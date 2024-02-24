@@ -42,18 +42,13 @@ class Dashboard extends Component {
       });
   };
 
-  fetchSteamData = (response) => {
-    if (response.data?.steamId) {
-      steamService
-        .getOwnedGames(
-          process.env.REACT_APP_STEAM_API_KEY,
-          response.data?.steamId
-        )
-        .then((data) =>
-          this.setState({ games: data.response.games, isLoading: false })
-        )
-        .catch((error) => this.setState({ error, isLoading: false }));
-    }
+  fetchSteamData = () => {
+    steamService
+      .getOwnedGames()
+      .then((response) => {
+        this.setState({ games: response.data.steamGames, isLoading: false });
+      })
+      .catch((error) => this.setState({ error, isLoading: false }));
   };
 
   componentDidUpdate() {}
