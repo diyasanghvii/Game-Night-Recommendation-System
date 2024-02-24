@@ -1,7 +1,14 @@
 .tag {
-    background-color: #f0f0f0; /* Adjust the background color as needed */
-    color: #222; /* Adjust the text color as needed */
-    padding: 5px 10px; 
-    border-radius: 15px; /* Controls the curvature of the edges */
+    background-color: #f0f0f0;
+    color: #222;
+    padding: 5px 10px;
+    border-radius: 15px;
     display: inline-block;
   }
+
+  .icon-container {
+    display: flex;
+    align-items: center;
+  }
+
+  

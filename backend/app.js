@@ -39,4 +39,8 @@ app.use("/game", gameRoutes);
 const steamRoutes = require("./routes/Games/steamInfoRoute");
 app.use("/steam", steamRoutes);
 
+// rawg data info routes
+const rawgRoutes = require("./routes/Games/rawgInfoRoute");
+app.use("/rawg", rawgRoutes);
+
 module.exports = app;

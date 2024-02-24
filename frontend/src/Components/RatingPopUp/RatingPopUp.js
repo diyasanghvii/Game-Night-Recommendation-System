@@ -17,53 +17,41 @@ import { alignProperty } from '@mui/material/styles/cssUtils';
 import './RatingPopUp.css'
 import Btn from '../Button/Btn';
 
+import rawgService, { getAllGamesBySearch, getGameDetails } from '../../Services/rawgService';
+
+
 const RatingPopUp = ({ gameId, gameRawgId, gameName, onClose, isOwned }) => {
   const [gameData, setGameData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
-    const fetchGameFromRawg = async () => {
-      setIsLoading(true);
-      console.log(process.env.REACT_APP_RAWG_API_KEY);
-      const rawg_api_key = process.env.REACT_APP_RAWG_API_KEY;
+    const fetchData = async () => {
+      setIsLoading(true); 
+      setError(null);
 
       try {
-        const response = await axios.get(`https://api.rawg.io/api/games?key=${rawg_api_key}&search=${gameName}`); 
-        console.log(response.data['results'][0]);
-        setGameData(response.data['results'][0]);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching game data', error);
-      } finally {
-        
-      }
-    };
-    const fetchGameDataFromRawg = async () => {
-      setIsLoading(true);
-      console.log(process.env.REACT_APP_RAWG_API_KEY);
-      const rawg_api_key = process.env.REACT_APP_RAWG_API_KEY;
+        let response;
+        if (gameRawgId) {
+          response = await rawgService.getGameDetails(gameRawgId); 
+          setGameData(response.data.game);
+        } else if (gameId) {
+          response = await rawgService.getAllGamesBySearch(gameName);
+          setGameData(response.data.games[0]);
+        } else {
+          return; 
+        }
 
-      try {
-        const response = await axios.get(`https://api.rawg.io/api/games/${gameRawgId}?key=${rawg_api_key}`); 
-        setGameData(response.data);
-        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching game data', error);
+        setError(error);
       } finally {
-        //setIsLoading(false);
+        setIsLoading(false);
       }
     };
 
-    // If rawg id is given
-    if (gameRawgId) {
-      console.log('gameRawgId');
-      fetchGameDataFromRawg(); 
-    }
-    else if (gameId) {
-      console.log('gameId');
-      fetchGameFromRawg();
-    }
-  }, [gameId, gameRawgId, gameName, onClose, isOwned ]);
+    fetchData();
+  }, [gameId, gameRawgId, gameName, onClose, isOwned]);
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth> 
@@ -75,9 +63,9 @@ const RatingPopUp = ({ gameId, gameRawgId, gameName, onClose, isOwned }) => {
       </DialogTitle>
 
       <DialogContent>
-        {isLoading ? (
-          <p>Loading game details...</p> 
-        ) : ( 
+      {isLoading && <p>Loading game details...</p>} 
+      {error && <p>Error fetching data: {error.message}</p>}
+      {!isLoading && !error && gameData && (
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <img src={gameData?.['background_image']} alt={gameData?.name} style={{ maxWidth: '100%' }}/>
@@ -114,11 +102,27 @@ const RatingPopUp = ({ gameId, gameRawgId, gameName, onClose, isOwned }) => {
               
               {isOwned ? (
                 <Typography variant="body1">
-                  <strong>Rate it:</strong> <Rating name="game-rating"/>
+                  <span className='icon-container'>
+                    <strong>Rate it:</strong> 
+                    <Rating name="game-rating"/>
+                  </span>
                 </Typography>
               ) : (
                 <Typography variant="body1">
-                  <strong>Interested?</strong>
+                  <span className='icon-container'>
+                    <strong>Interested?</strong>
+                    <Tooltip title="Interesting!">
+                      <ThumbUpIcon style={{ display: 'inline-block', marginLeft: '5px', marginRight: '10px' }} /> 
+                    </Tooltip> 
+
+                    <Tooltip title="Love this!!">
+                      <FavoriteIcon style={{ display: 'inline-block', marginRight: '10px' }} /> 
+                    </Tooltip> 
+
+                    <Tooltip title="Meh -_-">
+                      <ThumbDownIcon style={{ display: 'inline-block' }} />  
+                    </Tooltip>
+                  </span>
                 </Typography>
               )}
             </Grid>
