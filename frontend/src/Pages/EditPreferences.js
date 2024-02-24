@@ -5,7 +5,7 @@ import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter
 import GameSection from "../Components/GameSection/GameSection";
 import { GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
-import Popup from "../Components/Popup/Popup";
+import PopupGenre from "../Components/PopupGenre/PopupGenre";
 import { profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 
@@ -84,7 +84,7 @@ class EditPreferences extends Component {
         >
           <h2>Welcome, {userDetails?.name}!</h2>
           {isPopupOpen && (
-            <Popup genres={genres} onClose={this.handleClosePopup} onSelection={this.handleGenreSelection}
+            <PopupGenre  genres={genres} onClose={this.handleClosePopup} onSelection={this.handleGenreSelection}
             />
           )}
         </div>
