@@ -34,7 +34,7 @@ function GameSection({ title, games }) {
         gameId={popupGameData.appid}
         gameName={popupGameData.name}
         onClose={() => setShowPopup(false)}
-        isOwned={false}
+        isOwned={true}
       />
     )}
       <h2>{title}</h2>

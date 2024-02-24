@@ -8,7 +8,7 @@ const BASE_URL = "https://api.rawg.io/api";
 const getGameDetails = async (req, res) => {
   try {
     const gameRawgId = req.query.gameRawgId;
-    const url = `${BASE_URL}/games/${gameRawgId}?key=${process.env.RAWG_API_KEY}`;
+    const url = `${BASE_URL}/games/${gameRawgId}?key=${process.env.RAWG_API_KEY}&stores=1`;
     const response = await axios.get(url);
     const data = response.data;
     res.status(200).send( {
@@ -28,7 +28,7 @@ const getGameDetails = async (req, res) => {
 const getAllGamesBySearch = async (req, res) => {
   try {
     const gameName = req.query.gameName;
-    const url = `${BASE_URL}/games?key=${process.env.RAWG_API_KEY}&search=${gameName}`;
+    const url = `${BASE_URL}/games?key=${process.env.RAWG_API_KEY}&stores=1&search=${gameName}`;
     const response = await axios.get(url);
     const data = response.data;
     res.status(200).send({
