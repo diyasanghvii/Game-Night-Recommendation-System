@@ -8,6 +8,6 @@ const {
 const { authoriseCheck } = require("../../middleware/authMiddleware");
 
 // API Routes
-discordRoutes.post("/fetchpresence", authoriseCheck, fetchPresence);
+discordRoutes.post("/fetchpresence", fetchPresence);
 
 module.exports = discordRoutes;
