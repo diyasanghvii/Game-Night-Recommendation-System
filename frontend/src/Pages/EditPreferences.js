@@ -48,18 +48,12 @@ class EditPreferences extends Component {
   };
 
   fetchSteamData = (response) => {
-    if (response.data?.steamId) {
-      steamService
-        .getOwnedGames(
-          process.env.REACT_APP_STEAM_API_KEY,
-          response.data?.steamId
-        )
-        .then((data) => {
-          const games = data.response.games;
-          this.setState({ games, allGames: games, isLoading: false });
-        })
-        .catch((error) => this.setState({ error, isLoading: false }));
-    }
+    steamService
+      .getOwnedGames()
+      .then((response) => {
+        this.setState({ games: response.data.steamGames, isLoading: false });
+      })
+      .catch((error) => this.setState({ error, isLoading: false }));
   };
 
   handleAllGamesSearchChange = (e) => {
