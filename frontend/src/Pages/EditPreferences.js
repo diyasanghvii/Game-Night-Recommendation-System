@@ -5,7 +5,7 @@ import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter
 import GameSection from "../Components/GameSection/GameSection";
 import { GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
-import Popup from "../Components/Popup/Popup"; // Import the Popup component
+import Popup from "../Components/Popup/Popup";
 import { profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 
@@ -18,8 +18,8 @@ class EditPreferences extends Component {
       games: [],
       isLoading: false,
       error: null,
-      genres: [], // State to store selected genres
-      isPopupOpen: false, // State to control the visibility of the popup
+      genres: [],
+      isPopupOpen: false, 
     };
   }
 
@@ -56,17 +56,14 @@ class EditPreferences extends Component {
   };
 
   handleEditGenre = () => {
-    // Function to handle the click event of the "Edit Genre" button
     this.setState({ isPopupOpen: true });
   };
 
   handleClosePopup = () => {
-    // Function to handle closing the popup
     this.setState({ isPopupOpen: false });
   };
 
   handleGenreSelection = (selectedGenres) => {
-    // Function to handle genre selection from the popup
     this.setState({ genres: selectedGenres, isPopupOpen: false });
   };
 
@@ -86,8 +83,6 @@ class EditPreferences extends Component {
           }}
         >
           <h2>Welcome, {userDetails?.name}!</h2>
-          
-          {/* Render the popup if isPopupOpen is true */}
           {isPopupOpen && (
             <Popup genres={genres} onClose={this.handleClosePopup} onSelection={this.handleGenreSelection}
             />
@@ -101,7 +96,7 @@ class EditPreferences extends Component {
         ) : (
           <div>
             <GameSectionGenre title="Preferred Genres"games={games}
-             onEditGenre={this.handleEditGenre} // Pass the handler function to GameSectionFilter
+             onEditGenre={this.handleEditGenre}
           />
             <GameSection title="Your games" games={games} />
             <GameSectionFilter title="All games" games={games} />
