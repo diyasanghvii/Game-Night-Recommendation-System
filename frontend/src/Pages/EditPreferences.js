@@ -17,6 +17,10 @@ class EditPreferences extends Component {
       games: [],
       isLoading: false,
       error: null,
+      allGames: [],
+      yourGames: [],
+      allGamesSearchTerm: "",
+      yourGamesSearchTerm: "",
     };
   }
 
@@ -52,10 +56,27 @@ class EditPreferences extends Component {
       .catch((error) => this.setState({ error, isLoading: false }));
   };
 
-  componentDidUpdate() {}
+  handleAllGamesSearchChange = (e) => {
+    const searchTerm = e.target.value;
+    const { allGames } = this.state;
+    const filteredGames = allGames.filter(game =>
+      game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    this.setState({ allGamesSearchTerm: searchTerm, games: filteredGames });
+  };
+
+  handleYourGamesSearchChange = (e) => {
+    const searchTerm = e.target.value;
+    const { yourGames } = this.state;
+    const filteredGames = yourGames.filter(game =>
+      game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    this.setState({ yourGamesSearchTerm: searchTerm, yourGames: filteredGames });
+  };
 
   render() {
-    const { userDetails, games, isLoading, error } = this.state;
+    const { userDetails, games, isLoading, error, allGames, yourGames, allGamesSearchTerm, yourGamesSearchTerm } = this.state;
+
     return (
       <div>
         <MenuHeader />
@@ -68,9 +89,7 @@ class EditPreferences extends Component {
           }}
         >
           <h2>Welcome, {userDetails?.name}!</h2>
-          <span>
-            <Btn label={"Recommend Multiplayer Games"} />
-          </span>
+          
         </div>
 
         {error ? (
@@ -79,8 +98,24 @@ class EditPreferences extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSection title="Your games" games={games} />
-            <GameSectionFilter title="All games" games={games} />
+            <div>
+              <input
+                type="text"
+                placeholder="Search all games..."
+                value={allGamesSearchTerm}
+                onChange={this.handleAllGamesSearchChange}
+              />
+              <GameSectionFilter title="All games" games={allGames} searchTerm={allGamesSearchTerm} onSearchChange={this.handleAllGamesSearchChange} />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Search your games..."
+                value={yourGamesSearchTerm}
+                onChange={this.handleYourGamesSearchChange}
+              />
+              <GameSection title="Your games" games={yourGames} searchTerm={yourGamesSearchTerm} onSearchChange={this.handleYourGamesSearchChange} />
+            </div>
           </div>
         )}
       </div>
