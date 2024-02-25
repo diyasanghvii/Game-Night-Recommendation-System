@@ -49,8 +49,6 @@ const Signup3 = ({ email, stepThreeDone }) => {
       preferences: games,
     };
 
-    console.log("");
-
     SignUpThree(data)
       .then((response) => {
         if (response && response.data) {
