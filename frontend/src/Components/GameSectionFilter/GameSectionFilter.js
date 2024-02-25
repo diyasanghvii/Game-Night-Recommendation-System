@@ -29,10 +29,10 @@ function GameSectionFilter({ title, games, handleClick }) {
           disabled={startIndex === 0}
         />
         <div className="gameList">
-          {visibleGames.map((game) => (
+          {visibleGames.map((game, index) => (
             <div
               className="gameCard"
-              key={game.appid}
+              key={index}
               onClick={() => handleClick(game)}
             >
               <img
