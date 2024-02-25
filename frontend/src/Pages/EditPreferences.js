@@ -3,22 +3,19 @@ import steamService from "../Services/steamService";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
-import { GetUserDetails } from "../Services";
-import Btn from "../Components/Button/Btn";
-
 import { profileCheck } from "../Services";
+import rawgService from "../Services/rawgService";
 
 class EditPreferences extends Component {
   constructor() {
     super();
     this.state = {
       backendResponse: "",
-      userDetails: {},
-      games: [],
       isLoading: false,
       error: null,
       allGames: [],
       yourGames: [],
+      allYourGames: [],
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
     };
@@ -26,32 +23,19 @@ class EditPreferences extends Component {
 
   componentDidMount() {
     const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {})
-      .catch(() => {});
+    profileCheck(token);
     this.setState({ isLoading: true }, () => {
-      this.getUserDetails();
+      this.fetchSteamData();
+      this.handleAllGamesSearchChange();
     });
   }
 
-  getUserDetails = () => {
-    GetUserDetails()
-      .then((response) => {
-        if (response && response.data) {
-          this.setState({ userDetails: response.data });
-          this.fetchSteamData(response);
-        }
-      })
-      .catch(() => {
-        this.setState({ isLoading: false });
-      });
-  };
-
-  fetchSteamData = (response) => {
+  fetchSteamData = () => {
     steamService
       .getOwnedGames()
       .then((response) => {
         this.setState({
+          allYourGames: response.data.steamGames,
           yourGames: response.data.steamGames,
           isLoading: false,
         });
@@ -59,30 +43,37 @@ class EditPreferences extends Component {
       .catch((error) => this.setState({ error, isLoading: false }));
   };
 
-  handleAllGamesSearchChange = (e) => {
-    const searchTerm = e.target.value;
-    const { allGames } = this.state;
-    const filteredGames = allGames.filter((game) =>
-      game.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    this.setState({ allGamesSearchTerm: searchTerm, games: filteredGames });
+  handleAllGamesSearchChange = async (e) => {
+    const searchTerm = e?.target?.value || "";
+    this.setState({ allGamesSearchTerm: searchTerm }, async () => {
+      const response = await rawgService.getAllGamesBySearch(searchTerm);
+      this.setState({
+        allGames: response.data?.games,
+      });
+    });
   };
 
   handleYourGamesSearchChange = (e) => {
-    const searchTerm = e.target.value;
-    const { yourGames } = this.state;
-    const filteredGames = yourGames.filter((game) =>
-      game.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    this.setState({
-      yourGamesSearchTerm: searchTerm,
-      yourGames: filteredGames,
+    const searchTerm = e?.target?.value || "";
+    this.setState({ yourGamesSearchTerm: searchTerm }, () => {
+      const { allYourGames } = this.state;
+      if (searchTerm === "") {
+        this.setState({
+          yourGames: allYourGames,
+        });
+      } else {
+        const filteredGames = allYourGames.filter((game) =>
+          game.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        this.setState({
+          yourGames: filteredGames,
+        });
+      }
     });
   };
 
   render() {
     const {
-      userDetails,
       isLoading,
       error,
       allGames,
@@ -90,6 +81,7 @@ class EditPreferences extends Component {
       allGamesSearchTerm,
       yourGamesSearchTerm,
     } = this.state;
+    const userName = localStorage.getItem("userName");
     return (
       <div>
         <MenuHeader />
@@ -101,7 +93,7 @@ class EditPreferences extends Component {
             marginTop: "17px",
           }}
         >
-          <h2>Welcome, {userDetails?.name}!</h2>
+          <h2>Welcome, {userName}!</h2>
         </div>
 
         {error ? (

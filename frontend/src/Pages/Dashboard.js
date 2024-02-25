@@ -12,7 +12,6 @@ class Dashboard extends Component {
     super();
     this.state = {
       backendResponse: "",
-      userDetails: {},
       games: [],
       isLoading: false,
       error: null,
@@ -21,9 +20,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {})
-      .catch(() => {});
+    profileCheck(token);
     this.setState({ isLoading: true }, () => {
       this.getUserDetails();
     });
@@ -33,7 +30,7 @@ class Dashboard extends Component {
     GetUserDetails()
       .then((response) => {
         if (response && response.data) {
-          this.setState({ userDetails: response.data });
+          localStorage.setItem("userName", response.data?.name);
           this.fetchSteamData(response);
         }
       })
@@ -54,7 +51,8 @@ class Dashboard extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { userDetails, games, isLoading, error } = this.state;
+    const { games, isLoading, error } = this.state;
+    const userName = localStorage.getItem("userName");
     return (
       <div>
         <MenuHeader />
@@ -66,7 +64,7 @@ class Dashboard extends Component {
             marginTop: "17px",
           }}
         >
-          <h2>Welcome, {userDetails?.name}!</h2>
+          <h2>Welcome, {userName}!</h2>
           <span>
             <Btn label={"Recommend Multiplayer Games"} />
           </span>
