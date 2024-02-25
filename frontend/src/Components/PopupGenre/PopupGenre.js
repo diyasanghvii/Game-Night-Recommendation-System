@@ -39,7 +39,7 @@ class Popup extends Component {
     if (selectedGenres.length >= 5) {
       this.props.onSelection(selectedGenres);
     } else {
-      alert("Please select at least 5 genres.");
+      alert("Please select at least 5 genres...");
     }
   };
 
