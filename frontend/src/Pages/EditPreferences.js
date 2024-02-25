@@ -51,7 +51,10 @@ class EditPreferences extends Component {
     steamService
       .getOwnedGames()
       .then((response) => {
-        this.setState({ games: response.data.steamGames, isLoading: false });
+        this.setState({
+          yourGames: response.data.steamGames,
+          isLoading: false,
+        });
       })
       .catch((error) => this.setState({ error, isLoading: false }));
   };
@@ -59,7 +62,7 @@ class EditPreferences extends Component {
   handleAllGamesSearchChange = (e) => {
     const searchTerm = e.target.value;
     const { allGames } = this.state;
-    const filteredGames = allGames.filter(game =>
+    const filteredGames = allGames.filter((game) =>
       game.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     this.setState({ allGamesSearchTerm: searchTerm, games: filteredGames });
@@ -68,15 +71,25 @@ class EditPreferences extends Component {
   handleYourGamesSearchChange = (e) => {
     const searchTerm = e.target.value;
     const { yourGames } = this.state;
-    const filteredGames = yourGames.filter(game =>
+    const filteredGames = yourGames.filter((game) =>
       game.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    this.setState({ yourGamesSearchTerm: searchTerm, yourGames: filteredGames });
+    this.setState({
+      yourGamesSearchTerm: searchTerm,
+      yourGames: filteredGames,
+    });
   };
 
   render() {
-    const { userDetails, games, isLoading, error, allGames, yourGames, allGamesSearchTerm, yourGamesSearchTerm } = this.state;
-
+    const {
+      userDetails,
+      isLoading,
+      error,
+      allGames,
+      yourGames,
+      allGamesSearchTerm,
+      yourGamesSearchTerm,
+    } = this.state;
     return (
       <div>
         <MenuHeader />
@@ -89,7 +102,6 @@ class EditPreferences extends Component {
           }}
         >
           <h2>Welcome, {userDetails?.name}!</h2>
-          
         </div>
 
         {error ? (
@@ -105,7 +117,12 @@ class EditPreferences extends Component {
                 value={allGamesSearchTerm}
                 onChange={this.handleAllGamesSearchChange}
               />
-              <GameSectionFilter title="All games" games={allGames} searchTerm={allGamesSearchTerm} onSearchChange={this.handleAllGamesSearchChange} />
+              <GameSectionFilter
+                title="All games"
+                games={allGames}
+                searchTerm={allGamesSearchTerm}
+                onSearchChange={this.handleAllGamesSearchChange}
+              />
             </div>
             <div>
               <input
@@ -114,7 +131,12 @@ class EditPreferences extends Component {
                 value={yourGamesSearchTerm}
                 onChange={this.handleYourGamesSearchChange}
               />
-              <GameSection title="Your games" games={yourGames} searchTerm={yourGamesSearchTerm} onSearchChange={this.handleYourGamesSearchChange} />
+              <GameSection
+                title="Your games"
+                games={yourGames}
+                searchTerm={yourGamesSearchTerm}
+                onSearchChange={this.handleYourGamesSearchChange}
+              />
             </div>
           </div>
         )}
