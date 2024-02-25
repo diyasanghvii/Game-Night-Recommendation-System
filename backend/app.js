@@ -43,4 +43,8 @@ app.use("/steam", steamRoutes);
 const rawgRoutes = require("./routes/Games/rawgInfoRoute");
 app.use("/rawg", rawgRoutes);
 
+// discord routes
+const discordRoutes = require("./routes/User/discordRoute");
+app.use("/discord", discordRoutes);
+
 module.exports = app;
