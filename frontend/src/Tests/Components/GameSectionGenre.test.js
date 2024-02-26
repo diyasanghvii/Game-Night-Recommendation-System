@@ -6,8 +6,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { fireEvent } from '@testing-library/react';
 
 describe('GameSectionGenre component', () => {
-    const genres = ['Action', 'Adventure', 'RPG']; // Example genres
-    const title = 'Preferred Genres'; // Example title
+    const genres = ['Action', 'Adventure', 'RPG'];
+    const title = 'Preferred Genres';
   
     test('calls onEditGenre function when "Edit Genre" button is clicked', () => {
         const onEditGenreMock = jest.fn();
