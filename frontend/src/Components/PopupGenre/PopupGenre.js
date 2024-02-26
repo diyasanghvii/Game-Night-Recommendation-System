@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./PopupGenre.css";
 
-class Popup extends Component {
+class PopupGenre extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,4 +77,4 @@ class Popup extends Component {
   
 }
 
-export default Popup;
+export default PopupGenre;
