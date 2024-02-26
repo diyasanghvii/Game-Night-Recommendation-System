@@ -3,12 +3,10 @@ import steamService from "../Services/steamService";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
-import { GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
 import { profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
-import { profileCheck } from "../Services";
 import rawgService from "../Services/rawgService";
 
 class EditPreferences extends Component {
@@ -56,6 +54,8 @@ class EditPreferences extends Component {
 
   handleClosePopup = () => {
     this.setState({ isPopupOpen: false });
+  };
+
   handleAllGamesSearchChange = async (e) => {
     const searchTerm = e?.target?.value || "";
     this.setState({ allGamesSearchTerm: searchTerm }, async () => {
@@ -89,8 +89,6 @@ class EditPreferences extends Component {
     this.setState({ genres: selectedGenres, isPopupOpen: false });
   };
 
-  componentDidUpdate() {}
-
   render() {
     const {
       isLoading,
@@ -113,8 +111,8 @@ class EditPreferences extends Component {
             marginTop: "17px",
           }}
         >
-          <h2>Welcome, {userDetails?.name}!</h2>
-          {isPopupOpen && (
+          <h2>Welcome, {userName}!</h2>
+          {this.state.isPopupOpen && (
             <PopupGenre
               genres={genres}
               onClose={this.handleClosePopup}
@@ -129,14 +127,13 @@ class EditPreferences extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-           <GameSectionGenre
-          title="Preferred Genres"
-          games={games}
-          onEditGenre={this.handleEditGenre}
-          genres={genres}
-/>
-            <GameSection title="Your games" games={games} />
-            <GameSectionFilter title="All games" games={games} />
+            <GameSectionGenre
+              title="Preferred Genres"
+              games={yourGames}
+              onEditGenre={this.handleEditGenre}
+              genres={genres}
+            />
+           
             <div>
               <input
                 type="text"
@@ -170,7 +167,6 @@ class EditPreferences extends Component {
       </div>
     );
   }
-}
 }
 
 export default EditPreferences;
