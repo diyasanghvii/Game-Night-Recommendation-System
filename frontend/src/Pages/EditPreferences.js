@@ -8,49 +8,44 @@ import Btn from "../Components/Button/Btn";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
 import { profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
+import { profileCheck } from "../Services";
+import rawgService from "../Services/rawgService";
 
 class EditPreferences extends Component {
   constructor() {
     super();
     this.state = {
       backendResponse: "",
-      userDetails: {},
-      games: [],
       isLoading: false,
       error: null,
       genres: [],
       isPopupOpen: false,
+      allGames: [],
+      yourGames: [],
+      allYourGames: [],
+      allGamesSearchTerm: "",
+      yourGamesSearchTerm: "",
     };
   }
 
   componentDidMount() {
     const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {})
-      .catch(() => {});
+    profileCheck(token);
     this.setState({ isLoading: true }, () => {
-      this.getUserDetails();
+      this.fetchSteamData();
+      this.handleAllGamesSearchChange();
     });
   }
 
-  getUserDetails = () => {
-    GetUserDetails()
-      .then((response) => {
-        if (response && response.data) {
-          this.setState({ userDetails: response.data });
-          this.fetchSteamData(response);
-        }
-      })
-      .catch(() => {
-        this.setState({ isLoading: false });
-      });
-  };
-
-  fetchSteamData = (response) => {
+  fetchSteamData = () => {
     steamService
       .getOwnedGames()
       .then((response) => {
-        this.setState({ games: response.data.steamGames, isLoading: false });
+        this.setState({
+          allYourGames: response.data.steamGames,
+          yourGames: response.data.steamGames,
+          isLoading: false,
+        });
       })
       .catch((error) => this.setState({ error, isLoading: false }));
   };
@@ -61,6 +56,33 @@ class EditPreferences extends Component {
 
   handleClosePopup = () => {
     this.setState({ isPopupOpen: false });
+  handleAllGamesSearchChange = async (e) => {
+    const searchTerm = e?.target?.value || "";
+    this.setState({ allGamesSearchTerm: searchTerm }, async () => {
+      const response = await rawgService.getAllGamesBySearch(searchTerm);
+      this.setState({
+        allGames: response.data?.games,
+      });
+    });
+  };
+
+  handleYourGamesSearchChange = (e) => {
+    const searchTerm = e?.target?.value || "";
+    this.setState({ yourGamesSearchTerm: searchTerm }, () => {
+      const { allYourGames } = this.state;
+      if (searchTerm === "") {
+        this.setState({
+          yourGames: allYourGames,
+        });
+      } else {
+        const filteredGames = allYourGames.filter((game) =>
+          game.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        this.setState({
+          yourGames: filteredGames,
+        });
+      }
+    });
   };
 
   handleGenreSelection = (selectedGenres) => {
@@ -70,8 +92,16 @@ class EditPreferences extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { userDetails, games, isLoading, error, genres, isPopupOpen } =
-      this.state;
+    const {
+      isLoading,
+      error,
+      genres,
+      allGames,
+      yourGames,
+      allGamesSearchTerm,
+      yourGamesSearchTerm,
+    } = this.state;
+    const userName = localStorage.getItem("userName");
     return (
       <div>
         <MenuHeader />
@@ -107,11 +137,40 @@ class EditPreferences extends Component {
 />
             <GameSection title="Your games" games={games} />
             <GameSectionFilter title="All games" games={games} />
+            <div>
+              <input
+                type="text"
+                placeholder="Search all games..."
+                value={allGamesSearchTerm}
+                onChange={this.handleAllGamesSearchChange}
+              />
+              <GameSectionFilter
+                title="All games"
+                games={allGames}
+                searchTerm={allGamesSearchTerm}
+                onSearchChange={this.handleAllGamesSearchChange}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Search your games..."
+                value={yourGamesSearchTerm}
+                onChange={this.handleYourGamesSearchChange}
+              />
+              <GameSection
+                title="Your games"
+                games={yourGames}
+                searchTerm={yourGamesSearchTerm}
+                onSearchChange={this.handleYourGamesSearchChange}
+              />
+            </div>
           </div>
         )}
       </div>
     );
   }
+}
 }
 
 export default EditPreferences;
