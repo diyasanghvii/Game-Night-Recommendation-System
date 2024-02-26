@@ -19,7 +19,7 @@ class EditPreferences extends Component {
       isLoading: false,
       error: null,
       genres: [],
-      isPopupOpen: false, 
+      isPopupOpen: false,
     };
   }
 
@@ -70,7 +70,8 @@ class EditPreferences extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { userDetails, games, isLoading, error, genres, isPopupOpen } = this.state;
+    const { userDetails, games, isLoading, error, genres, isPopupOpen } =
+      this.state;
     return (
       <div>
         <MenuHeader />
@@ -84,7 +85,10 @@ class EditPreferences extends Component {
         >
           <h2>Welcome, {userDetails?.name}!</h2>
           {isPopupOpen && (
-            <PopupGenre  genres={genres} onClose={this.handleClosePopup} onSelection={this.handleGenreSelection}
+            <PopupGenre
+              genres={genres}
+              onClose={this.handleClosePopup}
+              onSelection={this.handleGenreSelection}
             />
           )}
         </div>
@@ -95,9 +99,12 @@ class EditPreferences extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSectionGenre title="Preferred Genres"games={games}
-             onEditGenre={this.handleEditGenre}
-          />
+           <GameSectionGenre
+          title="Preferred Genres"
+          games={games}
+          onEditGenre={this.handleEditGenre}
+          genres={genres}
+/>
             <GameSection title="Your games" games={games} />
             <GameSectionFilter title="All games" games={games} />
           </div>

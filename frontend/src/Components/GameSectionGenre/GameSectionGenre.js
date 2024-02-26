@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './GameSectionGenre.css';
 import Btn from '../Button/Btn';
 
-function GameSectionGenre({ title, games, onEditGenre }) {
+function GameSectionGenre({ title, games, onEditGenre, genres }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5); 
 
@@ -25,11 +25,16 @@ function GameSectionGenre({ title, games, onEditGenre }) {
         <Btn label={"Edit Genre"} onClick={onEditGenre} />
       </div>
       <div className="gameCarousel">
-        <Btn fullWidth={true} label={"Prev"} onClick={handlePrev} disabled={startIndex === 0}/>
-        <div className="gameList">
-          
+       
+        <div className="gameList" style={{ textAlign: "left" }}>
+          <h3>Saved Genres:</h3>
+          <ul>
+            {genres.map((genre, index) => (
+              <li key={index}>{genre}</li>
+            ))}
+          </ul>
         </div>
-        <Btn fullWidth={true} label={"Next"} onClick={handleNext} disabled={endIndex === games.length}/>
+       
       </div>
     </section>
   );
