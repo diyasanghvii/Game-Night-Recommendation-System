@@ -137,10 +137,35 @@ const getUserDetails = async (req, res) => {
   }
 };
 
+// @desc Update User Genre API
+// @route POST /user/updategenre
+// @access Private
+const updateGenre = async (req, res) => {
+  try {
+    let data = await User.findOne({ email: req.user.email }).exec();
+    if (data) {
+      await data.updateOne({
+        preferredGenres: req.body.preferredGenres,
+      });
+      res.status(200).json({
+        message: "User Genre Updated!",
+        preferredGenres: req.body.preferredGenres,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exists!",
+      });
+    }
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
   signUpTwo,
   signUpThree,
   getUserDetails,
+  updateGenre,
 };
