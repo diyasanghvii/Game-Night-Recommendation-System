@@ -47,31 +47,6 @@ const Signup2 = ({ email, stepTwoDone }) => {
       }
       return;
     }
-    /*if (!steamId || !discordUserName) {
-      if (!steamId && discordUserName) {
-        setError("Please enter Steam ID.");
-      } else if (steamId && !discordUserName) {
-        setError("Please enter Discord Username.");
-      } else {
-        setError("Please enter Steam ID and Discord Username.");
-      }
-      return;
-    }
-
-    if (!DiscordServerName || !DiscordChannelName) {
-      if (!DiscordServerName && DiscordChannelName) {
-        setError("Please enter Discord Server Name.");
-      } else if (DiscordServerName && !DiscordChannelName) {
-        setError("Please enter Discord Channel Name.");
-      } else {
-        setError("Please enter Server Name and Channel Name.");
-      }
-      return;
-    }*/
-
-
-
-    // Prepare data object in JSON format
     const data = {
       email: email,
       steamId: steamId,
