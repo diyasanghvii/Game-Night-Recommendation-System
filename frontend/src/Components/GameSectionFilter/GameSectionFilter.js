@@ -18,7 +18,7 @@ function GameSectionFilter({ title, games, handleClick }) {
 
   const visibleGames = games.slice(startIndex, endIndex);
 
-  return (
+  return ( 
     <section className="gameSection">
       <h2>{title}</h2>
       <div className="gameCarousel">
