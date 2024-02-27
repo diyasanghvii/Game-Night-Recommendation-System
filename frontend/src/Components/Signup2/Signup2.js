@@ -25,25 +25,63 @@ const Signup2 = ({ email, stepTwoDone }) => {
   };
 
   const handleSignup = () => {
-    if (!steamId || !discordUserName|| !DiscordChannelName || !DiscordServerName) {
-      if (!steamId && discordUserName && DiscordChannelName && DiscordServerName) {
+    if (
+      !steamId ||
+      !discordUserName ||
+      !DiscordChannelName ||
+      !DiscordServerName
+    ) {
+      if (
+        !steamId &&
+        discordUserName &&
+        DiscordChannelName &&
+        DiscordServerName
+      ) {
         setError("Please enter Steam ID.");
-      } else if (steamId && !discordUserName && DiscordChannelName && DiscordServerName) {
+      } else if (
+        steamId &&
+        !discordUserName &&
+        DiscordChannelName &&
+        DiscordServerName
+      ) {
         setError("Please enter Discord Username.");
-      }else if (steamId && discordUserName && !DiscordChannelName && DiscordServerName) {
+      } else if (
+        steamId &&
+        discordUserName &&
+        !DiscordChannelName &&
+        DiscordServerName
+      ) {
         setError("Please enter Discord Channel Name.");
-      }else if (steamId && discordUserName && DiscordChannelName && !DiscordServerName) {
+      } else if (
+        steamId &&
+        discordUserName &&
+        DiscordChannelName &&
+        !DiscordServerName
+      ) {
         setError("Please enter Discord Server Name.");
-      }  
-      else if (steamId && !discordUserName && !DiscordChannelName && DiscordServerName) {
+      } else if (
+        steamId &&
+        !discordUserName &&
+        !DiscordChannelName &&
+        DiscordServerName
+      ) {
         setError("Please enter Discord Username and Discord Channel Name.");
-      }else if (steamId && discordUserName && !DiscordChannelName && !DiscordServerName) {
+      } else if (
+        steamId &&
+        discordUserName &&
+        !DiscordChannelName &&
+        !DiscordServerName
+      ) {
         setError("Please enter Discord Channel Name and Discord Server Name.");
-      }else if (!steamId && !discordUserName && DiscordChannelName && DiscordServerName) {
+      } else if (
+        !steamId &&
+        !discordUserName &&
+        DiscordChannelName &&
+        DiscordServerName
+      ) {
         setError("Please enter Steam ID and Discord Username.");
-      } 
-      else {
-        setError("Please enter all below information.");
+      } else {
+        setError("Please enter all the information to continue.");
       }
       return;
     }
@@ -51,8 +89,8 @@ const Signup2 = ({ email, stepTwoDone }) => {
       email: email,
       steamId: steamId,
       discordUserName: discordUserName,
-      DiscordChannelName:DiscordChannelName,
-      DiscordServerName:DiscordServerName,
+      discordChannelName: DiscordChannelName,
+      discordServerName: DiscordServerName,
     };
 
     SignUpTwo(data)
@@ -126,20 +164,19 @@ const Signup2 = ({ email, stepTwoDone }) => {
         style={{ width: "80%" }} // Fixed width for textbox
       />
 
-<div style={{ display: "flex", flexDirection: "column" }}>
-  <TextBox
-    label="Discord Channel Name"
-    value={DiscordChannelName}
-    fullWidth={true}
-    onChange={(e) => setDiscordChannelName(e.target.value)}
-    style={{ width: "80%", marginBottom: "10px" }} // Fixed width for textbox
-  />
-  <span style={{ fontSize: "14px", color: "#777" }}>
-    (Game recommendations will be sent to this channel)
-  </span>
-</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <TextBox
+          label="Discord Channel Name"
+          value={DiscordChannelName}
+          fullWidth={true}
+          onChange={(e) => setDiscordChannelName(e.target.value)}
+          style={{ width: "80%", marginBottom: "10px" }} // Fixed width for textbox
+        />
+        <span style={{ fontSize: "14px", color: "#777", marginBottom: "10px" }}>
+          (Game recommendations will be sent to this channel)
+        </span>
+      </div>
 
-      
       <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
     </Container>
   );

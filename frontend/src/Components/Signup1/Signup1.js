@@ -42,7 +42,7 @@ const SignUp1 = ({ stepOneDone }) => {
       <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
 
       <TextBox
-        label="Username"
+        label="Name"
         value={username}
         fullWidth={true}
         onChange={(e) => setUsername(e.target.value)}

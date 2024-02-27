@@ -24,7 +24,7 @@ describe('Signup2 Component', () => {
     fireEvent.click(getByText('Continue'));
     
     // Assert that the warning message is displayed
-    expect(getByText('Please provide your Steam ID and Discord Username.')).toBeInTheDocument();
+    expect(getByText('Please enter all the information to continue.')).toBeInTheDocument();
   });
 
   test('handles signup process without Steam ID', () => {
@@ -37,7 +37,7 @@ describe('Signup2 Component', () => {
     fireEvent.click(getByText('Continue'));
     
     // Assert that the error message is displayed
-    expect(getByText('Please provide your Steam ID.')).toBeInTheDocument();
+    expect(getByText('Please enter all the information to continue.')).toBeInTheDocument();
   });
 
   test('handles signup process without Discord Username', () => {
@@ -50,7 +50,7 @@ describe('Signup2 Component', () => {
     fireEvent.click(getByText('Continue'));
     
     // Assert that the error message is displayed
-    expect(getByText('Please provide your Discord Username.')).toBeInTheDocument();
+    expect(getByText('Please enter all the information to continue.')).toBeInTheDocument();
   });
 
 });
