@@ -5,7 +5,7 @@ import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter
 import GameSection from "../Components/GameSection/GameSection";
 import Btn from "../Components/Button/Btn";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
-import { profileCheck } from "../Services";
+import { UpdateUserGenre, profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 import rawgService from "../Services/rawgService";
 
@@ -86,7 +86,12 @@ class EditPreferences extends Component {
   };
 
   handleGenreSelection = (selectedGenres) => {
-    this.setState({ genres: selectedGenres, isPopupOpen: false });
+    UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
+      if (res && res.data && res.data.preferredGenres) {
+        localStorage.setItem("userGenre", res.data.preferredGenres);
+        this.setState({ genres: res.data.preferredGenres, isPopupOpen: false });
+      }
+    });
   };
 
   render() {
@@ -100,6 +105,7 @@ class EditPreferences extends Component {
       yourGamesSearchTerm,
     } = this.state;
     const userName = localStorage.getItem("userName");
+    const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
       <div>
         <MenuHeader />
@@ -114,7 +120,7 @@ class EditPreferences extends Component {
           <h2>Welcome, {userName}!</h2>
           {this.state.isPopupOpen && (
             <PopupGenre
-              genres={genres}
+              genres={userGenre}
               onClose={this.handleClosePopup}
               onSelection={this.handleGenreSelection}
             />
@@ -129,11 +135,10 @@ class EditPreferences extends Component {
           <div>
             <GameSectionGenre
               title="Preferred Genres"
-              games={yourGames}
               onEditGenre={this.handleEditGenre}
-              genres={genres}
+              genres={userGenre}
             />
-           
+
             <div>
               <input
                 type="text"
