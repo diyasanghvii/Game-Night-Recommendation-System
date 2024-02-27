@@ -13,7 +13,8 @@ describe('Signup2 Component', () => {
     // Assert that all input fields are present
     expect(getByLabelText('Steam ID')).toBeInTheDocument();
     expect(getByLabelText('Discord Username')).toBeInTheDocument();
-    expect(getByLabelText('Discord Webhook URL')).toBeInTheDocument();
+    expect(getByLabelText('Discord Server Name')).toBeInTheDocument();
+    expect(getByLabelText('Discord Channel Name')).toBeInTheDocument();
   });
 
   test('handles signup process without Steam ID and Discord Username', () => {

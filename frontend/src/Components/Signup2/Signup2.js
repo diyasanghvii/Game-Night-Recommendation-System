@@ -9,7 +9,8 @@ import { SignUpTwo } from "../../Services";
 const Signup2 = ({ email, stepTwoDone }) => {
   const [steamId, setSteamId] = useState("");
   const [discordUserName, setdiscordUserName] = useState("");
-  const [webhookUrl, setWebhookUrl] = useState("");
+  const [DiscordServerName, setDiscordServerName] = useState("");
+  const [DiscordChannelName, setDiscordChannelName] = useState("");
   const [steamIdVerified, setSteamIdVerified] = useState(false);
   const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
@@ -42,7 +43,8 @@ const Signup2 = ({ email, stepTwoDone }) => {
       email: email,
       steamId: steamId,
       discordUserName: discordUserName,
-      webhookUrl: webhookUrl,
+      DiscordChannelName:DiscordChannelName,
+      DiscordServerName:DiscordServerName,
     };
 
     SignUpTwo(data)
@@ -109,13 +111,27 @@ const Signup2 = ({ email, stepTwoDone }) => {
       </div>
 
       <TextBox
-        label="Discord Webhook URL"
-        value={webhookUrl}
+        label="Discord Server Name"
+        value={DiscordServerName}
         fullWidth={true}
-        onChange={(e) => setWebhookUrl(e.target.value)}
+        onChange={(e) => setDiscordServerName(e.target.value)}
         style={{ width: "80%" }} // Fixed width for textbox
       />
 
+<div style={{ display: "flex", flexDirection: "column" }}>
+  <TextBox
+    label="Discord Channel Name"
+    value={DiscordChannelName}
+    fullWidth={true}
+    onChange={(e) => setDiscordChannelName(e.target.value)}
+    style={{ width: "80%", marginBottom: "10px" }} // Fixed width for textbox
+  />
+  <span style={{ fontSize: "14px", color: "#777" }}>
+    (Game recommendations will be sent to this channel)
+  </span>
+</div>
+
+      
       <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
     </Container>
   );
