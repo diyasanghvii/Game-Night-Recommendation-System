@@ -33,6 +33,7 @@ class Dashboard extends Component {
       .then((response) => {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
+          localStorage.setItem("userGenre", response.data?.preferredGenres);
           this.fetchSteamData(response);
         }
       })

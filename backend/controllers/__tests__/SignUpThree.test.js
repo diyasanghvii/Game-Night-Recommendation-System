@@ -6,12 +6,12 @@ const mongoose = require("mongoose");
 describe("Sign up step two update API testing", () => {
   const paramBody = {
     name: "SER test case admin",
-    email: "sertestcase12@test.com",
+    email: "signupTotest@test.com",
     password: "123123",
   };
 
   const updateData = {
-    email: "sertestcase12@test.com",
+    email: "signupTotest@test.com",
     preferredGenres: ["Action", "Sports", "Adventure"],
     preferences: [
       {

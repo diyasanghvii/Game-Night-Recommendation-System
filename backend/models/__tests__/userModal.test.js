@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 describe("Testing User Modal Schema", () => {
   const paramBody = {
     name: "User Modal Name",
-    email: "user@test.com",
+    email: "userModalTest@test.com",
     password: "123@123",
     steamId: "steam@123",
     discordId: "discordId@123",

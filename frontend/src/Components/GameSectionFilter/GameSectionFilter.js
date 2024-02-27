@@ -16,7 +16,7 @@ function GameSectionFilter({ title, games, handleClick }) {
     setEndIndex((prev) => Math.max(prev - 5, 5));
   };
 
-  const visibleGames = games.slice(startIndex, endIndex);
+  const visibleGames = games?.slice(startIndex, endIndex) || [];
 
   return (
     <section className="gameSection">

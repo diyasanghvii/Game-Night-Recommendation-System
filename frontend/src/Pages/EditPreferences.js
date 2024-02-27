@@ -3,7 +3,10 @@ import steamService from "../Services/steamService";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
-import { profileCheck } from "../Services";
+import Btn from "../Components/Button/Btn";
+import PopupGenre from "../Components/PopupGenre/PopupGenre";
+import { UpdateUserGenre, profileCheck } from "../Services";
+import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 import rawgService from "../Services/rawgService";
 
 class EditPreferences extends Component {
@@ -13,6 +16,8 @@ class EditPreferences extends Component {
       backendResponse: "",
       isLoading: false,
       error: null,
+      genres: [],
+      isPopupOpen: false,
       allGames: [],
       yourGames: [],
       allYourGames: [],
@@ -41,6 +46,14 @@ class EditPreferences extends Component {
         });
       })
       .catch((error) => this.setState({ error, isLoading: false }));
+  };
+
+  handleEditGenre = () => {
+    this.setState({ isPopupOpen: true });
+  };
+
+  handleClosePopup = () => {
+    this.setState({ isPopupOpen: false });
   };
 
   handleAllGamesSearchChange = async (e) => {
@@ -72,16 +85,27 @@ class EditPreferences extends Component {
     });
   };
 
+  handleGenreSelection = (selectedGenres) => {
+    UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
+      if (res && res.data && res.data.preferredGenres) {
+        localStorage.setItem("userGenre", res.data.preferredGenres);
+        this.setState({ genres: res.data.preferredGenres, isPopupOpen: false });
+      }
+    });
+  };
+
   render() {
     const {
       isLoading,
       error,
+      genres,
       allGames,
       yourGames,
       allGamesSearchTerm,
       yourGamesSearchTerm,
     } = this.state;
     const userName = localStorage.getItem("userName");
+    const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
       <div>
         <MenuHeader />
@@ -94,6 +118,13 @@ class EditPreferences extends Component {
           }}
         >
           <h2>Welcome, {userName}!</h2>
+          {this.state.isPopupOpen && (
+            <PopupGenre
+              genres={userGenre}
+              onClose={this.handleClosePopup}
+              onSelection={this.handleGenreSelection}
+            />
+          )}
         </div>
 
         {error ? (
@@ -102,6 +133,12 @@ class EditPreferences extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
+            <GameSectionGenre
+              title="Preferred Genres"
+              onEditGenre={this.handleEditGenre}
+              genres={userGenre}
+            />
+
             <div>
               <input
                 type="text"

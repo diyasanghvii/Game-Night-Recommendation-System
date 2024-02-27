@@ -29,7 +29,7 @@ authRequest.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       sessionStorage.removeItem("authToken");
       window.location.href = "/login";
     }
@@ -119,6 +119,20 @@ export const GetUserDetails = () => {
   return new Promise((resolve, reject) => {
     authRequest
       .get("/user/getuserdetails")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Update user Genre
+export const UpdateUserGenre = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updategenre", data)
       .then((response) => {
         resolve(response);
       })
