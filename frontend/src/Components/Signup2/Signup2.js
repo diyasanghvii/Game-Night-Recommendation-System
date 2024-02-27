@@ -8,10 +8,10 @@ import { SignUpTwo } from "../../Services";
 
 const Signup2 = ({ email, stepTwoDone }) => {
   const [steamId, setSteamId] = useState("");
-  const [discordId, setDiscordId] = useState("");
+  const [discordUserName, setdiscordUserName] = useState("");
   const [webhookUrl, setWebhookUrl] = useState("");
   const [steamIdVerified, setSteamIdVerified] = useState(false);
-  const [discordIdVerified, setDiscordIdVerified] = useState(false);
+  const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
 
@@ -19,21 +19,21 @@ const Signup2 = ({ email, stepTwoDone }) => {
     setSteamIdVerified(true);
   };
 
-  const handleVerifyDiscordId = () => {
-    setDiscordIdVerified(true);
+  const handleVerifydiscordUserName = () => {
+    setdiscordUserNameVerified(true);
   };
 
   const handleSignup = () => {
-    if (!steamId || !discordId) {
-      if (!steamId && discordId) {
+    if (!steamId || !discordUserName) {
+      if (!steamId && discordUserName) {
         setError("Please provide your Steam ID.");
         return;
       }
-      if (steamId && !discordId) {
-        setError("Please provide your Discord ID.");
+      if (steamId && !discordUserName) {
+        setError("Please provide your Discord Username.");
         return;
       }
-      setWarning("Please provide your Steam ID and Discord ID.");
+      setWarning("Please provide your Steam ID and Discord Username.");
       return;
     }
 
@@ -41,7 +41,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
     const data = {
       email: email,
       steamId: steamId,
-      discordId: discordId,
+      discordUserName: discordUserName,
       webhookUrl: webhookUrl,
     };
 
@@ -92,17 +92,17 @@ const Signup2 = ({ email, stepTwoDone }) => {
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
-            label="Discord ID"
-            value={discordId}
+            label="Discord Username"
+            value={discordUserName}
             fullWidth={true}
             style={{ width: "80%" }} // Fixed width for textbox
-            onChange={(e) => setDiscordId(e.target.value)}
+            onChange={(e) => setdiscordUserName(e.target.value)}
           />
           <Btn
             label="Verify"
-            disabled={discordIdVerified}
+            disabled={discordUserNameVerified}
             style={{ width: "5%" }}
-            onClick={handleVerifyDiscordId}
+            onClick={handleVerifydiscordUserName}
           />{" "}
           {/* Adjust width percentage for button */}
         </div>

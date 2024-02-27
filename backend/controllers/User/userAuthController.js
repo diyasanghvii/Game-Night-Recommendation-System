@@ -77,7 +77,7 @@ const signUpTwo = async (req, res) => {
     if (data) {
       await data.updateOne({
         steamId: req.body.steamId,
-        discordId: req.body.discordId,
+        discordUserName: req.body.discordUserName,
         webhookUrl: req.body.webhookUrl,
       });
       res.status(200).json({
@@ -126,7 +126,7 @@ const getUserDetails = async (req, res) => {
       email: req.user.email,
       name: req.user.name,
       steamId: req.user.steamId,
-      discordId: req.user.discordId,
+      discordUserName: req.user.discordUserName,
       webhookUrl: req.user.webhookUrl,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
