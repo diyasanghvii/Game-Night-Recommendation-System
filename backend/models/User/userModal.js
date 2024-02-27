@@ -28,13 +28,9 @@ const userSchema = new Schema({
   },
   steamId: {
     type: String,
-    required: true,
-    unique: true,
   },
   discordUserName: {
     type: String,
-    required: true,
-    unique: true,
   },
   webhookUrl: {
     type: String,
