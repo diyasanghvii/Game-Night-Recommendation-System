@@ -7,6 +7,7 @@ const {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  updateGenre,
 } = require("../../controllers/User/userAuthController");
 
 const { authoriseCheck } = require("../../middleware/authMiddleware");
@@ -17,5 +18,6 @@ userRoutes.post("/signupone", signUpOne);
 userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
 userRoutes.post("/signupthree", authoriseCheck, signUpThree);
 userRoutes.get("/getuserdetails", authoriseCheck, getUserDetails);
+userRoutes.post("/updategenre", authoriseCheck, updateGenre);
 
 module.exports = userRoutes;

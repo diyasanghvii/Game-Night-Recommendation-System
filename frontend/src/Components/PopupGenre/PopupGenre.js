@@ -1,24 +1,27 @@
 import React, { Component } from "react";
 import "./PopupGenre.css";
+import { GetGenreList } from "../../Services";
 
 class PopupGenre extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedGenres: props.genres || [],
-      allGenres: [
-        "Action",
-        "Indie",
-        "Adventure",
-        "RPG",
-        "Strategy",
-        "Shooter",
-        "Casual",
-        "Simulation",
-        "Puzzle"
-      ]
+      allGenres: [],
     };
   }
+
+  componentDidMount = () => {
+    GetGenreList()
+      .then((response) => {
+        if (response && response.data && response.data.genreList) {
+          this.setState({ allGenres: response.data.genreList });
+        }
+      })
+      .catch((error) => {
+        this.setState({ allGenres: [] });
+      });
+  };
 
   handleGenreChange = (genre) => {
     const { selectedGenres } = this.state;
@@ -49,7 +52,9 @@ class PopupGenre extends Component {
     return (
       <div className="popup">
         <div className="popup-content">
-          <span className="close" onClick={onClose}>&times;</span>
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
           <h2>Select Genres</h2>
           <div>
             {allGenres.map((genre) => (
@@ -64,6 +69,9 @@ class PopupGenre extends Component {
               </label>
             ))}
           </div>
+          <div>
+            {!allGenres || (allGenres.length === 0 && <p>Loading ...</p>)}
+          </div>
           <div className="button-group">
             <button onClick={this.handleSave}>Save</button>
             <button onClick={onClose}>Cancel</button>
@@ -72,9 +80,6 @@ class PopupGenre extends Component {
       </div>
     );
   }
-  
-  
-  
 }
 
 export default PopupGenre;

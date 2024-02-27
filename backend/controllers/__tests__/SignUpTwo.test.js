@@ -6,12 +6,12 @@ const mongoose = require("mongoose");
 describe("Sign up step two update API testing", () => {
   const paramBody = {
     name: "SER test case admins",
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     password: "123123",
   };
 
   const updateData = {
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     steamId: "steamId",
     discordId: "discordId",
     webhookUrl: "webhookUrl",
