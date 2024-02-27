@@ -77,7 +77,7 @@ const signUpTwo = async (req, res) => {
     if (data) {
       await data.updateOne({
         steamId: req.body.steamId,
-        discordId: req.body.discordId,
+        discordUserName: req.body.discordUserName,
         webhookUrl: req.body.webhookUrl,
       });
       res.status(200).json({
@@ -126,12 +126,36 @@ const getUserDetails = async (req, res) => {
       email: req.user.email,
       name: req.user.name,
       steamId: req.user.steamId,
-      discordId: req.user.discordId,
+      discordUserName: req.user.discordUserName,
       webhookUrl: req.user.webhookUrl,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
       message: "User Details Fetched Sucessfully!",
     });
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Update User Genre API
+// @route POST /user/updategenre
+// @access Private
+const updateGenre = async (req, res) => {
+  try {
+    let data = await User.findOne({ email: req.user.email }).exec();
+    if (data) {
+      await data.updateOne({
+        preferredGenres: req.body.preferredGenres,
+      });
+      res.status(200).json({
+        message: "User Genre Updated!",
+        preferredGenres: req.body.preferredGenres,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exists!",
+      });
+    }
   } catch (e) {
     res.status(500).send("Error Occured, Try again!");
   }
@@ -143,4 +167,5 @@ module.exports = {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  updateGenre,
 };

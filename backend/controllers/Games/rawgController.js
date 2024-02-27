@@ -11,16 +11,14 @@ const getGameDetails = async (req, res) => {
     const url = `${BASE_URL}/games/${gameRawgId}?key=${process.env.RAWG_API_KEY}&stores=1`;
     const response = await axios.get(url);
     const data = response.data;
-    res.status(200).send( {
-                    "message": "Fetched Steam game's details from RAWG!",
-                    "game": data
-        });
+    res.status(200).send({
+      message: "Fetched Steam game's details from RAWG!",
+      game: data,
+    });
   } catch (e) {
-    console.log(e);
     res.status(500).send("Error Occurred, Try again!");
   }
 };
-
 
 // @desc Get All Games from Rawg that match the search text
 // @route GET /rawg/getAllGames
@@ -32,16 +30,15 @@ const getAllGamesBySearch = async (req, res) => {
     const response = await axios.get(url);
     const data = response.data;
     res.status(200).send({
-                    "message": "Fetched Steam game's details from RAWG!",
-                    "games": data['results']
-                });
+      message: "Fetched Steam game's details from RAWG!",
+      games: data["results"],
+    });
   } catch (e) {
-    console.log(e);
     res.status(500).send("Error Occurred, Try again!");
   }
 };
 
 module.exports = {
   getGameDetails,
-  getAllGamesBySearch
+  getAllGamesBySearch,
 };

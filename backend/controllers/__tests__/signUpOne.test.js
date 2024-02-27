@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 describe("Sign up step one page testing", () => {
   const paramBody = {
     name: "SER test case admin",
-    email: "sertestcase@test.com",
+    email: "signupOneTest@test.com",
     password: "123123",
   };
 

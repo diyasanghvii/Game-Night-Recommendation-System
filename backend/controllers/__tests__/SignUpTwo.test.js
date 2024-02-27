@@ -6,21 +6,21 @@ const mongoose = require("mongoose");
 describe("Sign up step two update API testing", () => {
   const paramBody = {
     name: "SER test case admins",
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     password: "123123",
   };
 
   const updateData = {
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     steamId: "steamId",
-    discordId: "discordId",
+    discordUserName: "discordUserName",
     webhookUrl: "webhookUrl",
   };
 
   const updateDataInvalid = {
     email: "sertestcases1@test.com",
     steamId: "steamId",
-    discordId: "discordId",
+    discordUserName: "discordUserName",
     webhookUrl: "webhookUrl",
   };
 
@@ -71,7 +71,7 @@ describe("Sign up step two update API testing", () => {
     let data = await User.findOne({ email: updateData.email }).exec();
 
     expect(data.steamId).toBe("steamId");
-    expect(data.discordId).toBe("discordId");
+    expect(data.discordUserName).toBe("discordUserName");
     expect(data.webhookUrl).toBe("webhookUrl");
   });
 

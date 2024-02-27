@@ -12,25 +12,25 @@ describe('Signup2 Component', () => {
  
     // Assert that all input fields are present
     expect(getByLabelText('Steam ID')).toBeInTheDocument();
-    expect(getByLabelText('Discord ID')).toBeInTheDocument();
+    expect(getByLabelText('Discord Username')).toBeInTheDocument();
     expect(getByLabelText('Discord Webhook URL')).toBeInTheDocument();
   });
 
-  test('handles signup process without Steam ID and Discord ID', () => {
+  test('handles signup process without Steam ID and Discord Username', () => {
     const { getByText } = render(<Signup2 />);
     
-    // Click the Continue button without providing Steam ID and Discord ID
+    // Click the Continue button without providing Steam ID and Discord Username
     fireEvent.click(getByText('Continue'));
     
     // Assert that the warning message is displayed
-    expect(getByText('Please provide your Steam ID and Discord ID.')).toBeInTheDocument();
+    expect(getByText('Please provide your Steam ID and Discord Username.')).toBeInTheDocument();
   });
 
   test('handles signup process without Steam ID', () => {
     const { getByText, getByLabelText } = render(<Signup2 />);
     
-    // Enter Discord ID
-    fireEvent.change(getByLabelText('Discord ID'), { target: { value: 'mydiscordid' } });
+    // Enter Discord Username
+    fireEvent.change(getByLabelText('Discord Username'), { target: { value: 'mydiscordUserName' } });
     
     // Click the Continue button without providing Steam ID
     fireEvent.click(getByText('Continue'));
@@ -39,17 +39,17 @@ describe('Signup2 Component', () => {
     expect(getByText('Please provide your Steam ID.')).toBeInTheDocument();
   });
 
-  test('handles signup process without Discord ID', () => {
+  test('handles signup process without Discord Username', () => {
     const { getByText, getByLabelText } = render(<Signup2 />);
     
     // Enter Steam ID
     fireEvent.change(getByLabelText('Steam ID'), { target: { value: 'mysteamid' } });
     
-    // Click the Continue button without providing Discord ID
+    // Click the Continue button without providing Discord Username
     fireEvent.click(getByText('Continue'));
     
     // Assert that the error message is displayed
-    expect(getByText('Please provide your Discord ID.')).toBeInTheDocument();
+    expect(getByText('Please provide your Discord Username.')).toBeInTheDocument();
   });
 
 });

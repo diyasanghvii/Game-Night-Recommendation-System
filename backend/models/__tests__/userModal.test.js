@@ -6,10 +6,10 @@ const mongoose = require("mongoose");
 describe("Testing User Modal Schema", () => {
   const paramBody = {
     name: "User Modal Name",
-    email: "user@test.com",
+    email: "userModalTest@test.com",
     password: "123@123",
     steamId: "steam@123",
-    discordId: "discordId@123",
+    discordUserName: "discordUserName@123",
     webhookUrl: "webhookUrlURL",
     preferredGenres: ["Action", "Sports"],
     preferences: [
@@ -30,9 +30,9 @@ describe("Testing User Modal Schema", () => {
     await mongoose.connection.close();
   });
 
-  it("discordId Should be present for the user", async () => {
+  it("discordUserName Should be present for the user", async () => {
     const user = await User.findOne({ email: paramBody.email });
-    expect(user.discordId).toBe("discordId@123");
+    expect(user.discordUserName).toBe("discordUserName@123");
   });
 
   it("steamId Should be present for the user", async () => {
