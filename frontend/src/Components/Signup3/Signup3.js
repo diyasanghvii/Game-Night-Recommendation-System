@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { SignUpThree } from "../../Services";
+import { GetGenreList, SignUpThree } from "../../Services";
 
 const Signup3 = ({ email, stepThreeDone }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -16,6 +16,19 @@ const Signup3 = ({ email, stepThreeDone }) => {
     { gameName: "Counter Strike 2", ratings: null },
     { gameName: "Warframe", ratings: null },
   ]);
+  const [genreList, setGenreList] = useState([]);
+
+  useEffect(() => {
+    GetGenreList()
+      .then((response) => {
+        if (response && response.data && response.data.genreList) {
+          setGenreList(response.data.genreList);
+        }
+      })
+      .catch((error) => {
+        setGenreList([]);
+      });
+  }, []);
 
   const handleGenreSelection = (event) => {
     setSelectedGenres(event.target.value);
@@ -85,16 +98,9 @@ const Signup3 = ({ email, stepThreeDone }) => {
           onChange={handleGenreSelection}
           fullWidth
         >
-          <MenuItem value="action">Action</MenuItem>
-          <MenuItem value="adventure">Adventure</MenuItem>
-          <MenuItem value="comedy">Comedy</MenuItem>
-          <MenuItem value="drama">Drama</MenuItem>
-          <MenuItem value="fantasy">Fantasy</MenuItem>
-          <MenuItem value="horror">Horror</MenuItem>
-          <MenuItem value="mystery">Mystery</MenuItem>
-          <MenuItem value="romance">Romance</MenuItem>
-          <MenuItem value="science_fiction">Science Fiction</MenuItem>
-          <MenuItem value="thriller">Thriller</MenuItem>
+          {genreList?.map((ele) => {
+            return <MenuItem value={ele}>{ele}</MenuItem>;
+          })}
         </Select>
       </Box>
 

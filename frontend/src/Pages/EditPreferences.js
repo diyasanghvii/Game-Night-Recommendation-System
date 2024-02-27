@@ -3,7 +3,6 @@ import steamService from "../Services/steamService";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
-import Btn from "../Components/Button/Btn";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
 import { UpdateUserGenre, profileCheck } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
@@ -95,15 +94,8 @@ class EditPreferences extends Component {
   };
 
   render() {
-    const {
-      isLoading,
-      error,
-      genres,
-      allGames,
-      yourGames,
-      allGamesSearchTerm,
-      yourGamesSearchTerm,
-    } = this.state;
+    const { allGames, yourGames, allGamesSearchTerm, yourGamesSearchTerm } =
+      this.state;
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
@@ -127,48 +119,42 @@ class EditPreferences extends Component {
           )}
         </div>
 
-        {error ? (
-          <p>Error fetching data. Please check your API key and Steam ID.</p>
-        ) : isLoading ? (
-          <p>Loading game data...</p>
-        ) : (
-          <div>
-            <GameSectionGenre
-              title="Preferred Genres"
-              onEditGenre={this.handleEditGenre}
-              genres={userGenre}
-            />
+        <div>
+          <GameSectionGenre
+            title="Preferred Genres"
+            onEditGenre={this.handleEditGenre}
+            genres={userGenre}
+          />
 
-            <div>
-              <input
-                type="text"
-                placeholder="Search all games..."
-                value={allGamesSearchTerm}
-                onChange={this.handleAllGamesSearchChange}
-              />
-              <GameSectionFilter
-                title="All games"
-                games={allGames}
-                searchTerm={allGamesSearchTerm}
-                onSearchChange={this.handleAllGamesSearchChange}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Search your games..."
-                value={yourGamesSearchTerm}
-                onChange={this.handleYourGamesSearchChange}
-              />
-              <GameSection
-                title="Your games"
-                games={yourGames}
-                searchTerm={yourGamesSearchTerm}
-                onSearchChange={this.handleYourGamesSearchChange}
-              />
-            </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search all games..."
+              value={allGamesSearchTerm}
+              onChange={this.handleAllGamesSearchChange}
+            />
+            <GameSectionFilter
+              title="All games"
+              games={allGames}
+              searchTerm={allGamesSearchTerm}
+              onSearchChange={this.handleAllGamesSearchChange}
+            />
           </div>
-        )}
+          <div>
+            <input
+              type="text"
+              placeholder="Search your games..."
+              value={yourGamesSearchTerm}
+              onChange={this.handleYourGamesSearchChange}
+            />
+            <GameSection
+              title="Your games"
+              games={yourGames}
+              searchTerm={yourGamesSearchTerm}
+              onSearchChange={this.handleYourGamesSearchChange}
+            />
+          </div>
+        </div>
       </div>
     );
   }
