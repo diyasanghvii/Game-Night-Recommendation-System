@@ -30,7 +30,8 @@ const MenuHeader = () => {
   const handleClick = (label) => {
     switch (label) {
       case "Sign Out":
-        sessionStorage.removeItem("authToken");
+        sessionStorage.clear();
+        localStorage.clear();
         navigate("/login");
         break;
       case "Dashboard":

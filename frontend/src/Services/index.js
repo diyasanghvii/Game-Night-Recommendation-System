@@ -141,3 +141,17 @@ export const UpdateUserGenre = (data) => {
       });
   });
 };
+
+// Get Genre List
+export const GetGenreList = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/game/getgenre")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
