@@ -35,7 +35,6 @@ const SignUp1 = ({ stepOneDone }) => {
         alert(error?.response?.data?.message);
       });
   };
-  
 
   return (
     <Container maxWidth="sm">
