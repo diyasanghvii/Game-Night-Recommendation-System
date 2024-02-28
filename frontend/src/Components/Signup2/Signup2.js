@@ -156,13 +156,18 @@ const Signup2 = ({ email, stepTwoDone }) => {
         </div>
       </div>
 
+      <div style={{ display: "flex", flexDirection: "column" }}>
       <TextBox
         label="Discord Server Name"
         value={DiscordServerName}
         fullWidth={true}
         onChange={(e) => setDiscordServerName(e.target.value)}
-        style={{ width: "80%" }} // Fixed width for textbox
+        style={{ width: "80%" , marginBottom: "10px"}} // Fixed width for textbox
       />
+      <span style={{ fontSize: "14px", color: "#1976d2", marginBottom: "10px" }}>
+          (Player pool for recommending games will be members of this server.)
+        </span>
+      </div>
 
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextBox
@@ -172,8 +177,8 @@ const Signup2 = ({ email, stepTwoDone }) => {
           onChange={(e) => setDiscordChannelName(e.target.value)}
           style={{ width: "80%", marginBottom: "10px" }} // Fixed width for textbox
         />
-        <span style={{ fontSize: "14px", color: "#777", marginBottom: "10px" }}>
-          (Game recommendations will be sent to this channel)
+        <span style={{ fontSize: "14px", color: "#1976d2", marginBottom: "10px" }}>
+          (Game recommendations will be sent to this channel. Must be a voice channel.)
         </span>
       </div>
 

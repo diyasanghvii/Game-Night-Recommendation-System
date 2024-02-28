@@ -2,7 +2,7 @@ const axios = require("axios");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 // @desc Fetch user presence from discord server
-// @route POST /discord/fetchpresence
+// @route GET /discord/fetchpresence
 // @access Private
 const fetchPresence = async (req, res) => {
   const client = new Client({
@@ -68,6 +68,56 @@ const fetchPresence = async (req, res) => {
   }
 };
 
+// @desc Fetch voice channel names from a Discord server
+// @route POST /discord/fetchvoicechannels
+// @access Private
+const fetchVoiceChannels = async (req, res) => {
+  const { serverName } = req.query; // Assuming serverName is provided in the request body
+  if (!serverName) {
+    return res.status(400).json({ message: "Server name is required." });
+  }
+
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildPresences,
+    ],
+  });
+
+  try {
+    client.login(process.env.BOT_TOKEN);
+
+    client.once("ready", async () => {
+      const guild = client.guilds.cache.find(
+        (guild) => guild.name === serverName
+      );
+
+      if (!guild) {
+        return res.status(404).json({ message: "Server not found." });
+      }
+
+      let channels = await guild.channels.fetch();
+
+      const voiceChannels = channels.filter(
+        (channel) => channel.type === 2
+      );
+      const voiceChannelNames = voiceChannels.map((channel) => channel.name);
+
+      res.status(200).json({
+        message: "Successfully fetched voice channels!",
+        voiceChannels: voiceChannelNames,
+      });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Error occurred, try again." });
+  }
+};
+
 module.exports = {
   fetchPresence,
+  fetchVoiceChannels,
 };

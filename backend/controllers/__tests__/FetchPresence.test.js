@@ -29,7 +29,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and success message after fetching discord presence", async () => {
     const response = await request(app)
-      .post("/discord/fetchpresence")
+      .get("/discord/fetchpresence")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -41,7 +41,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and memberStatus should be array", async () => {
     const response = await request(app)
-      .post("/discord/fetchpresence")
+      .get("/discord/fetchpresence")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -51,7 +51,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and success message after fetching presence mamber list greater than one", async () => {
     const response = await request(app)
-      .post("/discord/fetchpresence")
+      .get("/discord/fetchpresence")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -62,7 +62,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .post("/discord/fetchpresence")
+      .get("/discord/fetchpresence")
       .send()
       .expect(401);
 
