@@ -161,6 +161,56 @@ const updateGenre = async (req, res) => {
   }
 };
 
+// @desc Get User's ratings
+// @route GET /user/getpreferences
+// @access Private
+const getUserRatings = async (req, res) => {
+  try {
+    res.status(200).json({
+      email: req.user.email,
+      preferences: req.user.preferences,
+      message: "User Preferences Fetched Sucessfully!",
+    });
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Update User Rating API
+// @route POST /user/updaterating
+// @access Private
+const updateRating = async (req, res) => {
+  try {
+    const email = req.user.email;
+    const newPreference = req.body.preference;
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      const existingPreferenceIndex = user.preferences.findIndex(preference => 
+        preference.gameSteamId === newPreference.gameSteamId || preference.gameName === newPreference.gameName
+      );
+      
+      if (existingPreferenceIndex !== -1) {
+        // update existing rating
+        user.preferences[existingPreferenceIndex].ratings = newPreference.ratings;
+      } else {
+        // add new rating
+        user.preferences.push(newPreference);
+      }
+      await user.save();
+      res.status(200).json({
+        message: "User Preferences Updated!",
+        preferences: user.preferences,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
@@ -168,4 +218,6 @@ module.exports = {
   signUpThree,
   getUserDetails,
   updateGenre,
+  getUserRatings,
+  updateRating,
 };
