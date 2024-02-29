@@ -185,13 +185,16 @@ const updateRating = async (req, res) => {
     const newPreference = req.body.preference;
     let user = await User.findOne({ email }).exec();
     if (user) {
-      const existingPreferenceIndex = user.preferences.findIndex(preference => 
-        preference.gameSteamId === newPreference.gameSteamId || preference.gameName === newPreference.gameName
+      const existingPreferenceIndex = user.preferences.findIndex(
+        (preference) =>
+          preference.gameSteamId === newPreference.gameSteamId ||
+          preference.gameName === newPreference.gameName ||
+          preference.gameRawgId === newPreference.gameRawgId
       );
-      
+
       if (existingPreferenceIndex !== -1) {
         // update existing rating
-        user.preferences[existingPreferenceIndex].ratings = newPreference.ratings;
+        user.preferences[existingPreferenceIndex] = newPreference;
       } else {
         // add new rating
         user.preferences.push(newPreference);

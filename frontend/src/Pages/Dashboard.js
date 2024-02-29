@@ -13,6 +13,7 @@ class Dashboard extends Component {
     this.state = {
       backendResponse: "",
       games: [],
+      ratings: [],
       isLoading: false,
       error: null,
     };
@@ -32,6 +33,7 @@ class Dashboard extends Component {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
+          this.setState({ ratings: response.data.preferences });
           this.fetchSteamData(response);
         }
       })
@@ -49,10 +51,14 @@ class Dashboard extends Component {
       .catch((error) => this.setState({ error, isLoading: false }));
   };
 
+  updateRatings = (newRatings) => {
+    this.setState({ ratings: newRatings });
+  };
+
   componentDidUpdate() {}
 
   render() {
-    const { games, isLoading, error } = this.state;
+    const { games, ratings, isLoading, error } = this.state;
     const userName = localStorage.getItem("userName");
     return (
       <div>
@@ -77,7 +83,12 @@ class Dashboard extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSection title="Your games" games={games} />
+            <GameSection
+              title="Your games"
+              games={games}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
+            />
           </div>
         )}
       </div>

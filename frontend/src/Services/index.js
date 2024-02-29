@@ -155,3 +155,31 @@ export const GetGenreList = () => {
       });
   });
 };
+
+// Get user ratings
+export const GetUserRatings = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getpreferences", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Update user rating
+export const UpdateUserRating = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updaterating", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
