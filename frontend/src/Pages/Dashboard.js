@@ -34,6 +34,8 @@ class Dashboard extends Component {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
+          localStorage.setItem("discordUserName", response.data?.discordUserName);
+
           this.fetchSteamData(response);
         }
       })
