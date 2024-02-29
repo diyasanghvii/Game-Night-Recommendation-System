@@ -9,8 +9,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Divider from "@mui/material/Divider";
 
-export default function CheckboxList() {
-  const [checked, setChecked] = React.useState([0]);
+export default function CheckboxList({ items }) {
+  const [checked, setChecked] = React.useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -27,21 +27,21 @@ export default function CheckboxList() {
 
   return (
     <List sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: 'auto'}}>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
+      {items.map((item, index) => {
+        const labelId = `checkbox-list-label-${index}`;
 
         return (
           <>
-            <ListItem key={value} disablePadding>
+            <ListItem key={index} disablePadding>
               <ListItemButton
                 role={undefined}
-                onClick={handleToggle(value)}
+                onClick={handleToggle(index)}
                 dense
               >
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={checked.indexOf(value) !== -1}
+                    checked={checked.indexOf(index) !== -1}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -50,7 +50,7 @@ export default function CheckboxList() {
                 <ListItemAvatar>
                   <AccountCircleIcon fontSize="large" />
                 </ListItemAvatar>
-                <ListItemText disableTypography id={labelId} sx={{ fontSize: "18px"}} primary={`User ${value + 1}`} />
+                <ListItemText disableTypography id={labelId} sx={{ fontSize: "18px"}} primary={item.name} />
                 <ListItemText
                   disableTypography
                   sx={{ fontSize: "14px", marginLeft: 5 }}
@@ -58,7 +58,7 @@ export default function CheckboxList() {
                   fontWeight="bold"
                   edge="end"
                   id={labelId}
-                  primary={`Discord user name ${value + 1}`}
+                  primary={item.username}
                 />
               </ListItemButton>
             </ListItem>

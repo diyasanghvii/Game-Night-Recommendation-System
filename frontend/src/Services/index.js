@@ -155,3 +155,46 @@ export const GetGenreList = () => {
       });
   });
 };
+
+// Get Server List
+export const GetServerList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Channel List
+export const GetChannelList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchvoicechannels?serverName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Presence of Members
+export const GetPresence = (data) => {
+  console.log(data);
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
