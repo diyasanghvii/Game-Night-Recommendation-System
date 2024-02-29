@@ -25,74 +25,27 @@ const Signup2 = ({ email, stepTwoDone }) => {
   };
 
   const handleSignup = () => {
-    if (
-      !steamId ||
-      !discordUserName ||
-      !DiscordChannelName ||
-      !DiscordServerName
-    ) {
-      if (
-        !steamId &&
-        discordUserName &&
-        DiscordChannelName &&
-        DiscordServerName
-      ) {
-        setError("Please enter Steam ID.");
-      } else if (
-        steamId &&
-        !discordUserName &&
-        DiscordChannelName &&
-        DiscordServerName
-      ) {
-        setError("Please enter Discord Username.");
-      } else if (
-        steamId &&
-        discordUserName &&
-        !DiscordChannelName &&
-        DiscordServerName
-      ) {
-        setError("Please enter Discord Channel Name.");
-      } else if (
-        steamId &&
-        discordUserName &&
-        DiscordChannelName &&
-        !DiscordServerName
-      ) {
-        setError("Please enter Discord Server Name.");
-      } else if (
-        steamId &&
-        !discordUserName &&
-        !DiscordChannelName &&
-        DiscordServerName
-      ) {
-        setError("Please enter Discord Username and Discord Channel Name.");
-      } else if (
-        steamId &&
-        discordUserName &&
-        !DiscordChannelName &&
-        !DiscordServerName
-      ) {
-        setError("Please enter Discord Channel Name and Discord Server Name.");
-      } else if (
-        !steamId &&
-        !discordUserName &&
-        DiscordChannelName &&
-        DiscordServerName
-      ) {
-        setError("Please enter Steam ID and Discord Username.");
-      } else {
-        setError("Please enter all the information to continue.");
+    if (!steamId || !discordUserName) {
+      if (!steamId && discordUserName) {
+        setError("Please provide your Steam ID.");
+        return; 
       }
+      if (steamId && !discordUserName) {
+        setError("Please provide your Discord Username.");
+        return;
+      }
+      setWarning("Please provide your Steam ID and Discord Username.");
       return;
     }
+    console.log("Steam ID:", steamId);
+    console.log("Discord Username:", discordUserName);
+  
     const data = {
       email: email,
       steamId: steamId,
       discordUserName: discordUserName,
-      discordChannelName: DiscordChannelName,
-      discordServerName: DiscordServerName,
     };
-
+  
     SignUpTwo(data)
       .then((response) => {
         if (response && response.data) {
@@ -103,6 +56,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
         alert(error?.response?.data?.message);
       });
   };
+  
 
   return (
     <Container maxWidth="sm">
@@ -155,36 +109,9 @@ const Signup2 = ({ email, stepTwoDone }) => {
           {/* Adjust width percentage for button */}
         </div>
       </div>
-
-      <div style={{ display: "flex", flexDirection: "column" }}>
-      <TextBox
-        label="Discord Server Name"
-        value={DiscordServerName}
-        fullWidth={true}
-        onChange={(e) => setDiscordServerName(e.target.value)}
-        style={{ width: "80%" , marginBottom: "10px"}} // Fixed width for textbox
-      />
-      <span style={{ fontSize: "14px", color: "#1976d2", marginBottom: "10px" }}>
-          (Player pool for recommending games will be members of this server.)
-        </span>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <TextBox
-          label="Discord Channel Name"
-          value={DiscordChannelName}
-          fullWidth={true}
-          onChange={(e) => setDiscordChannelName(e.target.value)}
-          style={{ width: "80%", marginBottom: "10px" }} // Fixed width for textbox
-        />
-        <span style={{ fontSize: "14px", color: "#1976d2", marginBottom: "10px" }}>
-          (Game recommendations will be sent to this channel. Must be a voice channel.)
-        </span>
-      </div>
-
-      <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
+ <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
     </Container>
   );
-};
 
+      }
 export default Signup2;
