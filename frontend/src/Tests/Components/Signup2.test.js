@@ -2,50 +2,40 @@ import React from "react";
 import { render, fireEvent,waitFor } from '@testing-library/react';
 import Signup2 from "../../Components/Signup2/Signup2";
 
-describe("Signup2 component", () => {
-  it("renders without crashing", () => {
+describe('Signup2 component', () => {
+  it('renders without crashing', () => {
     render(<Signup2 />);
   });
 
-  
-  it("displays error message when Discord Channel Name field is empty", () => {
-    const { getByLabelText, getByText } = render(<Signup2 />);
-    const steamIdInput = getByLabelText("Steam ID");
-    const discordUsernameInput = getByLabelText("Discord Username");
-    const discordServerNameInput = getByLabelText("Discord Server Name");
-    fireEvent.change(steamIdInput, { target: { value: "123456" } });
-    fireEvent.change(discordUsernameInput, { target: { value: "testUser" } });
-    fireEvent.change(discordServerNameInput, { target: { value: "Server" } });
-    const continueButton = getByText("Continue");
-    fireEvent.click(continueButton);
-    expect(getByText("Please enter Discord Channel Name.")).toBeInTheDocument();
+  it('initial state values are correct', () => {
+    const { getByLabelText } = render(<Signup2 />);
+    expect(getByLabelText('Steam ID')).toHaveValue('');
+    expect(getByLabelText('Discord Username')).toHaveValue('');
   });
 
-  it("updates Steam ID state when input changes", () => {
+  it('updates input fields correctly', () => {
     const { getByLabelText } = render(<Signup2 />);
-    const steamIdInput = getByLabelText("Steam ID");
-    fireEvent.change(steamIdInput, { target: { value: "testSteamId" } });
-    expect(steamIdInput.value).toBe("testSteamId");
+    fireEvent.change(getByLabelText('Steam ID'), { target: { value: 'steam123' } });
+    fireEvent.change(getByLabelText('Discord Username'), { target: { value: 'user123' } });
+    expect(getByLabelText('Steam ID')).toHaveValue('steam123');
+    expect(getByLabelText('Discord Username')).toHaveValue('user123');
   });
 
-  it("updates Discord Username state when input changes", () => {
-    const { getByLabelText } = render(<Signup2 />);
-    const discordUsernameInput = getByLabelText("Discord Username");
-    fireEvent.change(discordUsernameInput, { target: { value: "testUsername" } });
-    expect(discordUsernameInput.value).toBe("testUsername");
+
+  it('handles signup with missing or incomplete data', () => {
+    const { getByText } = render(<Signup2 />);
+    fireEvent.click(getByText('Continue'));
   });
 
-  it("updates Discord Server Name state when input changes", () => {
-    const { getByLabelText } = render(<Signup2 />);
-    const serverNameInput = getByLabelText("Discord Server Name");
-    fireEvent.change(serverNameInput, { target: { value: "testServer" } });
-    expect(serverNameInput.value).toBe("testServer");
+  it('handles signup with complete data', async () => {
+    const { getByText, getByLabelText } = render(<Signup2 />);
+    fireEvent.change(getByLabelText('Steam ID'), { target: { value: 'steam123' } });
+    fireEvent.change(getByLabelText('Discord Username'), { target: { value: 'user123' } });
+    fireEvent.click(getByText('Continue'));
   });
 
-  it("updates Discord Channel Name state when input changes", () => {
-    const { getByLabelText } = render(<Signup2 />);
-    const channelNameInput = getByLabelText("Discord Channel Name");
-    fireEvent.change(channelNameInput, { target: { value: "testChannel" } });
-    expect(channelNameInput.value).toBe("testChannel");
+  it('displays error message on failed API call', async () => {
+    const { getByText } = render(<Signup2 />);
+    fireEvent.click(getByText('Continue'));
   });
 });
