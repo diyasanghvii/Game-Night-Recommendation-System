@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const preferenceSchema = new Schema({
+  gameSteamId: Number,
+  gameRawgId: Number,
   gameName: String,
   ratings: Number,
+  interest: Number,
 });
 
 const userSchema = new Schema({

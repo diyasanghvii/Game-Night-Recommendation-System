@@ -8,6 +8,8 @@ const {
   signUpThree,
   getUserDetails,
   updateGenre,
+  getUserRatings,
+  updateRating,
 } = require("../../controllers/User/userAuthController");
 
 const { authoriseCheck } = require("../../middleware/authMiddleware");
@@ -19,5 +21,7 @@ userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
 userRoutes.post("/signupthree", authoriseCheck, signUpThree);
 userRoutes.get("/getuserdetails", authoriseCheck, getUserDetails);
 userRoutes.post("/updategenre", authoriseCheck, updateGenre);
+userRoutes.get("/getpreferences", authoriseCheck, getUserRatings);
+userRoutes.post("/updaterating", authoriseCheck, updateRating);
 
 module.exports = userRoutes;

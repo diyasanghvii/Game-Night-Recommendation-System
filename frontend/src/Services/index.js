@@ -156,11 +156,19 @@ export const GetGenreList = () => {
   });
 };
 
+
 // Get Server List
 export const GetServerList = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .get(`/discord/fetchserverlist?discordUserName=${data}`)
+
+// Get user ratings
+export const GetUserRatings = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getpreferences", data)
+
       .then((response) => {
         resolve(response);
       })
@@ -169,6 +177,7 @@ export const GetServerList = (data) => {
       });
   });
 };
+
 
 // Get Channel List
 export const GetChannelList = (data) => {
@@ -190,6 +199,13 @@ export const GetPresence = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .get(`/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}`)
+
+// Update user rating
+export const UpdateUserRating = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updaterating", data)
+
       .then((response) => {
         resolve(response);
       })

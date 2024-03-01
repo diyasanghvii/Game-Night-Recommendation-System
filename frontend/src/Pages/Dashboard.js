@@ -14,6 +14,7 @@ class Dashboard extends Component {
     this.state = {
       backendResponse: "",
       games: [],
+      ratings: [],
       isLoading: false,
       error: null,
       rcmBtnClicked: false,
@@ -34,7 +35,9 @@ class Dashboard extends Component {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
+
           localStorage.setItem("discordUserName", response.data?.discordUserName);
+          this.setState({ ratings: response.data.preferences });
 
           this.fetchSteamData(response);
         }
@@ -51,6 +54,10 @@ class Dashboard extends Component {
         this.setState({ games: response.data.steamGames, isLoading: false });
       })
       .catch((error) => this.setState({ error, isLoading: false }));
+  };
+
+  updateRatings = (newRatings) => {
+    this.setState({ ratings: newRatings });
   };
 
   componentDidUpdate() {}
@@ -85,7 +92,12 @@ class Dashboard extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSection title="Your games" games={games} />
+            <GameSection
+              title="Your games"
+              games={games}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
+            />
           </div>
         )}
       </div>
