@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import DropDown from "../Components/DropDown/DropDown.jsx";
-import { GetPresence } from "../Services/index.js"; 
+import { GetPresence, SendList } from "../Services/index.js"; 
 
 function RecommendGames() {
   const [selectedServer, setSelectedServer] = useState("");
@@ -12,44 +12,6 @@ function RecommendGames() {
     Offline: [],
     Voice: [],
   });
-
-  // Function to fetch presence data
-  const fetchPresenceData = async () => {
-    try {
-      console.log(selectedServer, selectedChannel);
-      const response = await GetPresence({selectedServer, selectedChannel});
-      const { memberStatus: presenceData } = response.data;
-      const onlineList = [];
-      const offlineList = [];
-      const voiceList = [];
-
-      // Divide the response into three lists based on presence status
-      presenceData.forEach((member) => {
-        switch (member.presence) {
-          case "online":
-            onlineList.push({ username: member.username, name: member.name });
-            break;
-          case "offline":
-            offlineList.push({ username: member.username, name: member.name });
-            break;
-          case "voice":
-            voiceList.push({ username: member.username, name: member.name });
-            break;
-          default:
-            break;
-        }
-      });
-
-      // Update state with the divided lists
-      setMemberStatus({
-        Online: onlineList,
-        Offline: offlineList,
-        Voice: voiceList,
-      });
-    } catch (error) {
-      console.error("Error fetching presence data:", error);
-    }
-  };
 
   // Handle server change
   const handleServerChange = (data) => {
@@ -62,10 +24,46 @@ function RecommendGames() {
   };
 
   useEffect(() => {
+    // Function to fetch presence data
+    const fetchPresenceData = async () => {
+      try {
+        const response = await GetPresence({selectedServer, selectedChannel});
+        const { memberStatus: presenceData } = response.data;
+        const onlineList = [];
+        const offlineList = [];
+        const voiceList = [];
+
+        // Divide the response into three lists based on presence status
+        presenceData.forEach((member) => {
+          switch (member.presence) {
+            case "online":
+              onlineList.push({ username: member.username, name: member.name });
+              break;
+            case "offline":
+              offlineList.push({ username: member.username, name: member.name });
+              break;
+            case "voice":
+              voiceList.push({ username: member.username, name: member.name });
+              break;
+            default:
+              break;
+          }
+        });
+
+        // Update state with the divided lists
+        setMemberStatus({
+          Online: onlineList,
+          Offline: offlineList,
+          Voice: voiceList,
+        });
+      } catch (error) {
+        console.error("Error fetching presence data:", error);
+      }
+    };
+
     if (selectedServer && selectedChannel) {
       fetchPresenceData();
-    }
-    else if(!selectedServer || !selectedChannel){
+    } else {
       setMemberStatus({
         Online: [],
         Offline: [],
@@ -140,7 +138,7 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        <Btn label="Send Recommendation List"></Btn>
+        <Btn label="Send Recommendation List" onClick={()=>{SendList({selectedChannel,selectedServer});}}></Btn>
       </div>
     </>
   );
