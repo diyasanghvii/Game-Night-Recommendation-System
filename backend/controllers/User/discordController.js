@@ -48,7 +48,6 @@ const fetchServerList = async (req, res) => {
 // @access Private
 const fetchPresence = async (req, res) => {
   const { targetGuildName, targetChannelName } = req.query;
-  console.log("From controller",targetGuildName, targetChannelName);
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -86,7 +85,7 @@ const fetchPresence = async (req, res) => {
             username: member.user.username,
             id: member.user.id,
             presence:
-              (inVoiceChannel && presenceStatus === "online")
+              inVoiceChannel && presenceStatus === "online"
                 ? "voice"
                 : presenceStatus,
             name: name,
@@ -96,7 +95,6 @@ const fetchPresence = async (req, res) => {
 
       async function getNameFromMongoDB(username) {
         try {
-          // Assume you have a MongoDB User model
           const user = await User.findOne({ discordUserName: username });
           return user ? user.name : "";
         } catch (error) {
@@ -116,10 +114,10 @@ const fetchPresence = async (req, res) => {
 };
 
 // @desc Fetch voice channel names from a Discord server
-// @route POST /discord/fetchvoicechannels
+// @route GET /discord/fetchvoicechannels
 // @access Private
 const fetchVoiceChannels = async (req, res) => {
-  const { serverName } = req.query; // Assuming serverName is provided in the request body
+  const { serverName } = req.query;
   if (!serverName) {
     return res.status(400).json({ message: "Server name is required." });
   }
@@ -162,8 +160,52 @@ const fetchVoiceChannels = async (req, res) => {
   }
 };
 
+// @desc Send recommendation list on click of a button.
+// @route GET /discord/sendlist
+// @access Private
+const sendList = async (req, res) => {
+  const { channelName, serverName } = req.query;
+  if (!channelName) {
+    return res.status(400).json({ message: "Channel not found." });
+  }
+
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildPresences,
+    ],
+  });
+
+  try {
+    client.login(process.env.BOT_TOKEN);
+    client.once("ready", async () => {
+      const guild = client.guilds.cache.find(
+        (guild) => guild.name === serverName
+      );
+      const channel = guild.channels.cache.find(
+        (channel) => channel.name === channelName
+      );
+      console.log("From controller: ", guild, channel);
+      if (channel) {
+        channel.send("This message would display the recommendation list :)");
+      }
+
+      res.status(200).json({
+        message: "Successfully sent recommendations.",
+      });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Error occurred, try again." });
+  }
+};
+
 module.exports = {
   fetchPresence,
   fetchVoiceChannels,
   fetchServerList,
+  sendList,
 };

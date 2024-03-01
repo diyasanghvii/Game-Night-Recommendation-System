@@ -195,7 +195,6 @@ export const GetChannelList = (data) => {
 
 // Get Presence of Members
 export const GetPresence = (data) => {
-  console.log(data);
   return new Promise((resolve, reject) => {
     authRequest
       .get(`/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}`)
@@ -206,6 +205,20 @@ export const UpdateUserRating = (data) => {
     authRequest
       .post("/user/updaterating", data)
 
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Send Recommendation List to discord channel
+export const SendList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/sendlist?serverName=${data.selectedServer}&channelName=${data.selectedChannel}`)
       .then((response) => {
         resolve(response);
       })
