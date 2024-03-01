@@ -4,7 +4,7 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
-import { UpdateUserGenre, profileCheck } from "../Services";
+import { UpdateUserGenre, profileCheck, GetUserRatings } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 import rawgService from "../Services/rawgService";
 
@@ -16,6 +16,7 @@ class EditPreferences extends Component {
       isLoading: false,
       error: null,
       genres: [],
+      ratings: [],
       isPopupOpen: false,
       allGames: [],
       yourGames: [],
@@ -31,6 +32,7 @@ class EditPreferences extends Component {
     this.setState({ isLoading: true }, () => {
       this.fetchSteamData();
       this.handleAllGamesSearchChange();
+      this.fetchUserRatings();
     });
   }
 
@@ -45,6 +47,21 @@ class EditPreferences extends Component {
         });
       })
       .catch((error) => this.setState({ error, isLoading: false }));
+  };
+
+  fetchUserRatings = () => {
+    GetUserRatings()
+      .then((response) => {
+        this.setState({ ratings: response.data.preferences });
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Failed to fetch user ratings");
+      });
+  };
+
+  updateRatings = (newRatings) => {
+    this.setState({ ratings: newRatings });
   };
 
   handleEditGenre = () => {
@@ -94,8 +111,13 @@ class EditPreferences extends Component {
   };
 
   render() {
-    const { allGames, yourGames, allGamesSearchTerm, yourGamesSearchTerm } =
-      this.state;
+    const {
+      allGames,
+      yourGames,
+      ratings,
+      allGamesSearchTerm,
+      yourGamesSearchTerm,
+    } = this.state;
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
@@ -151,6 +173,8 @@ class EditPreferences extends Component {
               title="Your games"
               games={yourGames}
               searchTerm={yourGamesSearchTerm}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
               onSearchChange={this.handleYourGamesSearchChange}
             />
           </div>

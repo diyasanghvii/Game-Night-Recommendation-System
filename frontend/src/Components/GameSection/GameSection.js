@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "./GameSection.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
+import Rating from "@mui/material/Rating";
+import { gameRatingMatch } from "../../Utils";
 
-function GameSection({ title, games }) {
+function GameSection({ title, games, ratings, updateRatings }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
@@ -32,8 +34,15 @@ function GameSection({ title, games }) {
         <RatingPopUp
           gameId={popupGameData.appid}
           gameName={popupGameData.name}
+          gameRating={gameRatingMatch(
+            ratings,
+            popupGameData.name,
+            popupGameData.appid,
+            null
+          )}
           onClose={() => setShowPopup(false)}
           isOwned={true}
+          updateRatings={updateRatings}
         />
       )}
       <h2>{title}</h2>
@@ -57,6 +66,18 @@ function GameSection({ title, games }) {
                   alt={game.name}
                 />
                 <h3>{game.name}</h3>
+
+                {ratings && (
+                  <Rating
+                    value={gameRatingMatch(
+                      ratings,
+                      game.name,
+                      game.appid,
+                      null
+                    )}
+                    disabled={true}
+                  />
+                )}
               </div>
             ))}
           </div>
