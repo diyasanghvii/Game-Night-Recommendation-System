@@ -36,7 +36,10 @@ class Dashboard extends Component {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
 
-          localStorage.setItem("discordUserName", response.data?.discordUserName);
+          localStorage.setItem(
+            "discordUserName",
+            response.data?.discordUserName
+          );
           this.setState({ ratings: response.data.preferences });
 
           this.fetchSteamData(response);
@@ -63,7 +66,7 @@ class Dashboard extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { games, isLoading, error, rcmBtnClicked } = this.state;
+    const { games, isLoading, error, ratings, rcmBtnClicked } = this.state;
     const userName = localStorage.getItem("userName");
     return (
       <div>

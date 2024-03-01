@@ -160,6 +160,7 @@ class EditPreferences extends Component {
               games={allGames}
               searchTerm={allGamesSearchTerm}
               onSearchChange={this.handleAllGamesSearchChange}
+              handleClick={() => {}}
             />
           </div>
           <div>
