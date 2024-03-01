@@ -36,7 +36,6 @@ export default function DropDown({ onServerChange, onChannelChange }) {
       const discordUserName = localStorage.getItem("discordUserName");
       setLoadingServers(true);
       const response = await GetServerList(discordUserName);
-      //console.log("Servers: ", response);
       setServers(response.data.serverList);
       setOpenServerDialog(true);
     } catch (error) {
