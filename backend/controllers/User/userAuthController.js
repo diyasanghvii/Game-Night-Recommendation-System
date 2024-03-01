@@ -167,7 +167,6 @@ const updateGenre = async (req, res) => {
 const getUserRatings = async (req, res) => {
   try {
     res.status(200).json({
-      email: req.user.email,
       preferences: req.user.preferences,
       message: "User Preferences Fetched Sucessfully!",
     });
@@ -187,14 +186,24 @@ const updateRating = async (req, res) => {
     if (user) {
       const existingPreferenceIndex = user.preferences.findIndex(
         (preference) =>
-          preference.gameSteamId === newPreference.gameSteamId ||
-          preference.gameName === newPreference.gameName ||
-          preference.gameRawgId === newPreference.gameRawgId
+          preference.gameName === newPreference.gameName &&
+          (preference.gameSteamId === newPreference.gameSteamId ||
+            preference.gameRawgId === newPreference.gameRawgId)
       );
 
       if (existingPreferenceIndex !== -1) {
         // update existing rating
-        user.preferences[existingPreferenceIndex] = newPreference;
+        user.preferences[existingPreferenceIndex].gameSteamId = user
+          .preferences[existingPreferenceIndex].gameSteamId
+          ? user.preferences[existingPreferenceIndex].gameSteamId
+          : newPreference.gameSteamId;
+        user.preferences[existingPreferenceIndex].gameRawgId = user.preferences[
+          existingPreferenceIndex
+        ].gameRawgId
+          ? user.preferences[existingPreferenceIndex].gameRawgId
+          : newPreference.gameRawgId;
+        user.preferences[existingPreferenceIndex].ratings =
+          newPreference.ratings;
       } else {
         // add new rating
         user.preferences.push(newPreference);
