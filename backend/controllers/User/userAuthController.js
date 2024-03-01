@@ -77,8 +77,9 @@ const signUpTwo = async (req, res) => {
     if (data) {
       await data.updateOne({
         steamId: req.body.steamId,
-        discordId: req.body.discordId,
-        webhookUrl: req.body.webhookUrl,
+        discordUserName: req.body.discordUserName,
+        discordChannelName: req.body.discordChannelName,
+        discordServerName: req.body.discordServerName
       });
       res.status(200).json({
         message: "Updated User Information Successfully",
@@ -126,8 +127,9 @@ const getUserDetails = async (req, res) => {
       email: req.user.email,
       name: req.user.name,
       steamId: req.user.steamId,
-      discordId: req.user.discordId,
-      webhookUrl: req.user.webhookUrl,
+      discordUserName: req.user.discordUserName,
+      discordServerName: req.user.discordServerName,
+      discordChannelName: req.user.discordChannelName,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
       message: "User Details Fetched Sucessfully!",

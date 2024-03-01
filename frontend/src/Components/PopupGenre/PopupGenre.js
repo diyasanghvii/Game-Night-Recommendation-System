@@ -39,12 +39,16 @@ class PopupGenre extends Component {
 
   handleSave = () => {
     const { selectedGenres } = this.state;
+    const { onClose, onSelection } = this.props;
+  
     if (selectedGenres.length >= 5) {
-      this.props.onSelection(selectedGenres);
+      onSelection(selectedGenres); 
+      onClose(); 
     } else {
       alert("Please select at least 5 genres...");
     }
   };
+  
 
   render() {
     const { selectedGenres, allGenres } = this.state;

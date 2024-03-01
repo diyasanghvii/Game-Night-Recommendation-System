@@ -66,7 +66,7 @@ const Login = () => {
         <Btn label="Sign Up" onClick={handleSignUp} />
       </Grid>
       <TextBox
-        label="Username"
+        label="Email ID"
         value={username}
         fullWidth={true}
         onChange={(e) => setUsername(e.target.value)}

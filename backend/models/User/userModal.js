@@ -32,10 +32,13 @@ const userSchema = new Schema({
   steamId: {
     type: String,
   },
-  discordId: {
+  discordUserName: {
     type: String,
   },
-  webhookUrl: {
+  discordServerName: {
+    type: String,
+  },
+  discordChannelName: {
     type: String,
   },
   preferredGenres: [{ type: String }],
