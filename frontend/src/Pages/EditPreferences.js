@@ -76,9 +76,36 @@ class EditPreferences extends Component {
     const searchTerm = e?.target?.value || "";
     this.setState({ allGamesSearchTerm: searchTerm }, async () => {
       const response = await rawgService.getAllGamesBySearch(searchTerm);
-      this.setState({
-        allGames: response.data?.games,
+      const updatedAllGames = response.data?.games.map((rawgGame) => {
+        let isOwned;
+        let gameSteamId;
+        if (this.state.yourGames) {
+          //TODO: Update search criteria since Rawg and Steam names can be different
+          const ownedMatch = this.state.yourGames.find(
+            (ownedGame) =>
+              ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
+          );
+
+          isOwned = !!ownedMatch;
+          gameSteamId = ownedMatch ? ownedMatch.appid : null;
+        } else {
+          const ownedMatch = this.state.allYourGames.find(
+            (ownedGame) =>
+              ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
+          );
+
+          isOwned = !!ownedMatch;
+          gameSteamId = ownedMatch ? ownedMatch.appid : null;
+        }
+
+        return {
+          ...rawgGame,
+          isOwned: isOwned ? 1 : 0,
+          steamId: gameSteamId,
+        };
       });
+
+      this.setState({ allGames: updatedAllGames });
     });
   };
 
@@ -160,6 +187,8 @@ class EditPreferences extends Component {
               games={allGames}
               searchTerm={allGamesSearchTerm}
               onSearchChange={this.handleAllGamesSearchChange}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
             />
           </div>
           <div>
