@@ -4,21 +4,37 @@ import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { GetGenreList, SignUpThree } from "../../Services";
+import steamService from "../../Services/steamService";
 
 const Signup3 = ({ email, stepThreeDone }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [error, setError] = useState("");
-  const [games, setGames] = useState([
-    { gameName: "Pubg", ratings: null },
-    { gameName: "The Forest", ratings: null },
-    { gameName: "Apex Legends", ratings: null },
-    { gameName: "Halo Infinite", ratings: null },
-    { gameName: "Counter Strike 2", ratings: null },
-    { gameName: "Warframe", ratings: null },
-  ]);
+  const [games, setGames] = useState([]);
   const [genreList, setGenreList] = useState([]);
 
   useEffect(() => {
+    getGenre();
+    fetchSteamData();
+  }, []);
+
+  const fetchSteamData = () => {
+    steamService
+      .getOwnedGames()
+      .then((response) => {
+        if (response && response.data && response.data.steamGames) {
+          const modifiedSteamGames = response.data.steamGames.map((ele) => ({
+            ...ele,
+            gameSteamId: ele.appid,
+          }));
+          setGames(modifiedSteamGames);
+        }
+      })
+      .catch((error) => {
+        setGames([]);
+      });
+  };
+
+  const getGenre = () => {
     GetGenreList()
       .then((response) => {
         if (response && response.data && response.data.genreList) {
@@ -28,7 +44,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
       .catch((error) => {
         setGenreList([]);
       });
-  }, []);
+  };
 
   const handleGenreSelection = (event) => {
     setSelectedGenres(event.target.value);
@@ -123,7 +139,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
               <Text
                 variant="body1"
                 gutterBottom={true}
-                label={game.gameName}
+                label={game.name}
                 style={{ marginRight: "20px" }}
               />
               <Rating
