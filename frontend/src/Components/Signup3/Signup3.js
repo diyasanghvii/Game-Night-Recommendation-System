@@ -71,11 +71,14 @@ const Signup3 = ({ email, stepThreeDone }) => {
       setError("Please rate at least 5 games.");
       return;
     }
-
+    const updatedData = games.map((game) => ({
+      ...game,
+      gameName: game.name,
+    }));
     const data = {
       email: email,
       preferredGenres: selectedGenres,
-      preferences: games,
+      preferences: updatedData,
     };
 
     SignUpThree(data)
@@ -88,7 +91,6 @@ const Signup3 = ({ email, stepThreeDone }) => {
         alert(error?.response?.data?.message);
       });
   };
-
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
