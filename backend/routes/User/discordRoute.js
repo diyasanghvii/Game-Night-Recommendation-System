@@ -9,7 +9,7 @@ const { authoriseCheck } = require("../../middleware/authMiddleware");
 discordRoutes.get("/fetchpresence", authoriseCheck, fetchPresence);
 discordRoutes.get("/fetchvoicechannels", authoriseCheck, fetchVoiceChannels);
 discordRoutes.get("/fetchserverlist", authoriseCheck, fetchServerList);
-discordRoutes.get("/sendlist", sendList);
+discordRoutes.get("/sendlist", authoriseCheck, sendList);
 
 
 module.exports = discordRoutes;

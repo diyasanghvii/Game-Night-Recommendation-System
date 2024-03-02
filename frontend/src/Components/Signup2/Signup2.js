@@ -37,8 +37,6 @@ const Signup2 = ({ email, stepTwoDone }) => {
       setWarning("Please provide your Steam ID and Discord Username.");
       return;
     }
-    console.log("Steam ID:", steamId);
-    console.log("Discord Username:", discordUserName);
   
     const data = {
       email: email,

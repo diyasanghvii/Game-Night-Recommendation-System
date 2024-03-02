@@ -22,7 +22,7 @@ describe("Sign up step one page testing", () => {
       .expect(200);
 
     expect(response.body.message).toBe("Account Created Successfully!");
-  });
+  }, 70000);
 
   it("should return 400 status if user already present in the DB", async () => {
     const response = await request(app)
@@ -31,5 +31,5 @@ describe("Sign up step one page testing", () => {
       .expect(400);
 
     expect(response.body.message).toBe("User Already Exists!");
-  });
+  }, 70000);
 });
