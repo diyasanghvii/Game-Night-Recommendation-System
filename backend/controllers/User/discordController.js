@@ -188,7 +188,6 @@ const sendList = async (req, res) => {
       const channel = guild.channels.cache.find(
         (channel) => channel.name === channelName
       );
-      console.log("From controller: ", guild, channel);
       if (channel) {
         channel.send("This message would display the recommendation list :)");
       }

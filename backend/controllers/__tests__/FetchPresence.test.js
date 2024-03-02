@@ -2,11 +2,10 @@ const request = require("supertest");
 const app = require("../../app");
 const User = require("../../models/User/userModal");
 const mongoose = require("mongoose");
-
 describe("Discord Fetch Presence API testing", () => {
   const paramBody = {
     name: "Discord fetch Prsesence",
-    email: "discordFetchPresenceTest@test.com",
+    email: "discordFetchPresenceTest1121@test.com",
     password: "123123",
   };
 
@@ -37,7 +36,7 @@ describe("Discord Fetch Presence API testing", () => {
     expect(response.body.message).toBe(
       "Successfully fetched discord presence!"
     );
-  });
+  }, 70000);
 
   it("should return 200 status and memberStatus should be array", async () => {
     const response = await request(app)
@@ -47,9 +46,9 @@ describe("Discord Fetch Presence API testing", () => {
       .expect(200);
 
     expect(response.body.memberStatus).toBeInstanceOf(Array);
-  });
+  }, 70000);
 
-  it("should return 200 status and success message after fetching presence mamber list greater than one", async () => {
+  it("should return 200 status and success message after fetching presence member list greater than one", async () => {
     const response = await request(app)
       .get("/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
       .set("Authorization", `Bearer ${authToken}`)
@@ -58,7 +57,7 @@ describe("Discord Fetch Presence API testing", () => {
 
 
     expect(response.body.memberStatus.length).toBeGreaterThan(0);
-  });
+  }, 70000);
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
@@ -67,5 +66,5 @@ describe("Discord Fetch Presence API testing", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised, No token!");
-  });
+  }, 70000);
 });

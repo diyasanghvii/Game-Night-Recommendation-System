@@ -10,8 +10,6 @@ describe("Testing User Modal Schema", () => {
     password: "123@123",
     steamId: "steam@123",
     discordUserName: "discordUserName@123",
-    discordServerName: "server name",
-    discordChannelName: "channel name",
     preferredGenres: ["Action", "Sports"],
     preferences: [
       { gameName: "Pubg", ratings: "4.5" },
@@ -39,16 +37,6 @@ describe("Testing User Modal Schema", () => {
   it("steamId Should be present for the user", async () => {
     const user = await User.findOne({ email: paramBody.email });
     expect(user.steamId).toBe("steam@123");
-  });
-
-  it("discordServerName Should be present for the user", async () => {
-    const user = await User.findOne({ email: paramBody.email });
-    expect(user.discordServerName).toBe("server name");
-  });
-
-  it("discordChannelName Should be present for the user", async () => {
-    const user = await User.findOne({ email: paramBody.email });
-    expect(user.discordChannelName).toBe("channel name");
   });
 
   it("preferredGenres Should be present for the user", async () => {
