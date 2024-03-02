@@ -76,12 +76,12 @@ class EditPreferences extends Component {
     const searchTerm = e?.target?.value || "";
     this.setState({ allGamesSearchTerm: searchTerm }, async () => {
       const response = await rawgService.getAllGamesBySearch(searchTerm);
-      const updatedAllGames = response.data?.games.map((rawgGame) => {
+      const updatedAllGames = response.data?.games?.map((rawgGame) => {
         let isOwned;
         let gameSteamId;
         if (this.state.yourGames) {
           //TODO: Update search criteria since Rawg and Steam names can be different
-          const ownedMatch = this.state.yourGames.find(
+          const ownedMatch = this.state.yourGames?.find(
             (ownedGame) =>
               ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
           );
@@ -89,7 +89,7 @@ class EditPreferences extends Component {
           isOwned = !!ownedMatch;
           gameSteamId = ownedMatch ? ownedMatch.appid : null;
         } else {
-          const ownedMatch = this.state.allYourGames.find(
+          const ownedMatch = this.state.allYourGames?.find(
             (ownedGame) =>
               ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
           );
