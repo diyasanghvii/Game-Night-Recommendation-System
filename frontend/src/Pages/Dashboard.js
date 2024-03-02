@@ -4,6 +4,7 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSection from "../Components/GameSection/GameSection";
 import { GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
+import { Navigate } from "react-router-dom";
 
 import { profileCheck } from "../Services";
 
@@ -16,6 +17,7 @@ class Dashboard extends Component {
       ratings: [],
       isLoading: false,
       error: null,
+      rcmBtnClicked: false,
     };
   }
 
@@ -33,7 +35,13 @@ class Dashboard extends Component {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
+
+          localStorage.setItem(
+            "discordUserName",
+            response.data?.discordUserName
+          );
           this.setState({ ratings: response.data.preferences });
+
           this.fetchSteamData(response);
         }
       })
@@ -58,7 +66,7 @@ class Dashboard extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { games, ratings, isLoading, error } = this.state;
+    const { games, isLoading, error, ratings, rcmBtnClicked } = this.state;
     const userName = localStorage.getItem("userName");
     return (
       <div>
@@ -73,7 +81,11 @@ class Dashboard extends Component {
         >
           <h2>Welcome, {userName}!</h2>
           <span>
-            <Btn label={"Recommend Multiplayer Games"} />
+            {rcmBtnClicked && <Navigate to="/recommend-games" replace={true} />}
+            <Btn
+              onClick={() => this.setState({ rcmBtnClicked: true })}
+              label={"Recommend Multiplayer Games"}
+            />
           </span>
         </div>
 

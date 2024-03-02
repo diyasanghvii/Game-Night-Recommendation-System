@@ -1,13 +1,13 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import SignUp1 from "../../Components/SignUp1/SignUp1";
+import SignUp1 from "../../Components/Signup1/Signup1";
 
 describe("SignUp1 Component", () => {
   describe("Rendering", () => {
     it("renders all input fields", () => {
       const { getByLabelText } = render(<SignUp1 />);
 
-      expect(getByLabelText("Username")).toBeInTheDocument();
+      expect(getByLabelText("Name")).toBeInTheDocument();
       expect(getByLabelText("Email")).toBeInTheDocument();
       expect(getByLabelText("Password")).toBeInTheDocument();
       expect(getByLabelText("Confirm Password")).toBeInTheDocument();
@@ -17,7 +17,7 @@ describe("SignUp1 Component", () => {
   describe("Input and State Update", () => {
     it("updates state on input change", () => {
       const { getByLabelText } = render(<SignUp1 />);
-      const usernameInput = getByLabelText("Username");
+      const usernameInput = getByLabelText("Name");
       const emailInput = getByLabelText("Email");
       const passwordInput = getByLabelText("Password");
       const confirmPasswordInput = getByLabelText("Confirm Password");

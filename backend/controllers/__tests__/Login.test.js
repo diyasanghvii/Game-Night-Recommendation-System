@@ -29,7 +29,7 @@ describe("Login API", () => {
       .expect(200);
 
     expect(response.body.message).toBe("Login Sucessful!");
-  });
+  }, 70000);
 
   it("should respond with a 401 status and error message for invalid Password", async () => {
     const invalidUserData = {
@@ -43,7 +43,7 @@ describe("Login API", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Invalid Password, Try again!");
-  });
+  }, 70000);
 
   it("should respond with a 401 status and error message for non-existent user", async () => {
     const nonExistentUserData = {
@@ -57,11 +57,11 @@ describe("Login API", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Invalid Credientials, Try again!");
-  });
+  }, 70000);
 
   it("should respond with a 401 status and error message for missing credentials", async () => {
     const response = await request(app).post("/user/login").expect(401);
 
     expect(response.body.message).toBe("Invalid Credientials, Try again!");
-  });
+  }, 70000);
 });

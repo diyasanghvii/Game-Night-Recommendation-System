@@ -10,7 +10,7 @@ jest.mock("react-router-dom", () => ({
 
 test("renders login page", () => {
   render(<Login />);
-  const usernameInput = screen.getByLabelText(/Username/i);
+  const usernameInput = screen.getByLabelText(/Email ID/i);
   const passwordInput = screen.getByLabelText(/Password/i);
   const submitButton = screen.getByText(/Submit/i);
   expect(usernameInput).toBeInTheDocument();
@@ -20,7 +20,7 @@ test("renders login page", () => {
 
 test("allows user to type in username and password fields", () => {
   render(<Login />);
-  const usernameInput = screen.getByLabelText(/Username/i);
+  const usernameInput = screen.getByLabelText(/Email ID/i);
   const passwordInput = screen.getByLabelText(/Password/i);
   fireEvent.change(usernameInput, { target: { value: "testuser" } });
   fireEvent.change(passwordInput, { target: { value: "testpassword" } });
@@ -30,7 +30,7 @@ test("allows user to type in username and password fields", () => {
 
 test("submits login form with valid credentials", () => {
   render(<Login />);
-  const usernameInput = screen.getByLabelText(/Username/i);
+  const usernameInput = screen.getByLabelText(/Email ID/i);
   const passwordInput = screen.getByLabelText(/Password/i);
   const submitButton = screen.getByText(/Submit/i);
   fireEvent.change(usernameInput, { target: { value: "validusername" } });

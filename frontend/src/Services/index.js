@@ -156,11 +156,56 @@ export const GetGenreList = () => {
   });
 };
 
+// Get Server List
+export const GetServerList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Get user ratings
 export const GetUserRatings = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .get("/user/getpreferences", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Channel List
+export const GetChannelList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchvoicechannels?serverName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Presence of Members
+export const GetPresence = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(
+        `/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}`
+      )
       .then((response) => {
         resolve(response);
       })
@@ -175,6 +220,23 @@ export const UpdateUserRating = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .post("/user/updaterating", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Send Recommendation List to discord channel
+export const SendList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(
+        `/discord/sendlist?serverName=${data.selectedServer}&channelName=${data.selectedChannel}`
+      )
       .then((response) => {
         resolve(response);
       })

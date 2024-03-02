@@ -1,11 +1,15 @@
 const express = require("express");
 const discordRoutes = express.Router();
 
-const { fetchPresence } = require("../../controllers/User/discordController");
+const { fetchPresence, fetchVoiceChannels, fetchServerList, sendList } = require("../../controllers/User/discordController");
 
 const { authoriseCheck } = require("../../middleware/authMiddleware");
 
 // API Routes
-discordRoutes.post("/fetchpresence", authoriseCheck, fetchPresence);
+discordRoutes.get("/fetchpresence", authoriseCheck, fetchPresence);
+discordRoutes.get("/fetchvoicechannels", authoriseCheck, fetchVoiceChannels);
+discordRoutes.get("/fetchserverlist", authoriseCheck, fetchServerList);
+discordRoutes.get("/sendlist", authoriseCheck, sendList);
+
 
 module.exports = discordRoutes;
