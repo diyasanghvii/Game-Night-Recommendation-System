@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./GameSection.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
-import Rating from "@mui/material/Rating";
 import { gameRatingMatch } from "../../Utils";
+import GameInterestRating from "../GameInterestRating/GameInterestRating";
 
 function GameSection({ title, games, ratings, updateRatings }) {
   const [startIndex, setStartIndex] = useState(0);
@@ -68,14 +68,15 @@ function GameSection({ title, games, ratings, updateRatings }) {
                 <h3>{game.name}</h3>
 
                 {ratings && (
-                  <Rating
-                    value={gameRatingMatch(
+                  <GameInterestRating
+                    isOwned={true}
+                    userRating={gameRatingMatch(
                       ratings,
                       game.name,
                       game.appid,
                       null
                     )}
-                    disabled={true}
+                    isEnabled={false}
                   />
                 )}
               </div>
