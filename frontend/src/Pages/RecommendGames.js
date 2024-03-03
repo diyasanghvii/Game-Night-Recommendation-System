@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
-import DropDown from "../Components/DropDown/DropDown.jsx";
+import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
 import { GetPresence, SendList } from "../Services/index.js"; 
 
 function RecommendGames() {
+  const discordUserName = localStorage.getItem("discordUserName");
   const [selectedServer, setSelectedServer] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("");
   const [memberStatus, setMemberStatus] = useState({
@@ -27,7 +28,7 @@ function RecommendGames() {
     // Function to fetch presence data
     const fetchPresenceData = async () => {
       try {
-        const response = await GetPresence({selectedServer, selectedChannel});
+        const response = await GetPresence({selectedServer, selectedChannel, discordUserName});
         const { memberStatus: presenceData } = response.data;
         const onlineList = [];
         const offlineList = [];
@@ -78,7 +79,7 @@ function RecommendGames() {
         Select Players from Discord 
       </h1>
       <p style={{ marginLeft: "6rem" }}>Selected Server: {selectedServer}<br/>Selected Voice Channel: {selectedChannel}</p>
-      <DropDown
+      <SelectServerChannel
         onServerChange={(data) => handleServerChange(data)}
         onChannelChange={(data) => handleChannelChange(data)}
       />

@@ -13,7 +13,7 @@ import Select from "@mui/material/Select";
 import Btn from "../Button/Btn.js";
 import { GetServerList, GetChannelList } from "../../Services/index";
 
-export default function DropDown({ onServerChange, onChannelChange }) {
+export default function SelectServerChannel({ onServerChange, onChannelChange }) {
   const [openServerDialog, setOpenServerDialog] = useState(false);
   const [openChannelDialog, setOpenChannelDialog] = useState(false);
   const [servers, setServers] = useState([]);
