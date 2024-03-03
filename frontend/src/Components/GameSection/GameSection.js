@@ -27,7 +27,6 @@ function GameSection({ title, games, ratings, updateRatings }) {
   };
 
   const visibleGames = games?.slice(startIndex, endIndex) || [];
-
   return (
     <section className="gameSection">
       {showPopup && (
@@ -72,7 +71,7 @@ function GameSection({ title, games, ratings, updateRatings }) {
                     isOwned={true}
                     userRating={gameRatingMatch(
                       ratings,
-                      game.name,
+                      game.gameName,
                       game.appid,
                       null
                     )}

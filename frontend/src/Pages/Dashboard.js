@@ -41,7 +41,6 @@ class Dashboard extends Component {
             response.data?.discordUserName
           );
           this.setState({ ratings: response.data.preferences });
-
           this.fetchSteamData(response);
         }
       })
