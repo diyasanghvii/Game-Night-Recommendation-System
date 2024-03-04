@@ -47,7 +47,7 @@ const fetchServerList = async (req, res) => {
 // @route GET /discord/fetchpresence
 // @access Private
 const fetchPresence = async (req, res) => {
-  const { targetGuildName, targetChannelName } = req.query;
+  const { targetGuildName, targetChannelName, discordUN } = req.query;
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -91,6 +91,15 @@ const fetchPresence = async (req, res) => {
             name: name,
           });
         }
+      }
+
+      const indexToRemove = membersPresence.findIndex(
+        (member) => member.username === discordUN
+      );
+
+      // Remove the item from the array if found
+      if (indexToRemove !== -1) {
+        membersPresence.splice(indexToRemove, 1);
       }
 
       async function getNameFromMongoDB(username) {

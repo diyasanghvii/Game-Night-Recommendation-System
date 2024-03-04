@@ -204,7 +204,7 @@ export const GetPresence = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .get(
-        `/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}`
+        `/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}&discordUN=${data.discordUserName}`
       )
       .then((response) => {
         resolve(response);
