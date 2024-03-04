@@ -36,7 +36,7 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
       const discordUserName = localStorage.getItem("discordUserName");
       setLoadingServers(true);
       const response = await GetServerList(discordUserName);
-      setServers(response.data.serverList);
+      setServers(response?.data?.serverList);
       setOpenServerDialog(true);
     } catch (error) {
       console.error("Error fetching servers:", error);
@@ -49,7 +49,7 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
     try {
       setLoadingChannels(true);
       const response = await GetChannelList(selectedServer);
-      setChannels(response.data.voiceChannels);
+      setChannels(response?.data?.voiceChannels);
       setOpenServerDialog(false);
       setOpenChannelDialog(true);
     } catch (error) {
