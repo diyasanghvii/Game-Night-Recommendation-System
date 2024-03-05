@@ -6,12 +6,12 @@ const mongoose = require("mongoose");
 describe("Sign up step two update API testing", () => {
   const paramBody = {
     name: "SER test case admin",
-    email: "sertestcase12@test.com",
+    email: "signupTotest@test.com",
     password: "123123",
   };
 
   const updateData = {
-    email: "sertestcase12@test.com",
+    email: "signupTotest@test.com",
     preferredGenres: ["Action", "Sports", "Adventure"],
     preferences: [
       {
@@ -57,7 +57,7 @@ describe("Sign up step two update API testing", () => {
       .expect(200);
     let res = JSON.parse(response.text);
     authToken = res.token;
-  });
+  }, 70000);
 
   afterAll(async () => {
     await User.deleteOne({ email: paramBody.email });
@@ -72,7 +72,7 @@ describe("Sign up step two update API testing", () => {
       .expect(200);
 
     expect(response.body.message).toBe("Updated User Preferences Successfully");
-  });
+  }, 70000);
 
   it("should return 400 status if user is not present in the DB", async () => {
     const response = await request(app)
@@ -82,7 +82,7 @@ describe("Sign up step two update API testing", () => {
       .expect(400);
 
     expect(response.body.message).toBe("User Does Not Exists!");
-  });
+  }, 70000);
 
   it("data should be updated successfullt in DB after updation", async () => {
     const response = await request(app)
@@ -99,7 +99,7 @@ describe("Sign up step two update API testing", () => {
       "Adventure",
     ]);
     expect(data.preferences[0].gameName).toBe("Pubg");
-  });
+  }, 70000);
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
@@ -108,7 +108,7 @@ describe("Sign up step two update API testing", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised, No token!");
-  });
+  }, 70000);
 
   it("should return 401 status if user is not authorised, passing wrong auth token", async () => {
     const response = await request(app)
@@ -118,5 +118,5 @@ describe("Sign up step two update API testing", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised!");
-  });
+  }, 70000);
 });

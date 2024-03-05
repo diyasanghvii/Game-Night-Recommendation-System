@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const preferenceSchema = new Schema({
+  gameSteamId: Number,
+  gameRawgId: Number,
   gameName: String,
   ratings: Number,
+  interest: Number,
 });
 
 const userSchema = new Schema({
@@ -29,10 +32,13 @@ const userSchema = new Schema({
   steamId: {
     type: String,
   },
-  discordId: {
+  discordUserName: {
     type: String,
   },
-  webhookUrl: {
+  discordServerName: {
+    type: String,
+  },
+  discordChannelName: {
     type: String,
   },
   preferredGenres: [{ type: String }],

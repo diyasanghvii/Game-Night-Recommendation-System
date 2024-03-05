@@ -8,10 +8,11 @@ import { SignUpTwo } from "../../Services";
 
 const Signup2 = ({ email, stepTwoDone }) => {
   const [steamId, setSteamId] = useState("");
-  const [discordId, setDiscordId] = useState("");
-  const [webhookUrl, setWebhookUrl] = useState("");
+  const [discordUserName, setdiscordUserName] = useState("");
+  const [DiscordServerName, setDiscordServerName] = useState("");
+  const [DiscordChannelName, setDiscordChannelName] = useState("");
   const [steamIdVerified, setSteamIdVerified] = useState(false);
-  const [discordIdVerified, setDiscordIdVerified] = useState(false);
+  const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
 
@@ -19,32 +20,30 @@ const Signup2 = ({ email, stepTwoDone }) => {
     setSteamIdVerified(true);
   };
 
-  const handleVerifyDiscordId = () => {
-    setDiscordIdVerified(true);
+  const handleVerifydiscordUserName = () => {
+    setdiscordUserNameVerified(true);
   };
 
   const handleSignup = () => {
-    if (!steamId || !discordId) {
-      if (!steamId && discordId) {
+    if (!steamId || !discordUserName) {
+      if (!steamId && discordUserName) {
         setError("Please provide your Steam ID.");
+        return; 
+      }
+      if (steamId && !discordUserName) {
+        setError("Please provide your Discord Username.");
         return;
       }
-      if (steamId && !discordId) {
-        setError("Please provide your Discord ID.");
-        return;
-      }
-      setWarning("Please provide your Steam ID and Discord ID.");
+      setWarning("Please provide your Steam ID and Discord Username.");
       return;
     }
-
-    // Prepare data object in JSON format
+  
     const data = {
       email: email,
       steamId: steamId,
-      discordId: discordId,
-      webhookUrl: webhookUrl,
+      discordUserName: discordUserName,
     };
-
+  
     SignUpTwo(data)
       .then((response) => {
         if (response && response.data) {
@@ -55,6 +54,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
         alert(error?.response?.data?.message);
       });
   };
+  
 
   return (
     <Container maxWidth="sm">
@@ -92,33 +92,24 @@ const Signup2 = ({ email, stepTwoDone }) => {
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
-            label="Discord ID"
-            value={discordId}
+            label="Discord Username"
+            value={discordUserName}
             fullWidth={true}
             style={{ width: "80%" }} // Fixed width for textbox
-            onChange={(e) => setDiscordId(e.target.value)}
+            onChange={(e) => setdiscordUserName(e.target.value)}
           />
           <Btn
             label="Verify"
-            disabled={discordIdVerified}
+            disabled={discordUserNameVerified}
             style={{ width: "5%" }}
-            onClick={handleVerifyDiscordId}
+            onClick={handleVerifydiscordUserName}
           />{" "}
           {/* Adjust width percentage for button */}
         </div>
       </div>
-
-      <TextBox
-        label="Discord Webhook URL"
-        value={webhookUrl}
-        fullWidth={true}
-        onChange={(e) => setWebhookUrl(e.target.value)}
-        style={{ width: "80%" }} // Fixed width for textbox
-      />
-
-      <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
+ <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
     </Container>
   );
-};
 
+      }
 export default Signup2;

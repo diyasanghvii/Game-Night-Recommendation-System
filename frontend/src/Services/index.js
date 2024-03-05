@@ -4,7 +4,7 @@ const unAuthRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-const authRequest = axios.create({
+export const authRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     "Content-Type": "application/json",
@@ -29,7 +29,7 @@ authRequest.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       sessionStorage.removeItem("authToken");
       window.location.href = "/login";
     }
@@ -119,6 +119,124 @@ export const GetUserDetails = () => {
   return new Promise((resolve, reject) => {
     authRequest
       .get("/user/getuserdetails")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Update user Genre
+export const UpdateUserGenre = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updategenre", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Genre List
+export const GetGenreList = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/game/getgenre")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Server List
+export const GetServerList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get user ratings
+export const GetUserRatings = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get("/user/getpreferences", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Channel List
+export const GetChannelList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/discord/fetchvoicechannels?serverName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Presence of Members
+export const GetPresence = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(
+        `/discord/fetchpresence?targetGuildName=${data.selectedServer}&targetChannelName=${data.selectedChannel}&discordUN=${data.discordUserName}`
+      )
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Update user rating
+export const UpdateUserRating = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updaterating", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Send Recommendation List to discord channel
+export const SendList = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(
+        `/discord/sendlist?serverName=${data.selectedServer}&channelName=${data.selectedChannel}`
+      )
       .then((response) => {
         resolve(response);
       })

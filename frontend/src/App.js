@@ -3,6 +3,8 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import AuthRoutes from "./router/AuthRoutes";
 import SignUp from "./Pages/SignUp";
+import EditPreferences from "./Pages/EditPreferences";
+import RecommendGames from "./Pages/RecommendGames";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Route element={<AuthRoutes />}>
           <Route element={<Dashboard />} path="/" exact />
           <Route element={<Dashboard />} path="/dashboard" />
+          <Route element={<EditPreferences />} path="/edit-preferences" />
+          <Route element={<RecommendGames />} path="/recommend-games" />
         </Route>
         <Route element={<Login />} path="/login" />
         <Route element={<SignUp />} path="/signup" />

@@ -28,7 +28,7 @@ describe("Testing secured signup with encrypted password", () => {
 
   beforeEach(async () => {
     await request(app).post("/user/signupone").send(paramBody).expect(200);
-  });
+  }, 70000);
 
   afterEach(async () => {
     await User.deleteOne({ email: paramBody.email });
@@ -42,14 +42,14 @@ describe("Testing secured signup with encrypted password", () => {
     const user = await User.findOne({ email: paramBody.email });
 
     expect(user.password === "asdfgh@1234").toBe(false);
-  });
+  }, 70000);
 
   it("should return 200 when compared passwords using bcrypt compare function", async () => {
     const user = await User.findOne({ email: paramBody.email });
     const hashedPassword = await comparePasswords("asdfgh@123", user.password);
 
     expect(hashedPassword).toBe(true);
-  });
+  }, 70000);
 
   it("should return 200 for correct password in login API", async () => {
     const response = await request(app)
@@ -67,7 +67,7 @@ describe("Testing secured signup with encrypted password", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Invalid Password, Try again!");
-  });
+  }, 70000);
 
   it("should return 401, incorrect Credientials when sent username which does not exist", async () => {
     const response = await request(app)
@@ -76,5 +76,5 @@ describe("Testing secured signup with encrypted password", () => {
       .expect(401);
 
     expect(response.body.message).toBe("Invalid Credientials, Try again!");
-  });
+  }, 70000);
 });

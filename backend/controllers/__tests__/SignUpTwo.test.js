@@ -6,22 +6,24 @@ const mongoose = require("mongoose");
 describe("Sign up step two update API testing", () => {
   const paramBody = {
     name: "SER test case admins",
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     password: "123123",
   };
 
   const updateData = {
-    email: "sertestcases@test.com",
+    email: "signUptwoTest@test.com",
     steamId: "steamId",
-    discordId: "discordId",
-    webhookUrl: "webhookUrl",
+    discordUserName: "discordUserName",
+    discordServerName: "server name",
+    discordChannelName: "channel name",
   };
 
   const updateDataInvalid = {
     email: "sertestcases1@test.com",
     steamId: "steamId",
-    discordId: "discordId",
-    webhookUrl: "webhookUrl",
+    discordUserName: "discordUserName",
+    discordServerName: "server name",
+    discordChannelName: "channel name",
   };
 
   let authToken;
@@ -71,8 +73,9 @@ describe("Sign up step two update API testing", () => {
     let data = await User.findOne({ email: updateData.email }).exec();
 
     expect(data.steamId).toBe("steamId");
-    expect(data.discordId).toBe("discordId");
-    expect(data.webhookUrl).toBe("webhookUrl");
+    expect(data.discordUserName).toBe("discordUserName");
+    expect(data.discordServerName).toBe("server name");
+    expect(data.discordChannelName).toBe("channel name");
   });
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {

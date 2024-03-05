@@ -77,8 +77,7 @@ const signUpTwo = async (req, res) => {
     if (data) {
       await data.updateOne({
         steamId: req.body.steamId,
-        discordId: req.body.discordId,
-        webhookUrl: req.body.webhookUrl,
+        discordUserName: req.body.discordUserName,
       });
       res.status(200).json({
         message: "Updated User Information Successfully",
@@ -126,12 +125,97 @@ const getUserDetails = async (req, res) => {
       email: req.user.email,
       name: req.user.name,
       steamId: req.user.steamId,
-      discordId: req.user.discordId,
-      webhookUrl: req.user.webhookUrl,
+      discordUserName: req.user.discordUserName,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
       message: "User Details Fetched Sucessfully!",
     });
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Update User Genre API
+// @route POST /user/updategenre
+// @access Private
+const updateGenre = async (req, res) => {
+  try {
+    let data = await User.findOne({ email: req.user.email }).exec();
+    if (data) {
+      await data.updateOne({
+        preferredGenres: req.body.preferredGenres,
+      });
+      res.status(200).json({
+        message: "User Genre Updated!",
+        preferredGenres: req.body.preferredGenres,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exists!",
+      });
+    }
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Get User's ratings
+// @route GET /user/getpreferences
+// @access Private
+const getUserRatings = async (req, res) => {
+  try {
+    res.status(200).json({
+      preferences: req.user.preferences,
+      message: "User Preferences Fetched Sucessfully!",
+    });
+  } catch (e) {
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Update User Rating API
+// @route POST /user/updaterating
+// @access Private
+const updateRating = async (req, res) => {
+  try {
+    const email = req.user.email;
+    const newPreference = req.body.preference;
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      const existingPreferenceIndex = user.preferences.findIndex(
+        (preference) =>
+          preference.gameName === newPreference.gameName &&
+          (preference.gameSteamId === newPreference.gameSteamId ||
+            preference.gameRawgId === newPreference.gameRawgId)
+      );
+
+      if (existingPreferenceIndex !== -1) {
+        // update existing rating
+        user.preferences[existingPreferenceIndex].gameSteamId = user
+          .preferences[existingPreferenceIndex].gameSteamId
+          ? user.preferences[existingPreferenceIndex].gameSteamId
+          : newPreference.gameSteamId;
+        user.preferences[existingPreferenceIndex].gameRawgId = user.preferences[
+          existingPreferenceIndex
+        ].gameRawgId
+          ? user.preferences[existingPreferenceIndex].gameRawgId
+          : newPreference.gameRawgId;
+        user.preferences[existingPreferenceIndex].ratings =
+          newPreference.ratings;
+      } else {
+        // add new rating
+        user.preferences.push(newPreference);
+      }
+      await user.save();
+      res.status(200).json({
+        message: "User Preferences Updated!",
+        preferences: user.preferences,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
   } catch (e) {
     res.status(500).send("Error Occured, Try again!");
   }
@@ -143,4 +227,7 @@ module.exports = {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  updateGenre,
+  getUserRatings,
+  updateRating,
 };

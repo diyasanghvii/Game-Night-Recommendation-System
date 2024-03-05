@@ -1,21 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { SignUpThree } from "../../Services";
+import { GetGenreList, SignUpThree } from "../../Services";
+import steamService from "../../Services/steamService";
 
 const Signup3 = ({ email, stepThreeDone }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [error, setError] = useState("");
-  const [games, setGames] = useState([
-    { gameName: "Pubg", ratings: null },
-    { gameName: "The Forest", ratings: null },
-    { gameName: "Apex Legends", ratings: null },
-    { gameName: "Halo Infinite", ratings: null },
-    { gameName: "Counter Strike 2", ratings: null },
-    { gameName: "Warframe", ratings: null },
-  ]);
+  const [games, setGames] = useState([]);
+  const [genreList, setGenreList] = useState([]);
+
+  useEffect(() => {
+    getGenre();
+    fetchSteamData();
+  }, []);
+
+  const fetchSteamData = () => {
+    steamService
+      .getOwnedGames()
+      .then((response) => {
+        if (response && response.data && response.data.steamGames) {
+          const modifiedSteamGames = response.data.steamGames.map((ele) => ({
+            ...ele,
+            gameSteamId: ele.appid,
+          }));
+          setGames(modifiedSteamGames);
+        }
+      })
+      .catch((error) => {
+        setGames([]);
+      });
+  };
+
+  const getGenre = () => {
+    GetGenreList()
+      .then((response) => {
+        if (response && response.data && response.data.genreList) {
+          setGenreList(response.data.genreList);
+        }
+      })
+      .catch((error) => {
+        setGenreList([]);
+      });
+  };
 
   const handleGenreSelection = (event) => {
     setSelectedGenres(event.target.value);
@@ -42,14 +71,15 @@ const Signup3 = ({ email, stepThreeDone }) => {
       setError("Please rate at least 5 games.");
       return;
     }
-
+    const updatedData = games.map((game) => ({
+      ...game,
+      gameName: game.name,
+    }));
     const data = {
       email: email,
       preferredGenres: selectedGenres,
-      preferences: games,
+      preferences: updatedData,
     };
-
-    console.log("");
 
     SignUpThree(data)
       .then((response) => {
@@ -61,7 +91,6 @@ const Signup3 = ({ email, stepThreeDone }) => {
         alert(error?.response?.data?.message);
       });
   };
-
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
@@ -87,16 +116,9 @@ const Signup3 = ({ email, stepThreeDone }) => {
           onChange={handleGenreSelection}
           fullWidth
         >
-          <MenuItem value="action">Action</MenuItem>
-          <MenuItem value="adventure">Adventure</MenuItem>
-          <MenuItem value="comedy">Comedy</MenuItem>
-          <MenuItem value="drama">Drama</MenuItem>
-          <MenuItem value="fantasy">Fantasy</MenuItem>
-          <MenuItem value="horror">Horror</MenuItem>
-          <MenuItem value="mystery">Mystery</MenuItem>
-          <MenuItem value="romance">Romance</MenuItem>
-          <MenuItem value="science_fiction">Science Fiction</MenuItem>
-          <MenuItem value="thriller">Thriller</MenuItem>
+          {genreList?.map((ele) => {
+            return <MenuItem value={ele}>{ele}</MenuItem>;
+          })}
         </Select>
       </Box>
 
@@ -119,7 +141,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
               <Text
                 variant="body1"
                 gutterBottom={true}
-                label={game.gameName}
+                label={game.name}
                 style={{ marginRight: "20px" }}
               />
               <Rating

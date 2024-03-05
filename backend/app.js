@@ -27,7 +27,24 @@ app.use(express.json());
 const authRoutes = require("./routes/Auth/authRoute");
 app.use("/auth", authRoutes);
 
+// user routes
 const userAuthRoutes = require("./routes/User/userAuthRoute");
 app.use("/user", userAuthRoutes);
+
+// game info routes
+const gameRoutes = require("./routes/Games/gameInfoRoute");
+app.use("/game", gameRoutes);
+
+// steam data info routes
+const steamRoutes = require("./routes/Games/steamInfoRoute");
+app.use("/steam", steamRoutes);
+
+// discord routes
+const discordRoutes = require("./routes/User/discordRoute");
+app.use("/discord", discordRoutes);
+
+// rawg data info routes
+const rawgRoutes = require("./routes/Games/rawgInfoRoute");
+app.use("/rawg", rawgRoutes);
 
 module.exports = app;

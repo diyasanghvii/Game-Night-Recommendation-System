@@ -4,6 +4,7 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSection from "../Components/GameSection/GameSection";
 import { GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
+import { Navigate } from "react-router-dom";
 
 import { profileCheck } from "../Services";
 
@@ -12,18 +13,17 @@ class Dashboard extends Component {
     super();
     this.state = {
       backendResponse: "",
-      userDetails: {},
       games: [],
+      ratings: [],
       isLoading: false,
       error: null,
+      rcmBtnClicked: false,
     };
   }
 
   componentDidMount() {
     const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {})
-      .catch(() => {});
+    profileCheck(token);
     this.setState({ isLoading: true }, () => {
       this.getUserDetails();
     });
@@ -33,7 +33,14 @@ class Dashboard extends Component {
     GetUserDetails()
       .then((response) => {
         if (response && response.data) {
-          this.setState({ userDetails: response.data });
+          localStorage.setItem("userName", response.data?.name);
+          localStorage.setItem("userGenre", response.data?.preferredGenres);
+
+          localStorage.setItem(
+            "discordUserName",
+            response.data?.discordUserName
+          );
+          this.setState({ ratings: response.data.preferences });
           this.fetchSteamData(response);
         }
       })
@@ -42,24 +49,24 @@ class Dashboard extends Component {
       });
   };
 
-  fetchSteamData = (response) => {
-    if (response.data?.steamId) {
-      steamService
-        .getOwnedGames(
-          process.env.REACT_APP_STEAM_API_KEY,
-          response.data?.steamId
-        )
-        .then((data) =>
-          this.setState({ games: data.response.games, isLoading: false })
-        )
-        .catch((error) => this.setState({ error, isLoading: false }));
-    }
+  fetchSteamData = () => {
+    steamService
+      .getOwnedGames()
+      .then((response) => {
+        this.setState({ games: response.data.steamGames, isLoading: false });
+      })
+      .catch((error) => this.setState({ error, isLoading: false }));
+  };
+
+  updateRatings = (newRatings) => {
+    this.setState({ ratings: newRatings });
   };
 
   componentDidUpdate() {}
 
   render() {
-    const { userDetails, games, isLoading, error } = this.state;
+    const { games, isLoading, error, ratings, rcmBtnClicked } = this.state;
+    const userName = localStorage.getItem("userName");
     return (
       <div>
         <MenuHeader />
@@ -71,9 +78,13 @@ class Dashboard extends Component {
             marginTop: "17px",
           }}
         >
-          <h2>Welcome, {userDetails?.name}!</h2>
+          <h2>Welcome, {userName}!</h2>
           <span>
-            <Btn label={"Recommend Multiplayer Games"} />
+            {rcmBtnClicked && <Navigate to="/recommend-games" replace={true} />}
+            <Btn
+              onClick={() => this.setState({ rcmBtnClicked: true })}
+              label={"Recommend Multiplayer Games"}
+            />
           </span>
         </div>
 
@@ -83,7 +94,12 @@ class Dashboard extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSection title="Your games" games={games} />
+            <GameSection
+              title="Your games"
+              games={games}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
+            />
           </div>
         )}
       </div>
