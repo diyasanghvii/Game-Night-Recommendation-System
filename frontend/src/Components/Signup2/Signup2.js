@@ -1,49 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextBox from "../TextBox/TextBox";
-import { Container, Box } from "@mui/material";
-import Btn from "../Button/Btn";
+import { Container } from "@mui/material";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { SignUpTwo } from "../../Services";
+import Btn from "../Button/Btn";
 
 const Signup2 = ({ email, stepTwoDone }) => {
   const [steamId, setSteamId] = useState("");
   const [discordUserName, setdiscordUserName] = useState("");
-  const [DiscordServerName, setDiscordServerName] = useState("");
-  const [DiscordChannelName, setDiscordChannelName] = useState("");
   const [steamIdVerified, setSteamIdVerified] = useState(false);
   const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
 
+  useEffect(() => {
+    if (steamIdVerified && discordUserNameVerified) {
+      setWarning("");
+    }
+  }, [steamIdVerified, discordUserNameVerified]);
+
   const handleVerifySteamId = () => {
-    setSteamIdVerified(true);
+    if (!steamId) {
+      setError("Please provide your Steam ID.");
+      return;
+    }
+
+    if (steamId === "76561199642434117") {
+      setSteamIdVerified(true);
+    } else {
+      setError("Steam ID is incorrect, please enter the correct information.");
+      setSteamIdVerified(false);
+    }
   };
 
   const handleVerifydiscordUserName = () => {
-    setdiscordUserNameVerified(true);
+    if (!discordUserName) {
+      setError("Please provide your Discord Username.");
+      return;
+    }
+
+    if (discordUserName === "naheerfatima_76086") {
+      setdiscordUserNameVerified(true);
+    } else {
+      setError("Discord Username is incorrect, please enter the correct information.");
+      setdiscordUserNameVerified(false);
+    }
   };
 
   const handleSignup = () => {
     if (!steamId || !discordUserName) {
-      if (!steamId && discordUserName) {
-        setError("Please provide your Steam ID.");
-        return; 
-      }
-      if (steamId && !discordUserName) {
-        setError("Please provide your Discord Username.");
-        return;
-      }
-      setWarning("Please provide your Steam ID and Discord Username.");
+      setWarning("Please provide both Steam ID and Discord Username.");
       return;
     }
-  
+
+    if (!steamIdVerified || !discordUserNameVerified) {
+      setWarning("Please verify both Steam ID and Discord Username.");
+      return;
+    }
+
     const data = {
       email: email,
       steamId: steamId,
       discordUserName: discordUserName,
     };
-  
+
     SignUpTwo(data)
       .then((response) => {
         if (response && response.data) {
@@ -54,7 +75,6 @@ const Signup2 = ({ email, stepTwoDone }) => {
         alert(error?.response?.data?.message);
       });
   };
-  
 
   return (
     <Container maxWidth="sm">
@@ -78,7 +98,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
             label="Steam ID"
             value={steamId}
             fullWidth={true}
-            style={{ width: "80%" }} // Fixed width for textbox
+            style={{ width: "80%" }} 
             onChange={(e) => setSteamId(e.target.value)}
           />
           <Btn
@@ -86,8 +106,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
             disabled={steamIdVerified}
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
-          />{" "}
-          {/* Adjust width percentage for button */}
+          />
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -95,7 +114,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
             label="Discord Username"
             value={discordUserName}
             fullWidth={true}
-            style={{ width: "80%" }} // Fixed width for textbox
+            style={{ width: "80%" }} 
             onChange={(e) => setdiscordUserName(e.target.value)}
           />
           <Btn
@@ -103,13 +122,17 @@ const Signup2 = ({ email, stepTwoDone }) => {
             disabled={discordUserNameVerified}
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
-          />{" "}
-          {/* Adjust width percentage for button */}
+          />
         </div>
       </div>
- <Btn fullWidth={true} label={"Continue"} onClick={handleSignup} />
+      <button
+  onClick={handleSignup}
+>
+  Continue
+</button>
+
     </Container>
   );
+};
 
-      }
 export default Signup2;
