@@ -126,7 +126,20 @@ const Signup2 = ({ email, stepTwoDone }) => {
         </div>
       </div>
       <button
+  style={{
+    backgroundColor: steamIdVerified && discordUserNameVerified ? "#1976d2" : "#b3e5fc",
+    color: "#fff",
+    width: "100%",
+    borderRadius: "4px",
+    padding: "10px 20px",
+    fontSize: "16px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease, filter 0.3s ease",
+    filter: steamIdVerified && discordUserNameVerified ? "brightness(1)" : "brightness(0.8)",
+  }}
   onClick={handleSignup}
+  disabled={!steamIdVerified || !discordUserNameVerified}
 >
   Continue
 </button>
