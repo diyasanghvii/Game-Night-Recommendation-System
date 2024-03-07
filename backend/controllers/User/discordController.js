@@ -2,6 +2,8 @@ const axios = require("axios");
 const { Client, GatewayIntentBits, Intents } = require("discord.js");
 const User = require("../../models/User/userModal");
 
+const BASE_URL = "http://api.steampowered.com";
+
 // @desc Fetch server list where user is a member
 // @route GET /discord/fetchserverlist
 // @access Private
@@ -170,12 +172,32 @@ const fetchVoiceChannels = async (req, res) => {
 };
 
 // @desc Send recommendation list on click of a button.
-// @route GET /discord/sendlist
+// @route POST /discord/sendlist
 // @access Private
 const sendList = async (req, res) => {
-  const { channelName, serverName } = req.query;
+  const channelName = req.body.selectedChannel;
+  const serverName = req.body.selectedServer;
+  const members = req.body.selectedMembers;
   if (!channelName) {
     return res.status(400).json({ message: "Channel not found." });
+  }
+
+  for (const key in members) {
+    if (members.hasOwnProperty(key)) {
+      const element = members[key];
+      let data = await User.findOne({
+        discordUserName: element.username,
+      }).exec();
+      //console.log(data);
+      element.steamID = data.steamId;
+      element.preferredGenres = data.preferredGenres;
+      element.preferences = data.preferences;
+      //console.log(JSON.stringify(element));
+      const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${data.steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
+      const response = await axios.get(url);
+      element.ownedGames = response.data;
+      console.log(JSON.stringify(element, undefined, 5));
+    }
   }
 
   const client = new Client({
@@ -198,7 +220,18 @@ const sendList = async (req, res) => {
         (channel) => channel.name === channelName
       );
       if (channel) {
-        channel.send("This message would display the recommendation list :)");
+        let memberlist = "";
+        let count = 1;
+        for (const key in members) {
+          if (members.hasOwnProperty(key)) {
+            const element = members[key];
+            memberlist += `\n${count}. ${element.name}`;
+            count++;
+          }
+        }
+        channel.send(
+          `This message would display the recommendation list :) having Memberlist: ${memberlist}`
+        );
       }
 
       res.status(200).json({

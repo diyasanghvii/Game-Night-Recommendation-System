@@ -234,8 +234,8 @@ export const UpdateUserRating = (data) => {
 export const SendList = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get(
-        `/discord/sendlist?serverName=${data.selectedServer}&channelName=${data.selectedChannel}`
+      .post(
+        "/discord/sendlist", data
       )
       .then((response) => {
         resolve(response);
