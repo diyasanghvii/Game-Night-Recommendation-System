@@ -16,7 +16,9 @@ const GameInterestRating = ({
   const [interest, setInterest] = useState("");
 
   const handleInterestClick = (interestType) => {
-    setInterest(interestType);
+    // Toggle interest selection
+    const newInterest = interest === interestType ? "" : interestType;
+    setInterest(newInterest);
   };
 
   return (
