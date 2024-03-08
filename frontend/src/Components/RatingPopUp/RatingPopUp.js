@@ -83,10 +83,8 @@ const RatingPopUp = ({
           );
         });
     } catch (error) {
-      console.error("Error submitting rating:", error);
-      alert(
-        "Error occurred while saving rating. Please try again."
-      );
+      console.log("Error submitting rating");
+      setSaveMessage("Error occurred while saving rating. Please try again.");
     }
   };
 
@@ -151,17 +149,20 @@ const RatingPopUp = ({
 
               {isOwned ? (
                 <Typography variant="body1">
-                  <strong>Rate it:</strong>
-                  <Rating
-                    name="game-rating"
-                    value={userRating}
-                    onChange={(event, newValue) => setUserRating(newValue)}
-                  />
-                  <Btn
-                    style={{ marginLeft: "5px", float: "right" }}
-                    label={"Save"}
-                    onClick={handleRatingSubmit}
-                  />
+                  <span className="icon-container">
+                    <strong>Rate it:</strong>
+                    <Rating
+                      name="game-rating"
+                      value={userRating}
+                      onChange={(event, newValue) => setUserRating(newValue)}
+                      data-testid="rating-component"
+                    />
+                    <Btn
+                      style={{ marginLeft: "5px", float: "right" }}
+                      label={"Save"}
+                      onClick={handleRatingSubmit}
+                    />
+                  </span>
                 </Typography>
               ) : (
                 <Typography variant="body1">
