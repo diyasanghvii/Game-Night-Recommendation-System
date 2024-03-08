@@ -92,8 +92,7 @@ const RatingPopUp = ({
           );
         });
     } catch (error) {
-      console.log("Error2");
-      console.error("Error submitting rating:", error);
+      console.log("Error submitting rating");
       setSaveMessage("Error occurred while saving rating. Please try again.");
     }
   };
@@ -165,6 +164,7 @@ const RatingPopUp = ({
                       name="game-rating"
                       value={userRating}
                       onChange={(event, newValue) => setUserRating(newValue)}
+                      data-testid="rating-component"
                     />
                     <Btn
                       style={{ marginLeft: "5px", float: "right" }}
