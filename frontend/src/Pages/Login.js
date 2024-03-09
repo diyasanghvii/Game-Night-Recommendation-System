@@ -86,9 +86,13 @@ const Login = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleTogglePasswordVisibility}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+              <IconButton
+               aria-label="Toggle password visibility"
+               onClick={handleTogglePasswordVisibility}
+               >
+               {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
+
             </InputAdornment>
           ),
         }}
