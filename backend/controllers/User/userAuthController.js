@@ -182,28 +182,32 @@ const updateRating = async (req, res) => {
     const newPreference = req.body.preference;
     let user = await User.findOne({ email }).exec();
     if (user) {
-      const existingPreferenceIndex = user.preferences.findIndex(
-        (preference) =>
-          preference.gameName === newPreference.gameName &&
-          (preference.gameSteamId === newPreference.gameSteamId ||
-            preference.gameRawgId === newPreference.gameRawgId)
-      );
+      if (user.preferences.length > 0) {
+        const existingPreferenceIndex = user.preferences.findIndex(
+          (preference) =>
+            preference.gameName === newPreference.gameName &&
+            (preference.gameSteamId === newPreference.gameSteamId ||
+              preference.gameRawgId === newPreference.gameRawgId)
+        );
 
-      if (existingPreferenceIndex !== -1) {
-        // update existing rating
-        user.preferences[existingPreferenceIndex].gameSteamId = user
-          .preferences[existingPreferenceIndex].gameSteamId
-          ? user.preferences[existingPreferenceIndex].gameSteamId
-          : newPreference.gameSteamId;
-        user.preferences[existingPreferenceIndex].gameRawgId = user.preferences[
-          existingPreferenceIndex
-        ].gameRawgId
-          ? user.preferences[existingPreferenceIndex].gameRawgId
-          : newPreference.gameRawgId;
-        user.preferences[existingPreferenceIndex].ratings =
-          newPreference.ratings;
+        if (existingPreferenceIndex !== -1) {
+          // update existing rating
+          user.preferences[existingPreferenceIndex].gameSteamId = user
+            .preferences[existingPreferenceIndex].gameSteamId
+            ? user.preferences[existingPreferenceIndex].gameSteamId
+            : newPreference.gameSteamId;
+          user.preferences[existingPreferenceIndex].gameRawgId = user
+            .preferences[existingPreferenceIndex].gameRawgId
+            ? user.preferences[existingPreferenceIndex].gameRawgId
+            : newPreference.gameRawgId;
+          user.preferences[existingPreferenceIndex].ratings =
+            newPreference.ratings;
+          user.preferences[existingPreferenceIndex].interest = null;
+        } else {
+          // add new rating
+          user.preferences.push(newPreference);
+        }
       } else {
-        // add new rating
         user.preferences.push(newPreference);
       }
       await user.save();
@@ -221,6 +225,58 @@ const updateRating = async (req, res) => {
   }
 };
 
+// @desc Update User Rating API for unowned games
+// @route POST /user/updateunownedgamerating
+// @access Private
+const saveGameUnOwnedRating = async (req, res) => {
+  try {
+    const email = req.user.email;
+    const newPreference = req.body;
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      if (user.preferences && user.preferences.length > 0) {
+        const existingPreferenceIndex = user.preferences.findIndex(
+          (preference) =>
+            preference.gameName === newPreference.gameName &&
+            (preference.gameSteamId === newPreference.gameSteamId ||
+              preference.gameRawgId === newPreference.gameRawgId)
+        );
+        if (existingPreferenceIndex !== -1) {
+          user.preferences[existingPreferenceIndex].gameSteamId = user
+            .preferences[existingPreferenceIndex].gameSteamId
+            ? user.preferences[existingPreferenceIndex].gameSteamId
+            : newPreference.gameSteamId;
+          user.preferences[existingPreferenceIndex].gameRawgId = user
+            .preferences[existingPreferenceIndex].gameRawgId
+            ? user.preferences[existingPreferenceIndex].gameRawgId
+            : newPreference.gameRawgId;
+          user.preferences[existingPreferenceIndex].interest =
+            newPreference.interest;
+          // user.preferences[existingPreferenceIndex].ratings = null;
+        } else {
+          user.preferences.push(newPreference);
+        }
+      } else {
+        user.preferences.push(newPreference);
+      }
+      await user.save();
+      let updatedUser = await User.findOne({ email }).exec();
+      res.status(200).json({
+        message: "User Preferences Updated!",
+        preferences: updatedUser.preferences,
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
+  } catch (e) {
+    console.log("Errir --->", e);
+
+    res.status(500).send("Error Occured, Try again!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
@@ -230,4 +286,5 @@ module.exports = {
   updateGenre,
   getUserRatings,
   updateRating,
+  saveGameUnOwnedRating,
 };
