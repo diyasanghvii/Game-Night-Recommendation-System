@@ -28,6 +28,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
 
     if (steamId === "76561199642434117") {
       setSteamIdVerified(true);
+      setError("");
     } else {
       setError("Steam ID is incorrect, please enter the correct information.");
       setSteamIdVerified(false);
@@ -42,6 +43,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
 
     if (discordUserName === "naheerfatima_76086") {
       setdiscordUserNameVerified(true);
+      setError("");
     } else {
       setError("Discord Username is incorrect, please enter the correct information.");
       setdiscordUserNameVerified(false);
@@ -101,8 +103,10 @@ const Signup2 = ({ email, stepTwoDone }) => {
             style={{ width: "80%" }}
             onChange={(e) => setSteamId(e.target.value)}
           />
-          {steamIdVerified && (
-            <span style={{ color: "green", fontSize: "24px" }}>✔</span>
+          {steamIdVerified ? (
+            <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
+          ) : (
+            <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
           )}
           <Btn
             label="Verify"
@@ -120,8 +124,10 @@ const Signup2 = ({ email, stepTwoDone }) => {
             style={{ width: "80%" }}
             onChange={(e) => setdiscordUserName(e.target.value)}
           />
-          {discordUserNameVerified && (
-            <span style={{ color: "green", fontSize: "24px" }}>✔</span>
+          {discordUserNameVerified ? (
+            <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
+          ) : (
+            <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
           )}
           <Btn
             label="Verify"
