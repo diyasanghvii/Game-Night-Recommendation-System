@@ -84,7 +84,7 @@ const RatingPopUp = ({
         });
     } catch (error) {
       console.log("Error submitting rating");
-      setSaveMessage("Error occurred while saving rating. Please try again.");
+      setError("Error occurred while saving rating. Please try again.");
     }
   };
 
