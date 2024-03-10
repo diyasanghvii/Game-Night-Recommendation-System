@@ -13,6 +13,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
   const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
+  const [edited, setEdited] = useState(false); 
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -25,8 +26,11 @@ const Signup2 = ({ email, stepTwoDone }) => {
       setError("Please provide your Steam ID.");
       return;
     }
+    if (edited) {
+      setError("");
+    }
 
-    if (steamId === "76561199642434117") {
+    if (steamId === "76561199642434117") { 
       setSteamIdVerified(true);
       setError("");
     } else {
@@ -40,8 +44,11 @@ const Signup2 = ({ email, stepTwoDone }) => {
       setError("Please provide your Discord Username.");
       return;
     }
+    if (edited) {
+      setError("");
+    }
 
-    if (discordUserName === "naheerfatima_76086") {
+    if (discordUserName === "naheerfatima_76086") { 
       setdiscordUserNameVerified(true);
       setError("");
     } else {
@@ -53,6 +60,13 @@ const Signup2 = ({ email, stepTwoDone }) => {
   const handleSignup = () => {
     if (!steamId || !discordUserName) {
       setWarning("Please provide both Steam ID and Discord Username.");
+      return;
+    }
+    if (edited) {
+      setSteamIdVerified(false);
+      setdiscordUserNameVerified(false);
+      handleVerifySteamId();
+      handleVerifydiscordUserName();
       return;
     }
 
@@ -76,6 +90,11 @@ const Signup2 = ({ email, stepTwoDone }) => {
       .catch((error) => {
         alert(error?.response?.data?.message);
       });
+  };
+  const handleFieldChange = () => {
+    if (!edited) {
+      setEdited(true);
+    }
   };
 
   return (
@@ -101,7 +120,10 @@ const Signup2 = ({ email, stepTwoDone }) => {
             value={steamId}
             fullWidth={true}
             style={{ width: "80%" }}
-            onChange={(e) => setSteamId(e.target.value)}
+            onChange={(e) => {
+              setSteamId(e.target.value);
+              handleFieldChange(); 
+            }}
           />
           {steamIdVerified ? (
             <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
@@ -122,7 +144,10 @@ const Signup2 = ({ email, stepTwoDone }) => {
             value={discordUserName}
             fullWidth={true}
             style={{ width: "80%" }}
-            onChange={(e) => setdiscordUserName(e.target.value)}
+            onChange={(e) => {
+              setdiscordUserName(e.target.value);
+              handleFieldChange();
+            }}
           />
           {discordUserNameVerified ? (
             <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
