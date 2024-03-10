@@ -9,19 +9,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import Rating from "@mui/material/Rating";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
-import axios from "axios";
-import { alignProperty } from "@mui/material/styles/cssUtils";
-import "./RatingPopUp.css";
 import Btn from "../Button/Btn";
 import { UpdateUserRating } from "../../Services";
-
-import rawgService, {
-  getAllGamesBySearch,
-  getGameDetails,
-} from "../../Services/rawgService";
+import rawgService from "../../Services/rawgService";
+import "./RatingPopUp.css";
 
 const RatingPopUp = ({
   gameId,
@@ -36,7 +29,7 @@ const RatingPopUp = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userRating, setUserRating] = useState(gameRating);
-  const [saveMessage, setSaveMessage] = useState("");
+  const [interest, setInterest] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,22 +72,24 @@ const RatingPopUp = ({
       UpdateUserRating(data)
         .then((response) => {
           if (response && response.data) {
-            setSaveMessage("Rating saved successfully!");
             updateRatings(response.data.preferences);
           }
         })
         .catch((error) => {
           console.log(error);
-          alert(error?.response?.data?.message);
-          setSaveMessage(
+          alert(
             error?.response?.data?.message ||
               "Error occurred while saving rating. Please try again."
           );
         });
     } catch (error) {
       console.log("Error submitting rating");
-      setSaveMessage("Error occurred while saving rating. Please try again.");
+      setError("Error occurred while saving rating. Please try again.");
     }
+  };
+
+  const handleInterestClick = (interestType) => {
+    setInterest(interestType);
   };
 
   return (
@@ -120,16 +115,12 @@ const RatingPopUp = ({
             </Grid>
 
             <Grid item xs={12}>
-              {gameData && gameData.description ? (
-                <Typography variant="body1">
-                  <strong>Description:</strong> {gameData.description}
-                </Typography>
-              ) : (
-                <p></p>
-              )}
+              <Typography variant="body1">
+                <strong>Description:</strong> {gameData.description}
+              </Typography>
               <Typography variant="body1">
                 <strong>Genres:</strong>
-                {gameData?.genres.map((genre) => (
+                {gameData.genres.map((genre) => (
                   <span
                     key={genre.id}
                     className="tag"
@@ -142,7 +133,7 @@ const RatingPopUp = ({
               <hr />
               <Typography variant="body1">
                 <strong>Tags:</strong>
-                {gameData?.tags
+                {gameData.tags
                   .filter((tag) => tag.language === "eng")
                   .map((tag) => (
                     <span
@@ -175,33 +166,35 @@ const RatingPopUp = ({
                 </Typography>
               ) : (
                 <Typography variant="body1">
-                  <span className="icon-container">
-                    <strong>Interested?</strong>
-                    <Tooltip title="Interesting!">
-                      <ThumbUpIcon
-                        style={{
-                          display: "inline-block",
-                          marginLeft: "5px",
-                          marginRight: "10px",
-                        }}
-                      />
-                    </Tooltip>
-
-                    <Tooltip title="Love this!!">
-                      <FavoriteIcon
-                        style={{ display: "inline-block", marginRight: "10px" }}
-                      />
-                    </Tooltip>
-
-                    <Tooltip title="Meh -_-">
-                      <ThumbDownIcon style={{ display: "inline-block" }} />
-                    </Tooltip>
-                  </span>
+                  <strong>Interested?</strong>
+                  <Tooltip title="Interesting!">
+                    <ThumbUpIcon
+                      style={{
+                        marginLeft: "5px",
+                        marginRight: "10px",
+                        color: interest === "interesting" ? "green" : "inherit",
+                      }}
+                      onClick={() => handleInterestClick("interesting")}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Love this!!">
+                    <FavoriteIcon
+                      style={{
+                        marginRight: "10px",
+                        color: interest === "love" ? "red" : "inherit",
+                      }}
+                      onClick={() => handleInterestClick("love")}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Meh -_-">
+                    <ThumbDownIcon
+                      style={{
+                        color: interest === "meh" ? "orange" : "inherit",
+                      }}
+                      onClick={() => handleInterestClick("meh")}
+                    />
+                  </Tooltip>
                 </Typography>
-              )}
-
-              {saveMessage && (
-                <Typography variant="body1">{saveMessage}</Typography>
               )}
             </Grid>
           </Grid>
