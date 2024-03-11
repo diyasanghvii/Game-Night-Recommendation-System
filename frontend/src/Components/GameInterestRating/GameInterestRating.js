@@ -6,6 +6,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Btn from "../Button/Btn";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const GameInterestRating = ({
   isOwned,
@@ -41,20 +42,20 @@ const GameInterestRating = ({
             {isEnabled && <strong>Interested?</strong>}
             <div style={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Interesting!">
-                <ThumbUpIcon
+                <FavoriteIcon
                   style={{
                     marginLeft: "5px",
                     marginRight: "10px",
-                    color: userRating === 1 ? "green" : "inherit",
+                    color: userRating === LOVE ? "red" : "inherit",
                   }}
                   onClick={(e) => handleInterestClick(e, "interesting")}
                 />
               </Tooltip>
               <Tooltip title="Love this!!">
-                <FavoriteIcon
+                <ThumbUpIcon
                   style={{
                     marginRight: "10px",
-                    color: userRating === 0.75 ? "red" : "inherit",
+                    color: userRating === INTERESTING ? "green" : "inherit",
                   }}
                   onClick={(e) => handleInterestClick(e, "love")}
                 />
@@ -63,7 +64,7 @@ const GameInterestRating = ({
                 <ThumbDownIcon
                   style={{
                     color:
-                      userRating <= 0 && userRating !== null
+                      userRating <= MEH && userRating !== null
                         ? "orange"
                         : "inherit",
                   }}

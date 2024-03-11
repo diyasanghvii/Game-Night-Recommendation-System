@@ -15,6 +15,7 @@ import Btn from "../Button/Btn";
 import { UpdateUserRating } from "../../Services";
 import rawgService from "../../Services/rawgService";
 import "./RatingPopUp.css";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const RatingPopUp = ({
   gameId,
@@ -168,20 +169,20 @@ const RatingPopUp = ({
                 <Typography variant="body1">
                   <strong>Interested?</strong>
                   <Tooltip title="Interesting!">
-                    <ThumbUpIcon
+                    <FavoriteIcon
                       style={{
                         marginLeft: "5px",
                         marginRight: "10px",
-                        color: gameRating === 1 ? "green" : "inherit",
+                        color: gameRating === LOVE ? "red" : "inherit",
                       }}
                       onClick={() => handleInterestClick("interesting")}
                     />
                   </Tooltip>
                   <Tooltip title="Love this!!">
-                    <FavoriteIcon
+                    <ThumbUpIcon
                       style={{
                         marginRight: "10px",
-                        color: gameRating === 0.75 ? "red" : "inherit",
+                        color: gameRating === INTERESTING ? "green" : "inherit",
                       }}
                       onClick={() => handleInterestClick("love")}
                     />
@@ -189,7 +190,7 @@ const RatingPopUp = ({
                   <Tooltip title="Meh -_-">
                     <ThumbDownIcon
                       style={{
-                        color: gameRating <= 0 ? "orange" : "inherit",
+                        color: gameRating <= MEH ? "orange" : "inherit",
                       }}
                       onClick={() => handleInterestClick("meh")}
                     />

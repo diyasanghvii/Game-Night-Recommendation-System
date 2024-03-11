@@ -1,5 +1,9 @@
 // write common function here
 
+export const LOVE = 1;
+export const INTERESTING = 0.75;
+export const MEH = 0;
+
 // Example
 export const addNumbers = (number1, number2) => {
   return number1 + number2;
