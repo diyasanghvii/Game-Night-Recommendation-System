@@ -30,12 +30,14 @@ const getGenre = async (req, res) => {
 const getSteamGenres = async (req, res) => {
   try {
     const genreNames = await fetchAllGenres();
+    if (genreNames.length === 0) {
+      return res.status(404).send({ message: "No genres found!" });
+    }
     res
       .status(200)
       .send({ message: "Fetched genre list!", genreList: genreNames });
-  } catch (error) {
-    console.error("Error fetching genres from service:", error);
-    res.status(500).send({ message: "Error fetching genres" });
+  } catch (e) {
+    res.status(500).send("Error Occurred, Try again!");
   }
 };
 
