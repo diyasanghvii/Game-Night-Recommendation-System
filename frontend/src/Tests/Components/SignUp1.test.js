@@ -66,4 +66,12 @@ describe("SignUp1 Component", () => {
       expect(queryByText("Passwords do not match!")).not.toBeInTheDocument();
     });
   });
+
+  describe("Password Visibility Toggle", () => {
+    it("toggles password visibility", () => {
+      const { getByLabelText } = render(<SignUp1 />);
+      const passwordInput = getByLabelText("Password");
+      expect(passwordInput.type).toBe("password");
+    });
+  });
 });
