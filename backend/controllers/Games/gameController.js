@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { fetchAllGenres } = require("../../services/gameService");
 
 // @desc Genre API
 // @route POST /game/getgenre
@@ -23,6 +24,22 @@ const getGenre = async (req, res) => {
   }
 };
 
+// @desc get STEAM Genre API
+// @route POST /game/getsteamgenre
+// @access Private
+const getSteamGenres = async (req, res) => {
+  try {
+    const genreNames = await fetchAllGenres();
+    res
+      .status(200)
+      .send({ message: "Fetched genre list!", genreList: genreNames });
+  } catch (error) {
+    console.error("Error fetching genres from service:", error);
+    res.status(500).send({ message: "Error fetching genres" });
+  }
+};
+
 module.exports = {
   getGenre,
+  getSteamGenres,
 };
