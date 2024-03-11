@@ -32,3 +32,41 @@ export const getUnownedRatingValue = (data) => {
   };
   return ratings[data];
 };
+
+export const isValidDiscordUsername = (username) => {
+  if (typeof username !== "string") {
+    return false;
+  }
+
+  username = username.trim();
+
+  if (username.length < 2 || username.length > 32) {
+    return false;
+  }
+
+  const invalidSubstrings = [
+    "@",
+    "#",
+    ":",
+    "```",
+    "discord",
+    "everyone",
+    "here",
+  ];
+  for (const substring of invalidSubstrings) {
+    if (username.includes(substring)) {
+      return false;
+    }
+  }
+
+  const invalidCharactersRegex = /[\u200B-\u200D\uFEFF]/;
+  if (invalidCharactersRegex.test(username)) {
+    return false;
+  }
+
+  if (username.length === 0) {
+    return false;
+  }
+
+  return true;
+};

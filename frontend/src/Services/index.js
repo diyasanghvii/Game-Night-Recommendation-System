@@ -260,3 +260,18 @@ export const UpdateUnownedUserGameRating = (data) => {
       });
   });
 };
+
+// Verify User Steam ID
+export const VerifyUserSteamId = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/user/verifyusersteamid?steamId=${data}`)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
