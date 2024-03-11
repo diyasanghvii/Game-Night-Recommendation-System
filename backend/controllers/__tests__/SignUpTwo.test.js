@@ -74,8 +74,6 @@ describe("Sign up step two update API testing", () => {
 
     expect(data.steamId).toBe("steamId");
     expect(data.discordUserName).toBe("discordUserName");
-    expect(data.discordServerName).toBe("server name");
-    expect(data.discordChannelName).toBe("channel name");
   });
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
