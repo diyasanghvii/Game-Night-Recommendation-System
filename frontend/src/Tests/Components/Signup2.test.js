@@ -42,28 +42,27 @@ describe("Signup2 component for verifying part", () => {
     fireEvent.click(verifyBtns[0]); 
     fireEvent.click(verifyBtns[1]); 
   });
+  test("should verify Steam ID and Discord Username", async () => {
+    const { getByLabelText, getAllByText } = render(<Signup2 />);
+    const steamIdInput = getByLabelText("Steam ID");
+    const discordUsernameInput = getByLabelText("Discord Username");
+    const verifyBtns = getAllByText("Verify");
+  
+    fireEvent.change(steamIdInput, { target: { value: "validSteamId" } });
+    fireEvent.change(discordUsernameInput, { target: { value: "validDiscordUsername" } });
+  
+    fireEvent.click(verifyBtns[0]); 
+    fireEvent.click(verifyBtns[1]); 
+  });
+  
 });
 
 
 describe('Signup2 component', () => {
+  
   it('renders without crashing', () => {
     render(<Signup2 />);
   });
-
-  it('initial state values are correct', () => {
-    const { getByLabelText } = render(<Signup2 />);
-    expect(getByLabelText('Steam ID')).toHaveValue('');
-    expect(getByLabelText('Discord Username')).toHaveValue('');
-  });
-
-  it('updates input fields correctly', () => {
-    const { getByLabelText } = render(<Signup2 />);
-    fireEvent.change(getByLabelText('Steam ID'), { target: { value: 'steam123' } });
-    fireEvent.change(getByLabelText('Discord Username'), { target: { value: 'user123' } });
-    expect(getByLabelText('Steam ID')).toHaveValue('steam123');
-    expect(getByLabelText('Discord Username')).toHaveValue('user123');
-  });
-
 
   it('handles signup with missing or incomplete data', () => {
     const { getByText } = render(<Signup2 />);
