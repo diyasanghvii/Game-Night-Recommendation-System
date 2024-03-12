@@ -3,8 +3,9 @@ import TextBox from "../TextBox/TextBox";
 import { Container } from "@mui/material";
 import Text from "../Typography/Text";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { SignUpTwo } from "../../Services";
+import { SignUpTwo, VerifyUserSteamId } from "../../Services";
 import Btn from "../Button/Btn";
+import { isValidDiscordUsername } from "../../Utils";
 
 const Signup2 = ({ email, stepTwoDone }) => {
   const [steamId, setSteamId] = useState("");
@@ -13,7 +14,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
   const [discordUserNameVerified, setdiscordUserNameVerified] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
-  const [edited, setEdited] = useState(false); 
+  const [edited, setEdited] = useState(false);
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -30,13 +31,18 @@ const Signup2 = ({ email, stepTwoDone }) => {
       setError("");
     }
 
-    if (steamId === "76561199642434117") { 
-      setSteamIdVerified(true);
-      setError("");
-    } else {
-      setError("Steam ID is incorrect, please enter the correct information.");
-      setSteamIdVerified(false);
-    }
+    // Call Steam API here
+    VerifyUserSteamId(steamId)
+      .then((res) => {
+        if (res && res.data && res.data.status) {
+          setSteamIdVerified(true);
+          setError("");
+        }
+      })
+      .catch((e) => {
+        setError("Invalid Steam ID.");
+        setSteamIdVerified(false);
+      });
   };
 
   const handleVerifydiscordUserName = () => {
@@ -48,33 +54,16 @@ const Signup2 = ({ email, stepTwoDone }) => {
       setError("");
     }
 
-    if (discordUserName === "naheerfatima_76086") { 
+    if (isValidDiscordUsername(discordUserName)) {
       setdiscordUserNameVerified(true);
       setError("");
     } else {
-      setError("Discord Username is incorrect, please enter the correct information.");
+      setError("Invalid Discord User Name.");
       setdiscordUserNameVerified(false);
     }
   };
 
   const handleSignup = () => {
-    if (!steamId || !discordUserName) {
-      setWarning("Please provide both Steam ID and Discord Username.");
-      return;
-    }
-    if (edited) {
-      setSteamIdVerified(false);
-      setdiscordUserNameVerified(false);
-      handleVerifySteamId();
-      handleVerifydiscordUserName();
-      return;
-    }
-
-    if (!steamIdVerified || !discordUserNameVerified) {
-      setWarning("Please verify both Steam ID and Discord Username.");
-      return;
-    }
-
     const data = {
       email: email,
       steamId: steamId,
@@ -119,10 +108,12 @@ const Signup2 = ({ email, stepTwoDone }) => {
             label="Steam ID"
             value={steamId}
             fullWidth={true}
+            type="number"
             style={{ width: "80%" }}
             onChange={(e) => {
               setSteamId(e.target.value);
-              handleFieldChange(); 
+              setSteamIdVerified(false);
+              handleFieldChange();
             }}
           />
           {steamIdVerified ? (
@@ -146,6 +137,7 @@ const Signup2 = ({ email, stepTwoDone }) => {
             style={{ width: "80%" }}
             onChange={(e) => {
               setdiscordUserName(e.target.value);
+              setdiscordUserNameVerified(false);
               handleFieldChange();
             }}
           />
@@ -164,7 +156,8 @@ const Signup2 = ({ email, stepTwoDone }) => {
       </div>
       <button
         style={{
-          backgroundColor: steamIdVerified && discordUserNameVerified ? "#1976d2" : "#b3e5fc",
+          backgroundColor:
+            steamIdVerified && discordUserNameVerified ? "#1976d2" : "#b3e5fc",
           color: "#fff",
           width: "100%",
           borderRadius: "4px",
@@ -173,7 +166,10 @@ const Signup2 = ({ email, stepTwoDone }) => {
           border: "none",
           cursor: "pointer",
           transition: "background-color 0.3s ease, filter 0.3s ease",
-          filter: steamIdVerified && discordUserNameVerified ? "brightness(1)" : "brightness(0.8)",
+          filter:
+            steamIdVerified && discordUserNameVerified
+              ? "brightness(1)"
+              : "brightness(0.8)",
         }}
         onClick={handleSignup}
         disabled={!steamIdVerified || !discordUserNameVerified}
