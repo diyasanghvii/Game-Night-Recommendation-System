@@ -15,6 +15,7 @@ import Btn from "../Button/Btn";
 import { UpdateUserRating } from "../../Services";
 import rawgService from "../../Services/rawgService";
 import "./RatingPopUp.css";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const RatingPopUp = ({
   gameId,
@@ -24,12 +25,12 @@ const RatingPopUp = ({
   onClose,
   isOwned,
   updateRatings,
+  interestChanged,
 }) => {
   const [gameData, setGameData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userRating, setUserRating] = useState(gameRating);
-  const [interest, setInterest] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,12 +85,12 @@ const RatingPopUp = ({
         });
     } catch (error) {
       console.log("Error submitting rating");
-      setSaveMessage("Error occurred while saving rating. Please try again.");
+      setError("Error occurred while saving rating. Please try again.");
     }
   };
 
   const handleInterestClick = (interestType) => {
-    setInterest(interestType);
+    interestChanged(interestType);
   };
 
   return (
@@ -168,20 +169,20 @@ const RatingPopUp = ({
                 <Typography variant="body1">
                   <strong>Interested?</strong>
                   <Tooltip title="Interesting!">
-                    <ThumbUpIcon
+                    <FavoriteIcon
                       style={{
                         marginLeft: "5px",
                         marginRight: "10px",
-                        color: interest === "interesting" ? "green" : "inherit",
+                        color: gameRating === LOVE ? "red" : "inherit",
                       }}
                       onClick={() => handleInterestClick("interesting")}
                     />
                   </Tooltip>
                   <Tooltip title="Love this!!">
-                    <FavoriteIcon
+                    <ThumbUpIcon
                       style={{
                         marginRight: "10px",
-                        color: interest === "love" ? "red" : "inherit",
+                        color: gameRating === INTERESTING ? "green" : "inherit",
                       }}
                       onClick={() => handleInterestClick("love")}
                     />
@@ -189,7 +190,7 @@ const RatingPopUp = ({
                   <Tooltip title="Meh -_-">
                     <ThumbDownIcon
                       style={{
-                        color: interest === "meh" ? "orange" : "inherit",
+                        color: gameRating <= MEH ? "orange" : "inherit",
                       }}
                       onClick={() => handleInterestClick("meh")}
                     />

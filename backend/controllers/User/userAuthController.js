@@ -1,9 +1,11 @@
 const User = require("../../models/User/userModal");
+const axios = require("axios");
 const {
   hashPassword,
   comparePasswords,
   generateJwtToken,
 } = require("../../utils/authHelpers");
+const STEAM_BASE_URL = "http://api.steampowered.com";
 
 // @desc Login API
 // @route POST /user/login
@@ -277,6 +279,32 @@ const saveGameUnOwnedRating = async (req, res) => {
   }
 };
 
+// @desc Verify User Steam ID
+// @route POST /user/verifyusersteamid
+// @access Private
+const verifyUserSteamId = async (req, res) => {
+  try {
+    const steamId = req.query.steamId;
+    const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
+    const response = await axios.get(url);
+    console.log("Response : ", response);
+    if (response && response.data) {
+      res.status(200).send({
+        message: "Steam Id Valid!",
+        status: true,
+      });
+    } else {
+      res.status(400).send({
+        message: "Steam Id InValid!",
+        status: false,
+      });
+    }
+  } catch (e) {
+    console.log("Error : ", e);
+    res.status(500).send("Steam Id InValid!");
+  }
+};
+
 module.exports = {
   login,
   signUpOne,
@@ -287,4 +315,5 @@ module.exports = {
   getUserRatings,
   updateRating,
   saveGameUnOwnedRating,
+  verifyUserSteamId,
 };

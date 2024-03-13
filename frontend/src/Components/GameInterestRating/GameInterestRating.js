@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import Tooltip from "@mui/material/Tooltip";
@@ -6,19 +6,20 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Btn from "../Button/Btn";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const GameInterestRating = ({
   isOwned,
   userRating,
   isEnabled,
   handleRatingSubmit,
+  interestChanged,
+  interest,
 }) => {
-  const [interest, setInterest] = useState("");
-
-  const handleInterestClick = (interestType) => {
-    // Toggle interest selection
+  const handleInterestClick = (event, interestType) => {
+    event.stopPropagation();
     const newInterest = interest === interestType ? "" : interestType;
-    setInterest(newInterest);
+    interestChanged(newInterest);
   };
 
   return (
@@ -41,30 +42,33 @@ const GameInterestRating = ({
             {isEnabled && <strong>Interested?</strong>}
             <div style={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Interesting!">
-                <ThumbUpIcon
+                <FavoriteIcon
                   style={{
                     marginLeft: "5px",
                     marginRight: "10px",
-                    color: interest === "interesting" ? "green" : "inherit",
+                    color: userRating === LOVE ? "red" : "inherit",
                   }}
-                  onClick={() => handleInterestClick("interesting")}
+                  onClick={(e) => handleInterestClick(e, "interesting")}
                 />
               </Tooltip>
               <Tooltip title="Love this!!">
-                <FavoriteIcon
+                <ThumbUpIcon
                   style={{
                     marginRight: "10px",
-                    color: interest === "love" ? "red" : "inherit",
+                    color: userRating === INTERESTING ? "green" : "inherit",
                   }}
-                  onClick={() => handleInterestClick("love")}
+                  onClick={(e) => handleInterestClick(e, "love")}
                 />
               </Tooltip>
               <Tooltip title="Meh -_-">
                 <ThumbDownIcon
                   style={{
-                    color: interest === "meh" ? "orange" : "inherit",
+                    color:
+                      userRating <= MEH && userRating !== null
+                        ? "orange"
+                        : "inherit",
                   }}
-                  onClick={() => handleInterestClick("meh")}
+                  onClick={(e) => handleInterestClick(e, "meh")}
                 />
               </Tooltip>
             </div>
