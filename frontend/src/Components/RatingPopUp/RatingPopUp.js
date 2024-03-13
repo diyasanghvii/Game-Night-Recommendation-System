@@ -188,7 +188,7 @@ const RatingPopUp = ({
                           marginRight: "10px",
                           color: gameRating === LOVE ? "red" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("interesting")}
+                        onClick={() => handleInterestClick("love")}
                       />
                     </Tooltip>
                     <Tooltip title="Interesting!">
@@ -198,7 +198,7 @@ const RatingPopUp = ({
                           color:
                             gameRating === INTERESTING ? "green" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("love")}
+                        onClick={() => handleInterestClick("interesting")}
                       />
                     </Tooltip>
                     <Tooltip title="Meh -_-">
