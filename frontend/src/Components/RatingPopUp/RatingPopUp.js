@@ -17,10 +17,8 @@ import "./RatingPopUp.css";
 import Btn from "../Button/Btn";
 import { UpdateUserRating } from "../../Services";
 
-import searchService, {
-  getAllGamesBySearch,
-  getGameDetails,
-} from "../../Services/searchService";
+import searchService from "../../Services/searchService";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const RatingPopUp = ({
   gameId,
@@ -29,6 +27,7 @@ const RatingPopUp = ({
   onClose,
   isOwned,
   updateRatings,
+  interestChanged,
 }) => {
   const [gameData, setGameData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +44,6 @@ const RatingPopUp = ({
         let response;
         if (gameId) {
           response = await searchService.getGameDetails(gameId);
-          console.log(response.data.game);
           setGameData(response.data.game);
         } else {
           return;
@@ -87,30 +85,35 @@ const RatingPopUp = ({
           );
         });
     } catch (error) {
-      console.log("Error2");
       console.error("Error submitting rating:", error);
       setSaveMessage("Error occurred while saving rating. Please try again.");
     }
   };
 
+  const handleInterestClick = (interestType) => {
+    interestChanged(interestType);
+  };
+console.log(gameRating);
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <div style={{
-            backgroundImage: `url(${gameData?.["background"]})`,
-            opacity: 1
-          }}>
-        <DialogTitle style={{ color: "white",
-            opacity: 1
-          }}>
+      <div
+        style={{
+          backgroundImage: `url(${gameData?.["background"]})`,
+          opacity: 1,
+        }}
+      >
+        <DialogTitle style={{ color: "white", opacity: 1 }}>
           <strong>{gameData?.name}</strong>
           <IconButton onClick={onClose} style={{ float: "right" }}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
-        <DialogContent style={{
-            opacity: 1
-          }}>
+        <DialogContent
+          style={{
+            opacity: 1,
+          }}
+        >
           {isLoading && <p>Loading game details...</p>}
           {error && <p>Error fetching data: {error.message}</p>}
           {!isLoading && !error && gameData && (
@@ -125,13 +128,13 @@ const RatingPopUp = ({
 
               <Grid item xs={12}>
                 {gameData && gameData.short_description ? (
-                  <Typography  sx={{color: "white" }} variant="body1">
+                  <Typography sx={{ color: "white" }} variant="body1">
                     <strong>Description:</strong> {gameData.short_description}
                   </Typography>
                 ) : (
                   <p></p>
                 )}
-                <Typography  sx={{color: "white" }} variant="body1">
+                <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Genres:</strong>
                   {gameData?.genres.map((genre) => (
                     <span
@@ -144,7 +147,7 @@ const RatingPopUp = ({
                   ))}
                 </Typography>
                 <hr />
-                <Typography sx={{color: "white" }} variant="body1">
+                <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Categories:</strong>
                   {gameData?.categories.map((categories) => (
                     <span
@@ -159,14 +162,14 @@ const RatingPopUp = ({
                 <hr />
 
                 {isOwned ? (
-                  <Typography  sx={{color: "white" }} variant="body1">
+                  <Typography variant="body1">
                     <span className="icon-container">
                       <strong>Rate it:</strong>
                       <Rating
-                      emptyIcon={<StarIcon style={{ color: "white", opacity: 0.4 }} />}
                         name="game-rating"
                         value={userRating}
                         onChange={(event, newValue) => setUserRating(newValue)}
+                        data-testid="rating-component"
                       />
                       <Btn
                         style={{ marginLeft: "5px", float: "right" }}
@@ -176,39 +179,37 @@ const RatingPopUp = ({
                     </span>
                   </Typography>
                 ) : (
-                  <Typography  sx={{color: "white" }} variant="body1">
-                    <span className="icon-container">
-                      <strong>Interested?</strong>
-                      <Tooltip  sx={{color: "white" }} title="Interesting!">
-                        <ThumbUpIcon
-                          style={{
-                            color: "white",
-                            display: "inline-block",
-                            marginLeft: "5px",
-                            marginRight: "10px",
-                          }}
-                        />
-                      </Tooltip>
-
-                      <Tooltip  sx={{color: "white" }} title="Love this!!">
-                        <FavoriteIcon
-                          style={{
-                            color: "white",
-                            display: "inline-block",
-                            marginRight: "10px",
-                          }}
-                        />
-                      </Tooltip>
-
-                      <Tooltip  sx={{color: "white" }} title="Meh -_-">
-                        <ThumbDownIcon style={{ color: "white", display: "inline-block" }} />
-                      </Tooltip>
-                    </span>
+                  <Typography sx={{ color: "white" }} variant="body1">
+                    <strong>Interested?</strong>
+                    <Tooltip title="Interesting!">
+                      <FavoriteIcon
+                        style={{
+                          marginLeft: "5px",
+                          marginRight: "10px",
+                          color: gameRating === LOVE ? "red" : "inherit",
+                        }}
+                        onClick={() => handleInterestClick("interesting")}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Love this!!">
+                      <ThumbUpIcon
+                        style={{
+                          marginRight: "10px",
+                          color:
+                            gameRating === INTERESTING ? "green" : "inherit",
+                        }}
+                        onClick={() => handleInterestClick("love")}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Meh -_-">
+                      <ThumbDownIcon
+                        style={{
+                          color: gameRating <= MEH ? "orange" : "inherit",
+                        }}
+                        onClick={() => handleInterestClick("meh")}
+                      />
+                    </Tooltip>
                   </Typography>
-                )}
-
-                {saveMessage && (
-                  <Typography  sx={{color: "white" }} variant="body1">{saveMessage}</Typography>
                 )}
               </Grid>
             </Grid>

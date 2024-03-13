@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./GameSectionFilter.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
-import { gameRatingMatch } from "../../Utils";
+import { gameRatingMatch, getUnownedRatingValue } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
+import { UpdateUnownedUserGameRating } from "../../Services";
 
 function GameSectionFilter({ title, games, ratings, updateRatings }) {
   const [startIndex, setStartIndex] = useState(0);
@@ -25,6 +26,23 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
     setEndIndex((prev) => Math.max(prev - 5, 5));
   }; 
 
+  const interestChanged = (game, data) => {
+    const param = {
+      gameName: game.name,
+      gameRawgId: game.id,
+      interest: getUnownedRatingValue(data),
+    };
+    UpdateUnownedUserGameRating(param)
+      .then((response) => {
+        if (response) {
+          updateRatings(response?.data?.preferences);
+        }
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
+  };
+
   const visibleGames = games?.slice(startIndex, endIndex) || [];
 
   return (
@@ -39,6 +57,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
             null,
             popupGameData.id
           )}
+          interestChanged={(data) => interestChanged(popupGameData, data)}
           onClose={() => setShowPopup(false)}
           isOwned={popupGameData.isOwned}
           updateRatings={updateRatings}
@@ -78,7 +97,17 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
                   isEnabled={false}
                 />
               ) : (
-                <GameInterestRating isOwned={false} isEnabled={false} />
+                <GameInterestRating
+                  userRating={gameRatingMatch(
+                    ratings,
+                    game.name,
+                    null,
+                    game.id
+                  )}
+                  interestChanged={(data) => interestChanged(game, data)}
+                  isOwned={false}
+                  isEnabled={false}
+                />
               )}
             </div>
           ))}

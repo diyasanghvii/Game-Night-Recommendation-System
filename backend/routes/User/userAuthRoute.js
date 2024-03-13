@@ -11,6 +11,7 @@ const {
   getUserRatings,
   updateRating,
   saveGameUnOwnedRating,
+  verifyUserSteamId,
 } = require("../../controllers/User/userAuthController");
 
 const { authoriseCheck } = require("../../middleware/authMiddleware");
@@ -29,5 +30,6 @@ userRoutes.post(
   authoriseCheck,
   saveGameUnOwnedRating
 );
+userRoutes.get("/verifyusersteamid", authoriseCheck, verifyUserSteamId);
 
 module.exports = userRoutes;

@@ -77,8 +77,6 @@ class EditPreferences extends Component {
     if (searchTerm === "") {
       this.setState({ allGamesSearchTerm: searchTerm }, async () => {
         const response = await searchService.getFeaturedGames();
-        const test = response.data.games.data;
-        console.log(test);
         const updatedAllGames = response.data.games.data?.map((steamAllGame) => {
           let isOwned;
           let gameSteamId;

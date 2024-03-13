@@ -85,7 +85,6 @@ function RecommendGames() {
       updatedSelectedMembers.splice(index, 1);
       setSelectedMembers(updatedSelectedMembers);
     }
-    console.log(selectedMembers);
   };
 
   return (
