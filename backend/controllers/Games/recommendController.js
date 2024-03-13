@@ -1,8 +1,11 @@
-import { generateRecommendations } from "../services/recommendationService";
-import { preprocessGameData } from "../services/dataPreprocessingService";
+const {
+  generateRecommendations,
+} = require("../../services/Games/recommendationService");
+const {
+  preprocessGameData,
+} = require("../../services/Games/dataPreprocessingService");
 
-
-// @desc Get Game Reocmmendation
+// @desc Get Game Recommendation
 // @route POST /recommend/getRecommendations
 // @access Private
 async function getRecommendations(req, res) {
@@ -18,5 +21,6 @@ async function getRecommendations(req, res) {
     res.status(500).json({ error: "Failed to fetch recommendations" });
   }
 }
-
-export default { getRecommendations };
+module.exports = {
+  getRecommendations,
+};

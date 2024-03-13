@@ -47,4 +47,8 @@ app.use("/discord", discordRoutes);
 const rawgRoutes = require("./routes/Games/rawgInfoRoute");
 app.use("/rawg", rawgRoutes);
 
+// recommend games info routes
+const recommendRoutes = require("./routes/Games/recommendInfoRoute");
+app.use("/recommend", recommendRoutes);
+
 module.exports = app;

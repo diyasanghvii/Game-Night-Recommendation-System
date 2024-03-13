@@ -1,4 +1,4 @@
-import { calculateGameScore, recommendGames } from "./recommendationAlgo";
+const { calculateGameScore, recommendGames } = require("./recommendationAlgo");
 
 async function generateRecommendations(
   selectedUsers,
@@ -11,4 +11,4 @@ async function generateRecommendations(
   return recommendedGames;
 }
 
-export default { generateRecommendations };
+module.exports = { generateRecommendations };

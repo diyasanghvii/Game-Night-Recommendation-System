@@ -3,7 +3,7 @@ const recommendRoutes = express.Router();
 
 const {
   getRecommendations,
-} = require("../../controllers/Games/recommendController").default;
+} = require("../../controllers/Games/recommendController");
 const { authoriseCheck } = require("../../middleware/authMiddleware");
 
 // API Routes

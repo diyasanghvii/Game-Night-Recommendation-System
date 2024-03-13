@@ -3,59 +3,58 @@ async function preprocessGameData(selectedUsers) {
   //   const userRatings = await fetchUserRatings(selectedUsers);
   //   const userGenres = await fetchUserGenres(selectedUsers);
   //   const rawgGames = await fetchRawgGames(/* ... */);
-  //   // ... (Process the data to match input format for 'recommendGames')
+  //   //Process the data to match input format for 'recommendGames'
   const gameData = [
     {
-      game: 1,
+      gameSteamId: 1,
+      ownership: [0, 0, 0],
+      matchedgenres: [2, 1, 0],
+      ratings: [null, 5, null],
+    },
+    {
+      gameSteamId: 2,
+      ownership: [0, 0, 1],
+      matchedgenres: [1, 0, 1],
+      ratings: [4, null, null],
+    },
+    {
+      gameSteamId: 3,
+      ownership: [0, 1, 0],
+      matchedgenres: [0, 0, 2],
+      ratings: [2, 3, null],
+    },
+    {
+      gameSteamId: 4,
+      ownership: [0, 1, 1],
+      matchedgenres: [1, 0, 0],
+      ratings: [1, 3, 3],
+    },
+    {
+      gameSteamId: 5,
+      ownership: [1, 0, 0],
+      matchedgenres: [2, 2, 1],
+      ratings: [5, 5, null],
+    },
+    {
+      gameSteamId: 6,
       ownership: [1, 0, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
+      matchedgenres: [0, 1, 0],
+      ratings: [3, 4, 3],
     },
     {
-      game: 2,
-      ownership: [1, 0, 0],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
+      gameSteamId: 7,
+      ownership: [1, 1, 0],
+      matchedgenres: [2, 0, 1],
+      ratings: [3, 2, 5],
     },
     {
-      game: 3,
+      gameSteamId: 8,
       ownership: [1, 1, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
-    },
-    {
-      game: 4,
-      ownership: [0, 0, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
-    },
-    {
-      game: 5,
-      ownership: [1, 1, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
-    },
-    {
-      game: 6,
-      ownership: [1, 1, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
-    },
-    {
-      game: 7,
-      ownership: [1, 0, 0],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
-    },
-
-    {
-      game: 8,
-      ownership: [0, 0, 1],
-      matchedgenres: [3, 4, 0],
-      ratings: [3, 5, null],
+      matchedgenres: [0, 2, 0],
+      ratings: [1, null, 1],
     },
   ];
   return gameData;
 }
 
-export default { preprocessGameData };
+module.exports = { preprocessGameData };
