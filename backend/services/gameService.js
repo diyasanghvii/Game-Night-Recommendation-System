@@ -6,6 +6,7 @@ async function fetchAllGenres() {
   const allGenres = [];
   let currentPage = 1;
   let totalPages = 4;
+  const sensitiveTags = process.env.AGE_SENSITIVE_TAGS.split(",");
 
   while (currentPage <= totalPages) {
     try {
@@ -15,7 +16,11 @@ async function fetchAllGenres() {
       const data = response.data;
 
       //totalPages = data.total;
-      allGenres.push(...data.data.map((genre) => genre.name));
+      allGenres.push(
+        ...data.data
+          .filter((genre) => !sensitiveTags.includes(genre.name.toLowerCase()))
+          .map((genre) => genre.name)
+      );
 
       currentPage++;
     } catch (error) {
