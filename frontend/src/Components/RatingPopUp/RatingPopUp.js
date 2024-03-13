@@ -162,7 +162,7 @@ const RatingPopUp = ({
                 <hr />
 
                 {isOwned ? (
-                  <Typography variant="body1">
+                  <Typography variant="body1" sx={{ color: "white" }}>
                     <span className="icon-container">
                       <strong>Rate it:</strong>
                       <Rating
@@ -181,7 +181,7 @@ const RatingPopUp = ({
                 ) : (
                   <Typography sx={{ color: "white" }} variant="body1">
                     <strong>Interested?</strong>
-                    <Tooltip title="Interesting!">
+                    <Tooltip title="Love this!!">
                       <FavoriteIcon
                         style={{
                           marginLeft: "5px",
@@ -191,7 +191,7 @@ const RatingPopUp = ({
                         onClick={() => handleInterestClick("interesting")}
                       />
                     </Tooltip>
-                    <Tooltip title="Love this!!">
+                    <Tooltip title="Interesting!">
                       <ThumbUpIcon
                         style={{
                           marginRight: "10px",

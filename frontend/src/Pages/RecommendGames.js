@@ -3,6 +3,8 @@ import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
 import { GetPresence, SendList } from "../Services/index.js"; 
+import MenuHeader from "../Components/MenuHeader/MenuHeader";
+
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
@@ -89,6 +91,7 @@ function RecommendGames() {
 
   return (
     <>
+    <MenuHeader />
       <h1 style={{ marginLeft: "6rem" }}>
         Select Players from Discord 
       </h1>
