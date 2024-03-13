@@ -24,7 +24,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(prev - 5, 0));
     setEndIndex((prev) => Math.max(prev - 5, 5));
-  }; 
+  };
 
   const interestChanged = (game, data) => {
     const param = {
@@ -54,8 +54,8 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
           gameRating={gameRatingMatch(
             ratings,
             popupGameData.name,
-            null,
-            popupGameData.id
+            popupGameData.appid,
+            null
           )}
           interestChanged={(data) => interestChanged(popupGameData, data)}
           onClose={() => setShowPopup(false)}
@@ -101,10 +101,10 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
                   userRating={gameRatingMatch(
                     ratings,
                     game.name,
-                    null,
-                    game.id
+                    game.appid,
+                    null
                   )}
-                  interestChanged={(data) => interestChanged(game, data)}
+                  interestChanged={(data) => {}}
                   isOwned={false}
                   isEnabled={false}
                 />

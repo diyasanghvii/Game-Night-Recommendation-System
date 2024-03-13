@@ -93,7 +93,7 @@ const RatingPopUp = ({
   const handleInterestClick = (interestType) => {
     interestChanged(interestType);
   };
-console.log(gameRating);
+
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
       <div
@@ -105,7 +105,7 @@ console.log(gameRating);
         <DialogTitle style={{ color: "white", opacity: 1 }}>
           <strong>{gameData?.name}</strong>
           <IconButton onClick={onClose} style={{ float: "right" }}>
-            <CloseIcon />
+            <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </DialogTitle>
 
