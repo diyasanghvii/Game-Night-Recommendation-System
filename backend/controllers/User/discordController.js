@@ -178,6 +178,7 @@ const sendList = async (req, res) => {
   const channelName = req.body.selectedChannel;
   const serverName = req.body.selectedServer;
   const members = req.body.selectedMembers;
+  const gamePool = [];
   if (!channelName) {
     return res.status(400).json({ message: "Channel not found." });
   }
@@ -195,11 +196,45 @@ const sendList = async (req, res) => {
       //console.log(JSON.stringify(element));
       const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${data.steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
       const response = await axios.get(url);
-      element.ownedGames = response.data;
-      console.log(JSON.stringify(element, undefined, 5));
+      const ownedGames = response.data.response.games;
+      element.ownedgames = ownedGames ? ownedGames : [];
+      //for (const game of element.ownedgames.concat(element.preferences)) {
+      for (const game of element.preferences) {
+        const existingGame = gamePool.find(
+          (item) => item.appid === game.gameSteamId
+        );
+        //console.log(game.gameSteamId);
+        if (!existingGame && game.gameSteamId != undefined) {
+          //console.log(game.gameSteamId);
+          const genreUrl = `http://store.steampowered.com/api/appdetails/?filters=genres,categories&appids=${game.gameSteamId}`;
+          const genreResponse = await axios.get(genreUrl);
+          //console.log(genreResponse, undefined, 5);
+          const genresRes = genreResponse.data[`${game.gameSteamId}`].data.genres;
+          const genresList = [];
+          genresRes.forEach(element => {
+            genresList.push(element.description);
+          });
+          //console.log("Genre data response: ",genresList);
+          const categoriesRes =
+            genreResponse.data[`${game.gameSteamId}`].data.categories;
+          const categoriesList = [];
+          categoriesRes.forEach(element => {
+            categoriesList.push(element.description);
+          });
+          //console.log("Category data response: ",categoriesList);
+          gamePool.push({
+            appid: game.gameSteamId,
+            name: game.gameName,
+            genres: genresList,
+            categories: categoriesList,
+          });
+        }
+      }
+      //console.log(JSON.stringify(element, undefined, 5));
     }
   }
-
+  console.log(JSON.stringify(gamePool, undefined, 5));
+  console.log(gamePool.length);
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,

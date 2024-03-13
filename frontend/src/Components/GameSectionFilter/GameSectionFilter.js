@@ -23,7 +23,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(prev - 5, 0));
     setEndIndex((prev) => Math.max(prev - 5, 5));
-  };
+  }; 
 
   const visibleGames = games?.slice(startIndex, endIndex) || [];
 
@@ -31,8 +31,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
     <section className="gameSection">
       {showPopup && (
         <RatingPopUp
-          gameId={popupGameData.steamId}
-          gameRawgId={popupGameData.id}
+          gameId={popupGameData.appid}
           gameName={popupGameData.name}
           gameRating={gameRatingMatch(
             ratings,
@@ -61,8 +60,8 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
               onClick={() => handleClick(game)}
             >
               <img
-                style={{ width: 30, height: 30 }}
-                src={game.background_image}
+                style={{ width: 200, height: 100 }}
+                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                 alt={game.name}
               />
               <h3>{game.name}</h3>

@@ -61,7 +61,8 @@ function GameSection({ title, games, ratings, updateRatings }) {
                 onClick={() => handleClick(game)}
               >
                 <img
-                  src={`http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`}
+                style={{ width: 200, height: 100 }}
+                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                   alt={game.name}
                 />
                 <h3>{game.name}</h3>

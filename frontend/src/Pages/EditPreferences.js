@@ -6,7 +6,7 @@ import GameSection from "../Components/GameSection/GameSection";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
 import { UpdateUserGenre, profileCheck, GetUserRatings } from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
-import rawgService from "../Services/rawgService";
+import searchService from "../Services/searchService";
 
 class EditPreferences extends Component {
   constructor() {
@@ -18,9 +18,9 @@ class EditPreferences extends Component {
       genres: [],
       ratings: [],
       isPopupOpen: false,
-      allGames: [],
-      yourGames: [],
-      allYourGames: [],
+      allGames: [], //all games from rawg
+      yourGames: [], //owned games from steam
+      allYourGames: [], //filtered owned games
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
     };
@@ -74,39 +74,73 @@ class EditPreferences extends Component {
 
   handleAllGamesSearchChange = async (e) => {
     const searchTerm = e?.target?.value || "";
-    this.setState({ allGamesSearchTerm: searchTerm }, async () => {
-      const response = await rawgService.getAllGamesBySearch(searchTerm);
-      const updatedAllGames = response.data?.games?.map((rawgGame) => {
-        let isOwned;
-        let gameSteamId;
-        if (this.state.yourGames) {
-          //TODO: Update search criteria since Rawg and Steam names can be different
-          const ownedMatch = this.state.yourGames?.find(
-            (ownedGame) =>
-              ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
-          );
+    if (searchTerm === "") {
+      this.setState({ allGamesSearchTerm: searchTerm }, async () => {
+        const response = await searchService.getFeaturedGames();
+        const test = response.data.games.data;
+        console.log(test);
+        const updatedAllGames = response.data.games.data?.map((steamAllGame) => {
+          let isOwned;
+          let gameSteamId;
+          if (this.state.yourGames) {
+            //TODO: Update search criteria since Rawg and Steam names can be different
+            const ownedMatch = this.state.yourGames?.find(
+              (ownedGame) => ownedGame.appid === steamAllGame.appid
+            );
 
-          isOwned = !!ownedMatch;
-          gameSteamId = ownedMatch ? ownedMatch.appid : null;
-        } else {
-          const ownedMatch = this.state.allYourGames?.find(
-            (ownedGame) =>
-              ownedGame.name.toLowerCase() === rawgGame.name.toLowerCase()
-          );
+            isOwned = !!ownedMatch;
+            gameSteamId = ownedMatch ? ownedMatch.appid : null;
+          } else {
+            const ownedMatch = this.state.allYourGames?.find(
+              (ownedGame) => ownedGame.appid === steamAllGame.appid
+            );
 
-          isOwned = !!ownedMatch;
-          gameSteamId = ownedMatch ? ownedMatch.appid : null;
-        }
+            isOwned = !!ownedMatch;
+            gameSteamId = ownedMatch ? ownedMatch.appid : null;
+          }
 
-        return {
-          ...rawgGame,
-          isOwned: isOwned ? 1 : 0,
-          steamId: gameSteamId,
-        };
+          return {
+            ...steamAllGame,
+            isOwned: isOwned ? 1 : 0,
+            steamId: gameSteamId,
+          };
+        });
+
+        this.setState({ allGames: updatedAllGames });
       });
+    } else {
+      this.setState({ allGamesSearchTerm: searchTerm }, async () => {
+        const response = await searchService.getAllGamesBySearch(searchTerm);
+        const updatedAllGames = response.data?.games?.map((steamAllGame) => {
+          let isOwned;
+          let gameSteamId;
+          if (this.state.yourGames) {
+            //TODO: Update search criteria since Rawg and Steam names can be different
+            const ownedMatch = this.state.yourGames?.find(
+              (ownedGame) => ownedGame.appid === steamAllGame.appid
+            );
 
-      this.setState({ allGames: updatedAllGames });
-    });
+            isOwned = !!ownedMatch;
+            gameSteamId = ownedMatch ? ownedMatch.appid : null;
+          } else {
+            const ownedMatch = this.state.allYourGames?.find(
+              (ownedGame) => ownedGame.appid === steamAllGame.appid
+            );
+
+            isOwned = !!ownedMatch;
+            gameSteamId = ownedMatch ? ownedMatch.appid : null;
+          }
+
+          return {
+            ...steamAllGame,
+            isOwned: isOwned ? 1 : 0,
+            steamId: gameSteamId,
+          };
+        });
+
+        this.setState({ allGames: updatedAllGames });
+      });
+    }
   };
 
   handleYourGamesSearchChange = (e) => {
