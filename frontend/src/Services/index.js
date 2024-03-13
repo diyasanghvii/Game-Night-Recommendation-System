@@ -146,7 +146,7 @@ export const UpdateUserGenre = (data) => {
 export const GetGenreList = () => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get("/game/getgenre")
+      .get("/game/getsteamgenre")
       .then((response) => {
         resolve(response);
       })
