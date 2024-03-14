@@ -47,4 +47,8 @@ app.use("/discord", discordRoutes);
 const steamSearchRoutes = require("./routes/Games/searchInfoRoute");
 app.use("/search", steamSearchRoutes);
 
+// recommend games info routes
+const recommendRoutes = require("./routes/Games/recommendInfoRoute");
+app.use("/recommend", recommendRoutes);
+
 module.exports = app;
