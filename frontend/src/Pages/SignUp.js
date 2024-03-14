@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { Stepper, Step, StepLabel } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SignUp1 from "../Components/Signup1/Signup1";
 import SignUp2 from "../Components/Signup2/Signup2";
 import SignUp3 from "../Components/Signup3/Signup3";
 
 const SignUp = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [email, setEmail] = useState("");
+  const location = useLocation(); // Use useLocation to access the navigation state
+  const stepOneCompleted = location.state?.stepOneCompleted || false; // Extract stepOneCompleted from the state
+  
+  const loggedEmail = location.state?.loggedEmail || "";
+  const initialStep = stepOneCompleted ? 1 : 0;
+  const [activeStep, setActiveStep] = useState(initialStep);
+  const [email, setEmail] = useState(loggedEmail);
   const navigate = useNavigate();
 
   const stepOneDone = (data) => {

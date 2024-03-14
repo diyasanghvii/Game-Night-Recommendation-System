@@ -32,7 +32,13 @@ const Login = () => {
       .then((response) => {
         if (response.data && response.data.token) {
           sessionStorage.setItem("authToken", response.data.token);
-          navigate("/dashboard");
+          if (response.data.redirect) {
+            // Redirect to the signup page with state
+            console.log("fe: redirect");
+            navigate('/signup', { state: { stepOneCompleted: response.data.stepOneDone , loggedEmail: response.data.email} });
+          } else {
+            navigate("/dashboard");
+          }
         }
       })
       .catch((error) => {
