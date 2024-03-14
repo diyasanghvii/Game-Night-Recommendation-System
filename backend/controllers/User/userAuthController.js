@@ -240,18 +240,13 @@ const saveGameUnOwnedRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             preference.gameName === newPreference.gameName &&
-            (preference.gameSteamId === newPreference.gameSteamId ||
-              preference.gameRawgId === newPreference.gameRawgId)
+            (preference.gameSteamId === newPreference.gameSteamId)
         );
         if (existingPreferenceIndex !== -1) {
           user.preferences[existingPreferenceIndex].gameSteamId = user
             .preferences[existingPreferenceIndex].gameSteamId
             ? user.preferences[existingPreferenceIndex].gameSteamId
             : newPreference.gameSteamId;
-          user.preferences[existingPreferenceIndex].gameRawgId = user
-            .preferences[existingPreferenceIndex].gameRawgId
-            ? user.preferences[existingPreferenceIndex].gameRawgId
-            : newPreference.gameRawgId;
           user.preferences[existingPreferenceIndex].interest =
             newPreference.interest;
           // user.preferences[existingPreferenceIndex].ratings = null;
@@ -273,7 +268,7 @@ const saveGameUnOwnedRating = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log("Errir --->", e);
+    console.log("Error --->", e);
 
     res.status(500).send("Error Occured, Try again!");
   }
@@ -287,7 +282,6 @@ const verifyUserSteamId = async (req, res) => {
     const steamId = req.query.steamId;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
-    console.log("Response : ", response);
     if (response && response.data) {
       res.status(200).send({
         message: "Steam Id Valid!",
