@@ -204,7 +204,7 @@ const RatingPopUp = ({
                     <Tooltip title="Meh -_-">
                       <ThumbDownIcon
                         style={{
-                          color: gameRating <= MEH ? "orange" : "inherit",
+                          color: gameRating && gameRating <= MEH ? "orange" : "inherit",
                         }}
                         onClick={() => handleInterestClick("meh")}
                       />

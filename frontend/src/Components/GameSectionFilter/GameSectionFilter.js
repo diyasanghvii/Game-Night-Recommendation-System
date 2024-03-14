@@ -29,7 +29,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
   const interestChanged = (game, data) => {
     const param = {
       gameName: game.name,
-      gameRawgId: game.id,
+      gameSteamId: game.appid,
       interest: getUnownedRatingValue(data),
     };
     UpdateUnownedUserGameRating(param)
@@ -44,7 +44,6 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
   };
 
   const visibleGames = games?.slice(startIndex, endIndex) || [];
-
   return (
     <section className="gameSection">
       {showPopup && (
