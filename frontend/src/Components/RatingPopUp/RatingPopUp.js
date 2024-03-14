@@ -181,7 +181,7 @@ const RatingPopUp = ({
                 ) : (
                   <Typography sx={{ color: "white" }} variant="body1">
                     <strong>Interested?</strong>
-                    <Tooltip title="Interesting!">
+                    <Tooltip title="Love this!!">
                       <FavoriteIcon
                         style={{
                           marginLeft: "5px",
@@ -191,7 +191,7 @@ const RatingPopUp = ({
                         onClick={() => handleInterestClick("interesting")}
                       />
                     </Tooltip>
-                    <Tooltip title="Love this!!">
+                    <Tooltip title="Interesting!">
                       <ThumbUpIcon
                         style={{
                           marginRight: "10px",
@@ -204,7 +204,10 @@ const RatingPopUp = ({
                     <Tooltip title="Meh -_-">
                       <ThumbDownIcon
                         style={{
-                          color: gameRating && gameRating <= MEH ? "orange" : "inherit",
+                          color:
+                            gameRating != null && gameRating <= MEH
+                              ? "orange"
+                              : "inherit",
                         }}
                         onClick={() => handleInterestClick("meh")}
                       />

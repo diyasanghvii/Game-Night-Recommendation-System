@@ -91,7 +91,7 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
                     ratings,
                     game.name,
                     null,
-                    game.id
+                    game.appid
                   )}
                   isEnabled={false}
                 />
