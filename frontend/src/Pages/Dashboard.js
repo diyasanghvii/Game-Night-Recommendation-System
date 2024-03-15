@@ -23,20 +23,10 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const token = sessionStorage.getItem("authToken");
-    profileCheck(token)
-      .then(() => {
-        this.setState({ isLoading: true }, () => {
-          this.getUserDetails();
-        });
-      })
-      .catch(() => {
-        // Redirect to signup2 page if both steamId and discordUserName are null
-        const steamId = localStorage.getItem("steamId");
-        const discordUserName = localStorage.getItem("discordUserName");
-        if (!steamId && !discordUserName) {
-          window.location.href = "/signup2"; // Redirect to signup2 page
-        }
-      });
+    profileCheck(token);
+    this.setState({ isLoading: true }, () => {
+      this.getUserDetails();
+    });
   }
 
   getUserDetails = () => {
@@ -45,6 +35,7 @@ class Dashboard extends Component {
         if (response && response.data) {
           localStorage.setItem("userName", response.data?.name);
           localStorage.setItem("userGenre", response.data?.preferredGenres);
+
           localStorage.setItem(
             "discordUserName",
             response.data?.discordUserName
