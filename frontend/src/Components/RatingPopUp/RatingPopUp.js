@@ -162,7 +162,7 @@ const RatingPopUp = ({
                 <hr />
 
                 {isOwned ? (
-                  <Typography variant="body1">
+                  <Typography variant="body1" sx={{ color: "white" }}>
                     <span className="icon-container">
                       <strong>Rate it:</strong>
                       <Rating
@@ -181,30 +181,33 @@ const RatingPopUp = ({
                 ) : (
                   <Typography sx={{ color: "white" }} variant="body1">
                     <strong>Interested?</strong>
-                    <Tooltip title="Interesting!">
+                    <Tooltip title="Love this!!">
                       <FavoriteIcon
                         style={{
                           marginLeft: "5px",
                           marginRight: "10px",
                           color: gameRating === LOVE ? "red" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("interesting")}
+                        onClick={() => handleInterestClick("love")}
                       />
                     </Tooltip>
-                    <Tooltip title="Love this!!">
+                    <Tooltip title="Interesting!">
                       <ThumbUpIcon
                         style={{
                           marginRight: "10px",
                           color:
                             gameRating === INTERESTING ? "green" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("love")}
+                        onClick={() => handleInterestClick("interesting")}
                       />
                     </Tooltip>
                     <Tooltip title="Meh -_-">
                       <ThumbDownIcon
                         style={{
-                          color: gameRating && gameRating <= MEH ? "orange" : "inherit",
+                          color:
+                            gameRating != null && gameRating <= MEH
+                              ? "orange"
+                              : "inherit",
                         }}
                         onClick={() => handleInterestClick("meh")}
                       />

@@ -133,25 +133,15 @@ const updateRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             preference.gameName === newPreference.gameName &&
-            (preference.gameSteamId === newPreference.gameSteamId ||
-              preference.gameRawgId === newPreference.gameRawgId)
+            parseInt(preference.gameSteamId) ===
+              parseInt(newPreference.gameSteamId)
         );
 
         if (existingPreferenceIndex !== -1) {
-          // update existing rating
-          user.preferences[existingPreferenceIndex].gameSteamId = user
-            .preferences[existingPreferenceIndex].gameSteamId
-            ? user.preferences[existingPreferenceIndex].gameSteamId
-            : newPreference.gameSteamId;
-          user.preferences[existingPreferenceIndex].gameRawgId = user
-            .preferences[existingPreferenceIndex].gameRawgId
-            ? user.preferences[existingPreferenceIndex].gameRawgId
-            : newPreference.gameRawgId;
           user.preferences[existingPreferenceIndex].ratings =
             newPreference.ratings;
           user.preferences[existingPreferenceIndex].interest = null;
         } else {
-          // add new rating
           user.preferences.push(newPreference);
         }
       } else {
@@ -185,16 +175,13 @@ const saveGameUnOwnedRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             preference.gameName === newPreference.gameName &&
-            (preference.gameSteamId === newPreference.gameSteamId)
+            parseInt(preference.gameSteamId) ===
+              parseInt(newPreference.gameSteamId)
         );
         if (existingPreferenceIndex !== -1) {
-          user.preferences[existingPreferenceIndex].gameSteamId = user
-            .preferences[existingPreferenceIndex].gameSteamId
-            ? user.preferences[existingPreferenceIndex].gameSteamId
-            : newPreference.gameSteamId;
           user.preferences[existingPreferenceIndex].interest =
             newPreference.interest;
-          // user.preferences[existingPreferenceIndex].ratings = null;
+          user.preferences[existingPreferenceIndex].ratings = null;
         } else {
           user.preferences.push(newPreference);
         }
