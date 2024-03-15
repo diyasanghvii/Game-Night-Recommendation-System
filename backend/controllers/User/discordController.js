@@ -225,6 +225,10 @@ const sendList = async (req, res) => {
       }
     }
   }
+
+  console.log("Members: ", JSON.stringify(members, undefined, 5));
+  console.log("Game Pool: ", gamePool);
+  
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,

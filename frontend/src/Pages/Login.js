@@ -96,6 +96,7 @@ const Login = () => {
             </InputAdornment>
           ),
         }}
+        sx={{ marginBottom: '16px' }}
       />
 
       {error && <ErrorMessage message={error} />}
