@@ -45,7 +45,7 @@ const login = async (req, res) => {
             name: user.name,
             email: user.email,
             token: generateJwtToken(user.email),
-            message: "Login Successful!"
+            message: "Login Sucessful!"
           });
         }
       } else {
@@ -55,7 +55,7 @@ const login = async (req, res) => {
       }
     } else {
       res.status(401).json({
-        message: "Invalid Credentials, Try again!",
+        message: "Invalid Credientials, Try again!",
       });
     }
   } catch (e) {
