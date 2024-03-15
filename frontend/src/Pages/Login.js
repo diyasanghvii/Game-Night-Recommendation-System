@@ -36,8 +36,8 @@ const Login = () => {
           sessionStorage.setItem("authToken", response.data.token);
           if (response.data.redirect) {
             // Redirect to the signup page with state
-            console.log("fe: redirect");
-            navigate('/signup', { state: { stepOneCompleted: response.data.stepOneDone , loggedEmail: response.data.email} });
+            
+            navigate('/signup', { state: { initialStep: response.data.initialStep , loggedEmail: response.data.email} });
           } else {
             navigate("/dashboard");
           }

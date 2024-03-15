@@ -6,11 +6,9 @@ import SignUp2 from "../Components/Signup2/Signup2";
 import SignUp3 from "../Components/Signup3/Signup3";
 
 const SignUp = () => {
-  const location = useLocation(); // Use useLocation to access the navigation state
-  const stepOneCompleted = location.state?.stepOneCompleted || false; // Extract stepOneCompleted from the state
-  
+  const location = useLocation(); 
+  const initialStep = location.state?.initialStep || 0;
   const loggedEmail = location.state?.loggedEmail || "";
-  const initialStep = stepOneCompleted ? 1 : 0;
   const [activeStep, setActiveStep] = useState(initialStep);
   const [email, setEmail] = useState(loggedEmail);
   const navigate = useNavigate();
