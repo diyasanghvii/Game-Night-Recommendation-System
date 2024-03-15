@@ -41,7 +41,7 @@ const GameInterestRating = ({
           <>
             {isEnabled && <strong>Interested?</strong>}
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title="Interesting!">
+              <Tooltip title="Love this!!">
                 <FavoriteIcon
                   style={{
                     marginLeft: "5px",
@@ -51,7 +51,7 @@ const GameInterestRating = ({
                   onClick={(e) => handleInterestClick(e, "interesting")}
                 />
               </Tooltip>
-              <Tooltip title="Love this!!">
+              <Tooltip title="Interesting!">
                 <ThumbUpIcon
                   style={{
                     marginRight: "10px",

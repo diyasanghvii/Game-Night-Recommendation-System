@@ -77,32 +77,34 @@ class EditPreferences extends Component {
     if (searchTerm === "") {
       this.setState({ allGamesSearchTerm: searchTerm }, async () => {
         const response = await searchService.getFeaturedGames();
-        const updatedAllGames = response.data.games.data?.map((steamAllGame) => {
-          let isOwned;
-          let gameSteamId;
-          if (this.state.yourGames) {
-            //TODO: Update search criteria since Rawg and Steam names can be different
-            const ownedMatch = this.state.yourGames?.find(
-              (ownedGame) => ownedGame.appid === steamAllGame.appid
-            );
+        const updatedAllGames = response.data.games.data?.map(
+          (steamAllGame) => {
+            let isOwned;
+            let gameSteamId;
+            if (this.state.yourGames) {
+              //TODO: Update search criteria since Rawg and Steam names can be different
+              const ownedMatch = this.state.yourGames?.find(
+                (myGame) => myGame.appid === steamAllGame.appid
+              );
 
-            isOwned = !!ownedMatch;
-            gameSteamId = ownedMatch ? ownedMatch.appid : null;
-          } else {
-            const ownedMatch = this.state.allYourGames?.find(
-              (ownedGame) => ownedGame.appid === steamAllGame.appid
-            );
+              isOwned = !!ownedMatch;
+              gameSteamId = ownedMatch ? ownedMatch.appid : null;
+            } else {
+              const ownedMatch = this.state.allYourGames?.find(
+                (ownedGame) => ownedGame.appid === steamAllGame.appid
+              );
 
-            isOwned = !!ownedMatch;
-            gameSteamId = ownedMatch ? ownedMatch.appid : null;
+              isOwned = !!ownedMatch;
+              gameSteamId = ownedMatch ? ownedMatch.appid : null;
+            }
+
+            return {
+              ...steamAllGame,
+              isOwned: isOwned ? 1 : 0,
+              steamId: gameSteamId,
+            };
           }
-
-          return {
-            ...steamAllGame,
-            isOwned: isOwned ? 1 : 0,
-            steamId: gameSteamId,
-          };
-        });
+        );
 
         this.setState({ allGames: updatedAllGames });
       });
@@ -113,9 +115,9 @@ class EditPreferences extends Component {
           let isOwned;
           let gameSteamId;
           if (this.state.yourGames) {
-            //TODO: Update search criteria since Rawg and Steam names can be different
             const ownedMatch = this.state.yourGames?.find(
-              (ownedGame) => ownedGame.appid === steamAllGame.appid
+              (ownedGame) =>
+                parseInt(ownedGame.appid) === parseInt(steamAllGame.appid)
             );
 
             isOwned = !!ownedMatch;
@@ -177,6 +179,7 @@ class EditPreferences extends Component {
       allGamesSearchTerm,
       yourGamesSearchTerm,
     } = this.state;
+
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
