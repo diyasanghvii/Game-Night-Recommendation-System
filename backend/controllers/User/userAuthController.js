@@ -10,21 +10,61 @@ const STEAM_BASE_URL = "http://api.steampowered.com";
 // @desc Login API
 // @route POST /user/login
 // @access Public
+// const login = async (req, res) => {
+//   try {
+//     let data = await User.findOne({ email: req.body.email }).exec();
+//     if (data) {
+//       const passwordMatch = await comparePasswords(
+//         req.body.password,
+//         data.password
+//       );
+//       if (passwordMatch) {
+//         res.status(200).json({
+//           name: req.body.name,
+//           email: req.body.email,
+//           token: generateJwtToken(req.body.email),
+//           message: "Login Sucessful!",
+//         });
+//       } else {
+//         res.status(401).json({
+//           message: "Invalid Password, Try again!",
+//         });
+//       }
+//     } else {
+//       res.status(401).json({
+//         message: "Invalid Credientials, Try again!",
+//       });
+//     }
+//   } catch (e) {
+//     res.status(401).send("Invalid Credientials, Try again!");
+//   }
+// };
+
 const login = async (req, res) => {
   try {
-    let data = await User.findOne({ email: req.body.email }).exec();
-    if (data) {
-      const passwordMatch = await comparePasswords(
-        req.body.password,
-        data.password
-      );
+    let user = await User.findOne({ email: req.body.email }).exec();
+    if (user) {
+      const passwordMatch = await comparePasswords(req.body.password, user.password);
       if (passwordMatch) {
-        res.status(200).json({
-          name: req.body.name,
-          email: req.body.email,
-          token: generateJwtToken(req.body.email),
-          message: "Login Sucessful!",
-        });
+        if (!user.steamId || !user.discordUserName) {
+          // Send a response to the frontend to indicate that the user should be redirected to the signup page
+          return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            redirect: true,
+            stepOneDone: true,
+            token: generateJwtToken(user.email),
+            message: "Please complete your profile information."
+          });
+        } else {
+          // Proceed with login
+          res.status(200).json({
+            name: user.name,
+            email: user.email,
+            token: generateJwtToken(user.email),
+            message: "Login Successful!"
+          });
+        }
       } else {
         res.status(401).json({
           message: "Invalid Password, Try again!",
@@ -32,11 +72,11 @@ const login = async (req, res) => {
       }
     } else {
       res.status(401).json({
-        message: "Invalid Credientials, Try again!",
+        message: "Invalid Credentials, Try again!",
       });
     }
   } catch (e) {
-    res.status(401).send("Invalid Credientials, Try again!");
+    res.status(500).send("Error Occurred, Try again!");
   }
 };
 
