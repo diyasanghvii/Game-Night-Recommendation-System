@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Stepper, Step, StepLabel } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SignUp1 from "../Components/Signup1/Signup1";
 import SignUp2 from "../Components/Signup2/Signup2";
 import SignUp3 from "../Components/Signup3/Signup3";
 
 const SignUp = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [email, setEmail] = useState("");
+  const location = useLocation(); 
+  const initialStep = location.state?.initialStep || 0;
+  const loggedEmail = location.state?.loggedEmail || "";
+  const [activeStep, setActiveStep] = useState(initialStep);
+  const [email, setEmail] = useState(loggedEmail);
   const navigate = useNavigate();
 
   const stepOneDone = (data) => {

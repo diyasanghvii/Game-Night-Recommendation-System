@@ -8,10 +8,22 @@ describe("Login API", () => {
     name: "Test User",
     email: "testemail",
     password: "testpwd",
+    steamId: "123456",
+    discordUserName: "discordname",
+    preferredGenres: ["action"],
+    preferences: [{"name":"action-game"}]
   };
 
   beforeEach(async () => {
     await request(app).post("/user/signupone").send(userData).expect(200);
+    let user = await User.findOne({ email: userData.email });  // Retrieve user
+    user.steamId = null; // Set missing fields
+    user.discordUserName = null;
+    user.steamId = "123456";
+    user.discordUserName = "discordname";
+    user.preferredGenres = ["action"];
+    user.preferences = [{"name":"action-game"}];
+    await user.save();
   });
 
   afterEach(async () => {

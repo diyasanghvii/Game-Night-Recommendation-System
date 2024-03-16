@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const preferenceSchema = new Schema({
   gameSteamId: Number,
-  gameRawgId: Number,
   gameName: String,
   ratings: Number,
   interest: Number,
@@ -23,22 +22,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  age: {
-    type: String,
-  },
-  gender: {
-    type: String,
-  },
   steamId: {
     type: String,
   },
   discordUserName: {
-    type: String,
-  },
-  discordServerName: {
-    type: String,
-  },
-  discordChannelName: {
     type: String,
   },
   preferredGenres: [{ type: String }],

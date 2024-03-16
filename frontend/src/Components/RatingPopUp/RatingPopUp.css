@@ -1,9 +1,11 @@
 .tag {
-    background-color: #f0f0f0;
-    color: #222;
+    background-color: #00000078;
+    color: #ffffff;
     padding: 5px 10px;
     border-radius: 15px;
     display: inline-block;
+    opacity: 0.8;
+    margin: 2px;
   }
 
   .icon-container {

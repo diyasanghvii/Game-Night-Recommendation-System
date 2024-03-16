@@ -147,7 +147,6 @@ const Signup3 = ({ email, stepThreeDone }) => {
               <Rating
                 name={`rating-${index}`}
                 value={game.ratings}
-                precision={0.5}
                 onChange={(event) => handleRatingChange(event, index)}
                 max={5}
               />
