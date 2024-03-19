@@ -146,7 +146,7 @@ export const UpdateUserGenre = (data) => {
 export const GetGenreList = () => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get("/game/getgenre")
+      .get("/game/getsteamgenre")
       .then((response) => {
         resolve(response);
       })
@@ -234,9 +234,39 @@ export const UpdateUserRating = (data) => {
 export const SendList = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get(
-        `/discord/sendlist?serverName=${data.selectedServer}&channelName=${data.selectedChannel}`
+      .post(
+        "/discord/sendlist", data
       )
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Save user rating of unowned games
+export const UpdateUnownedUserGameRating = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/updateunownedgamerating", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Verify User Steam ID
+export const VerifyUserSteamId = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/user/verifyusersteamid?steamId=${data}`)
+
       .then((response) => {
         resolve(response);
       })
@@ -251,7 +281,6 @@ export const GenerateRecommendations = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .post("/recommend/getRecommendations", data)
-
       .then((response) => {
         resolve(response);
       })

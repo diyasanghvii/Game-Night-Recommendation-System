@@ -3,9 +3,12 @@ import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
 import { GetPresence, SendList, GenerateRecommendations } from "../Services/index.js"; 
+import MenuHeader from "../Components/MenuHeader/MenuHeader";
+
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
+  const userName = localStorage.getItem("userName");
   const [selectedServer, setSelectedServer] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("");
   const [memberStatus, setMemberStatus] = useState({
@@ -13,6 +16,7 @@ function RecommendGames() {
     Offline: [],
     Voice: [],
   });
+  const [selectedMembers, setSelectedMembers] = useState([{username: discordUserName, name: userName}]);
 
   // Handle server change
   const handleServerChange = (data) => {
@@ -71,7 +75,19 @@ function RecommendGames() {
         Voice: [],
       });
     }
-  }, [selectedServer, selectedChannel]);
+  }, [selectedServer, selectedChannel, discordUserName]);
+
+  // Function to handle checkbox toggle
+  const handleCheckboxToggle = (item) => {
+    const index = selectedMembers.findIndex(member => member.username === item.username);
+    if (index === -1) {
+      setSelectedMembers([...selectedMembers, item]);
+    } else {
+      const updatedSelectedMembers = [...selectedMembers];
+      updatedSelectedMembers.splice(index, 1);
+      setSelectedMembers(updatedSelectedMembers);
+    }
+  };
 
   fetchRecommendations = () => {
     //TODO pass body (selected members) yet to do
@@ -80,6 +96,7 @@ function RecommendGames() {
 
   return (
     <>
+    <MenuHeader />
       <h1 style={{ marginLeft: "6rem" }}>
         Select Players from Discord 
       </h1>
@@ -110,7 +127,7 @@ function RecommendGames() {
           <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
             Listening
           </h3>
-          <CheckboxList items={memberStatus.Voice} />
+          <CheckboxList items={memberStatus.Voice} onCheckboxToggle={handleCheckboxToggle} />
         </div>
         <div
           style={{
@@ -121,7 +138,7 @@ function RecommendGames() {
           }}
         >
           <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Online</h3>
-          <CheckboxList items={memberStatus.Online} />
+          <CheckboxList items={memberStatus.Online} onCheckboxToggle={handleCheckboxToggle} />
         </div>
         <div
           style={{
@@ -132,7 +149,7 @@ function RecommendGames() {
           }}
         >
           <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Offline</h3>
-          <CheckboxList items={memberStatus.Offline} />
+          <CheckboxList items={memberStatus.Offline} onCheckboxToggle={handleCheckboxToggle} />
         </div>
       </div>
       <div
@@ -144,8 +161,8 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        {/* <Btn label="Send Recommendation List" onClick={()=>{SendList({selectedChannel,selectedServer});}}></Btn> */}
-        <Btn label="Generate Recommendations" onClick={generateRecommendations}></Btn>
+        {/* <Btn label="Send Recommendation List" onClick={() => SendList({ selectedChannel, selectedServer, selectedMembers })} /> */}
+        <Btn label="Generate Recommendations" onClick={fetchRecommendations}></Btn>
       </div>
     </>
   );

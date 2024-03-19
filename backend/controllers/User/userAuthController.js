@@ -1,28 +1,53 @@
 const User = require("../../models/User/userModal");
+const axios = require("axios");
 const {
   hashPassword,
   comparePasswords,
   generateJwtToken,
 } = require("../../utils/authHelpers");
+const STEAM_BASE_URL = "http://api.steampowered.com";
 
 // @desc Login API
 // @route POST /user/login
 // @access Public
+
 const login = async (req, res) => {
   try {
-    let data = await User.findOne({ email: req.body.email }).exec();
-    if (data) {
-      const passwordMatch = await comparePasswords(
-        req.body.password,
-        data.password
-      );
+    let user = await User.findOne({ email: req.body.email }).exec();
+    if (user) {
+      const passwordMatch = await comparePasswords(req.body.password, user.password);
       if (passwordMatch) {
-        res.status(200).json({
-          name: req.body.name,
-          email: req.body.email,
-          token: generateJwtToken(req.body.email),
-          message: "Login Sucessful!",
-        });
+        if (!user.steamId || !user.discordUserName) {
+          //redirect to signup 2
+          return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            redirect: true,
+            initialStep: 1,
+            token: generateJwtToken(user.email),
+            message: "Please complete your profile information."
+          });
+        } 
+        else if (user.preferences.length == 0 || user.preferredGenres.length == 0 ) {
+          //redirect to signup 3
+          return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            redirect: true,
+            initialStep: 2,
+            token: generateJwtToken(user.email),
+            message: "Please complete your profile information."
+          });
+        }
+        else {
+          // Proceed with login
+          res.status(200).json({
+            name: user.name,
+            email: user.email,
+            token: generateJwtToken(user.email),
+            message: "Login Sucessful!"
+          });
+        }
       } else {
         res.status(401).json({
           message: "Invalid Password, Try again!",
@@ -186,25 +211,15 @@ const updateRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             preference.gameName === newPreference.gameName &&
-            (preference.gameSteamId === newPreference.gameSteamId ||
-              preference.gameRawgId === newPreference.gameRawgId)
+            parseInt(preference.gameSteamId) ===
+              parseInt(newPreference.gameSteamId)
         );
 
         if (existingPreferenceIndex !== -1) {
-          // update existing rating
-          user.preferences[existingPreferenceIndex].gameSteamId = user
-            .preferences[existingPreferenceIndex].gameSteamId
-            ? user.preferences[existingPreferenceIndex].gameSteamId
-            : newPreference.gameSteamId;
-          user.preferences[existingPreferenceIndex].gameRawgId = user
-            .preferences[existingPreferenceIndex].gameRawgId
-            ? user.preferences[existingPreferenceIndex].gameRawgId
-            : newPreference.gameRawgId;
           user.preferences[existingPreferenceIndex].ratings =
             newPreference.ratings;
           user.preferences[existingPreferenceIndex].interest = null;
         } else {
-          // add new rating
           user.preferences.push(newPreference);
         }
       } else {
@@ -238,21 +253,13 @@ const saveGameUnOwnedRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             preference.gameName === newPreference.gameName &&
-            (preference.gameSteamId === newPreference.gameSteamId ||
-              preference.gameRawgId === newPreference.gameRawgId)
+            parseInt(preference.gameSteamId) ===
+              parseInt(newPreference.gameSteamId)
         );
         if (existingPreferenceIndex !== -1) {
-          user.preferences[existingPreferenceIndex].gameSteamId = user
-            .preferences[existingPreferenceIndex].gameSteamId
-            ? user.preferences[existingPreferenceIndex].gameSteamId
-            : newPreference.gameSteamId;
-          user.preferences[existingPreferenceIndex].gameRawgId = user
-            .preferences[existingPreferenceIndex].gameRawgId
-            ? user.preferences[existingPreferenceIndex].gameRawgId
-            : newPreference.gameRawgId;
           user.preferences[existingPreferenceIndex].interest =
             newPreference.interest;
-          // user.preferences[existingPreferenceIndex].ratings = null;
+          user.preferences[existingPreferenceIndex].ratings = null;
         } else {
           user.preferences.push(newPreference);
         }
@@ -271,9 +278,34 @@ const saveGameUnOwnedRating = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log("Errir --->", e);
+    console.log("Error --->", e);
 
     res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Verify User Steam ID
+// @route POST /user/verifyusersteamid
+// @access Private
+const verifyUserSteamId = async (req, res) => {
+  try {
+    const steamId = req.query.steamId;
+    const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
+    const response = await axios.get(url);
+    if (response && response.data) {
+      res.status(200).send({
+        message: "Steam Id Valid!",
+        status: true,
+      });
+    } else {
+      res.status(400).send({
+        message: "Steam Id InValid!",
+        status: false,
+      });
+    }
+  } catch (e) {
+    console.log("Error : ", e);
+    res.status(500).send("Steam Id InValid!");
   }
 };
 
@@ -287,4 +319,5 @@ module.exports = {
   getUserRatings,
   updateRating,
   saveGameUnOwnedRating,
+  verifyUserSteamId,
 };

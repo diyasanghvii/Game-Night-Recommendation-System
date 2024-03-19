@@ -6,13 +6,22 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Btn from "../Button/Btn";
+import { INTERESTING, LOVE, MEH } from "../../Utils";
 
 const GameInterestRating = ({
   isOwned,
   userRating,
   isEnabled,
   handleRatingSubmit,
+  interestChanged,
+  interest,
 }) => {
+  const handleInterestClick = (event, interestType) => {
+    event.stopPropagation();
+    const newInterest = interest === interestType ? "" : interestType;
+    interestChanged(newInterest);
+  };
+
   return (
     <Typography variant="body1">
       <span className="icon-container">
@@ -31,23 +40,38 @@ const GameInterestRating = ({
         ) : (
           <>
             {isEnabled && <strong>Interested?</strong>}
-            <Tooltip title="Interesting!">
-              <ThumbUpIcon
-                style={{
-                  display: "inline-block",
-                  marginLeft: "5px",
-                  marginRight: "10px",
-                }}
-              />
-            </Tooltip>
-            <Tooltip title="Love this!!">
-              <FavoriteIcon
-                style={{ display: "inline-block", marginRight: "10px" }}
-              />
-            </Tooltip>
-            <Tooltip title="Meh -_-">
-              <ThumbDownIcon style={{ display: "inline-block" }} />
-            </Tooltip>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Tooltip title="Love this!!">
+                <FavoriteIcon
+                  style={{
+                    marginLeft: "5px",
+                    marginRight: "10px",
+                    color: userRating === LOVE ? "red" : "inherit",
+                  }}
+                  onClick={(e) => handleInterestClick(e, "interesting")}
+                />
+              </Tooltip>
+              <Tooltip title="Interesting!">
+                <ThumbUpIcon
+                  style={{
+                    marginRight: "10px",
+                    color: userRating === INTERESTING ? "green" : "inherit",
+                  }}
+                  onClick={(e) => handleInterestClick(e, "love")}
+                />
+              </Tooltip>
+              <Tooltip title="Meh -_-">
+                <ThumbDownIcon
+                  style={{
+                    color:
+                      userRating <= MEH && userRating !== null
+                        ? "orange"
+                        : "inherit",
+                  }}
+                  onClick={(e) => handleInterestClick(e, "meh")}
+                />
+              </Tooltip>
+            </div>
           </>
         )}
       </span>

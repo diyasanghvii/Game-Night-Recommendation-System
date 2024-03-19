@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./GameSectionFilter.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
-import { gameRatingMatch } from "../../Utils";
+import { gameRatingMatch, getUnownedRatingValue } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
+import { UpdateUnownedUserGameRating } from "../../Services";
 
 function GameSectionFilter({ title, games, ratings, updateRatings }) {
   const [startIndex, setStartIndex] = useState(0);
@@ -25,21 +26,37 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
     setEndIndex((prev) => Math.max(prev - 5, 5));
   };
 
-  const visibleGames = games?.slice(startIndex, endIndex) || [];
+  const interestChanged = (game, data) => {
+    const param = {
+      gameName: game.name,
+      gameSteamId: game.appid,
+      interest: getUnownedRatingValue(data),
+    };
+    UpdateUnownedUserGameRating(param)
+      .then((response) => {
+        if (response) {
+          updateRatings(response?.data?.preferences);
+        }
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
+  };
 
+  const visibleGames = games?.slice(startIndex, endIndex) || [];
   return (
     <section className="gameSection">
       {showPopup && (
         <RatingPopUp
-          gameId={popupGameData.steamId}
-          gameRawgId={popupGameData.id}
+          gameId={popupGameData.appid}
           gameName={popupGameData.name}
           gameRating={gameRatingMatch(
             ratings,
             popupGameData.name,
-            null,
-            popupGameData.id
+            popupGameData.appid,
+            null
           )}
+          interestChanged={(data) => interestChanged(popupGameData, data)}
           onClose={() => setShowPopup(false)}
           isOwned={popupGameData.isOwned}
           updateRatings={updateRatings}
@@ -61,8 +78,8 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
               onClick={() => handleClick(game)}
             >
               <img
-                style={{ width: 30, height: 30 }}
-                src={game.background_image}
+                style={{ width: 200, height: 100 }}
+                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                 alt={game.name}
               />
               <h3>{game.name}</h3>
@@ -74,12 +91,22 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
                     ratings,
                     game.name,
                     null,
-                    game.id
+                    game.appid
                   )}
                   isEnabled={false}
                 />
               ) : (
-                <GameInterestRating isOwned={false} isEnabled={false} />
+                <GameInterestRating
+                  userRating={gameRatingMatch(
+                    ratings,
+                    game.name,
+                    game.appid,
+                    null
+                  )}
+                  interestChanged={(data) => {}}
+                  isOwned={false}
+                  isEnabled={false}
+                />
               )}
             </div>
           ))}

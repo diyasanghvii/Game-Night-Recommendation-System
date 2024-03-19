@@ -44,8 +44,8 @@ const discordRoutes = require("./routes/User/discordRoute");
 app.use("/discord", discordRoutes);
 
 // rawg data info routes
-const rawgRoutes = require("./routes/Games/rawgInfoRoute");
-app.use("/rawg", rawgRoutes);
+const steamSearchRoutes = require("./routes/Games/searchInfoRoute");
+app.use("/search", steamSearchRoutes);
 
 // recommend games info routes
 const recommendRoutes = require("./routes/Games/recommendInfoRoute");

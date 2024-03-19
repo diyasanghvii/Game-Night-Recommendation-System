@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,39 +9,23 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Divider from "@mui/material/Divider";
 
-export default function CheckboxList({ items }) {
-  const [checked, setChecked] = React.useState([]);
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
+export default function CheckboxList({ items, onCheckboxToggle }) {
+  const handleToggle = (item) => () => {
+    onCheckboxToggle(item);
   };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: 'auto'}}>
+    <List sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: "auto" }}>
       {items.map((item, index) => {
         const labelId = `checkbox-list-label-${index}`;
 
         return (
-          <>
-            <ListItem key={index} disablePadding>
-              <ListItemButton
-                role={undefined}
-                onClick={handleToggle(index)}
-                dense
-              >
+          <React.Fragment key={index}>
+            <ListItem disablePadding>
+              <ListItemButton role={undefined}  dense>
                 <ListItemIcon>
-                  <Checkbox
+                  <Checkbox onClick={handleToggle(item)}
                     edge="start"
-                    checked={checked.indexOf(index) !== -1}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -50,7 +34,12 @@ export default function CheckboxList({ items }) {
                 <ListItemAvatar>
                   <AccountCircleIcon fontSize="large" />
                 </ListItemAvatar>
-                <ListItemText disableTypography id={labelId} sx={{ fontSize: "18px"}} primary={item.name} />
+                <ListItemText
+                  disableTypography
+                  id={labelId}
+                  sx={{ fontSize: "18px" }}
+                  primary={item.name}
+                />
                 <ListItemText
                   disableTypography
                   sx={{ fontSize: "14px", marginLeft: 5 }}
@@ -62,8 +51,8 @@ export default function CheckboxList({ items }) {
                 />
               </ListItemButton>
             </ListItem>
-            <Divider variant="middle" component="li" />
-          </>
+            {index !== items.length - 1 && <Divider variant="middle" component="li" />}
+          </React.Fragment>
         );
       })}
     </List>
