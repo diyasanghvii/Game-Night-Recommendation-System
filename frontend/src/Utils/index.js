@@ -30,8 +30,8 @@ export const gameRatingMatch = (ratings, gameName, gameSteamId, gameRawgId) => {
 
 export const getUnownedRatingValue = (data) => {
   const ratings = {
-    interesting: 1,
-    love: 0.75,
+    interesting: 0.75,
+    love: 1,
     meh: 0,
   };
   return ratings[data];

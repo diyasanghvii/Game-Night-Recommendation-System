@@ -2,7 +2,6 @@ async function preprocessGameData(selectedUsers) {
   //   const userGames = await fetchUserGames(selectedUsers);
   //   const userRatings = await fetchUserRatings(selectedUsers);
   //   const userGenres = await fetchUserGenres(selectedUsers);
-  //   const rawgGames = await fetchRawgGames(/* ... */);
   //   //Process the data to match input format for 'recommendGames'
   const gameData = [
     {
