@@ -14,7 +14,8 @@ function calculateGameScore(game, totalFriends) {
     ratingScore * weights.rating +
     genreScore * weights.genre;
 
-  return { ...game, totalScore };
+  const reason = "reason";
+  return { ...game, totalScore, reason };
 }
 
 function calculateOwnershipScore(ownership, totalFriends) {

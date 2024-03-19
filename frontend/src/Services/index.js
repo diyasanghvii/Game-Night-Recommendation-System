@@ -245,3 +245,18 @@ export const SendList = (data) => {
       });
   });
 };
+
+// Generate and Fetch recommendations
+export const GenerateRecommendations = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/recommend/getRecommendations", data)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

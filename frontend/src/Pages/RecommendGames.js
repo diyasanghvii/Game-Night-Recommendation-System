@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
-import { GetPresence, SendList } from "../Services/index.js"; 
+import { GetPresence, SendList, GenerateRecommendations } from "../Services/index.js"; 
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
@@ -73,6 +73,11 @@ function RecommendGames() {
     }
   }, [selectedServer, selectedChannel]);
 
+  fetchRecommendations = () => {
+    //TODO pass body (selected members) yet to do
+    GenerateRecommendations()
+  };
+
   return (
     <>
       <h1 style={{ marginLeft: "6rem" }}>
@@ -139,7 +144,8 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        <Btn label="Send Recommendation List" onClick={()=>{SendList({selectedChannel,selectedServer});}}></Btn>
+        {/* <Btn label="Send Recommendation List" onClick={()=>{SendList({selectedChannel,selectedServer});}}></Btn> */}
+        <Btn label="Generate Recommendations" onClick={generateRecommendations}></Btn>
       </div>
     </>
   );
