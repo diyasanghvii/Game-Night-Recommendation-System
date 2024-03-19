@@ -34,7 +34,12 @@ const Login = () => {
       .then((response) => {
         if (response.data && response.data.token) {
           sessionStorage.setItem("authToken", response.data.token);
-          navigate("/dashboard");
+          if (response.data.redirect) {
+            // Redirect to the signup page with state
+            navigate('/signup', { state: { initialStep: response.data.initialStep , loggedEmail: response.data.email} });
+          } else {
+            navigate("/dashboard");
+          }
         }
       })
       .catch((error) => {
@@ -96,6 +101,7 @@ const Login = () => {
             </InputAdornment>
           ),
         }}
+        sx={{ marginBottom: '16px' }}
       />
 
       {error && <ErrorMessage message={error} />}

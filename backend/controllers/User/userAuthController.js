@@ -10,21 +10,44 @@ const STEAM_BASE_URL = "http://api.steampowered.com";
 // @desc Login API
 // @route POST /user/login
 // @access Public
+
 const login = async (req, res) => {
   try {
-    let data = await User.findOne({ email: req.body.email }).exec();
-    if (data) {
-      const passwordMatch = await comparePasswords(
-        req.body.password,
-        data.password
-      );
+    let user = await User.findOne({ email: req.body.email }).exec();
+    if (user) {
+      const passwordMatch = await comparePasswords(req.body.password, user.password);
       if (passwordMatch) {
-        res.status(200).json({
-          name: req.body.name,
-          email: req.body.email,
-          token: generateJwtToken(req.body.email),
-          message: "Login Sucessful!",
-        });
+        if (!user.steamId || !user.discordUserName) {
+          //redirect to signup 2
+          return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            redirect: true,
+            initialStep: 1,
+            token: generateJwtToken(user.email),
+            message: "Please complete your profile information."
+          });
+        } 
+        else if (user.preferences.length == 0 || user.preferredGenres.length == 0 ) {
+          //redirect to signup 3
+          return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            redirect: true,
+            initialStep: 2,
+            token: generateJwtToken(user.email),
+            message: "Please complete your profile information."
+          });
+        }
+        else {
+          // Proceed with login
+          res.status(200).json({
+            name: user.name,
+            email: user.email,
+            token: generateJwtToken(user.email),
+            message: "Login Sucessful!"
+          });
+        }
       } else {
         res.status(401).json({
           message: "Invalid Password, Try again!",
