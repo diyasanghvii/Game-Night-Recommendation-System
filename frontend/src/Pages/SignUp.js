@@ -1,35 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
+import Btn from "../Components/Button/Btn";
+import Text from "../Components/Typography/Text";
+import { SignUpOne } from "../Services";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Stepper, Step, StepLabel } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
-import SignUp1 from "../Components/Signup1/Signup1";
-import SignUp2 from "../Components/Signup2/Signup2";
-import SignUp3 from "../Components/Signup3/Signup3";
+import { useNavigate } from "react-router-dom";
+import MessageBar from "../Components/MessageBar/MessageBar";
 
 const SignUp = () => {
-  const location = useLocation(); 
-  const initialStep = location.state?.initialStep || 0;
-  const loggedEmail = location.state?.loggedEmail || "";
-  const [activeStep, setActiveStep] = useState(initialStep);
-  const [email, setEmail] = useState(loggedEmail);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const stepOneDone = (data) => {
-    setEmail(data);
-    setActiveStep(1);
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    const token = localStorage.getItem("signUpToken");
+    if (email && token) {
+      navigate("/login");
+    }
+  }, []);
+
+  const handleSignUp = () => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    // Prepare data object in JSON format
+    const data = {
+      name: username,
+      email: email,
+      password: password,
+    };
+
+    SignUpOne(data)
+      .then((response) => {
+        if (response && response.data) {
+          localStorage.setItem("signUpToken", response.data.token);
+          localStorage.setItem("email", email);
+          navigate("/signupiddetails");
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.message);
+      });
   };
 
-  const stepTwoDone = () => {
-    setActiveStep(2);
-  };
-
-  const stepThreeDone = () => {
-    navigate("/dashboard");
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
-    <div>
-      <h1>Sign Up Page</h1>
-      <Stepper activeStep={activeStep} alternativeLabel>
+    <Container maxWidth="sm">
+      <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
+      <Stepper
+        sx={{ marginTop: 5, marginBottom: 5 }}
+        activeStep={0}
+        alternativeLabel
+      >
         <Step key={0}>
           <StepLabel>Step 1</StepLabel>
         </Step>
@@ -40,16 +77,66 @@ const SignUp = () => {
           <StepLabel>Step 3</StepLabel>
         </Step>
       </Stepper>
-      <div>
-        {activeStep === 0 ? (
-          <SignUp1 stepOneDone={(data) => stepOneDone(data)} />
-        ) : activeStep === 1 ? (
-          <SignUp2 email={email} stepTwoDone={() => stepTwoDone()} />
-        ) : (
-          <SignUp3 email={email} stepThreeDone={() => stepThreeDone()} />
-        )}
+
+      <div style={{ marginBottom: "16px" }}>
+        <TextField
+          label="Name"
+          value={username}
+          fullWidth={true}
+          onChange={(e) => setUsername(e.target.value)}
+        />
       </div>
-    </div>
+
+      <div style={{ marginBottom: "16px" }}>
+        <TextField
+          label="Email"
+          type="email"
+          value={email}
+          fullWidth={true}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+
+      <div style={{ marginBottom: "16px" }}>
+        <TextField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          fullWidth={true}
+          onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: "16px" }}>
+        <TextField
+          label="Confirm Password"
+          type={showPassword ? "text" : "password"}
+          value={confirmPassword}
+          fullWidth={true}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
+
+      <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
+    </Container>
   );
 };
 

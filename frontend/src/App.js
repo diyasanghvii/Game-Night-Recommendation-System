@@ -5,6 +5,8 @@ import AuthRoutes from "./router/AuthRoutes";
 import SignUp from "./Pages/SignUp";
 import EditPreferences from "./Pages/EditPreferences";
 import RecommendGames from "./Pages/RecommendGames";
+import SignUpGameDetails from "./Pages/SignUpGameDetails";
+import SignUpIdDetails from "./Pages/SignUpIdDetails";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         </Route>
         <Route element={<Login />} path="/login" />
         <Route element={<SignUp />} path="/signup" />
+        <Route element={<SignUpIdDetails />} path="/signupiddetails" />
+        <Route element={<SignUpGameDetails />} path="/signupgamedetails" />
       </Routes>
     </Router>
   );
