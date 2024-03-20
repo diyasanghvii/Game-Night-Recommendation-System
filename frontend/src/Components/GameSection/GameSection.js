@@ -25,8 +25,11 @@ function GameSection({ title, games, ratings, updateRatings }) {
     setStartIndex((prev) => Math.max(prev - 5, 0));
     setEndIndex((prev) => Math.max(prev - 5, 5));
   };
+  const ratedGames = games.filter((game) =>
+    gameRatingMatch(ratings, game.name, game.appid, null)
+  );
 
-  const visibleGames = games?.slice(startIndex, endIndex) || [];
+  const visibleGames = ratedGames?.slice(startIndex, endIndex) || [];
   return (
     <section className="gameSection">
       {showPopup && (
@@ -61,8 +64,8 @@ function GameSection({ title, games, ratings, updateRatings }) {
                 onClick={() => handleClick(game)}
               >
                 <img
-                style={{ width: 200, height: 100 }}
-                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
+                  style={{ width: 200, height: 100 }}
+                  src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                   alt={game.name}
                 />
                 <h3>{game.name}</h3>
@@ -86,11 +89,11 @@ function GameSection({ title, games, ratings, updateRatings }) {
             fullWidth={true}
             label={"Next"}
             onClick={handleNext}
-            disabled={endIndex === games?.length}
+            disabled={endIndex === ratedGames?.length}
           />
         </div>
       ) : (
-        <h3>No Games Found</h3>
+        <h3>No Rated Games Found</h3>
       )}
     </section>
   );

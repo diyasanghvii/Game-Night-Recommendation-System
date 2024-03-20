@@ -82,7 +82,6 @@ class EditPreferences extends Component {
             let isOwned;
             let gameSteamId;
             if (this.state.yourGames) {
-              //TODO: Update search criteria since Rawg and Steam names can be different
               const ownedMatch = this.state.yourGames?.find(
                 (myGame) => myGame.appid === steamAllGame.appid
               );
