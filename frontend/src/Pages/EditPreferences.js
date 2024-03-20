@@ -229,12 +229,12 @@ class EditPreferences extends Component {
           <div>
             <input
               type="text"
-              placeholder="Search your games..."
+              placeholder="Search rated games..."
               value={yourGamesSearchTerm}
               onChange={this.handleYourGamesSearchChange}
             />
             <GameSection
-              title="Your games"
+              title="Rated games"
               games={yourGames}
               searchTerm={yourGamesSearchTerm}
               ratings={ratings}
