@@ -4,7 +4,7 @@ import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
 import { GetPresence, SendList, GenerateRecommendations } from "../Services/index.js"; 
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
-
+import RecommendationPopup from "../Components/RecommendationPopUp/RecommendationPopUp";
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
@@ -17,6 +17,8 @@ function RecommendGames() {
     Voice: [],
   });
   const [selectedMembers, setSelectedMembers] = useState([{username: discordUserName, name: userName}]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
   // Handle server change
   const handleServerChange = (data) => {
@@ -26,6 +28,20 @@ function RecommendGames() {
   // Handle channel change
   const handleChannelChange = (data) => {
     setSelectedChannel(data);
+  };
+
+  const fetchRecommendations = (selectedMembers) => {
+    GenerateRecommendations({ "selected_users": selectedMembers})
+    .then((response) => {
+      if (response && response.data) {
+        setRecommendations(response.data.recommendations);
+        setShowPopup(true);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error?.response?.data?.message);
+    });
   };
 
   useEffect(() => {
@@ -89,14 +105,23 @@ function RecommendGames() {
     }
   };
 
-  fetchRecommendations = () => {
-    //TODO pass body (selected members) yet to do
-    GenerateRecommendations()
-  };
+
 
   return (
     <>
     <MenuHeader />
+    {showPopup && (
+      <RecommendationPopup 
+        recommendations={recommendations}
+        selectedChannel={selectedChannel}
+        selectedServer={selectedServer}
+        selectedMembers={selectedMembers}
+        onClose={() => { 
+          setRecommendations([]);
+          setShowPopup(false); 
+      }}
+      /> 
+    )}
       <h1 style={{ marginLeft: "6rem" }}>
         Select Players from Discord 
       </h1>
@@ -162,7 +187,7 @@ function RecommendGames() {
         }}
       >
         {/* <Btn label="Send Recommendation List" onClick={() => SendList({ selectedChannel, selectedServer, selectedMembers })} /> */}
-        <Btn label="Generate Recommendations" onClick={fetchRecommendations}></Btn>
+        <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
       </div>
     </>
   );
