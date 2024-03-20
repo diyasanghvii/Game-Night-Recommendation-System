@@ -1,6 +1,8 @@
 const axios = require("axios");
+const util = require('util');
 const { Client, GatewayIntentBits, Intents } = require("discord.js");
 const User = require("../../models/User/userModal");
+const dataService = require("../../services/Games/dataPreprocessingService");
 
 const BASE_URL = "http://api.steampowered.com";
 
@@ -226,8 +228,12 @@ const sendList = async (req, res) => {
     }
   }
 
-  console.log("Members: ", JSON.stringify(members, undefined, 5));
-  console.log("Game Pool: ", gamePool);
+  //console.log("Members: ", JSON.stringify(members, undefined, 5));
+  console.log(util.inspect(members, {showHidden: false, depth: null, colors: true}))
+  //console.log("Game Pool: ", gamePool);
+  const modifiedGamePool = await dataService.preprocessGameData(gamePool, members);
+  //console.log("Algo Input : ", JSON.stringify(modifiedGamePool, undefined, 3));
+  console.log(util.inspect(modifiedGamePool, {showHidden: false, depth: null, colors: true}))
   
   const client = new Client({
     intents: [
