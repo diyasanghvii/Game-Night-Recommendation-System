@@ -71,7 +71,12 @@ const Signup3 = ({ email, stepThreeDone }) => {
       setError("Please rate at least 5 games.");
       return;
     }
-    const updatedData = games.map((game) => ({
+
+    const filterObjectsWithRatings = games.filter((obj) =>
+      obj.hasOwnProperty("ratings")
+    );
+
+    const updatedData = filterObjectsWithRatings.map((game) => ({
       ...game,
       gameName: game.name,
     }));
