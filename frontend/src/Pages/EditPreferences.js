@@ -23,6 +23,7 @@ class EditPreferences extends Component {
       allYourGames: [], //filtered owned games
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
+      ratedGames:[],
     };
   }
 
@@ -51,14 +52,33 @@ class EditPreferences extends Component {
 
   fetchUserRatings = () => {
     GetUserRatings()
-      .then((response) => {
-        this.setState({ ratings: response.data.preferences });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Failed to fetch user ratings");
-      });
-  };
+    .then((response) => {
+      this.setState({ ratings: response.data.preferences });
+      // Filter rated games from all games based on ratings
+      /*const ratedGames = this.state.allYourGames.filter((game) =>
+        this.checkIfGameIsRated(game)
+      );*/
+      const updatedData = response.data.preferences.map((game) => ({
+        ...game,
+        appid: game.gameSteamId,
+        name: game.gameName,
+      }));
+      const filteredData = updatedData.filter(obj => obj.ratings != null);
+      const filteredData1 = updatedData.filter(obj => obj.interest != null);
+    console.log(filteredData);
+      this.setState({ ratedGames: filteredData });
+      console.log(updatedData);
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Failed to fetch user ratings");
+    });
+}
+// Method to check if a game is rated
+checkIfGameIsRated = (game) => {
+  const { ratings } = this.state;
+  return ratings.some((rating) => rating.gameName === game.name);
+};
 
   updateRatings = (newRatings) => {
     this.setState({ ratings: newRatings });
@@ -173,7 +193,7 @@ class EditPreferences extends Component {
   render() {
     const {
       allGames,
-      yourGames,
+      ratedGames,
       ratings,
       allGamesSearchTerm,
       yourGamesSearchTerm,
@@ -234,7 +254,7 @@ class EditPreferences extends Component {
             />
             <GameSection
               title="Rated games"
-              games={yourGames}
+              games={ratedGames}
               searchTerm={yourGamesSearchTerm}
               ratings={ratings}
               updateRatings={this.updateRatings}
