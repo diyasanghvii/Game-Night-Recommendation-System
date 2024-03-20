@@ -186,7 +186,6 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        {/* <Btn label="Send Recommendation List" onClick={() => SendList({ selectedChannel, selectedServer, selectedMembers })} /> */}
         <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
       </div>
     </>
