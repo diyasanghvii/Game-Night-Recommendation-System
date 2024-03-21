@@ -23,6 +23,8 @@ class EditPreferences extends Component {
       allYourGames: [], //filtered owned games
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
+      ratedGames:[],
+      allRatedGames:[],
     };
   }
 
@@ -51,14 +53,33 @@ class EditPreferences extends Component {
 
   fetchUserRatings = () => {
     GetUserRatings()
-      .then((response) => {
-        this.setState({ ratings: response.data.preferences });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Failed to fetch user ratings");
-      });
-  };
+    .then((response) => {
+      this.setState({ ratings: response.data.preferences });
+      // Filter rated games from all games based on ratings
+      /*const ratedGames = this.state.allYourGames.filter((game) =>
+        this.checkIfGameIsRated(game)
+      );*/
+      const updatedData = response.data.preferences.map((game) => ({
+        ...game,
+        appid: game.gameSteamId,
+        name: game.gameName,
+      }));
+      const filteredData = updatedData.filter(obj => obj.ratings != null);
+      const filteredData1 = updatedData.filter(obj => obj.interest != null);
+    console.log(filteredData);
+      this.setState({ ratedGames: filteredData,allRatedGames:filteredData });
+      console.log(updatedData);
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Failed to fetch user ratings");
+    });
+}
+// Method to check if a game is rated
+checkIfGameIsRated = (game) => {
+  const { ratings } = this.state;
+  return ratings.some((rating) => rating.gameName === game.name);
+};
 
   updateRatings = (newRatings) => {
     this.setState({ ratings: newRatings });
@@ -82,7 +103,6 @@ class EditPreferences extends Component {
             let isOwned;
             let gameSteamId;
             if (this.state.yourGames) {
-              //TODO: Update search criteria since Rawg and Steam names can be different
               const ownedMatch = this.state.yourGames?.find(
                 (myGame) => myGame.appid === steamAllGame.appid
               );
@@ -146,21 +166,23 @@ class EditPreferences extends Component {
   handleYourGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
     this.setState({ yourGamesSearchTerm: searchTerm }, () => {
-      const { allYourGames } = this.state;
+      const { allRatedGames } = this.state;
       if (searchTerm === "") {
         this.setState({
-          yourGames: allYourGames,
+          ratedGames: allRatedGames,
         });
       } else {
-        const filteredGames = allYourGames.filter((game) =>
+        const filteredGames = allRatedGames.filter((game) =>
           game.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         this.setState({
-          yourGames: filteredGames,
+          ratedGames: filteredGames,
         });
       }
     });
   };
+  
+  
 
   handleGenreSelection = (selectedGenres) => {
     UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
@@ -174,7 +196,7 @@ class EditPreferences extends Component {
   render() {
     const {
       allGames,
-      yourGames,
+      ratedGames,
       ratings,
       allGamesSearchTerm,
       yourGamesSearchTerm,
@@ -229,13 +251,13 @@ class EditPreferences extends Component {
           <div>
             <input
               type="text"
-              placeholder="Search your games..."
+              placeholder="Search rated games..."
               value={yourGamesSearchTerm}
               onChange={this.handleYourGamesSearchChange}
             />
             <GameSection
-              title="Your games"
-              games={yourGames}
+              title="Rated games"
+              games={ratedGames}
               searchTerm={yourGamesSearchTerm}
               ratings={ratings}
               updateRatings={this.updateRatings}
