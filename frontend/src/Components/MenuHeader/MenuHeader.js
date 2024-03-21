@@ -17,11 +17,6 @@ const MenuHeader = () => {
       onClick: () => handleClick("Edit Preferences"),
     },
     {
-      to: "/rate-games",
-      label: "Rate Games",
-      onClick: () => handleClick("Rate Games"),
-    },
-    {
       label: "Sign Out",
       onClick: () => handleClick("Sign Out"),
     },
@@ -42,9 +37,6 @@ const MenuHeader = () => {
         break;
       case "Edit Preferences":
         navigate("/edit-preferences");
-        break;
-      case "Rate Games":
-        navigate("/rate-games");
         break;
       default:
         navigate("/dashboard");
