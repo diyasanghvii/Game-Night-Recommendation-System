@@ -47,6 +47,7 @@ async function preprocessGameData(gamePool, members) {
     if (!allNull) {
       let modifiedGame = {
         gameSteamId: game.appid,
+        gameName: game.name,
         ownership: ownership,
         matchedgenres: matchedGenres,
         ratings: ratings,
