@@ -5,7 +5,7 @@ import RatingPopUp from "../RatingPopUp/RatingPopUp";
 import { gameRatingMatch } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
 
-function GameSection({ title, games, ratings, updateRatings }) {
+function GameSection({ title, games, ratings, updateRatings, isOwned = true }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
@@ -40,7 +40,7 @@ function GameSection({ title, games, ratings, updateRatings }) {
             null
           )}
           onClose={() => setShowPopup(false)}
-          isOwned={true}
+          isOwned={isOwned}
           updateRatings={updateRatings}
         />
       )}
@@ -69,7 +69,7 @@ function GameSection({ title, games, ratings, updateRatings }) {
 
                 {ratings && (
                   <GameInterestRating
-                    isOwned={true}
+                    isOwned={isOwned}
                     userRating={gameRatingMatch(
                       ratings,
                       game.gameName,

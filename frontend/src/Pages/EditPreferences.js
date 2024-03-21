@@ -25,6 +25,8 @@ class EditPreferences extends Component {
       yourGamesSearchTerm: "",
       ratedGames:[],
       allRatedGames:[],
+      allInterestedGames:[],
+      interestedGames:[],
     };
   }
 
@@ -64,10 +66,10 @@ class EditPreferences extends Component {
         appid: game.gameSteamId,
         name: game.gameName,
       }));
-      const filteredData = updatedData.filter(obj => obj.ratings != null);
-      const filteredData1 = updatedData.filter(obj => obj.interest != null);
-    console.log(filteredData);
-      this.setState({ ratedGames: filteredData,allRatedGames:filteredData });
+      const filterRatedGames = updatedData.filter(obj => obj.ratings != null);
+      const filterInterestedGames = updatedData.filter(obj => obj.interest != null);
+    console.log(filterRatedGames);
+      this.setState({ ratedGames: filterRatedGames,allRatedGames:filterRatedGames,  interestedGames:filterInterestedGames,allInterestedGames:filterInterestedGames});
       console.log(updatedData);
     })
     .catch((error) => {
@@ -93,7 +95,8 @@ checkIfGameIsRated = (game) => {
     this.setState({ isPopupOpen: false });
   };
 
-  handleAllGamesSearchChange = async (e) => {
+
+  /*handleAllGamesSearchChange = async (e) => {
     const searchTerm = e?.target?.value || "";
     if (searchTerm === "") {
       this.setState({ allGamesSearchTerm: searchTerm }, async () => {
@@ -161,7 +164,25 @@ checkIfGameIsRated = (game) => {
         this.setState({ allGames: updatedAllGames });
       });
     }
-  };
+  };*/
+  handleAllGamesSearchChange = (e) => {
+    const searchTerm = e?.target?.value || "";
+    this.setState({ allGamesSearchTerm: searchTerm }, () => {
+      const { allInterestedGames } = this.state;
+      if (searchTerm === "") {
+        this.setState({
+          interestedGames: allInterestedGames,
+        });
+      } else {
+        const filterInterestedGames  = allInterestedGames.filter((game) =>
+          game.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        this.setState({
+          interestedGames: filterInterestedGames ,
+        });
+      }
+    });
+  };
 
   handleYourGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
@@ -200,6 +221,8 @@ checkIfGameIsRated = (game) => {
       ratings,
       allGamesSearchTerm,
       yourGamesSearchTerm,
+      allInterestedGames,
+      interestedGames,
     } = this.state;
 
     const userName = localStorage.getItem("userName");
@@ -246,6 +269,23 @@ checkIfGameIsRated = (game) => {
               onSearchChange={this.handleAllGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search interested games..."
+              value={allGamesSearchTerm}
+              onChange={this.handleAllGamesSearchChange}
+            />
+            <GameSection
+              title="Interested games"
+              games={interestedGames}
+              searchTerm={yourGamesSearchTerm}
+              ratings={ratings}
+              isOwned={false}
+              updateRatings={this.updateRatings}
+              onSearchChange={this.handleAllGamesSearchChange}
             />
           </div>
           <div>

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container, Grid, IconButton, InputAdornment,TextField } from "@mui/material";
+import {
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
 import { Login as loginApi, profileCheck } from "../Services/index";
@@ -16,6 +22,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    localStorage.clear();
     const token = sessionStorage.getItem("authToken");
     if (token) {
       profileCheck(token)
@@ -33,11 +40,17 @@ const Login = () => {
     loginApi({ email: username, password })
       .then((response) => {
         if (response.data && response.data.token) {
-          sessionStorage.setItem("authToken", response.data.token);
           if (response.data.redirect) {
+            localStorage.setItem("signUpToken", response.data.token);
+            localStorage.setItem("email", response.data.email);
             // Redirect to the signup page with state
-            navigate('/signup', { state: { initialStep: response.data.initialStep , loggedEmail: response.data.email} });
+            if (response.data.initialStep === 1) {
+              navigate("/signupiddetails");
+            } else if (response.data.initialStep === 2) {
+              navigate("/signupgamedetails");
+            }
           } else {
+            sessionStorage.setItem("authToken", response.data.token);
             navigate("/dashboard");
           }
         }
@@ -63,7 +76,6 @@ const Login = () => {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
 
   return (
     <Container maxWidth="sm">
@@ -82,7 +94,7 @@ const Login = () => {
         fullWidth={true}
         onChange={(e) => setUsername(e.target.value)}
       />
-       <TextField
+      <TextField
         label="Password"
         type={showPassword ? "text" : "password"}
         value={password}
@@ -92,16 +104,15 @@ const Login = () => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
-               aria-label="Toggle password visibility"
-               onClick={handleTogglePasswordVisibility}
-               >
-               {showPassword ? <VisibilityOff /> : <Visibility />}
+                aria-label="Toggle password visibility"
+                onClick={handleTogglePasswordVisibility}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
-
             </InputAdornment>
           ),
         }}
-        sx={{ marginBottom: '16px' }}
+        sx={{ marginBottom: "16px" }}
       />
 
       {error && <ErrorMessage message={error} />}

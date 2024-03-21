@@ -15,7 +15,10 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
-      const passwordMatch = await comparePasswords(req.body.password, user.password);
+      const passwordMatch = await comparePasswords(
+        req.body.password,
+        user.password
+      );
       if (passwordMatch) {
         if (!user.steamId || !user.discordUserName) {
           //redirect to signup 2
@@ -25,10 +28,12 @@ const login = async (req, res) => {
             redirect: true,
             initialStep: 1,
             token: generateJwtToken(user.email),
-            message: "Please complete your profile information."
+            message: "Please complete your profile information.",
           });
-        } 
-        else if (user.preferences.length == 0 || user.preferredGenres.length == 0 ) {
+        } else if (
+          user.preferences.length == 0 ||
+          user.preferredGenres.length == 0
+        ) {
           //redirect to signup 3
           return res.status(200).json({
             name: user.name,
@@ -36,16 +41,15 @@ const login = async (req, res) => {
             redirect: true,
             initialStep: 2,
             token: generateJwtToken(user.email),
-            message: "Please complete your profile information."
+            message: "Please complete your profile information.",
           });
-        }
-        else {
+        } else {
           // Proceed with login
           res.status(200).json({
             name: user.name,
             email: user.email,
             token: generateJwtToken(user.email),
-            message: "Login Sucessful!"
+            message: "Login Sucessful!",
           });
         }
       } else {
@@ -130,6 +134,7 @@ const signUpThree = async (req, res) => {
       });
       res.status(200).json({
         message: "Updated User Preferences Successfully",
+        token: generateJwtToken(req.body.email),
       });
     } else {
       res.status(400).json({
@@ -210,7 +215,6 @@ const updateRating = async (req, res) => {
       if (user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
               parseInt(newPreference.gameSteamId)
         );
@@ -252,7 +256,6 @@ const saveGameUnOwnedRating = async (req, res) => {
       if (user.preferences && user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
               parseInt(newPreference.gameSteamId)
         );

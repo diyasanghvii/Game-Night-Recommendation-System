@@ -14,9 +14,7 @@ export const gameRatingMatch = (ratings, gameName, gameSteamId, gameRawgId) => {
 
   const ratingObj = ratings.find(
     (rating) =>
-      rating.gameName === gameName ||
-      rating.gameSteamId === gameSteamId ||
-      rating.gameRawgId === gameRawgId
+      rating.gameSteamId === gameSteamId
   );
 
   if (ratingObj && ratingObj.ratings) {
