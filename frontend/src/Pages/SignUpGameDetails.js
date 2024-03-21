@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Container, Select, MenuItem, Box, Rating } from "@mui/material";
-import Btn from "../Button/Btn";
-import Text from "../Typography/Text";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { GetGenreList, SignUpThree } from "../../Services";
-import steamService from "../../Services/steamService";
+import Btn from "../Components/Button/Btn";
+import Text from "../Components/Typography/Text";
+import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
+import {
+  GetGenreListSignUP,
+  SignUpThree,
+  getOwnedGamesSignUp,
+} from "../Services";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Stepper, Step, StepLabel } from "@mui/material";
 
-const Signup3 = ({ email, stepThreeDone }) => {
+const SignUpGameDetails = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [error, setError] = useState("");
   const [games, setGames] = useState([]);
   const [genreList, setGenreList] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
 
   useEffect(() => {
     getGenre();
@@ -18,8 +26,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
   }, []);
 
   const fetchSteamData = () => {
-    steamService
-      .getOwnedGames()
+    getOwnedGamesSignUp()
       .then((response) => {
         if (response && response.data && response.data.steamGames) {
           const modifiedSteamGames = response.data.steamGames.map((ele) => ({
@@ -35,7 +42,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
   };
 
   const getGenre = () => {
-    GetGenreList()
+    GetGenreListSignUP()
       .then((response) => {
         if (response && response.data && response.data.genreList) {
           setGenreList(response.data.genreList);
@@ -80,6 +87,7 @@ const Signup3 = ({ email, stepThreeDone }) => {
       ...game,
       gameName: game.name,
     }));
+    const email = localStorage.getItem("email");
     const data = {
       email: email,
       preferredGenres: selectedGenres,
@@ -89,7 +97,9 @@ const Signup3 = ({ email, stepThreeDone }) => {
     SignUpThree(data)
       .then((response) => {
         if (response && response.data) {
-          stepThreeDone(response.data.token);
+          localStorage.clear();
+          sessionStorage.setItem("authToken", response.data.token);
+          navigate("/dashboard");
         }
       })
       .catch((error) => {
@@ -99,6 +109,21 @@ const Signup3 = ({ email, stepThreeDone }) => {
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
+      <Stepper
+        sx={{ marginTop: 5, marginBottom: 5 }}
+        activeStep={2}
+        alternativeLabel
+      >
+        <Step key={0}>
+          <StepLabel>Step 1</StepLabel>
+        </Step>
+        <Step key={1}>
+          <StepLabel>Step 2</StepLabel>
+        </Step>
+        <Step key={2}>
+          <StepLabel>Step 3</StepLabel>
+        </Step>
+      </Stepper>
 
       {error && <ErrorMessage message={error} />}
 
@@ -169,4 +194,4 @@ const Signup3 = ({ email, stepThreeDone }) => {
   );
 };
 
-export default Signup3;
+export default SignUpGameDetails;

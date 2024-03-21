@@ -11,6 +11,26 @@ export const authRequest = axios.create({
   },
 });
 
+export const authLocalStorageRequest = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+authLocalStorageRequest.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("signUpToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 authRequest.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("authToken");
@@ -89,7 +109,7 @@ export const SignUpOne = (data) => {
 // Signup Two API
 export const SignUpTwo = (data) => {
   return new Promise((resolve, reject) => {
-    authRequest
+    authLocalStorageRequest
       .post("/user/signuptwo", data)
       .then((response) => {
         resolve(response);
@@ -103,7 +123,7 @@ export const SignUpTwo = (data) => {
 // Signup Three API
 export const SignUpThree = (data) => {
   return new Promise((resolve, reject) => {
-    authRequest
+    authLocalStorageRequest
       .post("/user/signupthree", data)
       .then((response) => {
         resolve(response);
@@ -142,11 +162,37 @@ export const UpdateUserGenre = (data) => {
   });
 };
 
+export const GetGenreListSignUP = () => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .get("/game/getsteamgenre")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Get Genre List
 export const GetGenreList = () => {
   return new Promise((resolve, reject) => {
     authRequest
       .get("/game/getsteamgenre")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getOwnedGamesSignUp = () => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .get("/steam/getusersteamgamelist")
       .then((response) => {
         resolve(response);
       })
@@ -234,9 +280,7 @@ export const UpdateUserRating = (data) => {
 export const SendList = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
-      .post(
-        "/discord/sendlist", data
-      )
+      .post("/discord/sendlist", data)
       .then((response) => {
         resolve(response);
       })
@@ -245,6 +289,7 @@ export const SendList = (data) => {
       });
   });
 };
+
 // Save user rating of unowned games
 export const UpdateUnownedUserGameRating = (data) => {
   return new Promise((resolve, reject) => {
@@ -263,9 +308,23 @@ export const UpdateUnownedUserGameRating = (data) => {
 // Verify User Steam ID
 export const VerifyUserSteamId = (data) => {
   return new Promise((resolve, reject) => {
-    authRequest
+    authLocalStorageRequest
       .get(`/user/verifyusersteamid?steamId=${data}`)
 
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Generate and Fetch recommendations
+export const GenerateRecommendations = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/recommend/getRecommendations", data)
       .then((response) => {
         resolve(response);
       })
