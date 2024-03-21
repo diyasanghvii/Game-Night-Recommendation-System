@@ -245,6 +245,7 @@ export const SendList = (data) => {
       });
   });
 };
+
 // Save user rating of unowned games
 export const UpdateUnownedUserGameRating = (data) => {
   return new Promise((resolve, reject) => {
@@ -266,6 +267,20 @@ export const VerifyUserSteamId = (data) => {
     authRequest
       .get(`/user/verifyusersteamid?steamId=${data}`)
 
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Generate and Fetch recommendations
+export const GenerateRecommendations = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/recommend/getRecommendations", data)
       .then((response) => {
         resolve(response);
       })
