@@ -24,6 +24,7 @@ class EditPreferences extends Component {
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
       ratedGames:[],
+      allRatedGames:[],
     };
   }
 
@@ -66,7 +67,7 @@ class EditPreferences extends Component {
       const filteredData = updatedData.filter(obj => obj.ratings != null);
       const filteredData1 = updatedData.filter(obj => obj.interest != null);
     console.log(filteredData);
-      this.setState({ ratedGames: filteredData });
+      this.setState({ ratedGames: filteredData,allRatedGames:filteredData });
       console.log(updatedData);
     })
     .catch((error) => {
@@ -165,21 +166,23 @@ checkIfGameIsRated = (game) => {
   handleYourGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
     this.setState({ yourGamesSearchTerm: searchTerm }, () => {
-      const { allYourGames } = this.state;
+      const { allRatedGames } = this.state;
       if (searchTerm === "") {
         this.setState({
-          yourGames: allYourGames,
+          ratedGames: allRatedGames,
         });
       } else {
-        const filteredGames = allYourGames.filter((game) =>
+        const filteredGames = allRatedGames.filter((game) =>
           game.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         this.setState({
-          yourGames: filteredGames,
+          ratedGames: filteredGames,
         });
       }
     });
   };
+  
+  
 
   handleGenreSelection = (selectedGenres) => {
     UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
