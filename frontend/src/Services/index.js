@@ -333,3 +333,17 @@ export const GenerateRecommendations = (data) => {
       });
   });
 };
+
+// Cache User Games
+export const CacheUserSteamGames = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/steam/backupusersteamdata")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
