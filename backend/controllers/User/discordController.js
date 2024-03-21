@@ -211,16 +211,16 @@ const sendList = async (req, res) => {
             count++;
           }
         }
-        count=1;
+        let gamecount=1;
         for (const key in gameList) {
           if (gameList.hasOwnProperty(key)) {
             const element = gameList[key];
-            gamelist += `\n${count}. ${element.gameName}`;
-            count++;
+            gamelist += `\n${gamecount}. ${element.gameName}`;
+            gamecount++;
           }
         }
         channel.send(
-          `Memberlist: ${memberlist} \n Recommended Games: ${gamelist}`
+          `-------------------------------\n✿ Memberlist ✿ : ${memberlist} \n\n✿ Recommended Games ✿ : ${gamelist}\n-------------------------------`
         );
       }
 
