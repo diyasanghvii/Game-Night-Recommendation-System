@@ -56,7 +56,7 @@ const RecommendationPopup = ({
       </DialogContent>
       <div style={{ display: "flex", alignSelf: "center", marginBottom: "15px" }}>
         <Btn
-          label={"Send List to " + selectedServer}
+          label={"Send List to " + selectedServer + " (" + selectedChannel + ")"}
           onClick={() =>
             SendList({ selectedChannel, selectedServer, selectedMembers })
           }

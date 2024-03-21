@@ -31,7 +31,8 @@ function RecommendGames() {
   };
 
   const fetchRecommendations = (selectedMembers) => {
-    GenerateRecommendations({ "selected_users": selectedMembers})
+    const selectedNames = selectedMembers.map(memberObj => memberObj.username);
+    GenerateRecommendations({ "selected_users": selectedNames})
     .then((response) => {
       if (response && response.data) {
         setRecommendations(response.data.recommendations);

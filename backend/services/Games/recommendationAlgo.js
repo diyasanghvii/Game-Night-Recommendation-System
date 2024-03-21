@@ -1,20 +1,23 @@
 function calculateGameScore(game, totalFriends) {
   const ownershipScore = calculateOwnershipScore(game.ownership, totalFriends);
   const ratingScore = calculateRatingScore(game.ratings, game.ownership);
+  const interestScore = calculateInterestScore(game.interest, game.ownership);
   const genreScore = calculateGenreScore(game.matchedgenres);
 
   const weights = {
-    ownership: 0.9,
-    rating: 0,
-    genre: 0.1,
+    ownership: 0.5,
+    rating: 0.2,
+    interest: 0.1,
+    genre: 0.2,
   };
 
   const totalScore =
     ownershipScore * weights.ownership +
     ratingScore * weights.rating +
+    interestScore * weights.interest +
     genreScore * weights.genre;
 
-  const reason = "reason";
+  const reason = "reason (TBD)";
   return { ...game, totalScore, reason };
 }
 
@@ -32,6 +35,17 @@ function calculateRatingScore(gameRatings, ownership) {
   if (!filteredRatings.length) return 0;
 
   return totalRatings / filteredRatings.length;
+}
+
+function calculateInterestScore(interestLevels, ownership) {
+  const filteredInterests = interestLevels.filter(
+    (interest, index) => ownership[index] == 0 && interest !== null
+  );
+  const totalInterest = filteredInterests.reduce((sum, interest) => sum + interest, 0);
+
+  if (!filteredInterests.length) return 0;
+
+  return totalInterest / filteredInterests.length;
 }
 
 function calculateGenreScore(matchedGenres) {
