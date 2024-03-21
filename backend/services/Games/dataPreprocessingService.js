@@ -6,12 +6,9 @@ const BASE_URL = "http://api.steampowered.com";
 async function preprocessGameData(selected_users) {
   const members = selected_users;
   const gamePool = [];
-  //console.log(members);
-  //util.inspect(members, { showHidden: false, depth: null, colors: true })
   for (const key in members) {
     if (members.hasOwnProperty(key)) {
       const element = members[key];
-      console.log(element.username)
       let data = await User.findOne({
         discordUserName: element.username,
       }).exec();
@@ -109,19 +106,6 @@ async function preprocessGameData(selected_users) {
       modifiedGamePool.push(modifiedGame);
     }
   });
-  //console.log("Members: ", JSON.stringify(members, undefined, 5));
-  console.log(
-    util.inspect(members, { showHidden: false, depth: null, colors: true })
-  );
-  //console.log("Game Pool: ", gamePool);
-  //console.log("Algo Input : ", JSON.stringify(modifiedGamePool, undefined, 3));
-  console.log(
-    util.inspect(modifiedGamePool, {
-      showHidden: false,
-      depth: null,
-      colors: true,
-    })
-  );
   // Output the modified game pool
   return modifiedGamePool;
 }
