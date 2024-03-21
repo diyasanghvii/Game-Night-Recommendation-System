@@ -8,6 +8,14 @@ const preferenceSchema = new Schema({
   interest: Number,
 });
 
+const steamGameSchema = new Schema({
+  appid: Number,
+  name: String,
+  playtime_forever: Number,
+  img_icon_url: String,
+  has_community_visible_stats: Boolean,
+});
+
 const userSchema = new Schema({
   name: {
     type: String,
@@ -28,6 +36,7 @@ const userSchema = new Schema({
   discordUserName: {
     type: String,
   },
+  steamGames: [steamGameSchema],
   preferredGenres: [{ type: String }],
   preferences: [preferenceSchema],
 });
