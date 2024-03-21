@@ -1,10 +1,6 @@
 const axios = require("axios");
-const util = require('util');
-const { Client, GatewayIntentBits, Intents } = require("discord.js");
 const User = require("../../models/User/userModal");
-const dataService = require("../../services/Games/dataPreprocessingService");
-
-const BASE_URL = "http://api.steampowered.com";
+const { Client, GatewayIntentBits, Intents } = require("discord.js");
 
 // @desc Fetch server list where user is a member
 // @route GET /discord/fetchserverlist
@@ -180,60 +176,10 @@ const sendList = async (req, res) => {
   const channelName = req.body.selectedChannel;
   const serverName = req.body.selectedServer;
   const members = req.body.selectedMembers;
-  const gamePool = [];
+  const gameList = req.body.recommendations;
   if (!channelName) {
     return res.status(400).json({ message: "Channel not found." });
   }
-
-  for (const key in members) {
-    if (members.hasOwnProperty(key)) {
-      const element = members[key];
-      let data = await User.findOne({
-        discordUserName: element.username,
-      }).exec();
-      element.steamID = data.steamId;
-      element.preferredGenres = data.preferredGenres;
-      element.preferences = data.preferences;
-      const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${data.steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
-      const response = await axios.get(url);
-      const ownedGames = response.data.response.games;
-      element.ownedgames = ownedGames ? ownedGames : [];
-      for (const game of element.preferences) {
-        const existingGame = gamePool.find(
-          (item) => item.appid === game.gameSteamId
-        );
-        if (!existingGame && game.gameSteamId != undefined) {
-          const genreUrl = `http://store.steampowered.com/api/appdetails/?filters=genres,categories&appids=${game.gameSteamId}`;
-          const genreResponse = await axios.get(genreUrl);
-          const genresRes =
-            genreResponse.data[`${game.gameSteamId}`].data.genres;
-          const genresList = [];
-          genresRes.forEach((element) => {
-            genresList.push(element.description);
-          });
-          const categoriesRes =
-            genreResponse.data[`${game.gameSteamId}`].data.categories;
-          const categoriesList = [];
-          categoriesRes.forEach((element) => {
-            categoriesList.push(element.description);
-          });
-          gamePool.push({
-            appid: game.gameSteamId,
-            name: game.gameName,
-            genres: genresList,
-            categories: categoriesList,
-          });
-        }
-      }
-    }
-  }
-
-  //console.log("Members: ", JSON.stringify(members, undefined, 5));
-  console.log(util.inspect(members, {showHidden: false, depth: null, colors: true}))
-  //console.log("Game Pool: ", gamePool);
-  const modifiedGamePool = await dataService.preprocessGameData(gamePool, members);
-  //console.log("Algo Input : ", JSON.stringify(modifiedGamePool, undefined, 3));
-  console.log(util.inspect(modifiedGamePool, {showHidden: false, depth: null, colors: true}))
   
   const client = new Client({
     intents: [
@@ -257,6 +203,7 @@ const sendList = async (req, res) => {
       if (channel) {
         let memberlist = "";
         let count = 1;
+        let gamelist = "";
         for (const key in members) {
           if (members.hasOwnProperty(key)) {
             const element = members[key];
@@ -264,8 +211,16 @@ const sendList = async (req, res) => {
             count++;
           }
         }
+        count=1;
+        for (const key in gameList) {
+          if (gameList.hasOwnProperty(key)) {
+            const element = gameList[key];
+            gamelist += `\n${count}. ${element.gameName}`;
+            count++;
+          }
+        }
         channel.send(
-          `This message would display the recommendation list :) having Memberlist: ${memberlist}`
+          `Memberlist: ${memberlist} \n Recommended Games: ${gamelist}`
         );
       }
 

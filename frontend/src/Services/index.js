@@ -278,6 +278,7 @@ export const VerifyUserSteamId = (data) => {
 
 // Generate and Fetch recommendations
 export const GenerateRecommendations = (data) => {
+  console.log("MemberList :", data);
   return new Promise((resolve, reject) => {
     authRequest
       .post("/recommend/getRecommendations", data)
