@@ -65,7 +65,6 @@ class EditPreferences extends Component {
         name: game.gameName,
       }));
       const filteredData = updatedData.filter(obj => obj.ratings != null);
-      const filteredData1 = updatedData.filter(obj => obj.interest != null);
     console.log(filteredData);
       this.setState({ ratedGames: filteredData,allRatedGames:filteredData });
       console.log(updatedData);
