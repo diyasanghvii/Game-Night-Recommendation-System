@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import steamService from "../Services/steamService";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSection from "../Components/GameSection/GameSection";
-import { FetchAllGames, GetUserDetails } from "../Services";
+import { FetchAllGames, FetchFreeGames, GetUserDetails } from "../Services";
 import Btn from "../Components/Button/Btn";
 import { Navigate } from "react-router-dom";
 import _ from "lodash";
@@ -19,11 +19,14 @@ class Dashboard extends Component {
       ratings: [],
       isLoading: false,
       isAllGamesLoading: false,
+      isFreeGamesLoading: false,
       error: null,
       rcmBtnClicked: false,
       allGamesSearchTerm: "",
+      freeGamesSearchTerm: "",
       yourGamesSearchTerm: "",
       allGamesList: [],
+      freeGamesList: [],
     };
   }
 
@@ -33,6 +36,7 @@ class Dashboard extends Component {
     this.setState({ isLoading: true, isAllGamesLoading: true }, () => {
       this.getUserDetails();
       this.fetchAllGames();
+      this.fetchFreeGames();
     });
   }
 
@@ -61,6 +65,35 @@ class Dashboard extends Component {
       .catch((error) => {
         console.log("Error : ", error);
         this.setState({ isAllGamesLoading: false });
+      });
+  };
+
+  fetchFreeGames = () => {
+    const { freeGamesSearchTerm } = this.state;
+    const defaultUrl =
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer";
+    FetchFreeGames({
+      url: freeGamesSearchTerm === "" ? defaultUrl : undefined,
+      searchString: freeGamesSearchTerm,
+    })
+      .then((response) => {
+        if (response && response.data && response.data.result) {
+          const updatedData = response.data.result.map((ele) => {
+            return {
+              ...ele,
+              appid: ele.steamId,
+            };
+          });
+          console.log(updatedData);
+          this.setState({
+            freeGamesList: updatedData,
+            isFreeGamesLoading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("Error : ", error);
+        this.setState({ isFreeGamesLoading: false });
       });
   };
 
@@ -103,9 +136,19 @@ class Dashboard extends Component {
     this.fetchAllGames();
   }, 500);
 
+  debouncedFetchFreeGames = _.debounce(() => {
+    this.fetchFreeGames();
+  }, 500);
+
   handleAllGamesSearchChange = (event) => {
     this.setState({ allGamesSearchTerm: event.target.value }, () => {
       this.debouncedFetchAllGames();
+    });
+  };
+
+  handleFreeGamesSearchChange = (event) => {
+    this.setState({ freeGamesSearchTerm: event.target.value }, () => {
+      this.debouncedFetchFreeGames();
     });
   };
 
@@ -140,6 +183,9 @@ class Dashboard extends Component {
       isAllGamesLoading,
       yourGamesSearchTerm,
       filteredOwnedGames,
+      freeGamesList,
+      isFreeGamesLoading,
+      freeGamesSearchTerm,
     } = this.state;
     const userName = localStorage.getItem("userName");
     return (
@@ -199,10 +245,34 @@ class Dashboard extends Component {
             />
             <GameSectionFilter
               title="Your games"
-              games={yourGamesSearchTerm===""?ownedGames:filteredOwnedGames}
+              games={
+                yourGamesSearchTerm === "" ? ownedGames : filteredOwnedGames
+              }
               ownedGame={ownedGames}
               searchTerm={yourGamesSearchTerm}
               onSearchChange={this.handleYourGamesSearchChange}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
+            />
+          </div>
+        )}
+
+        {isFreeGamesLoading ? (
+          <p>Loading Free games data...</p>
+        ) : (
+          <div>
+            <input
+              type="text"
+              placeholder="Search free games..."
+              value={freeGamesSearchTerm}
+              onChange={this.handleFreeGamesSearchChange}
+            />
+            <GameSectionFilter
+              title="Free Cross Platform Multi-Player games"
+              games={freeGamesList}
+              ownedGame={ownedGames}
+              searchTerm={allGamesSearchTerm}
+              onSearchChange={this.handleFreeGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
             />

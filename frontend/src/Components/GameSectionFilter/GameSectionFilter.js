@@ -71,22 +71,13 @@ function GameSectionFilter({
 
   useEffect(() => {
     if (onlyUnRatingChecked) {
-      console.log("Im filtering : ", games, ratings);
       const filteredGames = getOnlyUnRatedGames(games, ratings);
       setvisibleGames(filteredGames?.slice(startIndex, endIndex) || []);
     } else {
-      console.log(
-        "games : ",
-        startIndex,
-        endIndex,
-        games,
-        games?.slice(startIndex, endIndex) || []
-      );
       setvisibleGames(games?.slice(startIndex, endIndex) || []);
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
 
-  console.log("Visible games:", visibleGames);
   return (
     <section className="gameSection">
       {showPopup && (
