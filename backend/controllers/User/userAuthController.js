@@ -215,7 +215,6 @@ const updateRating = async (req, res) => {
       if (user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
               parseInt(newPreference.gameSteamId)
         );
@@ -257,7 +256,6 @@ const saveGameUnOwnedRating = async (req, res) => {
       if (user.preferences && user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
               parseInt(newPreference.gameSteamId)
         );
