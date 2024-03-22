@@ -136,7 +136,7 @@ const RatingPopUp = ({
                 )}
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Genres:</strong>
-                  {gameData?.genres.map((genre) => (
+                  {gameData.genres?.map((genre) => (
                     <span
                       key={genre.id}
                       className="tag"
@@ -149,7 +149,7 @@ const RatingPopUp = ({
                 <hr />
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Categories:</strong>
-                  {gameData?.categories.map((categories) => (
+                  {gameData.categories?.map((categories) => (
                     <span
                       key={categories.id}
                       className="tag"

@@ -18,7 +18,7 @@ class EditPreferences extends Component {
       genres: [],
       ratings: [],
       isPopupOpen: false,
-      allGames: [], //all games from rawg
+      allGames: [], 
       yourGames: [], //owned games from steam
       allYourGames: [], //filtered owned games
       allGamesSearchTerm: "",
@@ -68,9 +68,7 @@ class EditPreferences extends Component {
       }));
       const filterRatedGames = updatedData.filter(obj => obj.ratings != null);
       const filterInterestedGames = updatedData.filter(obj => obj.interest != null);
-    console.log(filterRatedGames);
       this.setState({ ratedGames: filterRatedGames,allRatedGames:filterRatedGames,  interestedGames:filterInterestedGames,allInterestedGames:filterInterestedGames});
-      console.log(updatedData);
     })
     .catch((error) => {
       console.log(error);
@@ -165,6 +163,26 @@ checkIfGameIsRated = (game) => {
       });
     }
   };*/
+/* COMPONENT FOR ABOVE CODE: 
+          <div>
+            <input
+              type="text"
+              placeholder="Search all games..."
+              value={allGamesSearchTerm}
+              onChange={this.handleAllGamesSearchChange}
+            />
+            <GameSectionFilter
+              title="All games"
+              games={allGames}
+              searchTerm={allGamesSearchTerm}
+              onSearchChange={this.handleAllGamesSearchChange}
+              ratings={ratings}
+              updateRatings={this.updateRatings}
+            />
+          </div>
+*/
+
+
   handleAllGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
     this.setState({ allGamesSearchTerm: searchTerm }, () => {
@@ -203,8 +221,6 @@ checkIfGameIsRated = (game) => {
     });
   };
   
-  
-
   handleGenreSelection = (selectedGenres) => {
     UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
       if (res && res.data && res.data.preferredGenres) {
@@ -254,23 +270,6 @@ checkIfGameIsRated = (game) => {
             onEditGenre={this.handleEditGenre}
             genres={userGenre}
           />
-
-          <div>
-            <input
-              type="text"
-              placeholder="Search all games..."
-              value={allGamesSearchTerm}
-              onChange={this.handleAllGamesSearchChange}
-            />
-            <GameSectionFilter
-              title="All games"
-              games={allGames}
-              searchTerm={allGamesSearchTerm}
-              onSearchChange={this.handleAllGamesSearchChange}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-            />
-          </div>
           <div>
             <input
               type="text"
