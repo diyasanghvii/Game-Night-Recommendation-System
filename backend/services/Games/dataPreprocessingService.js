@@ -1,5 +1,4 @@
 const axios = require("axios");
-const util = require('util');
 const User = require("../../models/User/userModal");
 const BASE_URL = "http://api.steampowered.com";
 
@@ -24,25 +23,20 @@ async function preprocessGameData(selected_users) {
           (item) => item.appid === game.gameSteamId
         );
         if (!existingGame && game.gameSteamId != undefined) {
-          const genreUrl = `http://store.steampowered.com/api/appdetails/?filters=genres,categories&appids=${game.gameSteamId}`;
+          const genreUrl = `https://api.gamalytic.com/game/${game.gameSteamId}/?fields=name,steamId,description,tags,features,genres`;
           const genreResponse = await axios.get(genreUrl);
-          const genresRes =
-            genreResponse.data[`${game.gameSteamId}`].data.genres;
-          const genresList = [];
-          genresRes.forEach((element) => {
-            genresList.push(element.description);
-          });
-          const categoriesRes =
-            genreResponse.data[`${game.gameSteamId}`].data.categories;
-          const categoriesList = [];
-          categoriesRes.forEach((element) => {
-            categoriesList.push(element.description);
-          });
+          if(genreResponse===undefined){
+          continue;
+          }
+          const genresList = genreResponse.data?.genres;
+          const tagsRes = genreResponse.data?.tags;
+          const featuresRes = genreResponse.data?.features;
           gamePool.push({
             appid: game.gameSteamId,
             name: game.gameName,
             genres: genresList,
-            categories: categoriesList,
+            tags: tagsRes,
+            features: featuresRes
           });
         }
       }
