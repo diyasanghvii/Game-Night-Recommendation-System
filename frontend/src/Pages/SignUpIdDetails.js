@@ -19,8 +19,6 @@ const SignUpIdDetails = () => {
   const [warning, setWarning] = useState("");
   const [edited, setEdited] = useState(false);
 
-
-
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
       setWarning("");
@@ -37,19 +35,26 @@ const SignUpIdDetails = () => {
     }
 
     // Call Steam API here
-    VerifyUserSteamId(steamId)
-      .then((res) => {
-        if (res && res.data && res.data.status) {
-          setSteamIdVerified(true);
-          setError("");
-        }
-      })
-      .catch((e) => {
-        setError("Invalid Steam ID.");
-        setSteamIdVerified(false);
-      });
-  };
+   // Call Steam API here
+VerifyUserSteamId(steamId)
+.then((res) => {
+  if (res && res.data && res.data.status) {
+    const gamesCount = res.data.gamesCount || 0;
+    if (gamesCount >= 5) {
+      setSteamIdVerified(true);
+      setError("");
+    } else {
+      setSteamIdVerified(false);
+      setError("Please ensure you have at least 5 games in your Steam account.");
+    }
+  }
+})
+.catch((e) => {
+  setError("Invalid Steam ID.");
+  setSteamIdVerified(false);
+});
 
+};
   const handleVerifydiscordUserName = () => {
     if (!discordUserName) {
       setError("Please provide your Discord Username.");
@@ -86,7 +91,7 @@ const SignUpIdDetails = () => {
         alert(error?.response?.data?.message);
       });
   };
-  
+
   const handleFieldChange = () => {
     if (!edited) {
       setEdited(true);
