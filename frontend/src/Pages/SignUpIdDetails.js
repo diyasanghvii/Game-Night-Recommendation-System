@@ -18,6 +18,7 @@ const SignUpIdDetails = () => {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
   const [edited, setEdited] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
 
 
@@ -91,6 +92,9 @@ const SignUpIdDetails = () => {
     if (!edited) {
       setEdited(true);
     }
+  };
+  const handleInfoClick = () => {
+    setShowInfo((prevShowInfo) => !prevShowInfo);
   };
 
   return (
@@ -173,7 +177,20 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
           />
+          <span style={{ cursor: "pointer" }} onClick={handleInfoClick}>
+            <span style={{ fontSize: "1.5em" }}>&#9432;</span>
+          </span>
         </div>
+        {showInfo && (
+          <div style={{ marginTop: "10px", color: "gray", fontSize: "14px" }}>
+            <p>
+              Only server owners can invite the bot.{" "}
+              <a href="https://discord.com/oauth2/authorize?client_id=1201316942959611964">
+                Click here to invite the bot.
+              </a>
+            </p>
+        </div>
+        )}
       </div>
       <button
         style={{
