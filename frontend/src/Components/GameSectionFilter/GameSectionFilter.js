@@ -71,7 +71,7 @@ function GameSectionFilter({
 
   useEffect(() => {
     if (onlyUnRatingChecked) {
-      console.log("Im filtering : ", onlyUnRatingChecked);
+      console.log("Im filtering : ", games, ratings);
       const filteredGames = getOnlyUnRatedGames(games, ratings);
       setvisibleGames(filteredGames?.slice(startIndex, endIndex) || []);
     } else {

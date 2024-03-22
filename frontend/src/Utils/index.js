@@ -83,6 +83,6 @@ export const isGameOwned = (list, singleObject) => {
 
 export const getOnlyUnRatedGames = (a, b) => {
   return a.filter(
-    (objA) => !b.some((objB) => objA.steamId === objB.gameSteamId)
+    (objA) => !b.some((objB) => objA.appid === objB.gameSteamId)
   );
 };

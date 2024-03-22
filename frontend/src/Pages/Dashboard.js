@@ -15,12 +15,14 @@ class Dashboard extends Component {
     this.state = {
       backendResponse: "",
       ownedGames: [],
+      filteredOwnedGames: [],
       ratings: [],
       isLoading: false,
       isAllGamesLoading: false,
       error: null,
       rcmBtnClicked: false,
       allGamesSearchTerm: "",
+      yourGamesSearchTerm: "",
       allGamesList: [],
     };
   }
@@ -107,6 +109,25 @@ class Dashboard extends Component {
     });
   };
 
+  handleYourGamesSearchChange = (e) => {
+    const searchTerm = e.target.value || "";
+    this.setState({ yourGamesSearchTerm: searchTerm }, () => {
+      const { ownedGames } = this.state;
+      if (searchTerm === "") {
+        this.setState({
+          filteredOwnedGames: ownedGames,
+        });
+      } else {
+        const filteredGames = ownedGames.filter((game) =>
+          game.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        this.setState({
+          filteredOwnedGames: filteredGames,
+        });
+      }
+    });
+  };
+
   render() {
     const {
       ownedGames,
@@ -117,6 +138,8 @@ class Dashboard extends Component {
       allGamesSearchTerm,
       allGamesList,
       isAllGamesLoading,
+      yourGamesSearchTerm,
+      filteredOwnedGames,
     } = this.state;
     const userName = localStorage.getItem("userName");
     return (
@@ -168,9 +191,18 @@ class Dashboard extends Component {
           <p>Loading game data...</p>
         ) : (
           <div>
-            <GameSection
+            <input
+              type="text"
+              placeholder="Search your games..."
+              value={yourGamesSearchTerm}
+              onChange={this.handleYourGamesSearchChange}
+            />
+            <GameSectionFilter
               title="Your games"
-              games={ownedGames}
+              games={yourGamesSearchTerm===""?ownedGames:filteredOwnedGames}
+              ownedGame={ownedGames}
+              searchTerm={yourGamesSearchTerm}
+              onSearchChange={this.handleYourGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
             />
