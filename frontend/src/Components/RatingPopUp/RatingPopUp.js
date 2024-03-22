@@ -90,8 +90,8 @@ const RatingPopUp = ({
     }
   };
 
-  const handleInterestClick = (interestType) => {
-    interestChanged(interestType);
+  const handleInterestClick = (interestType, interestValue) => {
+    interestChanged(interestType, interestValue);
   };
 
   return (
@@ -188,7 +188,7 @@ const RatingPopUp = ({
                           marginRight: "10px",
                           color: gameRating === LOVE ? "red" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("love")}
+                        onClick={() => handleInterestClick("love", LOVE)}
                       />
                     </Tooltip>
                     <Tooltip title="Interesting!">
@@ -198,7 +198,9 @@ const RatingPopUp = ({
                           color:
                             gameRating === INTERESTING ? "green" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("interesting")}
+                        onClick={() =>
+                          handleInterestClick("interesting", INTERESTING)
+                        }
                       />
                     </Tooltip>
                     <Tooltip title="Meh -_-">
@@ -209,7 +211,7 @@ const RatingPopUp = ({
                               ? "orange"
                               : "inherit",
                         }}
-                        onClick={() => handleInterestClick("meh")}
+                        onClick={() => handleInterestClick("meh", MEH)}
                       />
                     </Tooltip>
                   </Typography>
