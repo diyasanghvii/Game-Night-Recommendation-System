@@ -13,8 +13,7 @@ export const gameRatingMatch = (ratings, gameName, gameSteamId, gameRawgId) => {
   if (!ratings) return null;
 
   const ratingObj = ratings.find(
-    (rating) =>
-      rating.gameSteamId === gameSteamId
+    (rating) => rating.gameSteamId === gameSteamId
   );
 
   if (ratingObj && ratingObj.ratings) {
@@ -71,4 +70,19 @@ export const isValidDiscordUsername = (username) => {
   }
 
   return true;
+};
+
+export const isGameOwned = (list, singleObject) => {
+  for (let obj of list) {
+    if (obj.appid === singleObject.appid) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export const getOnlyUnRatedGames = (a, b) => {
+  return a.filter(
+    (objA) => !b.some((objB) => objA.steamId === objB.gameSteamId)
+  );
 };

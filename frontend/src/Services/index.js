@@ -347,3 +347,20 @@ export const CacheUserSteamGames = () => {
       });
   });
 };
+
+// ALl Games API
+export const FetchAllGames = ({ url, searchString }) => {
+  const apiUrl = url
+    ? url
+    : `https://api.gamalytic.com/steam-games/list?fields=name,steamId&title=${searchString}&limit=40`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
