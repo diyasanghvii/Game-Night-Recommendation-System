@@ -31,11 +31,11 @@ function RecommendGames() {
   };
 
   const fetchRecommendations = (selectedMembers) => {
-    const selectedNames = selectedMembers.map(memberObj => memberObj.username);
-    GenerateRecommendations({ "selected_users": selectedNames})
+    //const selectedNames = selectedMembers.map(memberObj => memberObj.username);
+    GenerateRecommendations({ "selected_users": selectedMembers})
     .then((response) => {
       if (response && response.data) {
-        setRecommendations(response.data.recommendations);
+        setRecommendations(response.data.recommendedGames);
         setShowPopup(true);
       }
     })
@@ -66,6 +66,9 @@ function RecommendGames() {
               break;
             case "voice":
               voiceList.push({ username: member.username, name: member.name });
+              break;
+            case "idle":
+              onlineList.push({ username: member.username, name: member.name });
               break;
             default:
               break;
