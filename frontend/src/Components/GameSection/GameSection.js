@@ -5,7 +5,14 @@ import RatingPopUp from "../RatingPopUp/RatingPopUp";
 import { gameRatingMatch } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
 
-function GameSection({ title, games, ratings, updateRatings, isOwned = true }) {
+function GameSection({
+  title,
+  games,
+  ratings,
+  updateRatings,
+  isOwned = true,
+  interestChanged,
+}) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
@@ -42,6 +49,9 @@ function GameSection({ title, games, ratings, updateRatings, isOwned = true }) {
           onClose={() => setShowPopup(false)}
           isOwned={isOwned}
           updateRatings={updateRatings}
+          interestChanged={(data, value) =>
+            interestChanged(data, value, popupGameData)
+          }
         />
       )}
       <h2>{title}</h2>
@@ -61,8 +71,8 @@ function GameSection({ title, games, ratings, updateRatings, isOwned = true }) {
                 onClick={() => handleClick(game)}
               >
                 <img
-                style={{ width: 200, height: 100 }}
-                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
+                  style={{ width: 200, height: 100 }}
+                  src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                   alt={game.name}
                 />
                 <h3>{game.name}</h3>

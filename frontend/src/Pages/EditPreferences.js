@@ -4,7 +4,12 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
-import { UpdateUserGenre, profileCheck, GetUserRatings } from "../Services";
+import {
+  UpdateUserGenre,
+  profileCheck,
+  GetUserRatings,
+  UpdateUnownedUserGameRating,
+} from "../Services";
 import GameSectionGenre from "../Components/GameSectionGenre/GameSectionGenre";
 import searchService from "../Services/searchService";
 
@@ -18,15 +23,15 @@ class EditPreferences extends Component {
       genres: [],
       ratings: [],
       isPopupOpen: false,
-      allGames: [], 
+      allGames: [],
       yourGames: [], //owned games from steam
       allYourGames: [], //filtered owned games
       allGamesSearchTerm: "",
       yourGamesSearchTerm: "",
-      ratedGames:[],
-      allRatedGames:[],
-      allInterestedGames:[],
-      interestedGames:[],
+      ratedGames: [],
+      allRatedGames: [],
+      allInterestedGames: [],
+      interestedGames: [],
     };
   }
 
@@ -55,31 +60,40 @@ class EditPreferences extends Component {
 
   fetchUserRatings = () => {
     GetUserRatings()
-    .then((response) => {
-      this.setState({ ratings: response.data.preferences });
-      // Filter rated games from all games based on ratings
-      /*const ratedGames = this.state.allYourGames.filter((game) =>
+      .then((response) => {
+        this.setState({ ratings: response.data.preferences });
+        // Filter rated games from all games based on ratings
+        /*const ratedGames = this.state.allYourGames.filter((game) =>
         this.checkIfGameIsRated(game)
       );*/
-      const updatedData = response.data.preferences.map((game) => ({
-        ...game,
-        appid: game.gameSteamId,
-        name: game.gameName,
-      }));
-      const filterRatedGames = updatedData.filter(obj => obj.ratings != null);
-      const filterInterestedGames = updatedData.filter(obj => obj.interest != null);
-      this.setState({ ratedGames: filterRatedGames,allRatedGames:filterRatedGames,  interestedGames:filterInterestedGames,allInterestedGames:filterInterestedGames});
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("Failed to fetch user ratings");
-    });
-}
-// Method to check if a game is rated
-checkIfGameIsRated = (game) => {
-  const { ratings } = this.state;
-  return ratings.some((rating) => rating.gameName === game.name);
-};
+        const updatedData = response.data.preferences.map((game) => ({
+          ...game,
+          appid: game.gameSteamId,
+          name: game.gameName,
+        }));
+        const filterRatedGames = updatedData.filter(
+          (obj) => obj.ratings != null
+        );
+        const filterInterestedGames = updatedData.filter(
+          (obj) => obj.interest != null
+        );
+        this.setState({
+          ratedGames: filterRatedGames,
+          allRatedGames: filterRatedGames,
+          interestedGames: filterInterestedGames,
+          allInterestedGames: filterInterestedGames,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Failed to fetch user ratings");
+      });
+  };
+  // Method to check if a game is rated
+  checkIfGameIsRated = (game) => {
+    const { ratings } = this.state;
+    return ratings.some((rating) => rating.gameName === game.name);
+  };
 
   updateRatings = (newRatings) => {
     this.setState({ ratings: newRatings });
@@ -93,96 +107,6 @@ checkIfGameIsRated = (game) => {
     this.setState({ isPopupOpen: false });
   };
 
-
-  /*handleAllGamesSearchChange = async (e) => {
-    const searchTerm = e?.target?.value || "";
-    if (searchTerm === "") {
-      this.setState({ allGamesSearchTerm: searchTerm }, async () => {
-        const response = await searchService.getFeaturedGames();
-        const updatedAllGames = response.data.games.data?.map(
-          (steamAllGame) => {
-            let isOwned;
-            let gameSteamId;
-            if (this.state.yourGames) {
-              const ownedMatch = this.state.yourGames?.find(
-                (myGame) => myGame.appid === steamAllGame.appid
-              );
-
-              isOwned = !!ownedMatch;
-              gameSteamId = ownedMatch ? ownedMatch.appid : null;
-            } else {
-              const ownedMatch = this.state.allYourGames?.find(
-                (ownedGame) => ownedGame.appid === steamAllGame.appid
-              );
-
-              isOwned = !!ownedMatch;
-              gameSteamId = ownedMatch ? ownedMatch.appid : null;
-            }
-
-            return {
-              ...steamAllGame,
-              isOwned: isOwned ? 1 : 0,
-              steamId: gameSteamId,
-            };
-          }
-        );
-
-        this.setState({ allGames: updatedAllGames });
-      });
-    } else {
-      this.setState({ allGamesSearchTerm: searchTerm }, async () => {
-        const response = await searchService.getAllGamesBySearch(searchTerm);
-        const updatedAllGames = response.data?.games?.map((steamAllGame) => {
-          let isOwned;
-          let gameSteamId;
-          if (this.state.yourGames) {
-            const ownedMatch = this.state.yourGames?.find(
-              (ownedGame) =>
-                parseInt(ownedGame.appid) === parseInt(steamAllGame.appid)
-            );
-
-            isOwned = !!ownedMatch;
-            gameSteamId = ownedMatch ? ownedMatch.appid : null;
-          } else {
-            const ownedMatch = this.state.allYourGames?.find(
-              (ownedGame) => ownedGame.appid === steamAllGame.appid
-            );
-
-            isOwned = !!ownedMatch;
-            gameSteamId = ownedMatch ? ownedMatch.appid : null;
-          }
-
-          return {
-            ...steamAllGame,
-            isOwned: isOwned ? 1 : 0,
-            steamId: gameSteamId,
-          };
-        });
-
-        this.setState({ allGames: updatedAllGames });
-      });
-    }
-  };*/
-/* COMPONENT FOR ABOVE CODE: 
-          <div>
-            <input
-              type="text"
-              placeholder="Search all games..."
-              value={allGamesSearchTerm}
-              onChange={this.handleAllGamesSearchChange}
-            />
-            <GameSectionFilter
-              title="All games"
-              games={allGames}
-              searchTerm={allGamesSearchTerm}
-              onSearchChange={this.handleAllGamesSearchChange}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-            />
-          </div>
-*/
-
-
   handleAllGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
     this.setState({ allGamesSearchTerm: searchTerm }, () => {
@@ -192,15 +116,15 @@ checkIfGameIsRated = (game) => {
           interestedGames: allInterestedGames,
         });
       } else {
-        const filterInterestedGames  = allInterestedGames.filter((game) =>
+        const filterInterestedGames = allInterestedGames.filter((game) =>
           game.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         this.setState({
-          interestedGames: filterInterestedGames ,
+          interestedGames: filterInterestedGames,
         });
-      }
-    });
-  };
+      }
+    });
+  };
 
   handleYourGamesSearchChange = (e) => {
     const searchTerm = e?.target?.value || "";
@@ -220,7 +144,7 @@ checkIfGameIsRated = (game) => {
       }
     });
   };
-  
+
   handleGenreSelection = (selectedGenres) => {
     UpdateUserGenre({ preferredGenres: selectedGenres }).then((res) => {
       if (res && res.data && res.data.preferredGenres) {
@@ -228,6 +152,23 @@ checkIfGameIsRated = (game) => {
         this.setState({ genres: res.data.preferredGenres, isPopupOpen: false });
       }
     });
+  };
+
+  interestChanged = (data, value, game) => {
+    const param = {
+      gameName: game.name,
+      gameSteamId: game.appid,
+      interest: value,
+    };
+    UpdateUnownedUserGameRating(param)
+      .then((response) => {
+        if (response) {
+          this.setState({ ratings: response.data.preferences });
+        }
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
   };
 
   render() {
@@ -285,6 +226,9 @@ checkIfGameIsRated = (game) => {
               isOwned={false}
               updateRatings={this.updateRatings}
               onSearchChange={this.handleAllGamesSearchChange}
+              interestChanged={(data, value, game) =>
+                this.interestChanged(data, value, game)
+              }
             />
           </div>
           <div>
