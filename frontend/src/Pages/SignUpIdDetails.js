@@ -183,12 +183,15 @@ const SignUpIdDetails = () => {
         </div>
         {showInfo && (
           <div style={{ marginTop: "10px", color: "gray", fontSize: "14px" }}>
-            <p>
-              Only server owners can invite the bot.{" "}
-              <a href="https://discord.com/oauth2/authorize?client_id=1201316942959611964">
-                Click here to invite the bot.
-              </a>
-            </p>
+          <p>
+            Only server owners can invite the bot.{" "}
+            <a
+              href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+              target="_blank" rel="noopener noreferrer"
+            >
+              Click here to invite the bot.
+            </a>
+          </p>
         </div>
         )}
       </div>
