@@ -18,10 +18,11 @@ const SignUpIdDetails = () => {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
   const [edited, setEdited] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
-
 
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
+
+  const [showInfo, setShowInfo] = useState(false);
+
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
