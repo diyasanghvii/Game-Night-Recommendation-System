@@ -11,13 +11,14 @@ const EditProfile = () => {
   const [age, setAge] = useState('23');
   const [steamId, setSteamId] = useState('1234455677223');
   const [discordUsername, setDiscordUsername] = useState('test_user45');
+  const [email, setEmail] = useState('testuser@gmail.com');
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState('');
   const [tempAge, setTempAge] = useState('');
   const [tempSteamId, setTempSteamId] = useState('');
   const [tempDiscordUsername, setTempDiscordUsername] = useState('');
-  const [steamIdVerified, setSteamIdVerified] = useState(false);
-  const [discordUsernameVerified, setDiscordUsernameVerified] = useState(false);
+  const [steamIdVerified, setSteamIdVerified] = useState(true);
+  const [discordUsernameVerified, setDiscordUsernameVerified] = useState(true);
   const [discordUsernameError, setDiscordUsernameError] = useState('');
   const [error, setError] = useState('');
   const [saveDisabled, setSaveDisabled] = useState(true); 
@@ -81,9 +82,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <div style={{ marginTop: 20 }}>
         <MenuHeader />
-      </div>
       <Container maxWidth="sm">
         <div style={{ width: '80%', marginTop: 20 }}>
           <TextField
@@ -101,6 +100,15 @@ const EditProfile = () => {
             value={age}
             onChange={(e) => setAge(e.target.value)}
             disabled={!isEditing}
+          />
+        </div>
+        <div style={{ width: '80%', marginTop: 20 }}>
+          <TextField
+            label="Email"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={true}
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
