@@ -234,7 +234,7 @@ const updateRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             parseInt(preference.gameSteamId) ===
-              parseInt(newPreference.gameSteamId)
+            parseInt(newPreference.gameSteamId)
         );
 
         if (existingPreferenceIndex !== -1) {
@@ -275,7 +275,7 @@ const saveGameUnOwnedRating = async (req, res) => {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
             parseInt(preference.gameSteamId) ===
-              parseInt(newPreference.gameSteamId)
+            parseInt(newPreference.gameSteamId)
         );
         if (existingPreferenceIndex !== -1) {
           user.preferences[existingPreferenceIndex].interest =
@@ -311,24 +311,40 @@ const saveGameUnOwnedRating = async (req, res) => {
 const verifyUserSteamId = async (req, res) => {
   try {
     const steamId = req.query.steamId;
+    const email = req.user.email;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
-    if (response && response.data) {
+    if (response && response.data && response.data.response) {
+      const gamesCount = response.data.response.game_count || 0; // Get game count or default to 0
+      if (
+        email &&
+        response.data &&
+        response.data.response &&
+        response.data.response.games &&
+        response.data.response.games.length > 0
+      ) {
+        let userInfo = await User.findOne({ email: req.user.email }).exec();
+        await userInfo.updateOne({
+          steamGames: response.data.response.games,
+        });
+      }
       res.status(200).send({
         message: "Steam Id Valid!",
         status: true,
+        gamesCount: gamesCount,
       });
     } else {
       res.status(400).send({
-        message: "Steam Id InValid!",
+        message: "Steam Id Invalid!",
         status: false,
       });
     }
   } catch (e) {
     console.log("Error : ", e);
-    res.status(500).send("Steam Id InValid!");
+    res.status(500).send("Steam Id Invalid!");
   }
 };
+
 
 module.exports = {
   login,

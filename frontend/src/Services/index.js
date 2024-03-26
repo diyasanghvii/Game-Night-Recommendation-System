@@ -333,3 +333,51 @@ export const GenerateRecommendations = (data) => {
       });
   });
 };
+
+// Cache User Games
+export const CacheUserSteamGames = () => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/steam/backupusersteamdata")
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// ALl Games API
+export const FetchAllGames = ({ url, searchString }) => {
+  const apiUrl = url
+    ? url
+    : `https://api.gamalytic.com/steam-games/list?fields=name,steamId&title=${searchString}&limit=40`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Free Cross-platform Multiplayer Games API
+export const FetchFreeGames = ({ url, searchString }) => {
+  const apiUrl = url
+    ? url
+    : `https://api.gamalytic.com/steam-games/list?fields=name,steamId&title=${searchString}&limit=40&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
