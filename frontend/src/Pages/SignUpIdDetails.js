@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container } from "@mui/material";
+import { Container, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import Text from "../Components/Typography/Text";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { SignUpTwo, VerifyUserSteamId } from "../Services";
@@ -21,6 +21,7 @@ const SignUpIdDetails = () => {
   const [showInfo, setShowInfo] = useState(false);
 
 
+  const [openDialog, setOpenDialog] = useState(false); // State for dialog box
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -37,12 +38,17 @@ const SignUpIdDetails = () => {
       setError("");
     }
 
-    // Call Steam API here
     VerifyUserSteamId(steamId)
       .then((res) => {
         if (res && res.data && res.data.status) {
-          setSteamIdVerified(true);
-          setError("");
+          const gamesCount = res.data.gamesCount || 0;
+          if (gamesCount >= 5) {
+            setSteamIdVerified(true);
+            setError("");
+          } else {
+            setSteamIdVerified(false);
+            setError("The STEAM account ID might be invalid, or it may have fewer than 5 games");
+          }
         }
       })
       .catch((e) => {
@@ -87,7 +93,7 @@ const SignUpIdDetails = () => {
         alert(error?.response?.data?.message);
       });
   };
-  
+
   const handleFieldChange = () => {
     if (!edited) {
       setEdited(true);
@@ -97,14 +103,18 @@ const SignUpIdDetails = () => {
     setShowInfo((prevShowInfo) => !prevShowInfo);
   };
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      <Stepper
-        sx={{ marginTop: 5, marginBottom: 5 }}
-        activeStep={1}
-        alternativeLabel
-      >
+      <Stepper sx={{ marginTop: 5, marginBottom: 5 }} activeStep={1} alternativeLabel>
         <Step key={0}>
           <StepLabel>Step 1</StepLabel>
         </Step>
@@ -153,6 +163,12 @@ const SignUpIdDetails = () => {
             onClick={handleVerifySteamId}
           />
         </div>
+        <span
+            style={{ color: "blue", fontSize: "0.8em", cursor: "pointer" }}
+            onClick={handleOpenDialog} // Open dialog box when clicked
+          >
+            Where to find STEAM ID?
+          </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
@@ -217,6 +233,27 @@ const SignUpIdDetails = () => {
       >
         Continue
       </button>
+
+            {/* Dialog box for Steam ID instructions */}
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>How to Find Your Steam ID</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To find your Steam ID, follow these steps:
+          </DialogContentText>
+          <ol>
+            <li>Open the Steam app.</li>
+            <li>Click on your user icon.</li>
+            <li>Select "Account details".</li>
+            <li>Your Steam ID is located below your name and is a 17-digit number.</li>
+          </ol>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

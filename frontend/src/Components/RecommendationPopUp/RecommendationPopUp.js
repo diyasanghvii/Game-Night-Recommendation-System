@@ -44,9 +44,9 @@ const RecommendationPopup = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {recommendations.map((recommendation) => (
+              {recommendations?.map((recommendation) => (
                 <TableRow key={recommendation.gameSteamId}>
-                  <TableCell>{recommendation.name}</TableCell>
+                  <TableCell>{recommendation.gameName}</TableCell>
                   <TableCell>{recommendation.reason}</TableCell>
                 </TableRow>
               ))}
@@ -58,7 +58,7 @@ const RecommendationPopup = ({
         <Btn
           label={"Send List to " + selectedServer + " (" + selectedChannel + ")"}
           onClick={() =>
-            SendList({ selectedChannel, selectedServer, selectedMembers })
+            SendList({ selectedChannel, selectedServer, selectedMembers, recommendations })
           }
         />
       </div>

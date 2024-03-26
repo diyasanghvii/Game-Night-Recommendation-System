@@ -10,9 +10,9 @@ import Rating from "@mui/material/Rating";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import StarIcon from "@mui/icons-material/Star";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
+import axios from 'axios'
 import "./RatingPopUp.css";
 import Btn from "../Button/Btn";
 import { UpdateUserRating } from "../../Services";
@@ -43,8 +43,10 @@ const RatingPopUp = ({
       try {
         let response;
         if (gameId) {
-          response = await searchService.getGameDetails(gameId);
-          setGameData(response.data.game);
+          const url = `https://api.gamalytic.com/game/${gameId}/?fields=name,steamId,description,tags,features,genres`;
+          response = await axios.get(url);
+          //response = await searchService.getGameDetails(gameId);
+          setGameData(response.data);
         } else {
           return;
         }
@@ -90,15 +92,15 @@ const RatingPopUp = ({
     }
   };
 
-  const handleInterestClick = (interestType) => {
-    interestChanged(interestType);
+  const handleInterestClick = (interestType, interestValue) => {
+    interestChanged(interestType, interestValue);
   };
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
       <div
         style={{
-          backgroundImage: `url(${gameData?.["background"]})`,
+          backgroundImage: `url(https://cdn.akamai.steamstatic.com/steam/apps/${gameData?.steamId}/page_bg_generated_v6b.jpg?t=1647357402)`,
           opacity: 1,
         }}
       >
@@ -120,42 +122,52 @@ const RatingPopUp = ({
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <img
-                  src={gameData?.["header_image"]}
+                  src={`https://steamcdn-a.akamaihd.net/steam/apps/${gameData?.steamId}/header.jpg`}
                   alt={gameData?.name}
                   style={{ maxWidth: "100%" }}
                 />
               </Grid>
 
               <Grid item xs={12}>
-                {gameData && gameData.short_description ? (
+                {gameData && gameData.description ? (
                   <Typography sx={{ color: "white" }} variant="body1">
-                    <strong>Description:</strong> {gameData.short_description}
+                    <strong>Description:</strong> {gameData.description}
                   </Typography>
                 ) : (
                   <p></p>
                 )}
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Genres:</strong>
-                  {gameData?.genres.map((genre) => (
+                  {gameData.genres?.map((genre) => (
                     <span
-                      key={genre.id}
                       className="tag"
                       style={{ marginRight: "5px" }}
                     >
-                      {genre.description}
+                      {genre}
                     </span>
                   ))}
                 </Typography>
                 <hr />
                 <Typography sx={{ color: "white" }} variant="body1">
-                  <strong>Categories:</strong>
-                  {gameData?.categories.map((categories) => (
+                  <strong>Tags:</strong>
+                  {gameData.tags?.map((tag) => (
                     <span
-                      key={categories.id}
                       className="tag"
                       style={{ marginRight: "5px" }}
                     >
-                      {categories.description}
+                      {tag}
+                    </span>
+                  ))}
+                </Typography>
+                <hr />
+                <Typography sx={{ color: "white" }} variant="body1">
+                  <strong>Features:</strong>
+                  {gameData.features?.map((feature) => (
+                    <span
+                      className="tag"
+                      style={{ marginRight: "5px" }}
+                    >
+                      {feature}
                     </span>
                   ))}
                 </Typography>
@@ -188,7 +200,7 @@ const RatingPopUp = ({
                           marginRight: "10px",
                           color: gameRating === LOVE ? "red" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("love")}
+                        onClick={() => handleInterestClick("love", LOVE)}
                       />
                     </Tooltip>
                     <Tooltip title="Interesting!">
@@ -198,7 +210,9 @@ const RatingPopUp = ({
                           color:
                             gameRating === INTERESTING ? "green" : "inherit",
                         }}
-                        onClick={() => handleInterestClick("interesting")}
+                        onClick={() =>
+                          handleInterestClick("interesting", INTERESTING)
+                        }
                       />
                     </Tooltip>
                     <Tooltip title="Meh -_-">
@@ -209,7 +223,7 @@ const RatingPopUp = ({
                               ? "orange"
                               : "inherit",
                         }}
-                        onClick={() => handleInterestClick("meh")}
+                        onClick={() => handleInterestClick("meh", MEH)}
                       />
                     </Tooltip>
                   </Typography>

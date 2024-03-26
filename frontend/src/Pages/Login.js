@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
-import { Login as loginApi, profileCheck } from "../Services/index";
+import {
+  CacheUserSteamGames,
+  Login as loginApi,
+  profileCheck,
+} from "../Services/index";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -35,6 +39,19 @@ const Login = () => {
     }
   });
 
+  const cacheUserSteamData = () => {
+    CacheUserSteamGames()
+      .then((response) => {
+        if (response) {
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
+        alert("Error Loggin in, Please try again !");
+        console.log("Error : ", error);
+      });
+  };
+
   const handleLogin = () => {
     // Calling the Login API
     loginApi({ email: username, password })
@@ -43,7 +60,6 @@ const Login = () => {
           if (response.data.redirect) {
             localStorage.setItem("signUpToken", response.data.token);
             localStorage.setItem("email", response.data.email);
-            // Redirect to the signup page with state
             if (response.data.initialStep === 1) {
               navigate("/signupiddetails");
             } else if (response.data.initialStep === 2) {
@@ -51,7 +67,7 @@ const Login = () => {
             }
           } else {
             sessionStorage.setItem("authToken", response.data.token);
-            navigate("/dashboard");
+            cacheUserSteamData();
           }
         }
       })

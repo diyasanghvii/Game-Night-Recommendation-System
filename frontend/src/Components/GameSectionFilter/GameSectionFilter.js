@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GameSectionFilter.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
-import { gameRatingMatch, getUnownedRatingValue } from "../../Utils";
+import {
+  gameRatingMatch,
+  getOnlyUnRatedGames,
+  getUnownedRatingValue,
+  isGameOwned,
+} from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
-function GameSectionFilter({ title, games, ratings, updateRatings }) {
+function GameSectionFilter({
+  title,
+  games,
+  ratings,
+  updateRatings,
+  isOwned,
+  ownedGame,
+}) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
   const [popupGameData, setPopupGameData] = useState(null);
+  const [onlyUnRatingChecked, setonlyRatingChecked] = useState(false);
+  const [visibleGames, setvisibleGames] = useState([]);
 
   const handleClick = (game) => {
     setPopupGameData(game);
     setShowPopup(true);
   };
+
   const handleNext = () => {
     setStartIndex((prev) => Math.min(prev + 5, games.length - 5));
     setEndIndex((prev) => Math.min(prev + 5, games.length));
@@ -43,7 +60,24 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
       });
   };
 
-  const visibleGames = games?.slice(startIndex, endIndex) || [];
+  const handleRatedToggleChange = (event) => {
+    setonlyRatingChecked(event.target.checked);
+  };
+
+  useEffect(() => {
+    setStartIndex(0);
+    setEndIndex(5);
+  }, [games]);
+
+  useEffect(() => {
+    if (onlyUnRatingChecked) {
+      const filteredGames = getOnlyUnRatedGames(games, ratings);
+      setvisibleGames(filteredGames?.slice(startIndex, endIndex) || []);
+    } else {
+      setvisibleGames(games?.slice(startIndex, endIndex) || []);
+    }
+  }, [games, startIndex, endIndex, onlyUnRatingChecked]);
+
   return (
     <section className="gameSection">
       {showPopup && (
@@ -58,11 +92,29 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
           )}
           interestChanged={(data) => interestChanged(popupGameData, data)}
           onClose={() => setShowPopup(false)}
-          isOwned={popupGameData.isOwned}
+          isOwned={isGameOwned(ownedGame, popupGameData)}
           updateRatings={updateRatings}
         />
       )}
-      <h2>{title}</h2>
+      <div
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <h2 style={{ marginRight: 20 }}>{title}</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Switch
+            checked={onlyUnRatingChecked}
+            onChange={handleRatedToggleChange}
+            defaultChecked
+          />
+          <p style={{ marginRight: 20 }}>Show only unrated games</p>
+        </div>
+      </div>
       <div className="gameCarousel">
         <Btn
           fullWidth={true}
@@ -84,13 +136,13 @@ function GameSectionFilter({ title, games, ratings, updateRatings }) {
               />
               <h3>{game.name}</h3>
 
-              {ratings && game.isOwned ? (
+              {isGameOwned(ownedGame, game) ? (
                 <GameInterestRating
-                  isOwned={game.isOwned}
+                  isOwned={true}
                   userRating={gameRatingMatch(
                     ratings,
                     game.name,
-                    null,
+                    game.appid,
                     game.appid
                   )}
                   isEnabled={false}
