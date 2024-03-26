@@ -20,11 +20,10 @@ const EditProfile = () => {
   const [discordUsernameVerified, setDiscordUsernameVerified] = useState(false);
   const [discordUsernameError, setDiscordUsernameError] = useState('');
   const [error, setError] = useState('');
-  const [saveDisabled, setSaveDisabled] = useState(true); // Save button disabled by default
-  const [detailsChanged, setDetailsChanged] = useState(false); // Track if details changed without saving
+  const [saveDisabled, setSaveDisabled] = useState(true); 
+  const [detailsChanged, setDetailsChanged] = useState(false);
 
   useEffect(() => {
-    // Enable Save button only if both Steam ID and Discord Username are verified and details changed
     if (steamIdVerified && discordUsernameVerified && detailsChanged) {
       setSaveDisabled(false);
     } else {
@@ -42,7 +41,7 @@ const EditProfile = () => {
 
   const handleSave = () => {
     setIsEditing(false);
-    setDetailsChanged(false); // Reset details changed flag after saving
+    setDetailsChanged(false); 
   };
 
   const handleCancel = () => {
@@ -51,7 +50,7 @@ const EditProfile = () => {
     setAge(tempAge);
     setSteamId(tempSteamId);
     setDiscordUsername(tempDiscordUsername);
-    setDetailsChanged(false); // Reset details changed flag on cancel
+    setDetailsChanged(false); 
   };
 
   const handleVerifySteamId = () => {
@@ -60,7 +59,7 @@ const EditProfile = () => {
       if (res && res.data && res.data.status) {
         setSteamIdVerified(true);
         setError("");
-        setDetailsChanged(true); // Mark details as changed after verifying
+        setDetailsChanged(true); 
       }
     })
     .catch((e) => {
@@ -73,7 +72,7 @@ const EditProfile = () => {
     if (isValidDiscordUsername(discordUsername)) {
       setDiscordUsernameVerified(true);
       setDiscordUsernameError('');
-      setDetailsChanged(true); // Mark details as changed after verifying
+      setDetailsChanged(true); 
     } else {
       setDiscordUsernameVerified(false);
       setDiscordUsernameError('Invalid Discord Username.');

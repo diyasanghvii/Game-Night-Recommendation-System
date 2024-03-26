@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import Text from "../Components/Typography/Text";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { SignUpTwo, VerifyUserSteamId } from "../Services";
@@ -8,6 +16,8 @@ import Btn from "../Components/Button/Btn";
 import { isValidDiscordUsername } from "../Utils";
 import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -44,7 +54,9 @@ const SignUpIdDetails = () => {
             setError("");
           } else {
             setSteamIdVerified(false);
-            setError("The STEAM account ID might be invalid, or it may have fewer than 5 games");
+            setError(
+              "The STEAM account ID might be invalid, or it may have fewer than 5 games"
+            );
           }
         }
       })
@@ -108,7 +120,11 @@ const SignUpIdDetails = () => {
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      <Stepper sx={{ marginTop: 5, marginBottom: 5 }} activeStep={1} alternativeLabel>
+      <Stepper
+        sx={{ marginTop: 5, marginBottom: 5 }}
+        activeStep={1}
+        alternativeLabel
+      >
         <Step key={0}>
           <StepLabel>Step 1</StepLabel>
         </Step>
@@ -150,19 +166,42 @@ const SignUpIdDetails = () => {
           ) : (
             <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
           )}
+
           <Btn
             label="Verify"
             disabled={steamIdVerified}
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
           />
+<Tooltip
+  title={
+    <div style={{ width: '300px', maxHeight: '800px' }}>
+      <span style={{ fontSize: "10px" }}>
+        The app needs your profile to be public in your STEAM account in
+        order to generate recommendations based on games you own. <br /><br/>
+        <strong>Note:</strong> This data is not shared with any third
+        party.
+      </span>
+      <br />
+      <img
+        src={process.env.PUBLIC_URL + '/images/STEAM.png'}
+        alt="Tooltip Image"
+        style={{ width: '300px', height: 'auto' }}
+      />
+    </div>
+  }
+  placement="right"
+>
+  <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+</Tooltip>
+
         </div>
         <span
-            style={{ color: "blue", fontSize: "0.8em", cursor: "pointer" }}
-            onClick={handleOpenDialog} // Open dialog box when clicked
-          >
-            Where to find STEAM ID?
-          </span>
+          style={{ color: "blue", fontSize: "0.8em", cursor: "pointer" }}
+          onClick={handleOpenDialog}
+        >
+          Where to find STEAM ID?
+        </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
@@ -212,8 +251,8 @@ const SignUpIdDetails = () => {
         Continue
       </button>
 
-            {/* Dialog box for Steam ID instructions */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
+      {/* Dialog box for Steam ID instructions */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>How to Find Your Steam ID</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -223,7 +262,9 @@ const SignUpIdDetails = () => {
             <li>Open the Steam app.</li>
             <li>Click on your user icon.</li>
             <li>Select "Account details".</li>
-            <li>Your Steam ID is located below your name and is a 17-digit number.</li>
+            <li>
+              Your Steam ID is located below your name and is a 17-digit number.
+            </li>
           </ol>
         </DialogContent>
         <DialogActions>
