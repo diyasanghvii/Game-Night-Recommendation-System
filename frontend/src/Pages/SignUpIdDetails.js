@@ -8,6 +8,8 @@ import Btn from "../Components/Button/Btn";
 import { isValidDiscordUsername } from "../Utils";
 import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -20,9 +22,6 @@ const SignUpIdDetails = () => {
   const [edited, setEdited] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
-
-  const [showInfo, setShowInfo] = useState(false);
-
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -101,7 +100,7 @@ const SignUpIdDetails = () => {
     }
   };
   const handleInfoClick = () => {
-    setShowInfo((prevShowInfo) => !prevShowInfo);
+    // Handle info click
   };
 
   const handleOpenDialog = () => {
@@ -194,23 +193,30 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
           />
-          <span style={{ cursor: "pointer" }} onClick={handleInfoClick}>
-            <span style={{ fontSize: "1.5em" }}>&#9432;</span>
-          </span>
-        </div>
-        {showInfo && (
-          <div style={{ marginTop: "10px", color: "gray", fontSize: "14px" }}>
-          <p>
-            Only server owners can invite the bot.{" "}
-            <a
-              href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
-              target="_blank" rel="noopener noreferrer"
-            >
-              Click here to invite the bot.
-            </a>
-          </p>
-        </div>
-        )}
+        
+        <Tooltip
+          title={
+            <div style={{ width: '300px', maxHeight: '800px' }}>
+              <span style={{ fontSize: "10px" }}>
+                <p>
+                  Only server owners can invite the bot.{" "}
+                  <a
+                    href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
+                  >
+                    Click here to invite the bot.
+                  </a>
+                </p>
+              </span>
+              <br />
+            </div>
+          }
+          placement="right"
+        >
+                   < InfoIcon style={{ cursor: "pointer", color: "blue" }} />
+        </Tooltip>
+      </div>
       </div>
       <button
         style={{
@@ -235,22 +241,28 @@ const SignUpIdDetails = () => {
         Continue
       </button>
 
-            {/* Dialog box for Steam ID instructions */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>How to Find Your Steam ID</DialogTitle>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Where to find STEAM ID?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To find your Steam ID, follow these steps:
+            Your Steam ID is a unique identifier associated with your Steam account. You can find your Steam ID by
+            following these steps:
+            <ol>
+              <li>Launch the Steam client and log in.</li>
+              <li>Click on your profile name at the top right corner of the Steam client.</li>
+              <li>Select "View Profile".</li>
+              <li>Once on your profile, right-click anywhere on the page and select "Copy Page URL".</li>
+              <li>
+                Paste the copied URL into the textbox below and click "Verify" to retrieve your Steam ID. Ensure the
+                URL is in the following format:
+                <code>https://steamcommunity.com/id/your_custom_url</code> or{" "}
+                <code>https://steamcommunity.com/profiles/your_steam_id</code>.
+              </li>
+            </ol>
           </DialogContentText>
-          <ol>
-            <li>Open the Steam app.</li>
-            <li>Click on your user icon.</li>
-            <li>Select "Account details".</li>
-            <li>Your Steam ID is located below your name and is a 17-digit number.</li>
-          </ol>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={handleCloseDialog} autoFocus>
             Close
           </Button>
         </DialogActions>
@@ -260,3 +272,4 @@ const SignUpIdDetails = () => {
 };
 
 export default SignUpIdDetails;
+
