@@ -12,10 +12,10 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import StarIcon from "@mui/icons-material/Star";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
-import axios from 'axios'
+import axios from "axios";
 import "./RatingPopUp.css";
 import Btn from "../Button/Btn";
-import { UpdateUserRating } from "../../Services";
+import { ClearRatings, UpdateUserRating } from "../../Services";
 
 import searchService from "../../Services/searchService";
 import { INTERESTING, LOVE, MEH } from "../../Utils";
@@ -92,6 +92,20 @@ const RatingPopUp = ({
     }
   };
 
+  const clearRatings = (id) => {
+    ClearRatings({ gameSteamId: id })
+      .then((reponse) => {
+        setSaveMessage("Rating saved successfully!");
+        updateRatings(reponse.data.preferences);
+      })
+      .catch((error) => {
+        console.error("Error clearing rating:", error);
+        setSaveMessage(
+          "Error occurred while cleating rating. Please try again."
+        );
+      });
+  };
+
   const handleInterestClick = (interestType, interestValue) => {
     interestChanged(interestType, interestValue);
   };
@@ -139,10 +153,7 @@ const RatingPopUp = ({
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Genres:</strong>
                   {gameData.genres?.map((genre) => (
-                    <span
-                      className="tag"
-                      style={{ marginRight: "5px" }}
-                    >
+                    <span className="tag" style={{ marginRight: "5px" }}>
                       {genre}
                     </span>
                   ))}
@@ -151,10 +162,7 @@ const RatingPopUp = ({
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Tags:</strong>
                   {gameData.tags?.map((tag) => (
-                    <span
-                      className="tag"
-                      style={{ marginRight: "5px" }}
-                    >
+                    <span className="tag" style={{ marginRight: "5px" }}>
                       {tag}
                     </span>
                   ))}
@@ -163,10 +171,7 @@ const RatingPopUp = ({
                 <Typography sx={{ color: "white" }} variant="body1">
                   <strong>Features:</strong>
                   {gameData.features?.map((feature) => (
-                    <span
-                      className="tag"
-                      style={{ marginRight: "5px" }}
-                    >
+                    <span className="tag" style={{ marginRight: "5px" }}>
                       {feature}
                     </span>
                   ))}
@@ -183,6 +188,17 @@ const RatingPopUp = ({
                         onChange={(event, newValue) => setUserRating(newValue)}
                         data-testid="rating-component"
                       />
+                      {userRating !== null && userRating !== undefined && (
+                        <span
+                          className="clear-rating-text"
+                          onClick={() => {
+                            setUserRating(null);
+                            clearRatings(gameId);
+                          }}
+                        >
+                          Clear Rating
+                        </span>
+                      )}
                       <Btn
                         style={{ marginLeft: "5px", float: "right" }}
                         label={"Save"}
@@ -226,6 +242,14 @@ const RatingPopUp = ({
                         onClick={() => handleInterestClick("meh", MEH)}
                       />
                     </Tooltip>
+                    {gameRating !== null && gameRating !== undefined && (
+                      <span
+                        className="clear-rating-text"
+                        onClick={() => clearRatings(gameId)}
+                      >
+                        Clear Rating
+                      </span>
+                    )}
                   </Typography>
                 )}
               </Grid>

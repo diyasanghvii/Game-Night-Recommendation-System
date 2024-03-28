@@ -327,6 +327,34 @@ const verifyUserSteamId = async (req, res) => {
   }
 };
 
+// @desc Clear User Ratings
+// @route POST /user/clearrating
+// @access Private
+const clearRating = async (req, res) => {
+  try {
+    let userInfo = await User.findOne({ email: req.user.email }).exec();
+    let pref = userInfo?.preferences;
+    const index = pref?.findIndex(
+      (ele) => ele.gameSteamId === req.body.gameSteamId
+    );
+    if (index >= 0) {
+      pref[index].ratings = null;
+      pref[index].interest = null;
+    }
+
+    await userInfo.updateOne({
+      preferences: pref,
+    });
+    let updatedUserInfo = await User.findOne({ email: req.user.email }).exec();
+    res.status(200).send({
+      message: "Ratings cleared Successfully!",
+      preferences: updatedUserInfo.preferences,
+    });
+  } catch (e) {
+    console.log("Error : ", e);
+    res.status(500).send("Ratings not cleared!");
+  }
+};
 
 module.exports = {
   login,
@@ -339,4 +367,5 @@ module.exports = {
   updateRating,
   saveGameUnOwnedRating,
   verifyUserSteamId,
+  clearRating,
 };
