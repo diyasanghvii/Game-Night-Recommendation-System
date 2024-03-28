@@ -29,6 +29,8 @@ const SignUpIdDetails = () => {
   const [warning, setWarning] = useState("");
   const [edited, setEdited] = useState(false);
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
+
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -109,8 +111,12 @@ const SignUpIdDetails = () => {
     }
   };
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  const handleOpenDialog = (type) => {
+    if (type === "info") {
+      setInfoDialogOpen(true);
+    } else {
+      setOpenDialog(true);
+    }
   };
 
   const handleCloseDialog = () => {
@@ -173,35 +179,11 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
           />
-<Tooltip
-  title={
-    <div style={{ width: '300px', maxHeight: '800px' }}>
-      <span style={{ fontSize: "10px" }}>
-        The app needs your profile to be public in your STEAM account in
-        order to generate recommendations based on games you own. <br /><br/>
-        <strong>Note:</strong> This data is not shared with any third
-        party.
-      </span>
-      <br />
-      <img
-        src={process.env.PUBLIC_URL + '/images/STEAM.png'}
-        alt="Tooltip Image"
-        style={{ width: '300px', height: 'auto' }}
-      />
-    </div>
-  }
-  placement="right"
->
-  <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
-</Tooltip>
-
+            <InfoIcon
+              style={{ cursor: "pointer", color: "#1976d2" }}
+              onClick={() => handleOpenDialog("info")}
+            />
         </div>
-        <span
-          style={{ color: "blue", fontSize: "0.8em", cursor: "pointer" }}
-          onClick={handleOpenDialog}
-        >
-          Where to find STEAM ID?
-        </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
@@ -251,24 +233,37 @@ const SignUpIdDetails = () => {
         Continue
       </button>
 
-      {/* Dialog box for Steam ID instructions */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>How to Find Your Steam ID</DialogTitle>
+      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
+        <DialogTitle>Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To find your Steam ID, follow these steps:
+            <ol>
+              <li>Open the Steam app.</li>
+              <li>Click on your profile icon.</li>
+              <li>Select "Account details".</li>
+              <li>
+                Your Steam ID is located below your name and is a 17-digit
+                number.
+              </li>
+            </ol>
           </DialogContentText>
-          <ol>
-            <li>Open the Steam app.</li>
-            <li>Click on your user icon.</li>
-            <li>Select "Account details".</li>
-            <li>
-              Your Steam ID is located below your name and is a 17-digit number.
-            </li>
-          </ol>
+          <DialogContentText>
+          The app needs your profile to be public in your STEAM account
+                  in order to generate recommendations based on games you own.{" "}
+                  <br />
+                  <br />
+                  <strong>Note:</strong> This data is not shared with any third
+                  party.
+          </DialogContentText>
+          <img
+                  src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+                  alt="Tooltip Image"
+                  style={{ width: "500px", height: "auto" }}
+                />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={() => setInfoDialogOpen(false)} color="primary">
             Close
           </Button>
         </DialogActions>
