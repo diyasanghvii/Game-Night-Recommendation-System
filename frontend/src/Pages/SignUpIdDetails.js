@@ -16,6 +16,8 @@ import Btn from "../Components/Button/Btn";
 import { isValidDiscordUsername } from "../Utils";
 import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -230,18 +232,35 @@ const SignUpIdDetails = () => {
       >
         Continue
       </button>
+
       <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
         <DialogTitle>Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To find your Steam ID, follow these steps:
+            <ol>
+              <li>Open the Steam app.</li>
+              <li>Click on your profile icon.</li>
+              <li>Select "Account details".</li>
+              <li>
+                Your Steam ID is located below your name and is a 17-digit
+                number.
+              </li>
+            </ol>
           </DialogContentText>
-          <ol>
-            <li>Open the Steam app.</li>
-            <li>Click on your user icon.</li>
-            <li>Select "Account details".</li>
-            <li>Your Steam ID is located below your name and is a 17-digit number.</li>
-          </ol>
+          <DialogContentText>
+          The app needs your profile to be public in your STEAM account
+                  in order to generate recommendations based on games you own.{" "}
+                  <br />
+                  <br />
+                  <strong>Note:</strong> This data is not shared with any third
+                  party.
+          </DialogContentText>
+          <img
+                  src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+                  alt="Tooltip Image"
+                  style={{ width: "500px", height: "auto" }}
+                />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setInfoDialogOpen(false)} color="primary">
