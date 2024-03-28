@@ -230,10 +230,8 @@ const SignUpIdDetails = () => {
       >
         Continue
       </button>
-
-            {/* Dialog box for Steam ID instructions */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>How to Find Your Steam ID</DialogTitle>
+      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
+        <DialogTitle>Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To find your Steam ID, follow these steps:
@@ -246,7 +244,7 @@ const SignUpIdDetails = () => {
           </ol>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={() => setInfoDialogOpen(false)} color="primary">
             Close
           </Button>
         </DialogActions>
