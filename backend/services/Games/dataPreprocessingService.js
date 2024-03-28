@@ -60,7 +60,6 @@ async function preprocessGameData(selected_users) {
 
   // Define the modified game pool structure
   let modifiedGamePool = [];
-  console.log(JSON.stringify(gamePool, undefined, 3));
   // Iterate through each game in the game pool
   gamePool.forEach((game) => {
     // Initialize arrays for ownership, matched genres, ratings, and interest
