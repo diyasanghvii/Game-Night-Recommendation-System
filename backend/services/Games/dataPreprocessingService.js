@@ -19,6 +19,7 @@ async function preprocessGameData(selected_users) {
       const ownedGames = response.data.response.games;
       element.ownedgames = ownedGames ? ownedGames : [];
       for (const game of element.preferences) {
+        let multiplayerFlag = false;
         const existingGame = gamePool.find(
           (item) => item.appid === game.gameSteamId
         );
@@ -28,9 +29,23 @@ async function preprocessGameData(selected_users) {
           if(genreResponse===undefined){
           continue;
           }
-          const genresList = genreResponse.data?.genres;
-          const tagsRes = genreResponse.data?.tags;
-          const featuresRes = genreResponse.data?.features;
+          const genresList = genreResponse.data?.genres.map(function(item) {
+            if (item.toLowerCase().includes("multiplayer"))
+            multiplayerFlag = true;
+            return item.toLowerCase();
+            });
+          const tagsRes = genreResponse.data?.tags.map(function(item) {
+            if (item.toLowerCase().includes("multiplayer"))
+            multiplayerFlag = true;
+            return item.toLowerCase();
+            });
+          const featuresRes = genreResponse.data?.features.map(function(item) {
+            if (item.toLowerCase().includes("multiplayer"))
+            multiplayerFlag = true;
+            return item.toLowerCase();
+            });
+          if(!multiplayerFlag)
+            continue;
           gamePool.push({
             appid: game.gameSteamId,
             name: game.gameName,
@@ -45,7 +60,7 @@ async function preprocessGameData(selected_users) {
 
   // Define the modified game pool structure
   let modifiedGamePool = [];
-
+  console.log(JSON.stringify(gamePool, undefined, 3));
   // Iterate through each game in the game pool
   gamePool.forEach((game) => {
     // Initialize arrays for ownership, matched genres, ratings, and interest
