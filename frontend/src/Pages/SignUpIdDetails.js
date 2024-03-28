@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import Text from "../Components/Typography/Text";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { SignUpTwo, VerifyUserSteamId } from "../Services";
@@ -22,6 +30,8 @@ const SignUpIdDetails = () => {
   const [edited, setEdited] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
+
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -47,7 +57,9 @@ const SignUpIdDetails = () => {
             setError("");
           } else {
             setSteamIdVerified(false);
-            setError("The STEAM account ID might be invalid, or it may have fewer than 5 games");
+            setError(
+              "The STEAM account ID might be invalid, or it may have fewer than 5 games"
+            );
           }
         }
       })
@@ -103,8 +115,12 @@ const SignUpIdDetails = () => {
     // Handle info click
   };
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  const handleOpenDialog = (type) => {
+    if (type === "info") {
+      setInfoDialogOpen(true);
+    } else {
+      setOpenDialog(true);
+    }
   };
 
   const handleCloseDialog = () => {
@@ -114,7 +130,11 @@ const SignUpIdDetails = () => {
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      <Stepper sx={{ marginTop: 5, marginBottom: 5 }} activeStep={1} alternativeLabel>
+      <Stepper
+        sx={{ marginTop: 5, marginBottom: 5 }}
+        activeStep={1}
+        alternativeLabel
+      >
         <Step key={0}>
           <StepLabel>Step 1</StepLabel>
         </Step>
@@ -156,19 +176,18 @@ const SignUpIdDetails = () => {
           ) : (
             <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
           )}
+
           <Btn
             label="Verify"
             disabled={steamIdVerified}
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
           />
+            <InfoIcon
+              style={{ cursor: "pointer", color: "#1976d2" }}
+              onClick={() => handleOpenDialog("info")}
+            />
         </div>
-        <span
-            style={{ color: "blue", fontSize: "0.8em", cursor: "pointer" }}
-            onClick={handleOpenDialog} // Open dialog box when clicked
-          >
-            Where to find STEAM ID?
-          </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <TextBox
@@ -240,29 +259,37 @@ const SignUpIdDetails = () => {
       >
         Continue
       </button>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Where to find STEAM ID?</DialogTitle>
+      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
+        <DialogTitle>Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Your Steam ID is a unique identifier associated with your Steam account. You can find your Steam ID by
-            following these steps:
+            To find your Steam ID, follow these steps:
             <ol>
-              <li>Launch the Steam client and log in.</li>
-              <li>Click on your profile name at the top right corner of the Steam client.</li>
-              <li>Select "View Profile".</li>
-              <li>Once on your profile, right-click anywhere on the page and select "Copy Page URL".</li>
+              <li>Open the Steam app.</li>
+              <li>Click on your profile icon.</li>
+              <li>Select "Account details".</li>
               <li>
-                Paste the copied URL into the textbox below and click "Verify" to retrieve your Steam ID. Ensure the
-                URL is in the following format:
-                <code>https://steamcommunity.com/id/your_custom_url</code> or{" "}
-                <code>https://steamcommunity.com/profiles/your_steam_id</code>.
+                Your Steam ID is located below your name and is a 17-digit
+                number.
               </li>
             </ol>
           </DialogContentText>
+          <DialogContentText>
+          The app needs your profile to be public in your STEAM account
+                  in order to generate recommendations based on games you own.{" "}
+                  <br />
+                  <br />
+                  <strong>Note:</strong> This data is not shared with any third
+                  party.
+          </DialogContentText>
+          <img
+                  src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+                  alt="Tooltip Image"
+                  style={{ width: "500px", height: "auto" }}
+                />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} autoFocus>
+          <Button onClick={() => setInfoDialogOpen(false)} color="primary">
             Close
           </Button>
         </DialogActions>
