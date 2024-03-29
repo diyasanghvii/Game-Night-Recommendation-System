@@ -60,7 +60,7 @@ async function preprocessGameData(selected_users) {
     }
   }
   //console.log(JSON.stringify(gamePool, undefined, 3));
-  console.log(gamePool.length);
+  //console.log(gamePool.length);
   // Define the modified game pool structure
   let modifiedGamePool = [];
   // Iterate through each game in the game pool
@@ -131,7 +131,7 @@ async function preprocessGameData(selected_users) {
       modifiedGamePool.push(modifiedGame);
     }
   });
-  console.log(JSON.stringify(modifiedGamePool, undefined, 3));
+  //console.log(JSON.stringify(modifiedGamePool, undefined, 3));
   // Output the modified game pool
   return modifiedGamePool;
 }
