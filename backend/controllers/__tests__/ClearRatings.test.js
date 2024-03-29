@@ -78,7 +78,7 @@ describe("Clear Ratings API testing", () => {
       .send(data)
       .expect(200);
 
-    expect(response.body.preferences[0].ratings).toBe(null);
+    expect(response.body.preferences.length).toBe(0);
   });
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {

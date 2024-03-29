@@ -337,9 +337,9 @@ const clearRating = async (req, res) => {
     const index = pref?.findIndex(
       (ele) => ele.gameSteamId === req.body.gameSteamId
     );
-    if (index >= 0) {
-      pref[index].ratings = null;
-      pref[index].interest = null;
+
+    if (index !== -1) {
+      pref.splice(index, 1);
     }
 
     await userInfo.updateOne({
