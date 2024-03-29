@@ -320,6 +320,20 @@ export const VerifyUserSteamId = (data) => {
   });
 };
 
+export const VerifyUserSteamIdInEditProfile = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .get(`/user/verifyusersteamid?steamId=${data}`)
+
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Generate and Fetch recommendations
 export const GenerateRecommendations = (data) => {
   return new Promise((resolve, reject) => {

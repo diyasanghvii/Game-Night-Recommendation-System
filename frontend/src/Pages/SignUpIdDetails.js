@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import Text from "../Components/Typography/Text";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { SignUpTwo, VerifyUserSteamId } from "../Services";
@@ -8,6 +16,8 @@ import Btn from "../Components/Button/Btn";
 import { isValidDiscordUsername } from "../Utils";
 import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -18,7 +28,8 @@ const SignUpIdDetails = () => {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
   const [edited, setEdited] = useState(false);
-
+  const [openDialog, setOpenDialog] = useState(false); // State for dialog box
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 
 
   useEffect(() => {
@@ -36,12 +47,19 @@ const SignUpIdDetails = () => {
       setError("");
     }
 
-    // Call Steam API here
     VerifyUserSteamId(steamId)
       .then((res) => {
         if (res && res.data && res.data.status) {
-          setSteamIdVerified(true);
-          setError("");
+          const gamesCount = res.data.gamesCount || 0;
+          if (gamesCount >= 5) {
+            setSteamIdVerified(true);
+            setError("");
+          } else {
+            setSteamIdVerified(false);
+            setError(
+              "The STEAM account ID might be invalid, or it may have fewer than 5 games"
+            );
+          }
         }
       })
       .catch((e) => {
@@ -86,11 +104,23 @@ const SignUpIdDetails = () => {
         alert(error?.response?.data?.message);
       });
   };
-  
+
   const handleFieldChange = () => {
     if (!edited) {
       setEdited(true);
     }
+  };
+
+  const handleOpenDialog = (type) => {
+    if (type === "info") {
+      setInfoDialogOpen(true);
+    } else {
+      setOpenDialog(true);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -142,12 +172,17 @@ const SignUpIdDetails = () => {
           ) : (
             <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
           )}
+
           <Btn
             label="Verify"
             disabled={steamIdVerified}
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
           />
+            <InfoIcon
+              style={{ cursor: "pointer", color: "#1976d2" }}
+              onClick={() => handleOpenDialog("info")}
+            />
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -197,6 +232,42 @@ const SignUpIdDetails = () => {
       >
         Continue
       </button>
+
+      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
+        <DialogTitle>Information</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To find your Steam ID, follow these steps:
+            <ol>
+              <li>Open the Steam app.</li>
+              <li>Click on your profile icon.</li>
+              <li>Select "Account details".</li>
+              <li>
+                Your Steam ID is located below your name and is a 17-digit
+                number.
+              </li>
+            </ol>
+          </DialogContentText>
+          <DialogContentText>
+          The app needs your profile to be public in your STEAM account
+                  in order to generate recommendations based on games you own.{" "}
+                  <br />
+                  <br />
+                  <strong>Note:</strong> This data is not shared with any third
+                  party.
+          </DialogContentText>
+          <img
+                  src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+                  alt="Tooltip Image"
+                  style={{ width: "500px", height: "auto" }}
+                />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setInfoDialogOpen(false)} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
