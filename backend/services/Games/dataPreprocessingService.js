@@ -18,13 +18,15 @@ async function preprocessGameData(selected_users) {
       const response = await axios.get(url);
       const ownedGames = response.data.response.games;
       element.ownedgames = ownedGames ? ownedGames : [];
-      for (const game of element.preferences) {
+      const allGames = element.ownedgames.concat(element.preferences);
+      for (const game of allGames) {
         let multiplayerFlag = false;
+        //console.log(`${game.gameSteamId?game.gameSteamId:game.appid}`);
         const existingGame = gamePool.find(
-          (item) => item.appid === game.gameSteamId
+          (item) => item.appid === `${game.gameSteamId?game.gameSteamId:game.appid}`
         );
-        if (!existingGame && game.gameSteamId != undefined) {
-          const genreUrl = `https://api.gamalytic.com/game/${game.gameSteamId}/?fields=name,steamId,description,tags,features,genres`;
+        if (!existingGame && `${game.gameSteamId?game.gameSteamId:game.appid}` != undefined) {
+          const genreUrl = `https://api.gamalytic.com/game/${game.gameSteamId?game.gameSteamId:game.appid}/?fields=name,steamId,description,tags,features,genres`;
           const genreResponse = await axios.get(genreUrl);
           if(genreResponse===undefined){
           continue;
@@ -47,8 +49,8 @@ async function preprocessGameData(selected_users) {
           if(!multiplayerFlag)
             continue;
           gamePool.push({
-            appid: game.gameSteamId,
-            name: game.gameName,
+            appid: parseInt(`${game.gameSteamId?game.gameSteamId:game.appid}`),
+            name: `${game.gameName?game.gameName:game.name}`,
             genres: genresList,
             tags: tagsRes,
             features: featuresRes
@@ -57,7 +59,8 @@ async function preprocessGameData(selected_users) {
       }
     }
   }
-
+  //console.log(JSON.stringify(gamePool, undefined, 3));
+  console.log(gamePool.length);
   // Define the modified game pool structure
   let modifiedGamePool = [];
   // Iterate through each game in the game pool
@@ -67,6 +70,8 @@ async function preprocessGameData(selected_users) {
     let matchedGenres = [];
     let ratings = [];
     let interest = [];
+    let totalPlaytime = [];
+    let playtime2weeks = [];
 
     // Iterate through each member in the members list
     members.forEach((member) => {
@@ -75,6 +80,16 @@ async function preprocessGameData(selected_users) {
         (ownedGame) => ownedGame.appid === game.appid
       );
       ownership.push(isOwned ? 1 : 0);
+
+      let playtime = member.ownedgames.find(
+        (ownedGame) => ownedGame.appid === game.appid
+      );
+      totalPlaytime.push(playtime ? playtime.playtime_forever || 0 : 0);
+
+      let play2weeks = member.ownedgames.find(
+        (ownedGame) => ownedGame.appid === game.appid
+      );
+      playtime2weeks.push(play2weeks ? play2weeks.playtime_2weeks || 0 : 0);
 
       // Calculate matched genres
       let matchedGenresCount = game.genres.filter((genre) =>
@@ -110,10 +125,13 @@ async function preprocessGameData(selected_users) {
         matchedgenres: matchedGenres,
         ratings: ratings,
         interest: interest,
+        totalPlaytime: totalPlaytime,
+        playtime_2weeks: playtime2weeks
       };
       modifiedGamePool.push(modifiedGame);
     }
   });
+  console.log(JSON.stringify(modifiedGamePool, undefined, 3));
   // Output the modified game pool
   return modifiedGamePool;
 }
