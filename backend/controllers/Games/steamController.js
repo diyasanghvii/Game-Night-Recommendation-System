@@ -4,7 +4,7 @@ const User = require("../../models/User/userModal");
 const BASE_URL = "http://api.steampowered.com";
 
 // @desc Get User Steam Data
-// @route POST /steam/getUserSteamGameList
+// @route GET /steam/getUserSteamGameList
 // @access Private
 const getUserSteamGameList = async (req, res) => {
   try {
