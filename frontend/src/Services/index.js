@@ -395,3 +395,17 @@ export const FetchFreeGames = ({ url, searchString }) => {
       });
   });
 };
+
+// Clear User ratings
+export const ClearRatings = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/clearrating", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

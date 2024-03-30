@@ -18,49 +18,57 @@ async function preprocessGameData(selected_users) {
       const response = await axios.get(url);
       const ownedGames = response.data.response.games;
       element.ownedgames = ownedGames ? ownedGames : [];
-      for (const game of element.preferences) {
+      const allGames = element.ownedgames.concat(element.preferences);
+      for (const game of allGames) {
         let multiplayerFlag = false;
         let numGenres;
+        //console.log(`${game.gameSteamId?game.gameSteamId:game.appid}`);
         const existingGame = gamePool.find(
-          (item) => item.appid === game.gameSteamId
+          (item) =>
+            item.appid ===
+            parseInt(`${game.gameSteamId ? game.gameSteamId : game.appid}`)
         );
-        if (!existingGame && game.gameSteamId != undefined) {
-          const genreUrl = `https://api.gamalytic.com/game/${game.gameSteamId}/?fields=name,steamId,description,tags,features,genres`;
+        if (
+          !existingGame &&
+          `${game.gameSteamId ? game.gameSteamId : game.appid}` != undefined
+        ) {
+          const genreUrl = `https://api.gamalytic.com/game/${
+            game.gameSteamId ? game.gameSteamId : game.appid
+          }/?fields=name,steamId,description,tags,features,genres`;
           const genreResponse = await axios.get(genreUrl);
-          if(genreResponse===undefined){
-          continue;
-          }
-          const genresList = genreResponse.data?.genres.map(function(item) {
-            if (item.toLowerCase().includes("multiplayer"))
-            multiplayerFlag = true;
-            return item.toLowerCase();
-            });
-          numGenres = genresList.length;
-          const tagsRes = genreResponse.data?.tags.map(function(item) {
-            if (item.toLowerCase().includes("multiplayer"))
-            multiplayerFlag = true;
-            return item.toLowerCase();
-            });
-          const featuresRes = genreResponse.data?.features.map(function(item) {
-            if (item.toLowerCase().includes("multiplayer"))
-            multiplayerFlag = true;
-            return item.toLowerCase();
-            });
-          if(!multiplayerFlag)
+          if (genreResponse === undefined) {
             continue;
+          }
+          const processArray = (array) => {
+            return array.map((item) => {
+              if (item.toLowerCase().includes("multiplayer")) {
+                multiplayerFlag = true;
+              }
+              return item.toLowerCase();
+            });
+          };
+
+          const genresList = processArray(genreResponse.data?.genres);
+          numGenres = genresList.length;
+          const tagsRes = processArray(genreResponse.data?.tags);
+          const featuresRes = processArray(genreResponse.data?.features);
+          if (!multiplayerFlag) continue;
           gamePool.push({
-            appid: game.gameSteamId,
-            name: game.gameName,
+            appid: parseInt(
+              `${game.gameSteamId ? game.gameSteamId : game.appid}`
+            ),
+            name: `${game.gameName ? game.gameName : game.name}`,
             genres: genresList,
             noOfGameGenres: numGenres,
             tags: tagsRes,
-            features: featuresRes
+            features: featuresRes,
           });
         }
       }
     }
   }
-
+  //console.log(JSON.stringify(gamePool, undefined, 3));
+  //console.log(gamePool.length);
   // Define the modified game pool structure
   let modifiedGamePool = [];
   // Iterate through each game in the game pool
@@ -70,32 +78,25 @@ async function preprocessGameData(selected_users) {
     let matchedGenres = [];
     let ratings = [];
     let interest = [];
+    let totalPlaytime = [];
+    let playtime2weeks = [];
 
     // Iterate through each member in the members list
     members.forEach((member) => {
-      // Check ownership
-      let isOwned = member.ownedgames.some(
-        (ownedGame) => ownedGame.appid === game.appid
-      );
-      ownership.push(isOwned ? 1 : 0);
+      // Check ownership, playtime, and playtime2weeks
+    const ownedGame = member.ownedgames.find(ownedGame => ownedGame.appid === game.appid);
+    ownership.push(ownedGame ? 1 : 0);
+    totalPlaytime.push(ownedGame ? ownedGame.playtime_forever || 0 : 0);
+    playtime2weeks.push(ownedGame ? ownedGame.playtime_2weeks || 0 : 0);
 
-      // Calculate matched genres
-      let matchedGenresCount = game.genres.filter((genre) =>
-        member.preferredGenres.includes(genre.toLowerCase())
-      ).length;
-      matchedGenres.push(matchedGenresCount);
+    // Calculate matched genres
+    const matchedGenresCount = game.genres.filter(genre => member.preferredGenres.includes(genre.toLowerCase())).length;
+    matchedGenres.push(matchedGenresCount);
 
-      // Find rating
-      let ratingObj = member.preferences.find(
-        (pref) => pref.gameSteamId === game.appid
-      );
-      ratings.push(ratingObj ? ratingObj.ratings || null : null);
-
-      // Find interest
-      let interestObj = member.preferences.find(
-        (pref) => pref.gameSteamId === game.appid
-      );
-      interest.push(interestObj ? interestObj.interest || null : null);
+    // Find rating and interest
+    const prefObj = member.preferences.find(pref => pref.gameSteamId === game.appid);
+    ratings.push(prefObj ? prefObj.ratings || null : null);
+    interest.push(prefObj ? prefObj.interest || null : null);
     });
 
     // Check if all values in ownership, ratings, and interest arrays are null
@@ -114,10 +115,13 @@ async function preprocessGameData(selected_users) {
         noOfGameGenres: game.noOfGameGenres,
         ratings: ratings,
         interest: interest,
+        totalPlaytime: totalPlaytime,
+        playtime_2weeks: playtime2weeks,
       };
       modifiedGamePool.push(modifiedGame);
     }
   });
+  //console.log(JSON.stringify(modifiedGamePool, undefined, 3));
   // Output the modified game pool
   return modifiedGamePool;
 }
