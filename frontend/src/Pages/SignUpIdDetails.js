@@ -30,7 +30,7 @@ const SignUpIdDetails = () => {
   const [edited, setEdited] = useState(false);
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
-
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -123,6 +123,10 @@ const SignUpIdDetails = () => {
     setOpenDialog(false);
   };
 
+  const handleInfoClick = () => {
+    setShowInfo((prevShowInfo) => !prevShowInfo);
+  };
+
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
@@ -180,7 +184,7 @@ const SignUpIdDetails = () => {
             onClick={handleVerifySteamId}
           />
             <InfoIcon
-              style={{ cursor: "pointer", color: "#1976d2" }}
+              style={{ cursor: "pointer", color: "#1976d" }}
               onClick={() => handleOpenDialog("info")}
             />
         </div>
@@ -208,8 +212,31 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
           />
-        </div>
+           <Tooltip
+          title={
+            <div style={{ width: '300px', maxHeight: '800px' }}>
+              <span style={{ fontSize: "10px" }}>
+                <p>
+                  Only server owners can invite the bot.{" "}
+                  <a
+                    href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
+                  >
+                    Click here to invite the bot.
+                  </a>
+                </p>
+              </span>
+              <br />
+            </div>
+          }
+          placement="right"
+        >
+                   < InfoIcon style={{ cursor: "pointer", color: "#1976d" }} />
+        </Tooltip>
       </div>
+      </div>
+
       <button
         style={{
           backgroundColor:
