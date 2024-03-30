@@ -131,11 +131,11 @@ const signUpTwo = async (req, res) => {
       });
     } else {
       res.status(400).json({
-        message: "User Does Not Exist!",
+        message: "User Does Not Exists!",
       });
     }
   } catch (e) {
-    res.status(500).send("Error Occurred, Try again!");
+    res.status(500).send("Error Occured, Try again!");
   }
 };
 
