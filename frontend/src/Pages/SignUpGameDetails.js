@@ -45,7 +45,6 @@ const SignUpGameDetails = () => {
     GetGenreListSignUP()
       .then((response) => {
         if (response && response.data && response.data.genreList) {
-          console.log("response.data.genreList : ",response.data.genreList)
           setGenreList(response.data.genreList);
         }
       })
