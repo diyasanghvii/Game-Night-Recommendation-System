@@ -2,7 +2,7 @@ function calculateGameScore(game, totalFriends) {
   const ownershipScore = calculateOwnershipScore(game.ownership, totalFriends);
   const ratingScore = calculateRatingScore(game.ratings, game.ownership);
   const interestScore = calculateInterestScore(game.interest, game.ownership);
-  const genreScore = calculateGenreScore(game.matchedgenres);
+  const genreScore = calculateGenreScore(game.matchedgenres, game.noOfGameGenres);
 
   const weights = {
     ownership: 0.5,
@@ -17,13 +17,16 @@ function calculateGameScore(game, totalFriends) {
     interestScore * weights.interest +
     genreScore * weights.genre;
 
-  const reason = "reason (TBD)";
-  return { ...game, totalScore, reason };
+  const scores = [ownershipScore, ratingScore, interestScore, genreScore];
+  const maxScore = Math.max(...scores);
+  const reason = getReason(maxScore, scores);
+
+  return { ...game, totalScore: totalScore.toFixed(6), reason , ownershipScore, ratingScore, interestScore, genreScore};
 }
 
 function calculateOwnershipScore(ownership, totalFriends) {
   const numOwners = ownership.filter(Boolean).length;
-  return numOwners / totalFriends;
+  return (numOwners / totalFriends).toFixed(6);
 }
 
 function calculateRatingScore(gameRatings, ownership) {
@@ -34,7 +37,7 @@ function calculateRatingScore(gameRatings, ownership) {
 
   if (!filteredRatings.length) return 0;
 
-  return totalRatings / filteredRatings.length;
+  return (totalRatings / (filteredRatings.length * 5)).toFixed(6);
 }
 
 function calculateInterestScore(interestLevels, ownership) {
@@ -45,13 +48,20 @@ function calculateInterestScore(interestLevels, ownership) {
 
   if (!filteredInterests.length) return 0;
 
-  return totalInterest / filteredInterests.length;
+  return (totalInterest / filteredInterests.length).toFixed(6);
 }
 
-function calculateGenreScore(matchedGenres) {
+function calculateGenreScore(matchedGenres, noOfGameGenres) {
   const totalGenres = matchedGenres.reduce((sum, genre) => sum + genre, 0);
-  const numGenres = matchedGenres.length;
-  return totalGenres / numGenres;
+  const numPlayers = matchedGenres.length;
+  return (totalGenres / (noOfGameGenres * numPlayers)).toFixed(6);
+}
+
+function getReason(maxScore, scores) {
+  const reasons = ["Game Ownership", "User Ratings", "Interest Expressed", "Matched Genres"];
+  const numericScores = scores.map(Number);
+  const maxIndex = numericScores.indexOf(Number(maxScore));
+  return reasons[maxIndex];
 }
 
 function recommendGames(gameData) {

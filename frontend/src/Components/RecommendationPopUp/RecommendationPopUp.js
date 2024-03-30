@@ -39,7 +39,10 @@ const RecommendationPopup = ({
                   <b>Game Name</b>
                 </TableCell>
                 <TableCell>
-                  <b>Reason for Recommendation</b>
+                  <b>Overall Score</b>
+                </TableCell>
+                <TableCell>
+                  <b>Top Contributing Factor</b>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -47,6 +50,7 @@ const RecommendationPopup = ({
               {recommendations?.map((recommendation) => (
                 <TableRow key={recommendation.gameSteamId}>
                   <TableCell>{recommendation.gameName}</TableCell>
+                  <TableCell>{(recommendation.totalScore * 10).toFixed(2)} / 10</TableCell>
                   <TableCell>{recommendation.reason}</TableCell>
                 </TableRow>
               ))}

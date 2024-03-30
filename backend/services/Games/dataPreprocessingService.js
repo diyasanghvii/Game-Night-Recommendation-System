@@ -20,6 +20,7 @@ async function preprocessGameData(selected_users) {
       element.ownedgames = ownedGames ? ownedGames : [];
       for (const game of element.preferences) {
         let multiplayerFlag = false;
+        let numGenres;
         const existingGame = gamePool.find(
           (item) => item.appid === game.gameSteamId
         );
@@ -34,6 +35,7 @@ async function preprocessGameData(selected_users) {
             multiplayerFlag = true;
             return item.toLowerCase();
             });
+          numGenres = genresList.length;
           const tagsRes = genreResponse.data?.tags.map(function(item) {
             if (item.toLowerCase().includes("multiplayer"))
             multiplayerFlag = true;
@@ -50,6 +52,7 @@ async function preprocessGameData(selected_users) {
             appid: game.gameSteamId,
             name: game.gameName,
             genres: genresList,
+            noOfGameGenres: numGenres,
             tags: tagsRes,
             features: featuresRes
           });
@@ -108,6 +111,7 @@ async function preprocessGameData(selected_users) {
         gameName: game.name,
         ownership: ownership,
         matchedgenres: matchedGenres,
+        noOfGameGenres: game.noOfGameGenres,
         ratings: ratings,
         interest: interest,
       };
