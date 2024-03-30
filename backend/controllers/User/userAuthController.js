@@ -102,11 +102,29 @@ const signUpOne = async (req, res) => {
 // @access Private
 const signUpTwo = async (req, res) => {
   try {
-    let data = await User.findOne({ email: req.body.email }).exec();
+    const { email, steamId, discordUserName } = req.body;
+
+    // Check if the Steam ID or Discord Username already exists in the database
+    const existingUser = await User.findOne({
+      $or: [{ steamId }, { discordUserName }],
+    }).exec();
+
+    if (existingUser) {
+      let errorMessage = "";
+      if (existingUser.steamId === steamId) {
+        errorMessage = "Steam ID already exists!";
+      } else if (existingUser.discordUserName === discordUserName) {
+        errorMessage = "Discord Username already exists!";
+      }
+      return res.status(400).json({ message: errorMessage });
+    }
+
+    // If user does not exist, update the user information
+    let data = await User.findOne({ email }).exec();
     if (data) {
       await data.updateOne({
-        steamId: req.body.steamId,
-        discordUserName: req.body.discordUserName,
+        steamId,
+        discordUserName,
       });
       res.status(200).json({
         message: "Updated User Information Successfully",

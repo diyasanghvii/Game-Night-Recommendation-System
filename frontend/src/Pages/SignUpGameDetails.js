@@ -33,7 +33,7 @@ const SignUpGameDetails = () => {
             ...ele,
             gameSteamId: ele.appid,
           }));
-          setGames(modifiedSteamGames);
+          setGames(modifiedSteamGames.slice(0, 9)); // Limiting to 9 games
         }
       })
       .catch((error) => {
@@ -45,6 +45,7 @@ const SignUpGameDetails = () => {
     GetGenreListSignUP()
       .then((response) => {
         if (response && response.data && response.data.genreList) {
+          console.log("response.data.genreList : ",response.data.genreList)
           setGenreList(response.data.genreList);
         }
       })
