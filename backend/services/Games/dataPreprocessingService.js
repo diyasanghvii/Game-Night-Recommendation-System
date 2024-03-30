@@ -21,6 +21,7 @@ async function preprocessGameData(selected_users) {
       const allGames = element.ownedgames.concat(element.preferences);
       for (const game of allGames) {
         let multiplayerFlag = false;
+        let numGenres;
         //console.log(`${game.gameSteamId?game.gameSteamId:game.appid}`);
         const existingGame = gamePool.find(
           (item) =>
@@ -48,6 +49,7 @@ async function preprocessGameData(selected_users) {
           };
 
           const genresList = processArray(genreResponse.data?.genres);
+          numGenres = genresList.length;
           const tagsRes = processArray(genreResponse.data?.tags);
           const featuresRes = processArray(genreResponse.data?.features);
           if (!multiplayerFlag) continue;
@@ -57,6 +59,7 @@ async function preprocessGameData(selected_users) {
             ),
             name: `${game.gameName ? game.gameName : game.name}`,
             genres: genresList,
+            noOfGameGenres: numGenres,
             tags: tagsRes,
             features: featuresRes,
           });
@@ -109,6 +112,7 @@ async function preprocessGameData(selected_users) {
         gameName: game.name,
         ownership: ownership,
         matchedgenres: matchedGenres,
+        noOfGameGenres: game.noOfGameGenres,
         ratings: ratings,
         interest: interest,
         totalPlaytime: totalPlaytime,
