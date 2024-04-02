@@ -15,7 +15,10 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
-      const passwordMatch = await comparePasswords(req.body.password, user.password);
+      const passwordMatch = await comparePasswords(
+        req.body.password,
+        user.password
+      );
       if (passwordMatch) {
         if (!user.steamId || !user.discordUserName) {
           //redirect to signup 2
@@ -25,10 +28,12 @@ const login = async (req, res) => {
             redirect: true,
             initialStep: 1,
             token: generateJwtToken(user.email),
-            message: "Please complete your profile information."
+            message: "Please complete your profile information.",
           });
-        } 
-        else if (user.preferences.length == 0 || user.preferredGenres.length == 0 ) {
+        } else if (
+          user.preferences.length == 0 ||
+          user.preferredGenres.length == 0
+        ) {
           //redirect to signup 3
           return res.status(200).json({
             name: user.name,
@@ -36,16 +41,15 @@ const login = async (req, res) => {
             redirect: true,
             initialStep: 2,
             token: generateJwtToken(user.email),
-            message: "Please complete your profile information."
+            message: "Please complete your profile information.",
           });
-        }
-        else {
+        } else {
           // Proceed with login
           res.status(200).json({
             name: user.name,
             email: user.email,
             token: generateJwtToken(user.email),
-            message: "Login Sucessful!"
+            message: "Login Sucessful!",
           });
         }
       } else {
@@ -98,11 +102,29 @@ const signUpOne = async (req, res) => {
 // @access Private
 const signUpTwo = async (req, res) => {
   try {
-    let data = await User.findOne({ email: req.body.email }).exec();
+    const { email, steamId, discordUserName } = req.body;
+
+    // Check if the Steam ID or Discord Username already exists in the database
+    const existingUser = await User.findOne({
+      $or: [{ steamId }, { discordUserName }],
+    }).exec();
+
+    if (existingUser) {
+      let errorMessage = "";
+      if (existingUser.steamId === steamId) {
+        errorMessage = "Steam ID already exists!";
+      } else if (existingUser.discordUserName === discordUserName) {
+        errorMessage = "Discord Username already exists!";
+      }
+      return res.status(400).json({ message: errorMessage });
+    }
+
+    // If user does not exist, update the user information
+    let data = await User.findOne({ email }).exec();
     if (data) {
       await data.updateOne({
-        steamId: req.body.steamId,
-        discordUserName: req.body.discordUserName,
+        steamId,
+        discordUserName,
       });
       res.status(200).json({
         message: "Updated User Information Successfully",
@@ -130,6 +152,7 @@ const signUpThree = async (req, res) => {
       });
       res.status(200).json({
         message: "Updated User Preferences Successfully",
+        token: generateJwtToken(req.body.email),
       });
     } else {
       res.status(400).json({
@@ -210,9 +233,8 @@ const updateRating = async (req, res) => {
       if (user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
-              parseInt(newPreference.gameSteamId)
+            parseInt(newPreference.gameSteamId)
         );
 
         if (existingPreferenceIndex !== -1) {
@@ -252,9 +274,8 @@ const saveGameUnOwnedRating = async (req, res) => {
       if (user.preferences && user.preferences.length > 0) {
         const existingPreferenceIndex = user.preferences.findIndex(
           (preference) =>
-            preference.gameName === newPreference.gameName &&
             parseInt(preference.gameSteamId) ===
-              parseInt(newPreference.gameSteamId)
+            parseInt(newPreference.gameSteamId)
         );
         if (existingPreferenceIndex !== -1) {
           user.preferences[existingPreferenceIndex].interest =
@@ -290,22 +311,66 @@ const saveGameUnOwnedRating = async (req, res) => {
 const verifyUserSteamId = async (req, res) => {
   try {
     const steamId = req.query.steamId;
+    const email = req.user.email;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
-    if (response && response.data) {
+    if (response && response.data && response.data.response) {
+      const gamesCount = response.data.response.game_count || 0; // Get game count or default to 0
+      if (
+        email &&
+        response.data &&
+        response.data.response &&
+        response.data.response.games &&
+        response.data.response.games.length > 0
+      ) {
+        let userInfo = await User.findOne({ email: req.user.email }).exec();
+        await userInfo.updateOne({
+          steamGames: response.data.response.games,
+        });
+      }
       res.status(200).send({
         message: "Steam Id Valid!",
         status: true,
+        gamesCount: gamesCount,
       });
     } else {
       res.status(400).send({
-        message: "Steam Id InValid!",
+        message: "Steam Id Invalid!",
         status: false,
       });
     }
   } catch (e) {
     console.log("Error : ", e);
-    res.status(500).send("Steam Id InValid!");
+    res.status(500).send("Steam Id Invalid!");
+  }
+};
+
+// @desc Clear User Ratings
+// @route POST /user/clearrating
+// @access Private
+const clearRating = async (req, res) => {
+  try {
+    let userInfo = await User.findOne({ email: req.user.email }).exec();
+    let pref = userInfo?.preferences;
+    const index = pref?.findIndex(
+      (ele) => ele.gameSteamId === req.body.gameSteamId
+    );
+
+    if (index !== -1) {
+      pref.splice(index, 1);
+    }
+
+    await userInfo.updateOne({
+      preferences: pref,
+    });
+    let updatedUserInfo = await User.findOne({ email: req.user.email }).exec();
+    res.status(200).send({
+      message: "Ratings cleared Successfully!",
+      preferences: updatedUserInfo.preferences,
+    });
+  } catch (e) {
+    console.log("Error : ", e);
+    res.status(500).send("Ratings not cleared!");
   }
 };
 
@@ -320,4 +385,5 @@ module.exports = {
   updateRating,
   saveGameUnOwnedRating,
   verifyUserSteamId,
+  clearRating,
 };

@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import TextBox from "../Components/TextBox/TextBox";
-import { Container, Grid, IconButton, InputAdornment,TextField } from "@mui/material";
+import {
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
-import { Login as loginApi, profileCheck } from "../Services/index";
+import {
+  CacheUserSteamGames,
+  Login as loginApi,
+  profileCheck,
+} from "../Services/index";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -16,6 +26,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    localStorage.clear();
     const token = sessionStorage.getItem("authToken");
     if (token) {
       profileCheck(token)
@@ -28,17 +39,35 @@ const Login = () => {
     }
   });
 
+  const cacheUserSteamData = () => {
+    CacheUserSteamGames()
+      .then((response) => {
+        if (response) {
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
+        alert("Error Loggin in, Please try again !");
+        console.log("Error : ", error);
+      });
+  };
+
   const handleLogin = () => {
     // Calling the Login API
     loginApi({ email: username, password })
       .then((response) => {
         if (response.data && response.data.token) {
-          sessionStorage.setItem("authToken", response.data.token);
           if (response.data.redirect) {
-            // Redirect to the signup page with state
-            navigate('/signup', { state: { initialStep: response.data.initialStep , loggedEmail: response.data.email} });
+            localStorage.setItem("signUpToken", response.data.token);
+            localStorage.setItem("email", response.data.email);
+            if (response.data.initialStep === 1) {
+              navigate("/signupiddetails");
+            } else if (response.data.initialStep === 2) {
+              navigate("/signupgamedetails");
+            }
           } else {
-            navigate("/dashboard");
+            sessionStorage.setItem("authToken", response.data.token);
+            cacheUserSteamData();
           }
         }
       })
@@ -63,7 +92,6 @@ const Login = () => {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
 
   return (
     <Container maxWidth="sm">
@@ -82,7 +110,7 @@ const Login = () => {
         fullWidth={true}
         onChange={(e) => setUsername(e.target.value)}
       />
-       <TextField
+      <TextField
         label="Password"
         type={showPassword ? "text" : "password"}
         value={password}
@@ -92,16 +120,15 @@ const Login = () => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
-               aria-label="Toggle password visibility"
-               onClick={handleTogglePasswordVisibility}
-               >
-               {showPassword ? <VisibilityOff /> : <Visibility />}
+                aria-label="Toggle password visibility"
+                onClick={handleTogglePasswordVisibility}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
-
             </InputAdornment>
           ),
         }}
-        sx={{ marginBottom: '16px' }}
+        sx={{ marginBottom: "16px" }}
       />
 
       {error && <ErrorMessage message={error} />}

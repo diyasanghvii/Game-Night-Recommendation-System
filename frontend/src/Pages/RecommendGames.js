@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
-import { GetPresence, SendList } from "../Services/index.js"; 
+import { GetPresence, SendList, GenerateRecommendations } from "../Services/index.js"; 
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
-
+import RecommendationPopup from "../Components/RecommendationPopUp/RecommendationPopUp";
+import CircularProgress from '@mui/material/CircularProgress';
+import "./CSS/RecommendGames.css"
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
@@ -17,6 +19,10 @@ function RecommendGames() {
     Voice: [],
   });
   const [selectedMembers, setSelectedMembers] = useState([{username: discordUserName, name: userName}]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
+  const [isFetchingFromDiscord, setIsFetchingFromDiscord] = useState(true);
 
   // Handle server change
   const handleServerChange = (data) => {
@@ -28,10 +34,28 @@ function RecommendGames() {
     setSelectedChannel(data);
   };
 
+  const fetchRecommendations = (selectedMembers) => {
+    //const selectedNames = selectedMembers.map(memberObj => memberObj.username);
+    setIsGeneratingRecommendations(true);
+    GenerateRecommendations({ "selected_users": selectedMembers})
+    .then((response) => {
+      if (response && response.data) {
+        setRecommendations(response.data.recommendedGames);
+        setShowPopup(true);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error?.response?.data?.message);
+    })
+    .finally(() => setIsGeneratingRecommendations(false));
+  };
+
   useEffect(() => {
     // Function to fetch presence data
     const fetchPresenceData = async () => {
       try {
+        setIsFetchingFromDiscord(true);
         const response = await GetPresence({selectedServer, selectedChannel, discordUserName});
         const { memberStatus: presenceData } = response.data;
         const onlineList = [];
@@ -50,6 +74,9 @@ function RecommendGames() {
             case "voice":
               voiceList.push({ username: member.username, name: member.name });
               break;
+            case "idle":
+              onlineList.push({ username: member.username, name: member.name });
+              break;
             default:
               break;
           }
@@ -63,6 +90,8 @@ function RecommendGames() {
         });
       } catch (error) {
         console.error("Error fetching presence data:", error);
+      } finally {
+        setIsFetchingFromDiscord(false); 
       }
     };
 
@@ -74,6 +103,7 @@ function RecommendGames() {
         Offline: [],
         Voice: [],
       });
+      setIsFetchingFromDiscord(false);
     }
   }, [selectedServer, selectedChannel, discordUserName]);
 
@@ -89,9 +119,31 @@ function RecommendGames() {
     }
   };
 
+
+
   return (
     <>
     <MenuHeader />
+      {isFetchingFromDiscord && ( 
+        <div className="loading-overlay">
+          <div style={{ textAlign: 'center' }}>
+            <h3>Fetching data from Discord...</h3>
+            <CircularProgress />
+          </div>
+        </div>
+      )}
+    {showPopup && (
+      <RecommendationPopup 
+        recommendations={recommendations}
+        selectedChannel={selectedChannel}
+        selectedServer={selectedServer}
+        selectedMembers={selectedMembers}
+        onClose={() => { 
+          setRecommendations([]);
+          setShowPopup(false); 
+      }}
+      /> 
+    )}
       <h1 style={{ marginLeft: "6rem" }}>
         Select Players from Discord 
       </h1>
@@ -156,7 +208,15 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        <Btn label="Send Recommendation List" onClick={() => SendList({ selectedChannel, selectedServer, selectedMembers })} />
+        <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
+        {isGeneratingRecommendations && (
+          <div className="loading-overlay">
+            <div style={{ textAlign: 'center' }}>
+              <h3>Generating Recommendations... Hold on tight!</h3>
+              <CircularProgress />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

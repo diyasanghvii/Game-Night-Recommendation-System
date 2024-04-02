@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Container, IconButton, TextField, InputAdornment } from "@mui/material";
+import {
+  Container,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
 import Btn from "../Button/Btn";
 import Text from "../Typography/Text";
 import { SignUpOne } from "../../Services";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Stepper, Step, StepLabel } from "@mui/material";
 
-const SignUp1 = ({ stepOneDone }) => {
+const SignUp1 = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,8 +34,9 @@ const SignUp1 = ({ stepOneDone }) => {
     SignUpOne(data)
       .then((response) => {
         if (response && response.data) {
-          sessionStorage.setItem("authToken", response.data.token);
-          stepOneDone(email);
+          localStorage.setItem("signUpToken", response.data.token);
+          localStorage.setItem("email", email);
+          navigate("/signupiddetails");
         }
       })
       .catch((error) => {
@@ -44,6 +51,17 @@ const SignUp1 = ({ stepOneDone }) => {
   return (
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
+      <Stepper activeStep={0} alternativeLabel>
+        <Step key={0}>
+          <StepLabel>Step 1</StepLabel>
+        </Step>
+        <Step key={1}>
+          <StepLabel>Step 2</StepLabel>
+        </Step>
+        <Step key={2}>
+          <StepLabel>Step 3</StepLabel>
+        </Step>
+      </Stepper>
 
       <div style={{ marginBottom: "16px" }}>
         <TextField
