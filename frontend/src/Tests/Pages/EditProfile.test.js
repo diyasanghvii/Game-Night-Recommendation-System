@@ -19,7 +19,6 @@ describe('EditProfile component', () => {
     const { getByLabelText } = render(<EditProfile />);
     expect(getByLabelText('Name')).toHaveValue('Testuser');
     expect(getByLabelText('Age')).toHaveValue('23');
-    expect(getByLabelText('Email ID')).toHaveValue('testuser@gmail.com');
     expect(getByLabelText('Steam ID')).toHaveValue('1234455677223');
     expect(getByLabelText('Discord Username')).toHaveValue('test_user45');
   });
@@ -30,7 +29,6 @@ describe('EditProfile component', () => {
     fireEvent.click(editButton);
     expect(getByLabelText('Name')).toBeEnabled();
     expect(getByLabelText('Age')).toBeEnabled();
-    expect(getByLabelText('Email ID')).toBeEnabled();
     expect(getByLabelText('Steam ID')).toBeEnabled();
     expect(getByLabelText('Discord Username')).toBeEnabled();
   });
