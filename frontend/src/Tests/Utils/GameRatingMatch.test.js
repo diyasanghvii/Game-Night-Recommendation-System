@@ -41,7 +41,7 @@ describe("gameRatingMatch utils function testing", () => {
       null,
       3328
     );
-    expect(gameRatings).toBe(0);
+    expect(gameRatings).toBe(null);
   });
 
   it("it should return null if it doesnt find the game", () => {
