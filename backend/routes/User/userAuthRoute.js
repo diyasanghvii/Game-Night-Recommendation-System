@@ -13,6 +13,8 @@ const {
   saveGameUnOwnedRating,
   verifyUserSteamId,
   clearRating,
+  checkUniqueDiscordUserName, 
+  checkUniqueSteamId,
 } = require("../../controllers/User/userAuthController");
 
 const { authoriseCheck } = require("../../middleware/authMiddleware");
@@ -33,5 +35,7 @@ userRoutes.post(
 );
 userRoutes.get("/verifyusersteamid", authoriseCheck, verifyUserSteamId);
 userRoutes.post("/clearrating", authoriseCheck, clearRating);
+userRoutes.post("/checkuniquesteamid", authoriseCheck,checkUniqueSteamId );
+userRoutes.post("/checkuniquediscordusername", authoriseCheck, checkUniqueDiscordUserName);
 
 module.exports = userRoutes;
