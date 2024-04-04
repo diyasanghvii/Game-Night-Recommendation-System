@@ -5,6 +5,9 @@ const {
   comparePasswords,
   generateJwtToken,
 } = require("../../utils/authHelpers");
+const {
+  decryptData,
+} = require("../../utils/encryptionUtils");
 const STEAM_BASE_URL = "http://api.steampowered.com";
 
 // @desc Login API
@@ -310,7 +313,7 @@ const saveGameUnOwnedRating = async (req, res) => {
 // @access Private
 const verifyUserSteamId = async (req, res) => {
   try {
-    const steamId = req.query.steamId;
+    const steamId = decryptData(req.query.steamId);
     const email = req.user.email;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
