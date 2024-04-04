@@ -5,6 +5,7 @@ import { isValidDiscordUsername } from "../Utils";
 import { VerifyUserSteamIdInEditProfile } from "../Services";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { encryptData } from '../Utils/encryptionUtils';
 
 const EditProfile = () => {
   const [name, setName] = useState('Testuser');
@@ -55,7 +56,8 @@ const EditProfile = () => {
   };
 
   const handleVerifySteamId = () => {
-    VerifyUserSteamIdInEditProfile(steamId)
+    const encryptedSteamId = encryptData(steamId);
+    VerifyUserSteamIdInEditProfile(encryptedSteamId)
     .then((res) => {
       if (res && res.data && res.data.status) {
         setSteamIdVerified(true);

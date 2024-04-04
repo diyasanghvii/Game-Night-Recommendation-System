@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import { encryptData } from '../Utils/encryptionUtils';
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -47,7 +48,8 @@ const SignUpIdDetails = () => {
       setError("");
     }
 
-    VerifyUserSteamId(steamId)
+    const encryptedSteamId = encryptData(steamId);
+    VerifyUserSteamId(encryptedSteamId)
       .then((res) => {
         if (res && res.data && res.data.status) {
           const gamesCount = res.data.gamesCount || 0;
@@ -88,9 +90,10 @@ const SignUpIdDetails = () => {
 
   const handleSignup = () => {
     const email = localStorage.getItem("email");
+    const encryptedSteamId = encryptData(steamId);
     const data = {
       email: email,
-      steamId: steamId,
+      steamId: encryptedSteamId,
       discordUserName: discordUserName,
     };
 
