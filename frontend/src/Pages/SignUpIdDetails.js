@@ -54,11 +54,12 @@ const SignUpIdDetails = () => {
     }
     // Call the CheckUniqueSteamId function to check if the Steam ID is unique
     const encryptedSteamId = encryptData(steamId);
+    const encodedSteamId = encodeURIComponent(encryptedSteamId);
     CheckUniqueSteamId({ steamId: encryptedSteamId })
       .then((res) => {
         // If the Steam ID is unique, proceed with verifying it
         if (res && res.data && res.data.status) {
-          VerifyUserSteamId(encryptedSteamId)
+          VerifyUserSteamId(encodedSteamId)
             .then((res) => {
               if (res && res.data && res.data.status) {
                 const gamesCount = res.data.gamesCount || 0;

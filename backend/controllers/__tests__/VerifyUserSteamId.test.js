@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../../app");
 const User = require("../../models/User/userModal");
 const mongoose = require("mongoose");
+const { encryptData } = require("../../utils/encryptionUtils");
 
 describe("Verify User Steam ID testing", () => {
   const paramBody = {
@@ -10,9 +11,8 @@ describe("Verify User Steam ID testing", () => {
     password: "123123",
   };
 
-  const paramBodySteam = {
-    steamID: "76561199642434117",
-  };
+  const steamID = "76561199642434117";
+  const encryptedSteamId = encodeURIComponent(encryptData(steamID));
 
   let authToken;
 
@@ -33,7 +33,7 @@ describe("Verify User Steam ID testing", () => {
 
   it("should return 200 status and successfult verify Correct Steam ID", async () => {
     const response = await request(app)
-      .get("/user/verifyusersteamid?steamId=76561199642434117")
+      .get(`/user/verifyusersteamid?steamId=${encryptedSteamId}`)
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);

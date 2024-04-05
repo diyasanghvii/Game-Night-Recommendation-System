@@ -295,8 +295,10 @@ const saveGameUnOwnedRating = async (req, res) => {
 // @access Private
 const verifyUserSteamId = async (req, res) => {
   try {
-    const steamId = decryptData(req.query.steamId);
+    const encryptedSteamId = decodeURIComponent(req.query.steamId);
+    const steamId = decryptData(encryptedSteamId);
     const email = req.user.email;
+    console.log(steamId)
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
     if (response && response.data && response.data.response) {

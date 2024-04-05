@@ -56,8 +56,9 @@ const EditProfile = () => {
   };
 
   const handleVerifySteamId = () => {
-    const encryptedSteamId = encryptData(steamId);
-    VerifyUserSteamIdInEditProfile(encryptedSteamId)
+    const encryptedSteamId = encryptData(steamId.toString());
+    const encodedSteamId = encodeURIComponent(encryptedSteamId);
+    VerifyUserSteamIdInEditProfile(encodedSteamId)
     .then((res) => {
       if (res && res.data && res.data.status) {
         setSteamIdVerified(true);
