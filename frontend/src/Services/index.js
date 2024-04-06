@@ -333,6 +333,34 @@ export const VerifyUserSteamIdInEditProfile = (data) => {
       });
   });
 };
+// Add CheckUniqueSteamId function
+export const CheckUniqueSteamId = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .post("/user/checkuniquesteamid", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Add CheckUniqueDiscordUserName function
+export const CheckUniqueDiscordUserName = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .post("/user/checkuniquediscordusername", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 
 // Generate and Fetch recommendations
 export const GenerateRecommendations = (data) => {

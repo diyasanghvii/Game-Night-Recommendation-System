@@ -1,31 +1,49 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import CheckboxList from "../../Components/CheckboxList/CheckboxList";
-
-const items = [
-  { name: "John Doe", username: "john.doe" },
-  { name: "Jane Smith", username: "jane.smith" },
+const mockItems = [
+  { id: 1, name: "John Doe", username: "johndoe123" },
+  { id: 2, name: "Jane Smith", username: "janesmith456" },
 ];
 
-test("renders CheckboxList component", () => {
-  const { getByText } = render(<CheckboxList items={items} />);
+describe("CheckboxList", () => {
+  it("renders the list correctly", () => {
+    render(<CheckboxList items={mockItems} />);
+    mockItems.forEach((item) => {
+      expect(screen.getByText(item.name)).toBeInTheDocument();
+      expect(screen.getByText(item.username)).toBeInTheDocument();
+    });
+  });
 
-  expect(getByText("John Doe")).toBeInTheDocument();
-  expect(getByText("john.doe")).toBeInTheDocument();
-  expect(getByText("Jane Smith")).toBeInTheDocument();
-  expect(getByText("jane.smith")).toBeInTheDocument();
-});
+  it("handles checkbox toggle correctly", () => {
+    const mockToggle = jest.fn();
+    render(<CheckboxList items={mockItems} onCheckboxToggle={mockToggle} />);
+    const checkbox = screen.getByRole("checkbox", { name: /john doe/i });
+    fireEvent.click(checkbox);
+    expect(mockToggle).toHaveBeenCalledWith(mockItems[0]);
+  });
 
-test("handles checkbox toggle", () => {
-  const { getByLabelText } = render(<CheckboxList items={items} />);
+  it("renders divider between list items", () => {
+    render(<CheckboxList items={mockItems} />);
+    expect(screen.getAllByRole("separator")).toHaveLength(mockItems.length - 1);
+  });
 
-  expect(getByLabelText("John Doe")).not.toBeChecked();
-  expect(getByLabelText("Jane Smith")).not.toBeChecked();
+  it("does not call toggle function if checkbox is disabled", () => {
+    const mockToggle = jest.fn();
+    render(
+      <CheckboxList
+        items={mockItems}
+        onCheckboxToggle={mockToggle}
+        disableCheckbox={true} 
+      />
+    );
+    const checkbox = screen.getByRole("checkbox", { name: /john doe/i });
+    fireEvent.click(checkbox);
+  });
 
-  fireEvent.click(getByLabelText("John Doe"));
-
-  expect(getByLabelText("John Doe")).toBeChecked();
-  fireEvent.click(getByLabelText("Jane Smith"));
-
-  expect(getByLabelText("Jane Smith")).toBeChecked();
+  it("renders without dividers if there is only one item", () => {
+    const singleItem = [{ id: 1, name: "John Doe", username: "johndoe123" }];
+    render(<CheckboxList items={singleItem} />);
+    expect(screen.queryAllByRole("separator")).toHaveLength(0);
+  });
 });

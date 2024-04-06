@@ -11,7 +11,12 @@ import {
 } from "@mui/material";
 import Text from "../Components/Typography/Text";
 import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
-import { SignUpTwo, VerifyUserSteamId } from "../Services";
+import {
+  SignUpTwo,
+  VerifyUserSteamId,
+  CheckUniqueSteamId,
+  CheckUniqueDiscordUserName,
+} from "../Services";
 import Btn from "../Components/Button/Btn";
 import { isValidDiscordUsername } from "../Utils";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +35,7 @@ const SignUpIdDetails = () => {
   const [edited, setEdited] = useState(false);
   const [openDialog, setOpenDialog] = useState(false); // State for dialog box
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
-
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     if (steamIdVerified && discordUserNameVerified) {
@@ -46,24 +51,39 @@ const SignUpIdDetails = () => {
     if (edited) {
       setError("");
     }
-
-    VerifyUserSteamId(steamId)
+    // Call the CheckUniqueSteamId function to check if the Steam ID is unique
+    CheckUniqueSteamId({ steamId: steamId })
       .then((res) => {
+        // If the Steam ID is unique, proceed with verifying it
         if (res && res.data && res.data.status) {
-          const gamesCount = res.data.gamesCount || 0;
-          if (gamesCount >= 5) {
-            setSteamIdVerified(true);
-            setError("");
-          } else {
-            setSteamIdVerified(false);
-            setError(
-              "The STEAM account ID might be invalid, or it may have fewer than 5 games"
-            );
-          }
+          VerifyUserSteamId(steamId)
+            .then((res) => {
+              if (res && res.data && res.data.status) {
+                const gamesCount = res.data.gamesCount || 0;
+                if (gamesCount >= 5) {
+                  setSteamIdVerified(true);
+                  setError("");
+                } else {
+                  setSteamIdVerified(false);
+                  setError(
+                    "The STEAM account ID might be invalid, or it may have fewer than 5 games"
+                  );
+                }
+              }
+            })
+            .catch((e) => {
+              setError("Invalid Steam ID.");
+              setSteamIdVerified(false);
+            });
+        } else {
+          // If the Steam ID is not unique, set an error message
+          setError("Steam ID already exists.");
+          setSteamIdVerified(false);
         }
       })
-      .catch((e) => {
-        setError("Invalid Steam ID.");
+      .catch((error) => {
+        console.log(error);
+        setError(error?.response?.data?.message || "Error checking Steam ID.");
         setSteamIdVerified(false);
       });
   };
@@ -77,13 +97,32 @@ const SignUpIdDetails = () => {
       setError("");
     }
 
-    if (isValidDiscordUsername(discordUserName)) {
-      setdiscordUserNameVerified(true);
-      setError("");
-    } else {
-      setError("Invalid Discord User Name.");
-      setdiscordUserNameVerified(false);
-    }
+    // Call the CheckUniqueDiscordUserName function to check if the Discord Username is unique
+    CheckUniqueDiscordUserName({discordUserName:discordUserName})
+      .then((res) => {
+        // If the Discord Username is unique, proceed with verifying it
+        if (
+          res &&
+          res.data &&
+          res.data.status
+        ) {
+          if (isValidDiscordUsername(discordUserName)) {
+            setdiscordUserNameVerified(true);
+            setError("");
+          } else {
+            setError("Invalid Discord User Name.");
+            setdiscordUserNameVerified(false);
+          }
+        } else {
+          // If the Discord Username is not unique, set an error message
+          setError("Discord Username already exists.");
+          setdiscordUserNameVerified(false);
+        }
+      })
+      .catch((error) => {
+        setError(error?.response?.data?.message || "Error checking Discord Username.");
+        setdiscordUserNameVerified(false);
+      });
   };
 
   const handleSignup = () => {
@@ -121,6 +160,10 @@ const SignUpIdDetails = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+
+  const handleInfoClick = () => {
+    setShowInfo((prevShowInfo) => !prevShowInfo);
   };
 
   return (
@@ -179,10 +222,10 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifySteamId}
           />
-            <InfoIcon
-              style={{ cursor: "pointer", color: "#1976d2" }}
-              onClick={() => handleOpenDialog("info")}
-            />
+          <InfoIcon
+            style={{ cursor: "pointer", color: "#1976d2" }}
+            onClick={() => handleOpenDialog("info")}
+          />
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -208,8 +251,31 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
           />
-        </div>
+           <Tooltip
+          title={
+            <div style={{ width: '300px', maxHeight: '800px' }}>
+              <span style={{ fontSize: "10px" }}>
+                <p>
+                  Only server owners can invite the bot.{" "}
+                  <a
+                    href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
+                  >
+                    Click here to invite the bot.
+                  </a>
+                </p>
+              </span>
+              <br />
+            </div>
+          }
+          placement="right"
+        >
+                   < InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+        </Tooltip>
       </div>
+      </div>
+
       <button
         style={{
           backgroundColor:
@@ -249,18 +315,16 @@ const SignUpIdDetails = () => {
             </ol>
           </DialogContentText>
           <DialogContentText>
-          The app needs your profile to be public in your STEAM account
-                  in order to generate recommendations based on games you own.{" "}
-                  <br />
-                  <br />
-                  <strong>Note:</strong> This data is not shared with any third
-                  party.
+            The app needs your profile to be public in your STEAM account in
+            order to generate recommendations based on games you own. <br />
+            <br />
+            <strong>Note:</strong> This data is not shared with any third party.
           </DialogContentText>
           <img
-                  src={process.env.PUBLIC_URL + "/images/STEAM.png"}
-                  alt="Tooltip Image"
-                  style={{ width: "500px", height: "auto" }}
-                />
+            src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+            alt="Tooltip Image"
+            style={{ width: "500px", height: "auto" }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setInfoDialogOpen(false)} color="primary">

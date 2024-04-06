@@ -14,6 +14,7 @@ const getSteamGenres = async (req, res) => {
       .status(200)
       .send({ message: "Fetched genre list!", genreList: genreNames });
   } catch (e) {
+    console.log("error :", e)
     res.status(500).send("Error Occurred, Try again!");
   }
 };

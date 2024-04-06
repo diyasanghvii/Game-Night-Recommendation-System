@@ -356,6 +356,41 @@ const clearRating = async (req, res) => {
   }
 };
 
+// @desc Check if Discord Username is unique
+// @route POST /user/checkUniqueDiscordUserName
+// @access Private
+const checkUniqueDiscordUserName = async (req, res) => {
+  try {
+    const discordUserName = req.body.discordUserName;
+    const existingUser = await User.findOne({ discordUserName }).exec();
+    if (existingUser) {
+      res.status(400).json({ message: "Discord Username already exists!",status:false });
+    } else {
+      res.status(200).json({ message: "Discord Username is unique!",status:true });
+    }
+  } catch (e) {
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+// @desc Check if Steam ID is unique
+// @route POST /user/checkUniqueSteamId
+// @access Private
+const checkUniqueSteamId = async (req, res) => {
+  try {
+    const steamId = req.body.steamId;
+    const existingUser = await User.findOne({ steamId }).exec();
+    if (existingUser) {
+      res.status(400).json({ message: "Steam ID already exists!",status:false });
+    } else {
+      res.status(200).json({ message: "Steam ID is unique!",status:true });
+    }
+  } catch (e) {
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+
 module.exports = {
   login,
   signUpOne,
@@ -368,4 +403,6 @@ module.exports = {
   saveGameUnOwnedRating,
   verifyUserSteamId,
   clearRating,
+  checkUniqueDiscordUserName,
+  checkUniqueSteamId,
 };

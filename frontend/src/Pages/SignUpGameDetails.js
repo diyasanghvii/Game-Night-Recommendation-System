@@ -33,7 +33,7 @@ const SignUpGameDetails = () => {
             ...ele,
             gameSteamId: ele.appid,
           }));
-          setGames(modifiedSteamGames);
+          setGames(modifiedSteamGames.slice(0, 9)); // Limiting to 9 games
         }
       })
       .catch((error) => {
