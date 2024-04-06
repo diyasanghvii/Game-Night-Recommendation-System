@@ -6,3 +6,4 @@
 /build
 /frontend/package-lock.json
 /backend/package-lock.json
+/frontend/yarn.lock
