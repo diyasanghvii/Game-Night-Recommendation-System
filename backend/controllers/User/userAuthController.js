@@ -363,12 +363,14 @@ const checkUniqueDiscordUserName = async (req, res) => {
   try {
     const discordUserName = req.body.discordUserName;
     const existingUser = await User.findOne({ discordUserName }).exec();
+    //console.log(discordUserName);
     if (existingUser) {
-      res.status(400).json({ message: "Discord Username already exists!",status:false });
+      res.status(200).json({ message: "Discord Username already exists!",status:false,existingUserEmail: existingUser.email });
     } else {
-      res.status(200).json({ message: "Discord Username is unique!",status:true });
+      res.status(200).json({ message: "Discord Username is unique!",status:true,existingUserEmail: null});
     }
   } catch (e) {
+    console.log(e);
     res.status(500).send("Error occurred, try again!");
   }
 };
@@ -381,9 +383,9 @@ const checkUniqueSteamId = async (req, res) => {
     const steamId = req.body.steamId;
     const existingUser = await User.findOne({ steamId }).exec();
     if (existingUser) {
-      res.status(400).json({ message: "Steam ID already exists!",status:false });
+      res.status(200).json({ message: "Steam ID already exists!",status:false,existingUserEmail: existingUser.email });
     } else {
-      res.status(200).json({ message: "Steam ID is unique!",status:true });
+      res.status(200).json({ message: "Steam ID is unique!",status:true, existingUserEmail: null});
     }
   } catch (e) {
     res.status(500).send("Error occurred, try again!");
