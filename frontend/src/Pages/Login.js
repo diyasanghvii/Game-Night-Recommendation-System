@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import TextBox from "../Components/TextBox/TextBox";
 import {
   Container,
-  Grid,
   IconButton,
   InputAdornment,
   TextField,
+  Box,
 } from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
@@ -37,7 +37,7 @@ const Login = () => {
           sessionStorage.removeItem("authToken");
         });
     }
-  });
+  }, []);
 
   const cacheUserSteamData = () => {
     CacheUserSteamGames()
@@ -47,8 +47,8 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        alert("Error Loggin in, Please try again !");
-        console.log("Error : ", error);
+        alert("Error Logging in. Please try again!");
+        console.log("Error: ", error);
       });
   };
 
@@ -94,46 +94,95 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        marginBottom={2}
-      >
-        <Text variant="h4" gutterBottom={true} label={"Login"} />
-        <Btn label="Sign Up" onClick={handleSignUp} />
-      </Grid>
-      <TextBox
-        label="Email ID"
-        value={username}
-        fullWidth={true}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type={showPassword ? "text" : "password"}
-        value={password}
-        fullWidth={true}
-        onChange={(e) => setPassword(e.target.value)}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={handleTogglePasswordVisibility}
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        sx={{ marginBottom: "16px" }}
-      />
+    <div
+      style={{
+        backgroundImage: "url('/images/Game Image.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh", // Fill entire page height
+      }}
+    >
+      <Container maxWidth="sm">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          {/* Apply the color style directly to the Text component */}
+          <Text
+            variant="h4"
+            gutterBottom={true}
+            label={"Login"}
+            style={{ color: "white" }} // Change text color to white
+          />
+          <Btn
+            label="Sign Up"
+            onClick={handleSignUp}
+            color="success"
+            sx={{ backgroundColor: "green" }}
+          />
+        </Box>
+        <TextBox
+          label="Email ID"
+          value={username}
+          fullWidth={true}
+          onChange={(e) => setUsername(e.target.value)}
+          variant="outlined"
+          color="secondary"
+          sx={{ color: "white", marginBottom: "8px" }} // Change text color to white
+        />
+        <TextField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          fullWidth={true}
+          onChange={(e) => setPassword(e.target.value)}
+          variant="outlined"
+          color="secondary"
+          sx={{
+            color: "white", // Change text color to white
+            marginBottom: "16px",
+            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white", // Change border color to white
+            },
+            "& .MuiInputLabel-outlined": {
+              color: "white", // Change label color to white
+            },
+            "& .MuiOutlinedInput-input": {
+              color: "white", // Change input text color to white
+            },
+            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white", // Change border color on hover to white
+            },
+            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white", // Change border color on focus to white
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={handleTogglePasswordVisibility}
+                  sx={{ color: "white" }} // Change icon color to white
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
-      {error && <ErrorMessage message={error} />}
-      <Btn fullWidth={true} label={"Submit"} onClick={handleLogin} />
-    </Container>
+        {error && <ErrorMessage message={error} />}
+        <Btn
+          fullWidth={true}
+          label={"Submit"}
+          onClick={handleLogin}
+          color="success"
+          sx={{ backgroundColor: "green" }}
+        />
+      </Container>
+    </div>
   );
 };
 

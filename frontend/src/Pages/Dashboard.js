@@ -199,7 +199,7 @@ class Dashboard extends Component {
             marginTop: "17px",
           }}
         >
-          <h2>Welcome, {userName}!</h2>
+          <h2 style={{ color: "white" }}>Welcome, {userName}!</h2>
           <span>
             {rcmBtnClicked && <Navigate to="/recommend-games" replace={true} />}
             <Btn
