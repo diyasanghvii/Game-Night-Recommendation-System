@@ -102,29 +102,11 @@ const signUpOne = async (req, res) => {
 // @access Private
 const signUpTwo = async (req, res) => {
   try {
-    const { email, steamId, discordUserName } = req.body;
-
-    // Check if the Steam ID or Discord Username already exists in the database
-    const existingUser = await User.findOne({
-      $or: [{ steamId }, { discordUserName }],
-    }).exec();
-
-    if (existingUser) {
-      let errorMessage = "";
-      if (existingUser.steamId === steamId) {
-        errorMessage = "Steam ID already exists!";
-      } else if (existingUser.discordUserName === discordUserName) {
-        errorMessage = "Discord Username already exists!";
-      }
-      return res.status(400).json({ message: errorMessage });
-    }
-
-    // If user does not exist, update the user information
-    let data = await User.findOne({ email }).exec();
+    let data = await User.findOne({ email: req.body.email }).exec();
     if (data) {
       await data.updateOne({
-        steamId,
-        discordUserName,
+        steamId: req.body.steamId,
+        discordUserName: req.body.discordUserName,
       });
       res.status(200).json({
         message: "Updated User Information Successfully",
@@ -374,6 +356,41 @@ const clearRating = async (req, res) => {
   }
 };
 
+// @desc Check if Discord Username is unique
+// @route POST /user/checkUniqueDiscordUserName
+// @access Private
+const checkUniqueDiscordUserName = async (req, res) => {
+  try {
+    const discordUserName = req.body.discordUserName;
+    const existingUser = await User.findOne({ discordUserName }).exec();
+    if (existingUser) {
+      res.status(400).json({ message: "Discord Username already exists!",status:false });
+    } else {
+      res.status(200).json({ message: "Discord Username is unique!",status:true });
+    }
+  } catch (e) {
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+// @desc Check if Steam ID is unique
+// @route POST /user/checkUniqueSteamId
+// @access Private
+const checkUniqueSteamId = async (req, res) => {
+  try {
+    const steamId = req.body.steamId;
+    const existingUser = await User.findOne({ steamId }).exec();
+    if (existingUser) {
+      res.status(400).json({ message: "Steam ID already exists!",status:false });
+    } else {
+      res.status(200).json({ message: "Steam ID is unique!",status:true });
+    }
+  } catch (e) {
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+
 module.exports = {
   login,
   signUpOne,
@@ -386,4 +403,6 @@ module.exports = {
   saveGameUnOwnedRating,
   verifyUserSteamId,
   clearRating,
+  checkUniqueDiscordUserName,
+  checkUniqueSteamId,
 };
