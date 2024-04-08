@@ -12,6 +12,8 @@ import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import CustomModal from "../Modal/CustomModal";
+import AllGamesSorting from "../Sorting/AllGamesSorting";
 
 function GameSectionFilter({
   title,
@@ -20,6 +22,8 @@ function GameSectionFilter({
   updateRatings,
   isOwned,
   ownedGame,
+  sortGames,
+  isSortable = false,
 }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
@@ -27,6 +31,9 @@ function GameSectionFilter({
   const [popupGameData, setPopupGameData] = useState(null);
   const [onlyUnRatingChecked, setonlyRatingChecked] = useState(false);
   const [visibleGames, setvisibleGames] = useState([]);
+  const [isSortingModalOpen, setIsSortingModalOpen] = useState(false);
+  const [sortByOwned, setSortByOwned] = React.useState("Playtime forever");
+  const [sortTypeOwned, setSortTypeOwned] = React.useState("asc");
 
   const handleClick = (game) => {
     setPopupGameData(game);
@@ -67,6 +74,7 @@ function GameSectionFilter({
   useEffect(() => {
     setStartIndex(0);
     setEndIndex(5);
+    setvisibleGames(games?.slice(startIndex, endIndex) || []);
   }, [games]);
 
   useEffect(() => {
@@ -77,6 +85,37 @@ function GameSectionFilter({
       setvisibleGames(games?.slice(startIndex, endIndex) || []);
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
+
+  const openModal = () => {
+    setIsSortingModalOpen(true);
+  };
+
+  const sortOwnedGames = (sortBy, sortType) => {
+    setvisibleGames((prevValues) => {
+      games.sort((a, b) => {
+        if (sortType === "asc") {
+          if (sortBy === "Playtime forever") {
+            return a.playtime_forever - b.playtime_forever;
+          } else {
+            return a.playtime_2weeks - b.playtime_2weeks;
+          }
+        } else {
+          if (sortBy === "Playtime forever") {
+            return b.playtime_forever - a.playtime_forever;
+          } else {
+            return b.playtime_2weeks - a.playtime_2weeks;
+          }
+        }
+      });
+      return games;
+    });
+
+    closeSortingModal();
+  };
+
+  const closeSortingModal = () => {
+    setIsSortingModalOpen(false);
+  };
 
   return (
     <section className="gameSection">
@@ -114,6 +153,11 @@ function GameSectionFilter({
           />
           <p style={{ marginRight: 20 }}>Show only unrated games</p>
         </div>
+        {isSortable && (
+          <div>
+            <Btn label="Sort" size="small" onClick={openModal} />
+          </div>
+        )}
       </div>
       <div className="gameCarousel">
         <Btn
@@ -168,6 +212,26 @@ function GameSectionFilter({
           label={"Next"}
           onClick={handleNext}
           disabled={endIndex === games.length}
+        />
+        <CustomModal
+          title={"Sort Games"}
+          open={isSortingModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesSorting
+              sortBy={sortByOwned}
+              sortType={sortTypeOwned}
+              submitSort={(value1, value2) => {
+                sortOwnedGames(value1, value2);
+              }}
+              sortByChanged={(data) => {
+                setSortByOwned(data);
+              }}
+              sortTypeChanged={(data) => {
+                setSortTypeOwned(data);
+              }}
+            />
+          }
         />
       </div>
     </section>
