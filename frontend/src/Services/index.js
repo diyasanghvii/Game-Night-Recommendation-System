@@ -320,6 +320,8 @@ export const VerifyUserSteamId = (data) => {
   });
 };
 
+
+
 export const VerifyUserSteamIdInEditProfile = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
@@ -333,6 +335,20 @@ export const VerifyUserSteamIdInEditProfile = (data) => {
       });
   });
 };
+// Add CheckUniqueSteamId function for edit profile
+export const CheckUniqueSteamIdAuthReq = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/checkuniquesteamid", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Add CheckUniqueSteamId function
 export const CheckUniqueSteamId = (data) => {
   return new Promise((resolve, reject) => {
@@ -351,6 +367,20 @@ export const CheckUniqueSteamId = (data) => {
 export const CheckUniqueDiscordUserName = (data) => {
   return new Promise((resolve, reject) => {
     authLocalStorageRequest
+      .post("/user/checkuniquediscordusername", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Add CheckUniqueDiscordUserName function for edit profile
+export const CheckUniqueDiscordUserNameAuthReq = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
       .post("/user/checkuniquediscordusername", data)
       .then((response) => {
         resolve(response);
