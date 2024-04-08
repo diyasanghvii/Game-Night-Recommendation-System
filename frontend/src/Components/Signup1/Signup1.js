@@ -49,79 +49,96 @@ const SignUp1 = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
-      <Stepper activeStep={0} alternativeLabel>
-        <Step key={0}>
-          <StepLabel>Step 1</StepLabel>
-        </Step>
-        <Step key={1}>
-          <StepLabel>Step 2</StepLabel>
-        </Step>
-        <Step key={2}>
-          <StepLabel>Step 3</StepLabel>
-        </Step>
-      </Stepper>
+    <div
+      style={{
+        backgroundImage: "url('/images/Game Image2.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Container maxWidth="sm">
+        <Text variant="h4" gutterBottom={true} label={"Sign Up"} />
+        <Stepper activeStep={0} alternativeLabel>
+          <Step key={0}>
+            <StepLabel>Step 1</StepLabel>
+          </Step>
+          <Step key={1}>
+            <StepLabel>Step 2</StepLabel>
+          </Step>
+          <Step key={2}>
+            <StepLabel>Step 3</StepLabel>
+          </Step>
+        </Stepper>
 
-      <div style={{ marginBottom: "16px" }}>
-        <TextField
-          label="Name"
-          value={username}
-          fullWidth={true}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+        <div style={{ marginBottom: "16px" }}>
+          <TextField
+            label="Name"
+            value={username}
+            fullWidth={true}
+            onChange={(e) => setUsername(e.target.value)}
+            variant="outlined" // Set variant to "outlined"
+            sx={{ "& .MuiOutlinedInput-root": { borderColor: "white" } }} // Customize outline color
+          />
+        </div>
 
-      <div style={{ marginBottom: "16px" }}>
-        <TextField
-          label="Email"
-          type="email"
-          value={email}
-          fullWidth={true}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
+        <div style={{ marginBottom: "16px" }}>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            fullWidth={true}
+            onChange={(e) => setEmail(e.target.value)}
+            variant="outlined" // Set variant to "outlined"
+            sx={{ "& .MuiOutlinedInput-root": { borderColor: "white" } }} // Customize outline color
+          />
+        </div>
 
-      <div style={{ marginBottom: "16px" }}>
-        <TextField
-          label="Password"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          fullWidth={true}
-          onChange={(e) => setPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleTogglePasswordVisibility}>
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
+        <div style={{ marginBottom: "16px" }}>
+          <TextField
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            fullWidth={true}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="outlined" // Set variant to "outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleTogglePasswordVisibility}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ "& .MuiOutlinedInput-root": { borderColor: "white" } }} // Customize outline color
+          />
+        </div>
 
-      <div style={{ marginBottom: "16px" }}>
-        <TextField
-          label="Confirm Password"
-          type={showPassword ? "text" : "password"}
-          value={confirmPassword}
-          fullWidth={true}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleTogglePasswordVisibility}>
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
+        <div style={{ marginBottom: "16px" }}>
+          <TextField
+            label="Confirm Password"
+            type={showPassword ? "text" : "password"}
+            value={confirmPassword}
+            fullWidth={true}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            variant="outlined" // Set variant to "outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleTogglePasswordVisibility}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ "& .MuiOutlinedInput-root": { borderColor: "white" } }} // Customize outline color
+          />
+        </div>
 
-      <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
-    </Container>
+        <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
+      </Container>
+    </div>
   );
 };
 

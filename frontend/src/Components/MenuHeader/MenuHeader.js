@@ -45,7 +45,15 @@ const MenuHeader = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        background:
+          "linear-gradient(to right, #007BFF, #00BFFF), linear-gradient(to right, #4CAF50, #2E7D32)",
+        boxShadow:
+          "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+      }}
+    >
       <Toolbar variant="dense">
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
           Game Night Recommender
@@ -54,7 +62,14 @@ const MenuHeader = () => {
           <Button
             key={index}
             size="small"
-            sx={{ color: "inherit", marginLeft: "1rem" }}
+            sx={{
+              color: "inherit",
+              marginLeft: "1rem",
+              background:
+                "linear-gradient(to right, #007BFF, #00BFFF), linear-gradient(to right, #4CAF50, #2E7D32)",
+              boxShadow:
+                "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+            }}
             onClick={link.onClick}
           >
             {link.label}

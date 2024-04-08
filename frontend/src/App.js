@@ -11,7 +11,12 @@ import EditProfile from "./Pages/EditProfile";
 
 function App() {
   return (
-    <div style={{ backgroundImage: "url('/images/Game Image2.png')" }}>
+    <div style={{ 
+      backgroundImage: "url('/images/Game Image.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "100vh", // Set the height of the container to 100% of viewport height
+    }}>
       <Router>
         <Routes>
           <Route element={<AuthRoutes />}>

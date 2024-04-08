@@ -96,10 +96,13 @@ const Login = () => {
   return (
     <div
       style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
         backgroundImage: "url('/images/Game Image.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        minHeight: "100vh", // Fill entire page height
       }}
     >
       <Container maxWidth="sm">
