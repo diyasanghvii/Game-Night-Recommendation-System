@@ -92,22 +92,28 @@ function GameSectionFilter({
 
   const sortOwnedGames = (sortBy, sortType) => {
     setvisibleGames((prevValues) => {
-      games.sort((a, b) => {
+      let filteredGames = games;
+      if (onlyUnRatingChecked) {
+        filteredGames = getOnlyUnRatedGames(games, ratings);
+      }
+      filteredGames.sort((a, b) => {
         if (sortType === "asc") {
           if (sortBy === "Playtime forever") {
             return a.playtime_forever - b.playtime_forever;
           } else {
-            return a.playtime_2weeks - b.playtime_2weeks;
+            return a.playtime_2weeks || 0 - b.playtime_2weeks || 0;
           }
         } else {
           if (sortBy === "Playtime forever") {
             return b.playtime_forever - a.playtime_forever;
           } else {
-            return b.playtime_2weeks - a.playtime_2weeks;
+            console.log("reached here");
+            return b.playtime_2weeks || 0 - a.playtime_2weeks || 0;
           }
         }
       });
-      return games;
+      console.log(filteredGames);
+      return filteredGames;
     });
 
     closeSortingModal();
