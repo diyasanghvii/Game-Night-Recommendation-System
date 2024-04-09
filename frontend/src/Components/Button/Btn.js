@@ -10,17 +10,11 @@ function Btn({ label, onClick, fullWidth = false }) {
         color="primary"
         onClick={onClick}
         sx={{
-          background:
-            "linear-gradient(to right, #66a6ff, #3366ff), linear-gradient(to right, #66a6ff, #3366ff)",
-          boxShadow:
-            "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
           color: "white",
           transition: "background-color 0.3s ease",
           "&:hover": {
-            background:
-              "linear-gradient(to right, #66a6ff, #3366ff), linear-gradient(to right, #66a6ff, #3366ff)",
-            boxShadow:
-              "0 4px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.12)",
+            backgroundColor: "rgba(0, 0, 0, 0.6)", // Slightly darker black on hover
           },
         }}
       >

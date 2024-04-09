@@ -7,6 +7,10 @@
 .clear-rating-text:hover {
   color: rgb(175, 175, 223);
 }
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  color: green !important;
+.MuiOutlinedInput-root.Mui-focused {
+  border-color: rgb(250, 251, 252) !important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: white!important;
 }
