@@ -10,20 +10,42 @@ import {
 } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import CustomModal from "../Modal/CustomModal";
 import AllGamesSorting from "../Sorting/AllGamesSorting";
+import AllGamesFilter from "../GameFilter/AllGamesFilter";
+
+const genre = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
+
+const tags = ["tag1", "tag2", "tag3", "tag4"];
+
+const features = ["feature1", "feature2", "feature3", "feature4"];
 
 function GameSectionFilter({
   title,
   games,
   ratings,
   updateRatings,
-  isOwned,
   ownedGame,
-  sortGames,
   isSortable = false,
+  hasFilter = false,
+  fetchAllGamesWithFilter,
+  loading,
+  setGenreListInParent,
+  setTagListInParent,
+  setFeatureListInParent,
+  clearFilterInParent,
 }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
@@ -32,8 +54,12 @@ function GameSectionFilter({
   const [onlyUnRatingChecked, setonlyRatingChecked] = useState(false);
   const [visibleGames, setvisibleGames] = useState([]);
   const [isSortingModalOpen, setIsSortingModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [sortByOwned, setSortByOwned] = React.useState("Playtime forever");
   const [sortTypeOwned, setSortTypeOwned] = React.useState("asc");
+  const [genreList, setGenreList] = React.useState([]);
+  const [tagsList, setTagsList] = React.useState([]);
+  const [featureList, setFeatureList] = React.useState([]);
 
   const handleClick = (game) => {
     setPopupGameData(game);
@@ -86,8 +112,12 @@ function GameSectionFilter({
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
 
-  const openModal = () => {
+  const openSortModal = () => {
     setIsSortingModalOpen(true);
+  };
+
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
   };
 
   const sortOwnedGames = (sortBy, sortType) => {
@@ -115,6 +145,45 @@ function GameSectionFilter({
 
   const closeSortingModal = () => {
     setIsSortingModalOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  const handleGenreFilterChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setGenreList(typeof value === "string" ? value.split(",") : value);
+    setGenreListInParent(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeTagFilterList = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTagsList(typeof value === "string" ? value.split(",") : value);
+    setTagListInParent(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeFeatureFilterList = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFeatureList(typeof value === "string" ? value.split(",") : value);
+    setFeatureListInParent(
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  const submitFilter = () => {
+    setIsFilterModalOpen(false);
+    fetchAllGamesWithFilter();
+  };
+
+  const clearFilter = () => {
+    setGenreList([]);
+    setFeatureList([]);
+    setTagsList([]);
+    clearFilterInParent();
   };
 
   return (
@@ -155,8 +224,16 @@ function GameSectionFilter({
         </div>
         {isSortable && (
           <div>
-            <Btn label="Sort" size="small" onClick={openModal} />
+            <Btn label="Sort" size="small" onClick={openSortModal} />
           </div>
+        )}
+        {hasFilter && (
+          <div>
+            <Btn label="Filter" size="small" onClick={openFilterModal} />
+          </div>
+        )}
+        {loading && (
+          <p style={{ marginLeft: 10 }}>Loading filtered games ...</p>
         )}
       </div>
       <div className="gameCarousel">
@@ -229,6 +306,33 @@ function GameSectionFilter({
               }}
               sortTypeChanged={(data) => {
                 setSortTypeOwned(data);
+              }}
+            />
+          }
+        />
+        <CustomModal
+          title={"Filter Games"}
+          open={isFilterModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesFilter
+              genreList={genreList}
+              tagsList={tagsList}
+              featureList={featureList}
+              submitFilter={() => {
+                submitFilter();
+              }}
+              clearFilter={() => {
+                clearFilter();
+              }}
+              handleGenreChange={(data) => {
+                handleGenreFilterChange(data);
+              }}
+              handleChangeTagList={(data) => {
+                handleChangeTagFilterList(data);
+              }}
+              handleChangeFeatureList={(data) => {
+                handleChangeFeatureFilterList(data);
               }}
             />
           }
