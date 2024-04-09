@@ -33,7 +33,7 @@ userRoutes.post(
   authoriseCheck,
   saveGameUnOwnedRating
 );
-userRoutes.get("/verifyusersteamid", authoriseCheck, verifyUserSteamId);
+userRoutes.post("/verifyusersteamid", authoriseCheck, verifyUserSteamId);
 userRoutes.post("/clearrating", authoriseCheck, clearRating);
 userRoutes.post("/checkuniquesteamid", authoriseCheck,checkUniqueSteamId );
 userRoutes.post("/checkuniquediscordusername", authoriseCheck, checkUniqueDiscordUserName);

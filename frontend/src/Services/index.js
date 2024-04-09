@@ -309,7 +309,7 @@ export const UpdateUnownedUserGameRating = (data) => {
 export const VerifyUserSteamId = (data) => {
   return new Promise((resolve, reject) => {
     authLocalStorageRequest
-      .get(`/user/verifyusersteamid?steamId=${data}`)
+      .post("/user/verifyusersteamid", data)
 
       .then((response) => {
         resolve(response);
@@ -325,7 +325,7 @@ export const VerifyUserSteamId = (data) => {
 export const VerifyUserSteamIdInEditProfile = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get(`/user/verifyusersteamid?steamId=${data}`)
+      .post("/user/verifyusersteamid", data)
 
       .then((response) => {
         resolve(response);
