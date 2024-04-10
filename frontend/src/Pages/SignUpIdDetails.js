@@ -322,7 +322,7 @@ const SignUpIdDetails = () => {
             <strong>Note:</strong> This data is not shared with any third party.
           </DialogContentText>
           <img
-            src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+            src={process.env.PUBLIC_URL + "/images/STEAMv2.png"}
             alt="Tooltip Image"
             style={{ width: "500px", height: "auto" }}
           />
