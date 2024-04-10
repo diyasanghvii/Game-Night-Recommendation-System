@@ -6,7 +6,7 @@ const {
   generateJwtToken,
 } = require("../../utils/authHelpers");
 const STEAM_BASE_URL = "http://api.steampowered.com";
-
+const { encrypt, decrypt } = require('../../utils/encryptionUtils');
 // @desc Login API
 // @route POST /user/login
 // @access Public
@@ -105,7 +105,7 @@ const signUpTwo = async (req, res) => {
     let data = await User.findOne({ email: req.body.email }).exec();
     if (data) {
       await data.updateOne({
-        steamId: req.body.steamId,
+        steamId: encrypt(req.body.steamId),
         discordUserName: req.body.discordUserName,
       });
       res.status(200).json({
@@ -117,6 +117,7 @@ const signUpTwo = async (req, res) => {
       });
     }
   } catch (e) {
+    console.log(e);
     res.status(500).send("Error Occured, Try again!");
   }
 };
@@ -151,16 +152,18 @@ const signUpThree = async (req, res) => {
 // @access Private
 const getUserDetails = async (req, res) => {
   try {
+    const decryptedSteamId = decrypt(req.user.steamId);
     res.status(200).json({
       email: req.user.email,
       name: req.user.name,
-      steamId: req.user.steamId,
+      steamId: decryptedSteamId,
       discordUserName: req.user.discordUserName,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
       message: "User Details Fetched Sucessfully!",
     });
   } catch (e) {
+    console.log(e);
     res.status(500).send("Error Occured, Try again!");
   }
 };
@@ -293,8 +296,6 @@ const saveGameUnOwnedRating = async (req, res) => {
 const verifyUserSteamId = async (req, res) => {
   try {
     const steamId = req.body.steamId;
-    console.log('HEREEEE')
-    console.log(steamId)
     const email = req.user.email;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
@@ -383,13 +384,15 @@ const checkUniqueDiscordUserName = async (req, res) => {
 const checkUniqueSteamId = async (req, res) => {
   try {
     const steamId = req.body.steamId;
-    const existingUser = await User.findOne({ steamId }).exec();
+    const encryptedSteamId = encrypt(steamId);
+    const existingUser = await User.findOne({ steamId: encryptedSteamId}).exec();
     if (existingUser) {
       res.status(200).json({ message: "Steam ID already exists!",status:false,existingUserEmail: existingUser.email });
     } else {
       res.status(200).json({ message: "Steam ID is unique!",status:true, existingUserEmail: null});
     }
   } catch (e) {
+    console.log(e)
     res.status(500).send("Error occurred, try again!");
   }
 };
