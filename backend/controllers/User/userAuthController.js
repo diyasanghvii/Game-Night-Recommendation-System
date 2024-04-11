@@ -168,6 +168,56 @@ const getUserDetails = async (req, res) => {
   }
 };
 
+// @desc Save Edited User Information API
+// @route POST /user/saveuserdetails
+// @access Private
+const saveUserDetails = async (req, res) => {
+  try {
+    const { name, age, steamId, discordUserName } = req.body;
+    const email = req.user.email;
+
+    // // Check if the Steam ID or Discord Username already exists for another user
+    // const existingUser = await User.findOne({
+    //   $and: [
+    //     { $or: [{ steamId }, { discordUserName }] },
+    //     { email: { $ne: email } },
+    //   ],
+    // }).exec();
+
+    // if (existingUser) {
+    //   let errorMessage = "";
+    //   if (existingUser.steamId === steamId) {
+    //     errorMessage = "Steam ID already exists for another user!";
+    //   } else if (existingUser.discordUserName === discordUserName) {
+    //     errorMessage = "Discord Username already exists for another user!";
+    //   }
+    //   return res.status(400).json({ message: errorMessage });
+    // }
+
+    // Update the user information
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      const encryptedSteamId = encrypt(steamId);
+      await user.updateOne({
+        name,
+        age,
+        steamId: encryptedSteamId,
+        discordUserName,
+      });
+      res.status(200).json({
+        message: "User Information Updated Successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Error Occurred, Try again!");
+  }
+};
+
 // @desc Update User Genre API
 // @route POST /user/updategenre
 // @access Private
@@ -303,8 +353,6 @@ const verifyUserSteamId = async (req, res) => {
       const gamesCount = response.data.response.game_count || 0; // Get game count or default to 0
       if (
         email &&
-        response.data &&
-        response.data.response &&
         response.data.response.games &&
         response.data.response.games.length > 0
       ) {
@@ -404,6 +452,7 @@ module.exports = {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  saveUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,
