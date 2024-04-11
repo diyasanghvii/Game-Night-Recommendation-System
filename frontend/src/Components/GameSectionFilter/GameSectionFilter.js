@@ -15,23 +15,6 @@ import CustomModal from "../Modal/CustomModal";
 import AllGamesSorting from "../Sorting/AllGamesSorting";
 import AllGamesFilter from "../GameFilter/AllGamesFilter";
 
-const genre = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-const tags = ["tag1", "tag2", "tag3", "tag4"];
-
-const features = ["feature1", "feature2", "feature3", "feature4"];
-
 function GameSectionFilter({
   title,
   games,
