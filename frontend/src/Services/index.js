@@ -148,6 +148,19 @@ export const GetUserDetails = () => {
   });
 };
 
+export const SaveUserDetails = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/saveuserdetails", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Update user Genre
 export const UpdateUserGenre = (data) => {
   return new Promise((resolve, reject) => {

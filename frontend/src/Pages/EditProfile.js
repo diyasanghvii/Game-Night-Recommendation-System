@@ -6,16 +6,18 @@ import {
   VerifyUserSteamIdInEditProfile,
   CheckUniqueSteamIdAuthReq,
   CheckUniqueDiscordUserNameAuthReq,
+  GetUserDetails,
+  SaveUserDetails,
 } from "../Services";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const EditProfile = () => {
-  const [name, setName] = useState("Testuser");
-  const [age, setAge] = useState("23");
-  const [steamId, setSteamId] = useState("76561199642434117");
-  const [discordUsername, setDiscordUsername] = useState("naheerfatima_76086");
-  const [email, setEmail] = useState("naheer@gmail.com");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [steamId, setSteamId] = useState("");
+  const [discordUsername, setDiscordUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState("");
   const [tempAge, setTempAge] = useState("");
@@ -29,12 +31,33 @@ const EditProfile = () => {
   const [detailsChanged, setDetailsChanged] = useState(false);
 
   useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  useEffect(() => {
     if (steamIdVerified && discordUsernameVerified && detailsChanged) {
       setSaveDisabled(false);
     } else {
       setSaveDisabled(true);
     }
   }, [steamIdVerified, discordUsernameVerified, detailsChanged]);
+
+  const fetchUserDetails = () => {
+    GetUserDetails()
+      .then((res) => {
+        if (res && res.data) {
+          
+          setName(res.data.name);
+          setAge(res.data.age || "");
+          setSteamId(res.data.steamId);
+          setDiscordUsername(res.data.discordUserName);
+          setEmail(res.data.email);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -45,8 +68,24 @@ const EditProfile = () => {
   };
 
   const handleSave = () => {
-    setIsEditing(false);
-    setDetailsChanged(false);
+    const data = {
+      name,
+      age,
+      steamId,
+      discordUserName: discordUsername,
+    };
+
+    SaveUserDetails(data)
+      .then((res) => {
+        if (res && res.data) {
+          setIsEditing(false);
+          setDetailsChanged(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert(e);
+      });
   };
 
   const handleCancel = () => {
@@ -62,7 +101,7 @@ const EditProfile = () => {
     const paramBody = { steamId: steamId };
     VerifyUserSteamIdInEditProfile(paramBody)
       .then((res) => {
-        if (res && res.data && res.data.status) {
+        if (res && res.data && res.data.status && res.data.gamesCount >= 5) {
           CheckUniqueSteamIdAuthReq(paramBody)
             .then((res) => {
               if (res && res.data && res.data.status) {
@@ -85,7 +124,7 @@ const EditProfile = () => {
               setSteamIdVerified(false);
             });
         } else {
-          setError("Invalid Steam ID.");
+          setError("The STEAM account ID might be invalid, or it may have fewer than 5 games.");
           setSteamIdVerified(false);
         }
       })
@@ -144,6 +183,12 @@ const EditProfile = () => {
             value={age}
             onChange={(e) => setAge(e.target.value)}
             disabled={!isEditing}
+            type="number"
+            inputProps={{
+              min: 7,
+              max: 120,
+              step: 1,
+            }}
           />
         </div>
         <div style={{ width: "80%", marginTop: 20 }}>
