@@ -11,11 +11,13 @@ function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
         size={size}
         onClick={onClick}
         sx={{
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
+          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+          backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
           color: "white",
-          transition: "background-color 0.3s ease",
+          transition: "background-image 0.3s ease, background-color 0.3s ease",
           "&:hover": {
-            backgroundColor: "rgba(0, 0, 0, 0.6)", // Slightly darker black on hover
+            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
           },
         }}
       >

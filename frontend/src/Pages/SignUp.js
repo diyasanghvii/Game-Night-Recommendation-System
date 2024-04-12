@@ -74,21 +74,20 @@ const SignUp = () => {
           sx={{ color: "white" }}
         />
         <Stepper
-          sx={{ marginTop: 5, marginBottom: 5 }}
+          sx={{ marginTop: 3, marginBottom: 5 }}
           activeStep={0}
           alternativeLabel
         >
           <Step key={0}>
-            <StepLabel>Step 1</StepLabel>
+            <StepLabel sx={{ color: "white" }}>Step 1</StepLabel>
           </Step>
           <Step key={1}>
-            <StepLabel>Step 2</StepLabel>
+            <StepLabel sx={{ color: "white" }}>Step 2</StepLabel>
           </Step>
           <Step key={2}>
-            <StepLabel>Step 3</StepLabel>
+            <StepLabel sx={{ color: "white" }}>Step 3</StepLabel>
           </Step>
         </Stepper>
-
         <div style={{ marginBottom: "16px" }}>
           <TextField
             label="Name"
@@ -103,7 +102,6 @@ const SignUp = () => {
             variant="outlined"
           />
         </div>
-
         <div style={{ marginBottom: "16px" }}>
           <TextField
             label="Email"
@@ -119,7 +117,6 @@ const SignUp = () => {
             variant="outlined"
           />
         </div>
-
         <div style={{ marginBottom: "16px" }}>
           <TextField
             label="Password"
@@ -134,7 +131,11 @@ const SignUp = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleTogglePasswordVisibility}>
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? (
+                      <VisibilityOff style={{ color: "white" }} />
+                    ) : (
+                      <Visibility style={{ color: "white" }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -142,7 +143,6 @@ const SignUp = () => {
             variant="outlined"
           />
         </div>
-
         <div style={{ marginBottom: "16px" }}>
           <TextField
             label="Confirm Password"
@@ -157,7 +157,11 @@ const SignUp = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleTogglePasswordVisibility}>
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? (
+                      <VisibilityOff style={{ color: "white" }} />
+                    ) : (
+                      <Visibility style={{ color: "white" }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -165,7 +169,6 @@ const SignUp = () => {
             variant="outlined"
           />
         </div>
-
         <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
       </Container>
     </div>
