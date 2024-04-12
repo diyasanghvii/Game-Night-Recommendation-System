@@ -8,6 +8,7 @@ import {
   CheckUniqueDiscordUserNameAuthReq,
   GetUserDetails,
   SaveUserDetails,
+  CacheUserSteamGames,
 } from "../Services";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -29,24 +30,26 @@ const EditProfile = () => {
   const [error, setError] = useState("");
   const [saveDisabled, setSaveDisabled] = useState(true);
   const [detailsChanged, setDetailsChanged] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  const [steamIdError, setSteamIdError] = useState(false);
+  const [discordUsernameFieldError, setDiscordUsernameFieldError] = useState(false);
 
   useEffect(() => {
     fetchUserDetails();
   }, []);
 
   useEffect(() => {
-    if (steamIdVerified && discordUsernameVerified && detailsChanged) {
+    if (steamIdVerified && discordUsernameVerified) {
       setSaveDisabled(false);
     } else {
       setSaveDisabled(true);
     }
-  }, [steamIdVerified, discordUsernameVerified, detailsChanged]);
+  }, [steamIdVerified, discordUsernameVerified]);
 
   const fetchUserDetails = () => {
     GetUserDetails()
       .then((res) => {
         if (res && res.data) {
-          
           setName(res.data.name);
           setAge(res.data.age || "");
           setSteamId(res.data.steamId);
@@ -68,11 +71,30 @@ const EditProfile = () => {
   };
 
   const handleSave = () => {
+    const trimmedName = name.trim();
+    const trimmedSteamId = steamId.trim();
+    const trimmedDiscordUsername = discordUsername.trim();
+
+    if (trimmedName === "") {
+      setNameError(true);
+      return;
+    }
+
+    if (trimmedSteamId === "") {
+      setSteamIdError(true);
+      return;
+    }
+
+    if (trimmedDiscordUsername === "") {
+      setDiscordUsernameFieldError(true);
+      return;
+    }
+
     const data = {
-      name,
+      name: trimmedName,
       age,
-      steamId,
-      discordUserName: discordUsername,
+      steamId: trimmedSteamId,
+      discordUserName: trimmedDiscordUsername,
     };
 
     SaveUserDetails(data)
@@ -80,11 +102,26 @@ const EditProfile = () => {
         if (res && res.data) {
           setIsEditing(false);
           setDetailsChanged(false);
+          localStorage.setItem("userName", name);
+          localStorage.setItem("discordUserName", discordUsername);
+          if (steamId != tempSteamId) {
+            console.log("Steam ID changed.. Caching owned games again");
+            CacheUserSteamGames()
+            .then((response) => {
+              if (response) {
+              }
+            })
+            .catch((e) => {
+              const steamErrorMessage = "Error fetching games for new Steam ID";
+              console.log(steamErrorMessage, error);
+              setError(steamErrorMessage);
+            });;
+          }
         }
       })
       .catch((e) => {
         console.log(e);
-        alert(e);
+        setError(e.message);
       });
   };
 
@@ -95,10 +132,16 @@ const EditProfile = () => {
     setSteamId(tempSteamId);
     setDiscordUsername(tempDiscordUsername);
     setDetailsChanged(false);
+    setNameError(false);
+    setSteamIdError(false);
+    setDiscordUsernameFieldError(false);
+    setSteamIdVerified(true);
+    setDiscordUsernameVerified(true);
+    setError("");
   };
 
   const handleVerifySteamId = () => {
-    const paramBody = { steamId: steamId };
+    const paramBody = { steamId: steamId.trim() };
     VerifyUserSteamIdInEditProfile(paramBody)
       .then((res) => {
         if (res && res.data && res.data.status && res.data.gamesCount >= 5) {
@@ -108,58 +151,70 @@ const EditProfile = () => {
                 setSteamIdVerified(true);
                 setError("");
                 setDetailsChanged(true);
+                setSteamIdError(false);
               } else {
-                if (res && res.data && res.data.existingUserEmail == email) {
+                if (res && res.data && res.data.existingUserEmail === email) {
                   setSteamIdVerified(true);
                   setError("");
                   setDetailsChanged(true);
+                  setSteamIdError(false);
                 } else {
-                  setError("Steam ID already exists.");
+                  setError("Steam ID already exists in the system.");
                   setSteamIdVerified(false);
+                  setSteamIdError(true);
                 }
               }
             })
             .catch((e) => {
               setError(e?.response?.data?.message);
               setSteamIdVerified(false);
+              setSteamIdError(true);
             });
         } else {
           setError("The STEAM account ID might be invalid, or it may have fewer than 5 games.");
           setSteamIdVerified(false);
+          setSteamIdError(true);
         }
       })
       .catch((e) => {
         setError("Invalid Steam ID.");
         setSteamIdVerified(false);
+        setSteamIdError(true);
       });
   };
 
   const handleVerifyDiscordUsername = () => {
-    if (isValidDiscordUsername(discordUsername)) {
-      CheckUniqueDiscordUserNameAuthReq({ discordUserName: discordUsername })
+    const trimmedDiscordUsername = discordUsername.trim();
+    if (isValidDiscordUsername(trimmedDiscordUsername)) {
+      CheckUniqueDiscordUserNameAuthReq({ discordUserName: trimmedDiscordUsername })
         .then((res) => {
           if (res && res.data && res.data.status) {
             setDiscordUsernameVerified(true);
             setDiscordUsernameError("");
             setDetailsChanged(true);
+            setDiscordUsernameFieldError(false);
           } else {
-            if (res && res.data && res.data.existingUserEmail == email) {
+            if (res && res.data && res.data.existingUserEmail === email) {
               setDiscordUsernameVerified(true);
               setDiscordUsernameError("");
               setDetailsChanged(true);
+              setDiscordUsernameFieldError(false);
             } else {
               setDiscordUsernameError("Discord Username already exists.");
               setDiscordUsernameVerified(false);
+              setDiscordUsernameFieldError(true);
             }
           }
         })
         .catch((e) => {
           setDiscordUsernameError(e?.response?.data?.message);
           setDiscordUsernameVerified(false);
+          setDiscordUsernameFieldError(true);
         });
     } else {
       setDiscordUsernameError("Invalid Discord Username.");
       setDiscordUsernameVerified(false);
+      setDiscordUsernameFieldError(true);
     }
   };
 
@@ -174,6 +229,15 @@ const EditProfile = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={!isEditing}
+            error={nameError}
+            helperText={nameError ? "Name is required" : ""}
+            onBlur={() => {
+              if (name.trim() === "") {
+                setNameError(true);
+              } else {
+                setNameError(false);
+              }
+            }}
           />
         </div>
         <div style={{ width: "80%", marginTop: 20 }}>
@@ -181,14 +245,15 @@ const EditProfile = () => {
             label="Age"
             fullWidth
             value={age}
-            onChange={(e) => setAge(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!value <= 7 || !value >= 120) {
+                setAge(value);
+              }
+            }}
             disabled={!isEditing}
             type="number"
-            inputProps={{
-              min: 7,
-              max: 120,
-              step: 1,
-            }}
+            
           />
         </div>
         <div style={{ width: "80%", marginTop: 20 }}>
@@ -214,6 +279,7 @@ const EditProfile = () => {
               value={steamId}
               onChange={(e) => setSteamId(e.target.value)}
               disabled={!isEditing}
+              error={steamIdError}
             />
             {isEditing && (
               <div
@@ -261,6 +327,7 @@ const EditProfile = () => {
               value={discordUsername}
               onChange={(e) => setDiscordUsername(e.target.value)}
               disabled={!isEditing}
+              error={discordUsernameFieldError}
             />
             {isEditing && (
               <div

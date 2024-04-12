@@ -156,6 +156,7 @@ const getUserDetails = async (req, res) => {
     res.status(200).json({
       email: req.user.email,
       name: req.user.name,
+      age: req.user.age,
       steamId: decryptedSteamId,
       discordUserName: req.user.discordUserName,
       preferredGenres: req.user.preferredGenres,
