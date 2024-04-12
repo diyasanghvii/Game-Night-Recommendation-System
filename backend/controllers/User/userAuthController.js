@@ -177,24 +177,6 @@ const saveUserDetails = async (req, res) => {
     const { name, age, steamId, discordUserName } = req.body;
     const email = req.user.email;
 
-    // // Check if the Steam ID or Discord Username already exists for another user
-    // const existingUser = await User.findOne({
-    //   $and: [
-    //     { $or: [{ steamId }, { discordUserName }] },
-    //     { email: { $ne: email } },
-    //   ],
-    // }).exec();
-
-    // if (existingUser) {
-    //   let errorMessage = "";
-    //   if (existingUser.steamId === steamId) {
-    //     errorMessage = "Steam ID already exists for another user!";
-    //   } else if (existingUser.discordUserName === discordUserName) {
-    //     errorMessage = "Discord Username already exists for another user!";
-    //   }
-    //   return res.status(400).json({ message: errorMessage });
-    // }
-
     // Update the user information
     let user = await User.findOne({ email }).exec();
     if (user) {
