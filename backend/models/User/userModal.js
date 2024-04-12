@@ -12,6 +12,7 @@ const steamGameSchema = new Schema({
   appid: Number,
   name: String,
   playtime_forever: Number,
+  playtime_2weeks: Number,
   img_icon_url: String,
   has_community_visible_stats: Boolean,
 });

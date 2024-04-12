@@ -40,10 +40,11 @@ class Dashboard extends Component {
     });
   }
 
-  fetchAllGames = () => {
+  fetchAllGames = (isSort, sortMode, sortType) => {
     const { allGamesSearchTerm } = this.state;
     const defaultUrl =
       "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer";
+    const sortUrl = `https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer&sort_mode=${sortType}`;
     FetchAllGames({
       url: allGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: allGamesSearchTerm,
@@ -84,7 +85,6 @@ class Dashboard extends Component {
               appid: ele.steamId,
             };
           });
-          console.log(updatedData);
           this.setState({
             freeGamesList: updatedData,
             isFreeGamesLoading: false,
@@ -122,6 +122,7 @@ class Dashboard extends Component {
       .then((response) => {
         this.setState({
           ownedGames: response.data.steamGames,
+          filteredOwnedGames: response.data.steamGames,
           isLoading: false,
         });
       })
@@ -245,9 +246,9 @@ class Dashboard extends Component {
             />
             <GameSectionFilter
               title="Your games"
-              games={
-                yourGamesSearchTerm === "" ? ownedGames : filteredOwnedGames
-              }
+              games={filteredOwnedGames}
+              isSortable={true}
+              isOwned={true}
               ownedGame={ownedGames}
               searchTerm={yourGamesSearchTerm}
               onSearchChange={this.handleYourGamesSearchChange}
