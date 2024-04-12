@@ -6,11 +6,13 @@ import { GetPresence, SendList, GenerateRecommendations } from "../Services/inde
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import RecommendationPopup from "../Components/RecommendationPopUp/RecommendationPopUp";
 import CircularProgress from '@mui/material/CircularProgress';
+import ParameterPopUp from "../Components/ParameterDialog/ParameterPopUp.js";
 import "./CSS/RecommendGames.css"
 
 function RecommendGames() {
   const discordUserName = localStorage.getItem("discordUserName");
   const userName = localStorage.getItem("userName");
+  const [openParameterDialog, setParameterDialog] = useState(false);
   const [selectedServer, setSelectedServer] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("");
   const [memberStatus, setMemberStatus] = useState({
@@ -23,6 +25,14 @@ function RecommendGames() {
   const [showPopup, setShowPopup] = useState(false);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [isFetchingFromDiscord, setIsFetchingFromDiscord] = useState(true);
+  const [parameterValues, setParameterValues] = useState({
+    ownership: 0.5,
+    preferredGenres: 0.5,
+    ratings: 0.5,
+    interest: 0.5,
+    totalPlaytime: 0.5,
+    playtime2Weeks: 0.5,
+  });
 
   // Handle server change
   const handleServerChange = (data) => {
@@ -34,10 +44,10 @@ function RecommendGames() {
     setSelectedChannel(data);
   };
 
-  const fetchRecommendations = (selectedMembers) => {
+  const fetchRecommendations = (selectedMembers, parameterValues) => {
     //const selectedNames = selectedMembers.map(memberObj => memberObj.username);
     setIsGeneratingRecommendations(true);
-    GenerateRecommendations({ "selected_users": selectedMembers})
+    GenerateRecommendations({ "selected_users": selectedMembers, "parameter_values": parameterValues})
     .then((response) => {
       if (response && response.data) {
         setRecommendations(response.data.recommendedGames);
@@ -132,6 +142,18 @@ function RecommendGames() {
           </div>
         </div>
       )}
+    {openParameterDialog && (
+      <ParameterPopUp
+        onClose={() => { 
+          setParameterDialog(false); 
+      }}
+        onContinue={async (sliderValues) => {
+          setParameterDialog(false);
+          await setParameterValues(sliderValues);
+          fetchRecommendations(selectedMembers, parameterValues);
+        }}
+      /> 
+    )}
     {showPopup && (
       <RecommendationPopup 
         recommendations={recommendations}
@@ -208,12 +230,18 @@ function RecommendGames() {
           marginTop: "3rem",
         }}
       >
-        <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
+        <Btn label="Generate Recommendations" onClick={() => setParameterDialog(true)}></Btn>
         {isGeneratingRecommendations && (
           <div className="loading-overlay">
             <div style={{ textAlign: 'center' }}>
               <h3>Generating Recommendations... Hold on tight!</h3>
               <CircularProgress />
+              {/* <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
+        {isGeneratingRecommendations && (
+          <div className="loading-overlay">
+            <div style={{ textAlign: 'center' }}>
+              <h3>Generating Recommendations... Hold on tight!</h3>
+              <CircularProgress /> */}
             </div>
           </div>
         )}

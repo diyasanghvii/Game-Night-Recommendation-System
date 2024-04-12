@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 
-function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
+function Btn({ label, onClick, fullWidth = false, size = "medium", disable }) {
   return (
     <div>
       <Button
@@ -10,6 +10,7 @@ function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
         color="primary"
         size={size}
         onClick={onClick}
+        disabled={disable}
       >
         {label}
       </Button>

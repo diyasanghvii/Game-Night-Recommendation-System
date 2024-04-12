@@ -9,10 +9,11 @@ const {
 // @access Private
 async function getRecommendations(req, res) {
   try {
-    const {selected_users} = req.body;
+    const {selected_users, parameter_values} = req.body;
+    console.log(parameter_values);
     const gameData = await preprocessGameData(selected_users);
     const selectedNames = selected_users.map(memberObj => memberObj.username);
-    const recommendedGames = await recommendGames(gameData, selectedNames);
+    const recommendedGames = await recommendGames(gameData, selectedNames, parameter_values);
     res.status(200).json({ recommendedGames });
   } catch (error) {
     console.error("Error fetching recommendations:", error);
