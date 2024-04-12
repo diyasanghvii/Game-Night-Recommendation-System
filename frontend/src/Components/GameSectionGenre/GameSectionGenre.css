@@ -38,3 +38,24 @@
     align-items: center;
     justify-content: space-between; 
   }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .tag {
+    background-color: rgba(0, 0, 0, 0.6); 
+    color: #ffffff; 
+    padding: 5px 10px;
+    border-radius: 15px;
+    opacity: 0.8;
+  }
+
+  .genres-text {
+    margin-bottom: 10px; /* Adjust the margin bottom as needed */
+  }
+  
+  
+  
