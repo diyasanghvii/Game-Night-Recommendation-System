@@ -1,6 +1,7 @@
 const axios = require("axios");
 const User = require("../../models/User/userModal");
 const BASE_URL = "http://api.steampowered.com";
+const { encrypt, decrypt } = require('../../utils/encryptionUtils');
 
 async function preprocessGameData(selected_users) {
   const members = selected_users;
@@ -11,10 +12,11 @@ async function preprocessGameData(selected_users) {
       let data = await User.findOne({
         discordUserName: element.username,
       }).exec();
-      element.steamID = data.steamId;
+      const decryptedSteamId = decrypt(data.steamId);
+      element.steamID = decryptedSteamId
       element.preferredGenres = data.preferredGenres;
       element.preferences = data.preferences;
-      const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${data.steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
+      const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${decryptedSteamId}&format=json&include_appinfo=True&include_played_free_games=True`;
       const response = await axios.get(url);
       const ownedGames = response.data.response.games;
       element.ownedgames = ownedGames ? ownedGames : [];
