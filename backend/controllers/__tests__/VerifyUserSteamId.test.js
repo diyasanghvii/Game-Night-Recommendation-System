@@ -11,7 +11,7 @@ describe("Verify User Steam ID testing", () => {
   };
 
   const paramBodySteam = {
-    steamID: "76561199642434117",
+    steamId: "76561199642434117",
   };
 
   let authToken;
@@ -33,9 +33,9 @@ describe("Verify User Steam ID testing", () => {
 
   it("should return 200 status and successfult verify Correct Steam ID", async () => {
     const response = await request(app)
-      .get("/user/verifyusersteamid?steamId=76561199642434117")
+      .post("/user/verifyusersteamid")
       .set("Authorization", `Bearer ${authToken}`)
-      .send()
+      .send(paramBodySteam)
       .expect(200);
 
     expect(response.body.message).toBe("Steam Id Valid!");
@@ -43,9 +43,9 @@ describe("Verify User Steam ID testing", () => {
 
   it("should return 400 status and invalid Steam ID", async () => {
     const response = await request(app)
-      .get("/user/verifyusersteamid?steamId=abcd")
+      .post("/user/verifyusersteamid")
       .set("Authorization", `Bearer ${authToken}`)
-      .send()
+      .send(paramBodySteam)
       .expect(500);
 
     expect(response.body.message).toBe(undefined);
@@ -53,8 +53,8 @@ describe("Verify User Steam ID testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .get("/user/verifyusersteamid")
-      .send()
+      .post("/user/verifyusersteamid")
+      .send(paramBodySteam)
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised, No token!");

@@ -52,11 +52,12 @@ const SignUpIdDetails = () => {
       setError("");
     }
     // Call the CheckUniqueSteamId function to check if the Steam ID is unique
-    CheckUniqueSteamId({ steamId: steamId })
+    const paramBody = { steamId: steamId };
+    CheckUniqueSteamId(paramBody)
       .then((res) => {
         // If the Steam ID is unique, proceed with verifying it
         if (res && res.data && res.data.status) {
-          VerifyUserSteamId(steamId)
+          VerifyUserSteamId(paramBody)
             .then((res) => {
               if (res && res.data && res.data.status) {
                 const gamesCount = res.data.gamesCount || 0;
@@ -321,7 +322,7 @@ const SignUpIdDetails = () => {
             <strong>Note:</strong> This data is not shared with any third party.
           </DialogContentText>
           <img
-            src={process.env.PUBLIC_URL + "/images/STEAM.png"}
+            src={process.env.PUBLIC_URL + "/images/STEAMv2.png"}
             alt="Tooltip Image"
             style={{ width: "500px", height: "auto" }}
           />

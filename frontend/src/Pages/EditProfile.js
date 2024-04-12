@@ -59,10 +59,11 @@ const EditProfile = () => {
   };
 
   const handleVerifySteamId = () => {
-    VerifyUserSteamIdInEditProfile(steamId)
+    const paramBody = { steamId: steamId };
+    VerifyUserSteamIdInEditProfile(paramBody)
       .then((res) => {
         if (res && res.data && res.data.status) {
-          CheckUniqueSteamIdAuthReq({ steamId: steamId })
+          CheckUniqueSteamIdAuthReq(paramBody)
             .then((res) => {
               if (res && res.data && res.data.status) {
                 setSteamIdVerified(true);
