@@ -1,13 +1,14 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-function Btn({ label, onClick, fullWidth = false }) {
+function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
   return (
     <div>
       <Button
         variant="contained"
         fullWidth={fullWidth}
         color="primary"
+        size={size}
         onClick={onClick}
         sx={{
           backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
