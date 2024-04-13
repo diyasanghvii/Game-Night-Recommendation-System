@@ -17,7 +17,7 @@ describe("Sign up step one page testing", () => {
 
   it("should return 200 status and success message after user creation", async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -26,7 +26,7 @@ describe("Sign up step one page testing", () => {
 
   it("should return 400 status if user already present in the DB", async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(400);
 

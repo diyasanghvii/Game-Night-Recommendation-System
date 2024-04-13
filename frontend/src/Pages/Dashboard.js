@@ -19,6 +19,7 @@ class Dashboard extends Component {
       ratings: [],
       isLoading: false,
       isAllGamesLoading: false,
+      isLoadingAllFilterGames: false,
       isFreeGamesLoading: false,
       error: null,
       rcmBtnClicked: false,
@@ -27,6 +28,9 @@ class Dashboard extends Component {
       yourGamesSearchTerm: "",
       allGamesList: [],
       freeGamesList: [],
+      allGamesGenreFilter: [],
+      allGamesTagFilter: [],
+      allGamesFeaturesFilter: [],
     };
   }
 
@@ -40,11 +44,10 @@ class Dashboard extends Component {
     });
   }
 
-  fetchAllGames = (isSort, sortMode, sortType) => {
+  fetchAllGames1 = () => {
     const { allGamesSearchTerm } = this.state;
     const defaultUrl =
       "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer";
-    const sortUrl = `https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer&sort_mode=${sortType}`;
     FetchAllGames({
       url: allGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: allGamesSearchTerm,
@@ -66,6 +69,60 @@ class Dashboard extends Component {
       .catch((error) => {
         console.log("Error : ", error);
         this.setState({ isAllGamesLoading: false });
+      });
+  };
+
+  fetchAllGames = () => {
+    const {
+      allGamesSearchTerm,
+      allGamesFeaturesFilter,
+      allGamesTagFilter,
+      allGamesGenreFilter,
+    } = this.state;
+
+    console.log("allGamesGenreFilter : ", allGamesGenreFilter);
+    console.log("allGamesTagFilter : ", allGamesTagFilter);
+    console.log("allGamesFeaturesFilter : ", allGamesFeaturesFilter);
+
+    let defaultUrl =
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50";
+
+    if (allGamesSearchTerm !== "") {
+      defaultUrl += `&title=${allGamesSearchTerm}`;
+    }
+    if (allGamesGenreFilter.length > 0) {
+      defaultUrl += `&genres=${allGamesGenreFilter.join(",")}`;
+    }
+    if (allGamesTagFilter.length > 0) {
+      defaultUrl += `&tags=${allGamesTagFilter.join(",")}`;
+    }
+    if (allGamesFeaturesFilter.length > 0) {
+      defaultUrl += `&features=${allGamesFeaturesFilter.join(",")}`;
+    }
+    this.setState({ isLoadingAllFilterGames: true });
+    FetchAllGames({
+      url: defaultUrl,
+    })
+      .then((response) => {
+        if (response && response.data && response.data.result) {
+          const updatedData = response.data.result.map((ele) => {
+            return {
+              ...ele,
+              appid: ele.steamId,
+            };
+          });
+          this.setState({
+            allGamesList: updatedData,
+            isLoadingAllFilterGames: false,
+            isAllGamesLoading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          isLoadingAllFilterGames: false,
+          isAllGamesLoading: false,
+        });
       });
   };
 
@@ -187,6 +244,7 @@ class Dashboard extends Component {
       freeGamesList,
       isFreeGamesLoading,
       freeGamesSearchTerm,
+      isLoadingAllFilterGames,
     } = this.state;
     const userName = localStorage.getItem("userName");
     return (
@@ -222,7 +280,14 @@ class Dashboard extends Component {
         {isAllGamesLoading ? (
           <p>Loading All games data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search all games..."
@@ -234,20 +299,47 @@ class Dashboard extends Component {
               games={allGamesList}
               ownedGame={ownedGames}
               searchTerm={allGamesSearchTerm}
-              onSearchChange={this.handleAllGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
+              fetchAllGamesWithFilter={this.fetchAllGames}
+              hasFilter={true}
+              loading={isLoadingAllFilterGames}
+              setGenreListInParent={(data) => {
+                this.setState({ allGamesGenreFilter: data });
+              }}
+              setTagListInParent={(data) => {
+                this.setState({ allGamesTagFilter: data });
+              }}
+              setFeatureListInParent={(data) => {
+                this.setState({ allGamesFeaturesFilter: data });
+              }}
+              clearFilterInParent={() => {
+                this.setState({
+                  allGamesGenreFilter: [],
+                  allGamesTagFilter: [],
+                  allGamesFeaturesFilter: [],
+                });
+              }}
               backgroundColor="rgba(0, 0, 0, 0.5)"
             />
           </div>
         )}
 
         {error ? (
-          <p style={{ color: "white" }}>Error fetching data. Please check your API key and Steam ID.</p>
+          <p style={{ color: "white" }}>
+            Error fetching data. Please check your API key and Steam ID.
+          </p>
         ) : isLoading ? (
           <p>Loading game data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search your games..."
@@ -272,7 +364,14 @@ class Dashboard extends Component {
         {isFreeGamesLoading ? (
           <p>Loading Free games data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search free games..."

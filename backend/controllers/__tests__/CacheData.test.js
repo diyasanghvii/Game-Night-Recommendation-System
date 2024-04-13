@@ -14,7 +14,7 @@ describe("Cache Data Feature testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -47,7 +47,7 @@ describe("Cache Data Feature testing", () => {
     });
 
     const response = await request(app)
-      .get("/steam/getUserSteamGameList")
+      .get("/api/steam/getUserSteamGameList")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -57,7 +57,7 @@ describe("Cache Data Feature testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .get("/steam/getUserSteamGameList")
+      .get("/api/steam/getUserSteamGameList")
       .send()
       .expect(401);
 

@@ -8,21 +8,22 @@ describe("Login API", () => {
     name: "Test User",
     email: "testemail",
     password: "testpwd",
-    steamId: "123456",
-    discordUserName: "discordname",
-    preferredGenres: ["action"],
-    preferences: [{"name":"action-game"}]
+  };
+
+  const loginData = {
+    email: "testemail",
+    password: "testpwd",
   };
 
   beforeEach(async () => {
-    await request(app).post("/user/signupone").send(userData).expect(200);
-    let user = await User.findOne({ email: userData.email });  // Retrieve user
+    await request(app).post("/api/user/signupone").send(userData).expect(200);
+    let user = await User.findOne({ email: userData.email }); // Retrieve user
     user.steamId = null; // Set missing fields
     user.discordUserName = null;
     user.steamId = "123456";
     user.discordUserName = "discordname";
     user.preferredGenres = ["action"];
-    user.preferences = [{"name":"action-game"}];
+    user.preferences = [{ name: "action-game" }];
     await user.save();
   });
 
@@ -36,8 +37,8 @@ describe("Login API", () => {
 
   it("should respond with a 200 status and success message for valid credentials", async () => {
     const response = await request(app)
-      .post("/user/login")
-      .send(userData)
+      .post("/api/user/login")
+      .send(loginData)
       .expect(200);
 
     expect(response.body.message).toBe("Login Sucessful!");
@@ -50,7 +51,7 @@ describe("Login API", () => {
     };
 
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(invalidUserData)
       .expect(401);
 
@@ -64,7 +65,7 @@ describe("Login API", () => {
     };
 
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(nonExistentUserData)
       .expect(401);
 
@@ -72,7 +73,7 @@ describe("Login API", () => {
   }, 70000);
 
   it("should respond with a 401 status and error message for missing credentials", async () => {
-    const response = await request(app).post("/user/login").expect(401);
+    const response = await request(app).post("/api/user/login").expect(401);
 
     expect(response.body.message).toBe("Invalid Credientials, Try again!");
   }, 70000);

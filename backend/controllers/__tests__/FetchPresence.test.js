@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 describe("Discord Fetch Presence API testing", () => {
   const paramBody = {
     name: "Discord fetch Prsesence",
-    email: "discordFetchPresenceTest1121@test.com",
+    email: "discordFetchPresenceTest112100@test.com",
     password: "123123",
   };
 
@@ -13,7 +13,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -28,7 +28,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and success message after fetching discord presence", async () => {
     const response = await request(app)
-      .get("/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
+      .get("/api/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -40,7 +40,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and memberStatus should be array", async () => {
     const response = await request(app)
-      .get("/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
+      .get("/api/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -50,7 +50,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 200 status and success message after fetching presence member list greater than one", async () => {
     const response = await request(app)
-      .get("/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
+      .get("/api/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -61,7 +61,7 @@ describe("Discord Fetch Presence API testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .get("/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
+      .get("/api/discord/fetchpresence?targetGuildName=diya_san's test server&targetChannelName=Lobby")
       .send()
       .expect(401);
 

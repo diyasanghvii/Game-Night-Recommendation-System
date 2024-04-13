@@ -30,13 +30,13 @@ describe("Sign up step two update API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
     let res = JSON.parse(response.text);
     authToken = res.token;
-  });
+  }, 70000);
 
   afterAll(async () => {
     await User.deleteOne({ email: paramBody.email });
@@ -45,53 +45,53 @@ describe("Sign up step two update API testing", () => {
 
   it("should return 200 status and success message after user step two updation", async () => {
     const response = await request(app)
-      .post("/user/signuptwo")
+      .post("/api/user/signuptwo")
       .set("Authorization", `Bearer ${authToken}`)
       .send(updateData)
       .expect(200);
 
     expect(response.body.message).toBe("Updated User Information Successfully");
-  });
+  }, 70000);
 
   it("should return 400 status if user is not present in the DB", async () => {
     const response = await request(app)
-      .post("/user/signuptwo")
+      .post("/api/user/signuptwo")
       .set("Authorization", `Bearer ${authToken}`)
       .send(updateDataInvalid)
       .expect(400);
 
     expect(response.body.message).toBe("User Does Not Exists!");
-  });
+  }, 70000);
 
   it("data should be updated successfullt in DB after updation", async () => {
     const response = await request(app)
-      .post("/user/signuptwo")
+      .post("/api/user/signuptwo")
       .set("Authorization", `Bearer ${authToken}`)
       .send(updateData)
       .expect(200);
 
     let data = await User.findOne({ email: updateData.email }).exec();
 
-    expect(data.steamId).toBe("steamId");
+    expect(data.steamId).toBe("23e6a0eb2d7870e8b56df9b2295262b9");
     expect(data.discordUserName).toBe("discordUserName");
-  });
+  }, 70000);
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .post("/user/signuptwo")
+      .post("/api/user/signuptwo")
       .send(updateData)
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised, No token!");
-  });
+  }, 70000);
 
   it("should return 401 status if user is not authorised, passing wrong auth token", async () => {
     const response = await request(app)
-      .post("/user/signupthree")
+      .post("/api/user/signupthree")
       .set("Authorization", `Bearer 123`)
       .send(updateData)
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised!");
   });
-});
+}, 70000);

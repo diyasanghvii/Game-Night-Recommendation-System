@@ -421,10 +421,8 @@ export const CacheUserSteamGames = () => {
 };
 
 // ALl Games API
-export const FetchAllGames = ({ url, searchString }) => {
-  const apiUrl = url
-    ? url
-    : `https://api.gamalytic.com/steam-games/list?fields=name,steamId&title=${searchString}&limit=40`;
+export const FetchAllGames = ({ url }) => {
+  const apiUrl = url;
   return new Promise((resolve, reject) => {
     axios
       .get(apiUrl)
