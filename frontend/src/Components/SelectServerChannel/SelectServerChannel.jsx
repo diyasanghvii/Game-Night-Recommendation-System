@@ -88,15 +88,24 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
       >
         <Btn onClick={fetchServers} label="Change Server/Channel"></Btn>
       </div>
-      <Dialog disableEscapeKeyDown open={openServerDialog} onClose={() => {}}>
-        <DialogTitle sx={{ margin: "0", paddingBottom: "5px" }}>
+      <Dialog
+        disableEscapeKeyDown
+        open={openServerDialog}
+        onClose={() => {}}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1A2040",
+          },
+        }}
+      >
+        <DialogTitle sx={{ margin: "0", paddingBottom: "5px", color: "#fff" }}>
           Select a server
         </DialogTitle>
         {!selectedServer && (
           <DialogTitle
             sx={{
               fontSize: "10px",
-              color: "red",
+              color: "pink",
               margin: "0",
               paddingTop: "0",
               paddingBottom: "0",
@@ -109,16 +118,17 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
           {loadingServers && <p>Loading servers...</p>}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
             <FormControl sx={{ m: 1, minWidth: 160 }}>
-              <InputLabel id="server-dialog-select-label">Server</InputLabel>
+              <InputLabel id="server-dialog-select-label" sx={{ color: "#fff" }}>Server</InputLabel>
               <Select
                 labelId="server-dialog-select-label"
                 id="server-dialog-select"
                 value={selectedServer}
                 onChange={handleServerChange}
                 input={<OutlinedInput label="Server" />}
+                sx= {{color:"#fff"}}
               >
                 {servers?.map((server, index) => (
-                  <MenuItem key={index} value={server}>
+                  <MenuItem key={index} value={server} style={{ color: '#fff', backgroundColor: '#1A2040' }}  >
                     {server}
                   </MenuItem>
                 ))}
@@ -131,18 +141,28 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
         </DialogActions>
       </Dialog>
 
-      <Dialog disableEscapeKeyDown open={openChannelDialog} onClose={() => {}}>
-        <DialogTitle sx={{ margin: "0", paddingBottom: "5px" }}>
+      <Dialog
+        disableEscapeKeyDown
+        open={openChannelDialog}
+        onClose={() => {}}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1A2040",
+          },
+        }}
+      >
+        <DialogTitle sx={{ margin: "0", paddingBottom: "5px", color: "#fff" }}>
           Select a voice channel
         </DialogTitle>
         {!selectedChannel && (
           <DialogTitle
             sx={{
               fontSize: "10px",
-              color: "red",
+              color: "pink",
               margin: "0",
               paddingTop: "0",
               paddingBottom: "0",
+            
             }}
           >
             (Please select a channel to continue..)
@@ -152,18 +172,23 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
           {loadingChannels && <p>Loading channels...</p>}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
             <FormControl sx={{ m: 1, minWidth: 160 }}>
-              <InputLabel id="channel-dialog-select-label">Channel</InputLabel>
+              <InputLabel id="channel-dialog-select-label" sx={{ color: "#fff" }}>Channel</InputLabel>
               <Select
                 labelId="channel-dialog-select-label"
                 id="channel-dialog-select"
                 value={selectedChannel}
                 onChange={handleChannelChange}
                 input={<OutlinedInput label="Channel" />}
+                sx= {{color:"#fff"}}
               >
                 {channels.map((channel, index) => (
-                  <MenuItem key={index} value={channel}>
-                    {channel}
-                  </MenuItem>
+                  <MenuItem
+                  key={index}
+                  value={channel}
+                  style={{ color: '#fff', backgroundColor: '#1A2040' }}
+                >
+                  {channel}
+                </MenuItem>
                 ))}
               </Select>
             </FormControl>

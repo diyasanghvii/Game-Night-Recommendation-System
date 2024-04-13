@@ -244,14 +244,23 @@ class Dashboard extends Component {
     } = this.state;
     const userName = localStorage.getItem("userName");
     return (
-      <div>
+      <div
+        style={{
+          backgroundImage: "url('/images/Game Image.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+          padding: "20px",
+        }}
+      >
         <MenuHeader />
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: "17px",
+            marginTop: "35px",
+            color: "white",
           }}
         >
           <h2>Welcome, {userName}!</h2>
@@ -267,7 +276,7 @@ class Dashboard extends Component {
         {isAllGamesLoading ? (
           <p>Loading All games data...</p>
         ) : (
-          <div>
+          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
             <input
               type="text"
               placeholder="Search all games..."
@@ -300,16 +309,17 @@ class Dashboard extends Component {
                   allGamesFeaturesFilter: [],
                 });
               }}
+              backgroundColor="rgba(0, 0, 0, 0.5)"
             />
           </div>
         )}
 
         {error ? (
-          <p>Error fetching data. Please check your API key and Steam ID.</p>
+          <p style={{ color: "white" }}>Error fetching data. Please check your API key and Steam ID.</p>
         ) : isLoading ? (
           <p>Loading game data...</p>
         ) : (
-          <div>
+          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
             <input
               type="text"
               placeholder="Search your games..."
@@ -326,6 +336,7 @@ class Dashboard extends Component {
               onSearchChange={this.handleYourGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
+              backgroundColor="rgba(0, 0, 0, 0.5)"
             />
           </div>
         )}
@@ -333,7 +344,7 @@ class Dashboard extends Component {
         {isFreeGamesLoading ? (
           <p>Loading Free games data...</p>
         ) : (
-          <div>
+          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
             <input
               type="text"
               placeholder="Search free games..."
@@ -348,6 +359,7 @@ class Dashboard extends Component {
               onSearchChange={this.handleFreeGamesSearchChange}
               ratings={ratings}
               updateRatings={this.updateRatings}
+              backgroundColor="rgba(0, 0, 0, 0.5)"
             />
           </div>
         )}
