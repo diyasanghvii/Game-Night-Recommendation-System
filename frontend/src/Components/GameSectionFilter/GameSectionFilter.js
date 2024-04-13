@@ -40,9 +40,9 @@ function GameSectionFilter({
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [sortByOwned, setSortByOwned] = React.useState("Playtime forever");
   const [sortTypeOwned, setSortTypeOwned] = React.useState("asc");
-  const [genreList, setGenreList] = React.useState([]);
-  const [tagsList, setTagsList] = React.useState([]);
-  const [featureList, setFeatureList] = React.useState([]);
+  const [genreList, setGenreList] = React.useState("");
+  const [tagsList, setTagsList] = React.useState("");
+  const [featureList, setFeatureList] = React.useState("");
 
   const handleClick = (game) => {
     setPopupGameData(game);

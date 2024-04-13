@@ -80,6 +80,10 @@ class Dashboard extends Component {
       allGamesGenreFilter,
     } = this.state;
 
+    console.log("allGamesGenreFilter : ", allGamesGenreFilter);
+    console.log("allGamesTagFilter : ", allGamesTagFilter);
+    console.log("allGamesFeaturesFilter : ", allGamesFeaturesFilter);
+
     let defaultUrl =
       "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50";
 
@@ -276,7 +280,14 @@ class Dashboard extends Component {
         {isAllGamesLoading ? (
           <p>Loading All games data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search all games..."
@@ -315,11 +326,20 @@ class Dashboard extends Component {
         )}
 
         {error ? (
-          <p style={{ color: "white" }}>Error fetching data. Please check your API key and Steam ID.</p>
+          <p style={{ color: "white" }}>
+            Error fetching data. Please check your API key and Steam ID.
+          </p>
         ) : isLoading ? (
           <p>Loading game data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search your games..."
@@ -344,7 +364,14 @@ class Dashboard extends Component {
         {isFreeGamesLoading ? (
           <p>Loading Free games data...</p>
         ) : (
-          <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "20px", borderRadius: "10px", marginTop: "10px" }}>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "20px",
+              borderRadius: "10px",
+              marginTop: "10px",
+            }}
+          >
             <input
               type="text"
               placeholder="Search free games..."

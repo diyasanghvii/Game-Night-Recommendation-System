@@ -71,15 +71,12 @@ export default function AllGamesFilter({
           <InputLabel id="genre-checkbox-label">Genre</InputLabel>
           <Select
             id="genre-checkbox"
-            multiple
             value={genreList}
             onChange={handleGenreChange}
             input={<OutlinedInput label="Genres" />}
-            renderValue={(selected) => selected.join(", ")}
           >
             {names.map((name) => (
               <MenuItem key={name} value={name}>
-                <Checkbox checked={genreList.indexOf(name) > -1} />
                 <ListItemText primary={name} />
               </MenuItem>
             ))}
@@ -89,15 +86,12 @@ export default function AllGamesFilter({
           <InputLabel id="tagsList-checkbox-label">Tags</InputLabel>
           <Select
             id="tagsList-checkbox"
-            multiple
             value={tagsList}
             onChange={handleChangeTagList}
             input={<OutlinedInput label="Tags" />}
-            renderValue={(selected) => selected.join(", ")}
           >
             {tags.map((tag) => (
               <MenuItem key={tag} value={tag}>
-                <Checkbox checked={tagsList.indexOf(tag) > -1} />
                 <ListItemText primary={tag} />
               </MenuItem>
             ))}
@@ -107,15 +101,12 @@ export default function AllGamesFilter({
           <InputLabel id="feature-checkbox-label">Features</InputLabel>
           <Select
             id="feature-checkbox"
-            multiple
             value={featureList}
             onChange={handleChangeFeatureList}
             input={<OutlinedInput label="Features" />}
-            renderValue={(selected) => selected.join(", ")}
           >
             {features.map((feature) => (
               <MenuItem key={feature} value={feature}>
-                <Checkbox checked={featureList.indexOf(feature) > -1} />
                 <ListItemText primary={feature} />
               </MenuItem>
             ))}
