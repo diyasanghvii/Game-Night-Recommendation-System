@@ -14,7 +14,7 @@ describe("Clear Ratings API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -40,13 +40,13 @@ describe("Clear Ratings API testing", () => {
     };
 
     await request(app)
-      .post("/user/updaterating")
+      .post("/api/user/updaterating")
       .send({ preference })
       .set("Authorization", `Bearer ${authToken}`)
       .expect(200);
 
     const response = await request(app)
-      .post("/user/clearrating")
+      .post("/api/user/clearrating")
       .set("Authorization", `Bearer ${authToken}`)
       .send(data)
       .expect(200);
@@ -67,13 +67,13 @@ describe("Clear Ratings API testing", () => {
     };
 
     await request(app)
-      .post("/user/updaterating")
+      .post("/api/user/updaterating")
       .send({ preference })
       .set("Authorization", `Bearer ${authToken}`)
       .expect(200);
 
     const response = await request(app)
-      .post("/user/clearrating")
+      .post("/api/user/clearrating")
       .set("Authorization", `Bearer ${authToken}`)
       .send(data)
       .expect(200);
@@ -83,7 +83,7 @@ describe("Clear Ratings API testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .post("/user/clearrating")
+      .post("/api/user/clearrating")
       .send()
       .expect(401);
 
