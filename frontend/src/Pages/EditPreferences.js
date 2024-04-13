@@ -185,17 +185,24 @@ class EditPreferences extends Component {
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
-      <div>
+      <div style={{
+        backgroundImage: "url('/images/Game Image.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        padding: "20px"
+      }}>
         <MenuHeader />
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: "17px",
+            marginTop: "20px",
+            color: "white",
           }}
         >
-          <h2>Welcome, {userName}!</h2>
+          <h2 style={{ color: "white" }}>Welcome, {userName}!</h2>
           {this.state.isPopupOpen && (
             <PopupGenre
               genres={userGenre}
