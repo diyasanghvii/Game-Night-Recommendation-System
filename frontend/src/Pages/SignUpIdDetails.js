@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import { GetServerListSignUp } from "../Services";
 
 const SignUpIdDetails = () => {
   const [steamId, setSteamId] = useState("");
@@ -43,6 +44,28 @@ const SignUpIdDetails = () => {
     }
   }, [steamIdVerified, discordUserNameVerified]);
 
+  const isPresenceBot = () => {
+    GetServerListSignUp(discordUserName)
+      .then((response) => {
+        if (response && response.data && response.data.serverList.length !== 0) {
+          setdiscordUserNameVerified(true);
+          setError("");
+        }
+        else{
+          setError(
+            "Discord User Name does not exist or does not have at least one server having the Presence Bot."
+          );
+          setdiscordUserNameVerified(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(
+          "Discord User Name does not exist or does not have at least one server having the Presence Bot."
+        );
+        setdiscordUserNameVerified(false);
+      });
+  };
   const handleVerifySteamId = () => {
     if (!steamId) {
       setError("Please provide your Steam ID.");
@@ -99,17 +122,12 @@ const SignUpIdDetails = () => {
     }
 
     // Call the CheckUniqueDiscordUserName function to check if the Discord Username is unique
-    CheckUniqueDiscordUserName({discordUserName:discordUserName})
+    CheckUniqueDiscordUserName({ discordUserName: discordUserName })
       .then((res) => {
         // If the Discord Username is unique, proceed with verifying it
-        if (
-          res &&
-          res.data &&
-          res.data.status
-        ) {
+        if (res && res.data && res.data.status) {
           if (isValidDiscordUsername(discordUserName)) {
-            setdiscordUserNameVerified(true);
-            setError("");
+            isPresenceBot();
           } else {
             setError("Invalid Discord User Name.");
             setdiscordUserNameVerified(false);
@@ -121,7 +139,9 @@ const SignUpIdDetails = () => {
         }
       })
       .catch((error) => {
-        setError(error?.response?.data?.message || "Error checking Discord Username.");
+        setError(
+          error?.response?.data?.message || "Error checking Discord Username."
+        );
         setdiscordUserNameVerified(false);
       });
   };
@@ -252,29 +272,30 @@ const SignUpIdDetails = () => {
             style={{ width: "5%" }}
             onClick={handleVerifydiscordUserName}
           />
-           <Tooltip
-          title={
-            <div style={{ width: '300px', maxHeight: '800px' }}>
-              <span style={{ fontSize: "10px" }}>
-                <p>
-                  Only server owners can invite the bot.{" "}
-                  <a
-                    href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
-                    target="_blank" rel="noopener noreferrer"
-                    style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
-                  >
-                    Click here to invite the bot.
-                  </a>
-                </p>
-              </span>
-              <br />
-            </div>
-          }
-          placement="right"
-        >
-                   < InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
-        </Tooltip>
-      </div>
+          <Tooltip
+            title={
+              <div style={{ width: "300px", maxHeight: "800px" }}>
+                <span style={{ fontSize: "10px" }}>
+                  <p>
+                    Only server owners can invite the bot.{" "}
+                    <a
+                      href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
+                    >
+                      Click here to invite the bot.
+                    </a>
+                  </p>
+                </span>
+                <br />
+              </div>
+            }
+            placement="right"
+          >
+            <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+          </Tooltip>
+        </div>
       </div>
 
       <button

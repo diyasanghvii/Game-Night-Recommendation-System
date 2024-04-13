@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
+function Btn({ label, onClick, fullWidth = false, size = "medium", disable }) {
   return (
     <div>
       <Button
@@ -10,6 +10,7 @@ function Btn({ label, onClick, fullWidth = false, size = "medium" }) {
         color="primary"
         size={size}
         onClick={onClick}
+        disabled={disable}
         sx={{
           backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
           backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency

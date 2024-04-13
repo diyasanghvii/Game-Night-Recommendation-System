@@ -229,6 +229,20 @@ export const GetServerList = (data) => {
   });
 };
 
+// Get Server List
+export const GetServerListSignUp = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}&${Date.now()}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Get user ratings
 export const GetUserRatings = (data) => {
   return new Promise((resolve, reject) => {

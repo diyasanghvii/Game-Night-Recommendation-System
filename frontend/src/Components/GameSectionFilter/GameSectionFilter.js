@@ -120,12 +120,10 @@ function GameSectionFilter({
           if (sortBy === "Playtime forever") {
             return b.playtime_forever - a.playtime_forever;
           } else {
-            console.log("reached here");
             return b.playtime_2weeks || 0 - a.playtime_2weeks || 0;
           }
         }
       });
-      console.log(filteredGames);
       return filteredGames;
     });
 
