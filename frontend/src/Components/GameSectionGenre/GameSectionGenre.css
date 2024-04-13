@@ -6,6 +6,11 @@
   padding: 20px;
   color: white;
   }
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
 .gameList {
   display: flex;
