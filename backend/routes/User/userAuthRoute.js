@@ -7,6 +7,7 @@ const {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  saveUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,
@@ -25,6 +26,7 @@ userRoutes.post("/signupone", signUpOne);
 userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
 userRoutes.post("/signupthree", authoriseCheck, signUpThree);
 userRoutes.get("/getuserdetails", authoriseCheck, getUserDetails);
+userRoutes.post("/saveuserdetails", authoriseCheck, saveUserDetails);
 userRoutes.post("/updategenre", authoriseCheck, updateGenre);
 userRoutes.get("/getpreferences", authoriseCheck, getUserRatings);
 userRoutes.post("/updaterating", authoriseCheck, updateRating);

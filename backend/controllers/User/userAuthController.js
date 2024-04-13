@@ -156,6 +156,7 @@ const getUserDetails = async (req, res) => {
     res.status(200).json({
       email: req.user.email,
       name: req.user.name,
+      age: req.user.age,
       steamId: decryptedSteamId,
       discordUserName: req.user.discordUserName,
       preferredGenres: req.user.preferredGenres,
@@ -165,6 +166,38 @@ const getUserDetails = async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Save Edited User Information API
+// @route POST /user/saveuserdetails
+// @access Private
+const saveUserDetails = async (req, res) => {
+  try {
+    const { name, age, steamId, discordUserName } = req.body;
+    const email = req.user.email;
+
+    // Update the user information
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      const encryptedSteamId = encrypt(steamId);
+      await user.updateOne({
+        name,
+        age,
+        steamId: encryptedSteamId,
+        discordUserName,
+      });
+      res.status(200).json({
+        message: "User Information Updated Successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Error Occurred, Try again!");
   }
 };
 
@@ -303,8 +336,6 @@ const verifyUserSteamId = async (req, res) => {
       const gamesCount = response.data.response.game_count || 0; // Get game count or default to 0
       if (
         email &&
-        response.data &&
-        response.data.response &&
         response.data.response.games &&
         response.data.response.games.length > 0
       ) {
@@ -404,6 +435,7 @@ module.exports = {
   signUpTwo,
   signUpThree,
   getUserDetails,
+  saveUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,
