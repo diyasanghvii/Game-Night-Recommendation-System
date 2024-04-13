@@ -56,3 +56,10 @@
   overflow-y: scroll;
   align-items: center;
 } 
+.MuiOutlinedInput-root.Mui-focused {
+  border-color: rgb(250, 251, 252) !important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: white!important;
+}
