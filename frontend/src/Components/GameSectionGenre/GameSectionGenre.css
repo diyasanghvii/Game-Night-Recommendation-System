@@ -6,11 +6,16 @@
   padding: 20px;
   color: white;
   }
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
 .gameList {
-    display: flex;
-    flex-wrap: nowrap; 
-    overflow-x: auto; 
+  display: flex;
+  flex-wrap: nowrap; 
+  overflow-x: auto; 
 }
   .gameGrid {
     display: flex;
@@ -39,26 +44,27 @@
     display: flex; 
     align-items: center;
     justify-content: space-between; 
-
   }
 
-  .tag-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-  
-  .tag {
-    background-color: rgba(0, 0, 0, 0.6); 
-    color: #ffffff; 
-    padding: 5px 10px;
-    border-radius: 15px;
-    opacity: 0.8;
-  }
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
 
-  .genres-text {
-    margin-bottom: 10px; /* Adjust the margin bottom as needed */
-  }
-  
-  
-  
+.tag {
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: #ffffff; 
+  padding: 5px 10px;
+  border-radius: 15px;
+  display: inline-block;
+  opacity: 0.8;
+  margin: 2px;
+}
+
+.genres-text {
+  margin-bottom: 10px; /* Adjust the margin bottom as needed */
+}
+
+
