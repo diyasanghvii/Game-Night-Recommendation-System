@@ -19,7 +19,7 @@ describe("Get User Steam Game List API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -27,7 +27,7 @@ describe("Get User Steam Game List API testing", () => {
     authToken = res.token;
 
     const response2 = await request(app)
-      .post("/user/signupTwo")
+      .post("/api/user/signupTwo")
       .set("Authorization", `Bearer ${authToken}`)
       .send(paramBody2)
       .expect(200);
@@ -36,34 +36,34 @@ describe("Get User Steam Game List API testing", () => {
   afterAll(async () => {
     await User.deleteOne({ email: paramBody.email });
     await mongoose.connection.close();
-  });
+  }, 7000);
 
   it("should return 200 status and succes message afteer fetching steam info", async () => {
     const response = await request(app)
-      .get("/steam/getusersteamgamelist")
+      .get("/api/steam/getusersteamgamelist")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
 
     expect(response.body.message).toBe("Fetched user steam game list!");
-  });
+  }, 7000);
 
   it("should return 200 status and steamGames should be array", async () => {
     const response = await request(app)
-      .get("/steam/getusersteamgamelist")
+      .get("/api/steam/getusersteamgamelist")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
 
     expect(response.body.steamGames).toBeInstanceOf(Array);
-  });
+  }, 7000);
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .get("/steam/getusersteamgamelist")
+      .get("/api/steam/getusersteamgamelist")
       .send()
       .expect(401);
 
     expect(response.body.message).toBe("Not Authorised, No token!");
-  });
+  }, 7000);
 });

@@ -10,16 +10,25 @@ import {
 } from "../../Utils";
 import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import CustomModal from "../Modal/CustomModal";
+import AllGamesSorting from "../Sorting/AllGamesSorting";
+import AllGamesFilter from "../GameFilter/AllGamesFilter";
 
 function GameSectionFilter({
   title,
   games,
   ratings,
   updateRatings,
-  isOwned,
   ownedGame,
+  isSortable = false,
+  hasFilter = false,
+  fetchAllGamesWithFilter,
+  loading,
+  setGenreListInParent,
+  setTagListInParent,
+  setFeatureListInParent,
+  clearFilterInParent,
 }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
@@ -27,6 +36,13 @@ function GameSectionFilter({
   const [popupGameData, setPopupGameData] = useState(null);
   const [onlyUnRatingChecked, setonlyRatingChecked] = useState(false);
   const [visibleGames, setvisibleGames] = useState([]);
+  const [isSortingModalOpen, setIsSortingModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [sortByOwned, setSortByOwned] = React.useState("Playtime forever");
+  const [sortTypeOwned, setSortTypeOwned] = React.useState("asc");
+  const [genreList, setGenreList] = React.useState("");
+  const [tagsList, setTagsList] = React.useState("");
+  const [featureList, setFeatureList] = React.useState("");
 
   const handleClick = (game) => {
     setPopupGameData(game);
@@ -67,6 +83,7 @@ function GameSectionFilter({
   useEffect(() => {
     setStartIndex(0);
     setEndIndex(5);
+    setvisibleGames(games?.slice(startIndex, endIndex) || []);
   }, [games]);
 
   useEffect(() => {
@@ -77,6 +94,84 @@ function GameSectionFilter({
       setvisibleGames(games?.slice(startIndex, endIndex) || []);
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
+
+  const openSortModal = () => {
+    setIsSortingModalOpen(true);
+  };
+
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  const sortOwnedGames = (sortBy, sortType) => {
+    setvisibleGames((prevValues) => {
+      let filteredGames = games;
+      if (onlyUnRatingChecked) {
+        filteredGames = getOnlyUnRatedGames(games, ratings);
+      }
+      filteredGames.sort((a, b) => {
+        if (sortType === "asc") {
+          if (sortBy === "Playtime forever") {
+            return a.playtime_forever - b.playtime_forever;
+          } else {
+            return a.playtime_2weeks || 0 - b.playtime_2weeks || 0;
+          }
+        } else {
+          if (sortBy === "Playtime forever") {
+            return b.playtime_forever - a.playtime_forever;
+          } else {
+            return b.playtime_2weeks || 0 - a.playtime_2weeks || 0;
+          }
+        }
+      });
+      return filteredGames;
+    });
+
+    closeSortingModal();
+  };
+
+  const closeSortingModal = () => {
+    setIsSortingModalOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  const handleGenreFilterChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setGenreList(typeof value === "string" ? value.split(",") : value);
+    setGenreListInParent(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeTagFilterList = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTagsList(typeof value === "string" ? value.split(",") : value);
+    setTagListInParent(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeFeatureFilterList = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFeatureList(typeof value === "string" ? value.split(",") : value);
+    setFeatureListInParent(
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  const submitFilter = () => {
+    setIsFilterModalOpen(false);
+    fetchAllGamesWithFilter();
+  };
+
+  const clearFilter = () => {
+    setGenreList([]);
+    setFeatureList([]);
+    setTagsList([]);
+    clearFilterInParent();
+  };
 
   return (
     <section className="gameSection">
@@ -114,6 +209,19 @@ function GameSectionFilter({
           />
           <p style={{ marginRight: 20 }}>Show only unrated games</p>
         </div>
+        {isSortable && (
+          <div>
+            <Btn label="Sort" size="small" onClick={openSortModal} />
+          </div>
+        )}
+        {hasFilter && (
+          <div>
+            <Btn label="Filter" size="small" onClick={openFilterModal} />
+          </div>
+        )}
+        {loading && (
+          <p style={{ marginLeft: 10 }}>Loading filtered games ...</p>
+        )}
       </div>
       <div className="gameCarousel">
         <Btn
@@ -168,6 +276,53 @@ function GameSectionFilter({
           label={"Next"}
           onClick={handleNext}
           disabled={endIndex === games.length}
+        />
+        <CustomModal
+          title={"Sort Games"}
+          open={isSortingModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesSorting
+              sortBy={sortByOwned}
+              sortType={sortTypeOwned}
+              submitSort={(value1, value2) => {
+                sortOwnedGames(value1, value2);
+              }}
+              sortByChanged={(data) => {
+                setSortByOwned(data);
+              }}
+              sortTypeChanged={(data) => {
+                setSortTypeOwned(data);
+              }}
+            />
+          }
+        />
+        <CustomModal
+          title={"Filter Games"}
+          open={isFilterModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesFilter
+              genreList={genreList}
+              tagsList={tagsList}
+              featureList={featureList}
+              submitFilter={() => {
+                submitFilter();
+              }}
+              clearFilter={() => {
+                clearFilter();
+              }}
+              handleGenreChange={(data) => {
+                handleGenreFilterChange(data);
+              }}
+              handleChangeTagList={(data) => {
+                handleChangeTagFilterList(data);
+              }}
+              handleChangeFeatureList={(data) => {
+                handleChangeFeatureFilterList(data);
+              }}
+            />
+          }
         />
       </div>
     </section>

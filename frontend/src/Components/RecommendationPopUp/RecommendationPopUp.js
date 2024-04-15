@@ -22,26 +22,30 @@ const RecommendationPopup = ({
   onClose,
 }) => {
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>
+    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth PaperProps={{
+      style: {
+        backgroundColor: '#1A2040',
+      },
+    }}>
+      <DialogTitle sx={{ color: "#fff" }}>
         <strong>Recommendations for your group</strong>
-        <IconButton onClick={onClose} style={{ float: "right" }}>
+        <IconButton onClick={onClose} style={{ float: "right", color:"#fff" }}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent>
-        <TableContainer component={Paper} elevation={0}>
-          <Table>
+      <DialogContent>  
+        <TableContainer component={Paper} elevation={0} sx={{ backgroundColor: "#1A2040" }}>
+          <Table sx={{ backgroundColor: "#242c53" }}>
             <TableHead>
               <TableRow>
-                <TableCell>
+                <TableCell sx={{ color: "#fff" }}>
                   <b>Game Name</b>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ color: "#fff" }}>
                   <b>Overall Score</b>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ color: "#fff" }}>
                   <b>Top Contributing Factor</b>
                 </TableCell>
               </TableRow>
@@ -49,9 +53,9 @@ const RecommendationPopup = ({
             <TableBody>
               {recommendations?.map((recommendation) => (
                 <TableRow key={recommendation.gameSteamId}>
-                  <TableCell>{recommendation.gameName}</TableCell>
-                  <TableCell>{(recommendation.totalScore * 10).toFixed(2)} / 10</TableCell>
-                  <TableCell>{recommendation.reason}</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>{recommendation.gameName}</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>{(recommendation.totalScore * 10).toFixed(2)} / 10</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>{recommendation.reason}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

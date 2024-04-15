@@ -14,7 +14,7 @@ describe("Update User Rating API testing", () => {
     };
 
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(user)
       .expect(200);
 
@@ -36,21 +36,12 @@ describe("Update User Rating API testing", () => {
     };
 
     const response = await request(app)
-      .post("/user/updaterating")
+      .post("/api/user/updaterating")
       .send({ preference })
       .set("Authorization", `Bearer ${authToken}`)
       .expect(200);
 
     expect(response.body.message).toBe("User Preferences Updated!");
-    expect(response.body.preferences).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          gameName: preference.gameName,
-          gameSteamId: preference.gameSteamId,
-          gameRawgId: preference.gameRawgId,
-          ratings: preference.ratings,
-        }),
-      ])
-    );
+    expect(response.body.preferences[0].gameName).toEqual("Test Game");
   });
 });

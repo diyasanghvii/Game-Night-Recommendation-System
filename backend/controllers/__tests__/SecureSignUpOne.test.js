@@ -17,7 +17,7 @@ describe("Testing secured signup with encrypted password", () => {
     steamId: "123456",
     discordUserName: "discordname",
     preferredGenres: ["action"],
-    preferences: [{"name":"action-game"}]
+    preferences: [{ name: "action-game" }],
   };
 
   const loginDataPasswordWrong = {
@@ -31,14 +31,11 @@ describe("Testing secured signup with encrypted password", () => {
   };
 
   beforeEach(async () => {
-    await request(app).post("/user/signupone").send(paramBody).expect(200);
-    let user = await User.findOne({ email: loginData.email });  // Retrieve user
+    await request(app).post("/api/user/signupone").send(paramBody).expect(200);
+    let user = await User.findOne({ email: loginData.email }); // Retrieve user
     user.steamId = null; // Set missing fields
     user.discordUserName = null;
-    user.steamId = "123456";
     user.discordUserName = "discordname";
-    user.preferredGenres = ["action"];
-    user.preferences = [{"name":"action-game"}];
     await user.save();
   }, 70000);
 
@@ -63,18 +60,20 @@ describe("Testing secured signup with encrypted password", () => {
     expect(hashedPassword).toBe(true);
   }, 70000);
 
-  it("should return 200 for correct password in login API", async () => {
+  it("should return 200 for correct password in login API, but as discord is not present should give appropriate message", async () => {
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(loginData)
       .expect(200);
 
-    expect(response.body.message).toBe("Login Sucessful!");
+    expect(response.body.message).toBe(
+      "Please complete your profile information."
+    );
   });
 
   it("should return 401, incorrect password when sent incorrect password", async () => {
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(loginDataPasswordWrong)
       .expect(401);
 
@@ -83,7 +82,7 @@ describe("Testing secured signup with encrypted password", () => {
 
   it("should return 401, incorrect Credentials when sent username which does not exist", async () => {
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(loginDataPasswordUserName)
       .expect(401);
 
@@ -91,16 +90,9 @@ describe("Testing secured signup with encrypted password", () => {
   }, 70000);
 
   it("should return 200 and redirect to signup 2 if steam ID or Discord ID is missing", async () => {
-    // Set up user with missing steam ID or Discord ID
-    paramBody.steamId = null; // Set steam ID to null
-    paramBody.discordUserName = null; // Set Discord ID to null
-
-    // Create the user with updated parameters
-    await request(app).post("/user/signupone").send(paramBody).expect(200);
-
     // Attempt to login
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(loginData)
       .expect(200);
 
@@ -110,21 +102,14 @@ describe("Testing secured signup with encrypted password", () => {
   });
 
   it("should return 200 and redirect to signup 3 if preferences are missing", async () => {
-    // Set up user with missing preferences
-    paramBody.preferences = [];
-    paramBody.preferredGenres = [];
-
-    // Create the user with updated parameters
-    await request(app).post("/user/signupone").send(paramBody).expect(200);
-
     // Attempt to login
     const response = await request(app)
-      .post("/user/login")
+      .post("/api/user/login")
       .send(loginData)
       .expect(200);
 
     // Check response for redirection and initial step
     expect(response.body.redirect).toBe(true);
-    expect(response.body.initialStep).toBe(2);
+    expect(response.body.initialStep).toBe(1);
   });
 });

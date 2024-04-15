@@ -7,3 +7,59 @@
 .clear-rating-text:hover {
   color: rgb(175, 175, 223);
 }
+
+// MODAL\.
+
+.MuiInputBase-root .MuiOutlinedInput-root .MuiInputBase-colorPrimary .Mui-focused {
+  color: red !important;
+}
+
+.modal-box {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 50% !important;
+  height: max-content !important;
+  box-shadow: 24 !important;
+  background-color: rgb(227, 223, 223);
+  border-radius: 10px !important;
+  padding: 26px !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  padding-bottom: 50px !important;
+  outline: 0 !important;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+
+.modal-containter-root {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.modal-header-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.icon-curser-pointer {
+  cursor: pointer;
+}
+
+.modal-body-root {
+  height: 70%;
+  margin-top: 8px;
+  padding-top: 26px;
+  overflow-y: scroll;
+  align-items: center;
+} 
+.MuiOutlinedInput-root.Mui-focused {
+  border-color: rgb(250, 251, 252) !important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: white!important;
+}
