@@ -13,17 +13,10 @@ function valuetext(value) {
   return value;
 }
 
-const RecommendationPopup = ({ onClose, onContinue }) => {
+const RecommendationPopup = ({ onClose, onContinue, parameter_values}) => {
   const [editWeights, setEditWeights] = useState(true);
   const [editWeightBtn, setEditWeightBtn] = useState("Edit");
-  const [sliderValues, setSliderValues] = useState({
-    ownership: 0.5,
-    preferredGenres: 0.5,
-    ratings: 0.5,
-    interest: 0.5,
-    totalPlaytime: 0.5,
-    playtime2Weeks: 0.5,
-  });
+  const [sliderValues, setSliderValues] = useState(parameter_values);
 
   const handleSliderChange = (name) => (event, newValue) => {
     setSliderValues({ ...sliderValues, [name]: newValue });

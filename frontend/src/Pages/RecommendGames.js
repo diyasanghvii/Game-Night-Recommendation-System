@@ -4,7 +4,6 @@ import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
 import {
   GetPresence,
-  SendList,
   GenerateRecommendations,
 } from "../Services/index.js";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
@@ -166,6 +165,7 @@ function RecommendGames() {
           await setParameterValues(sliderValues);
           fetchRecommendations(selectedMembers, parameterValues);
         }}
+        parameter_values={parameterValues}
       /> 
     )}
     {showPopup && (
@@ -263,12 +263,6 @@ function RecommendGames() {
             <div style={{ textAlign: "center" }}>
               <h3>Generating Recommendations... Hold on tight!</h3>
               <CircularProgress />
-              {/* <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
-        {isGeneratingRecommendations && (
-          <div className="loading-overlay">
-            <div style={{ textAlign: 'center' }}>
-              <h3>Generating Recommendations... Hold on tight!</h3>
-              <CircularProgress /> */}
             </div>
           </div>
         )}
