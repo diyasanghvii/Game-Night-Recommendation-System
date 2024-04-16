@@ -54,7 +54,7 @@ const RecommendationPopup = ({
               {recommendations?.map((recommendation) => (
                 <TableRow key={recommendation.gameSteamId}>
                   <TableCell sx={{ color: "#fff" }}>{recommendation.gameName}</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>{(recommendation.totalScore * 10).toFixed(2)} / 10</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>{(recommendation.totalScore * 10).toFixed(2)} / {(recommendation.maxTotalScore).toFixed(0)}</TableCell>
                   <TableCell sx={{ color: "#fff" }}>{recommendation.reason}</TableCell>
                 </TableRow>
               ))}
