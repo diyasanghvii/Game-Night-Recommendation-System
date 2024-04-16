@@ -191,7 +191,28 @@ const SignUpIdDetails = () => {
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
       <Stepper
-        sx={{ marginTop: 5, marginBottom: 5 }}
+         sx={{
+          marginTop: 5,
+          marginBottom: 5,
+          "& .MuiStepLabel-root .Mui-completed": {
+            color: "green", // Completed steps text color
+          },
+          "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel": {
+            color: "green", // Completed alternative steps text color
+          },
+          "& .MuiStepLabel-root .Mui-active": {
+            color: "white", // Active step text color
+          },
+          "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
+            color: "#ADD8E6", // Active alternative step text color
+          },
+          "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+            fill: "#0e64ab", // Active step icon color
+          },
+          "& .MuiStepLabel-root .Mui-disabled": {
+            color: "grey", // Incomplete steps text color
+          },
+        }}
         activeStep={1}
         alternativeLabel
       >
