@@ -33,7 +33,7 @@ const GameInterestRating = ({
               disabled={!isEnabled}
               sx={{
                 "& .MuiRating-iconFilled": {
-                  color: "#FFD700", // Filled star color
+                  color: "#FFFF00", // Filled star color
                   
                 },
                 "& .MuiRating-iconEmpty": {
