@@ -231,6 +231,11 @@ const EditProfile = () => {
             disabled={!isEditing}
             error={nameError}
             helperText={nameError ? "Name is required" : ""}
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#fff",
+            },
+          }}
             onBlur={() => {
               if (name.trim() === "") {
                 setNameError(true);
@@ -239,7 +244,7 @@ const EditProfile = () => {
               }
             }}
             InputProps={{
-              style: { color: !isEditing ? "white" : "pink" }, // Set text color dynamically based on isEditing
+              style: {  color: "white" }, // Set text color dynamically based on isEditing
             }}
             InputLabelProps={{
               style: { color: "white" },
@@ -251,6 +256,11 @@ const EditProfile = () => {
             label={<Typography style={{ color: "white" }}>Age</Typography>}
             fullWidth
             value={age}
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#fff",
+            },
+          }}
             onChange={(e) => {
               const value = e.target.value;
               if (!value <= 7 || !value >= 120) {
@@ -260,7 +270,7 @@ const EditProfile = () => {
             disabled={!isEditing}
             type="number"
             InputProps={{
-              style: { color: !isEditing ? "white" : "pink" }, // Set text color dynamically based on isEditing
+              style: { color: "white" }, // Set text color dynamically based on isEditing
             }}
             InputLabelProps={{
               style: { color: "white" },
@@ -275,8 +285,13 @@ const EditProfile = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={true}
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#fff",
+            },
+          }}
             InputProps={{
-              style: { color: !isEditing ? "white" : "pink" }, // Set text color dynamically based on isEditing
+              style: {  color: "white" }, // Set text color dynamically based on isEditing
             }}
             InputLabelProps={{
               style: { color: "white" },
@@ -298,8 +313,13 @@ const EditProfile = () => {
               onChange={(e) => setSteamId(e.target.value)}
               disabled={!isEditing}
               error={steamIdError}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#fff",
+              },
+            }}
               InputProps={{
-                style: { color: !isEditing ? "white" : "pink" }, // Set text color dynamically based on isEditing
+                style: {  color: "white"}, // Set text color dynamically based on isEditing
               }}
               InputLabelProps={{
                 style: { color: "white" },
@@ -331,16 +351,16 @@ const EditProfile = () => {
                 variant="contained"
                 onClick={handleVerifySteamId}
                 style={{ width: "100%" }}
-                sx={{
-                  backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-                  backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-                  color: "white",
-                  transition: "background-image 0.3s ease, background-color 0.3s ease",
-                  "&:hover": {
-                    backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-                    backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-                  },
-                }}
+                 sx={{
+          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+          backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+          color: "white",
+          transition: "background-image 0.3s ease, background-color 0.3s ease",
+          "&:hover": {
+            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+          },
+        }}
               >
                 Verify
               </Button>
@@ -362,8 +382,13 @@ const EditProfile = () => {
               onChange={(e) => setDiscordUsername(e.target.value)}
               disabled={!isEditing}
               error={discordUsernameFieldError}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#fff",
+              },
+            }}
               InputProps={{
-                style: { color: !isEditing ? "white" : "pink" }, // Set text color dynamically based on isEditing
+                style: {  color: "white"}, // Set text color dynamically based on isEditing
               }}
               InputLabelProps={{
                 style: { color: "white" },
