@@ -187,6 +187,15 @@ const RatingPopUp = ({
                         value={userRating}
                         onChange={(event, newValue) => setUserRating(newValue)}
                         data-testid="rating-component"
+                        sx={{
+                          "& .MuiRating-iconFilled": {
+                            color: "#FFD700", // Filled star color
+                            
+                          },
+                          "& .MuiRating-iconEmpty": {
+                            color: "#ccc", // Empty star color
+                          },
+                        }}
                       />
                       {userRating !== null && userRating !== undefined && (
                         <span

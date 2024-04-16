@@ -227,6 +227,15 @@ const SignUpGameDetails = () => {
                 value={game.ratings}
                 onChange={(event) => handleRatingChange(event, index)}
                 max={5}
+                sx={{
+                  "& .MuiRating-iconFilled": {
+                    color: "#FFD700", // Filled star color
+                    
+                  },
+                  "& .MuiRating-iconEmpty": {
+                    color: "#ccc", // Empty star color
+                  },
+                }}
               />
             </Box>
           </div>
