@@ -74,18 +74,39 @@ const SignUp = () => {
           sx={{ color: "white" }}
         />
         <Stepper
-          sx={{ marginTop: 3, marginBottom: 5 }}
+           sx={{
+            marginTop: 5,
+            marginBottom: 5,
+            "& .MuiStepLabel-root .Mui-completed": {
+              color: "green", // Completed steps text color
+            },
+            "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel": {
+              color: "green", // Completed alternative steps text color
+            },
+            "& .MuiStepLabel-root .Mui-active": {
+              color: "white", // Active step text color
+            },
+            "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
+              color: "#ADD8E6", // Active alternative step text color
+            },
+            "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+              fill: "#0e64ab", // Active step icon color
+            },
+            "& .MuiStepLabel-root .Mui-disabled": {
+              color: "grey", // Incomplete steps text color
+            },
+          }}
           activeStep={0}
           alternativeLabel
         >
           <Step key={0}>
-            <StepLabel sx={{ color: "white" }}>Step 1</StepLabel>
+            <StepLabel>Step 1</StepLabel>
           </Step>
           <Step key={1}>
-            <StepLabel sx={{ color: "white" }}>Step 2</StepLabel>
+            <StepLabel>Step 2</StepLabel>
           </Step>
           <Step key={2}>
-            <StepLabel sx={{ color: "white" }}>Step 3</StepLabel>
+            <StepLabel>Step 3</StepLabel>
           </Step>
         </Stepper>
         <div style={{ marginBottom: "16px" }}>
