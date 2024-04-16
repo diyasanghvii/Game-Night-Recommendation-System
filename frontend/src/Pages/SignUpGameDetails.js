@@ -107,6 +107,15 @@ const SignUpGameDetails = () => {
       });
   };
   return (
+    <div
+    style={{
+      backgroundImage: "url('/images/Game Image.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      minHeight: "100vh",
+      padding: "20px",
+    }}
+  >
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
       <Stepper
@@ -145,9 +154,26 @@ const SignUpGameDetails = () => {
           value={selectedGenres}
           onChange={handleGenreSelection}
           fullWidth
+          style={{ backgroundColor: "hsl(209, 38%, 30%)",color: "white" }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                backgroundColor: "hsl(209, 38%, 20%)",
+                color: "white",
+              },
+            },
+          }}
         >
           {genreList?.map((ele) => {
-            return <MenuItem value={ele}>{ele}</MenuItem>;
+            return (
+              <MenuItem
+                key={ele}
+                value={ele}
+                style={{ color: "white" }}
+              >
+                {ele}
+              </MenuItem>
+            );
           })}
         </Select>
       </Box>
@@ -191,6 +217,7 @@ const SignUpGameDetails = () => {
         onClick={handleSignup}
       />
     </Container>
+    </div>
   );
 };
 

@@ -12,7 +12,6 @@ import {
 } from "../Services";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import TextBox from "../Components/TextBox/TextBox";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -245,7 +244,6 @@ const EditProfile = () => {
             InputLabelProps={{
               style: { color: "white" },
             }}
-            
           />
         </div>
         <div style={{ width: "80%", marginTop: 20 }}>
