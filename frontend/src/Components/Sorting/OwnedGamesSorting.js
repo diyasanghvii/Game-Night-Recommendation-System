@@ -10,7 +10,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Btn from "../Button/Btn";
 
-export default function AllGamesSorting({
+export default function OwnedGamesSorting({
   sortBy,
   sortType,
   submitSort,
@@ -44,14 +44,11 @@ export default function AllGamesSorting({
             onChange={handleChange}
             input={<OutlinedInput label="Sort By" />}
           >
-            <MenuItem key={1} value={"Release Date"}>
-              Release Date
+            <MenuItem key={1} value={"Playtime forever"}>
+              Playtime forever
             </MenuItem>
-            <MenuItem key={2} value={"Price"}>
-              Price
-            </MenuItem>
-            <MenuItem key={3} value={"Review Score"}>
-              Review Score
+            <MenuItem key={2} value={"Playtime last 2 weeks"}>
+              Playtime last 2 weeks
             </MenuItem>
           </Select>
         </FormControl>

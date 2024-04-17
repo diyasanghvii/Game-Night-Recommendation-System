@@ -82,7 +82,17 @@ export const isGameOwned = (list, singleObject) => {
 };
 
 export const getOnlyUnRatedGames = (a, b) => {
-  return a.filter(
-    (objA) => !b.some((objB) => objA.appid === objB.gameSteamId)
-  );
+  return a.filter((objA) => !b.some((objB) => objA.appid === objB.gameSteamId));
+};
+
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based, so add 1
+  const day = date.getDate().toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  const formattedDate = `${month}-${day}-${year}`;
+
+  return formattedDate;
 };
