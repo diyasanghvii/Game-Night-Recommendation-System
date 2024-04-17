@@ -37,7 +37,7 @@ export default function AllGamesSorting({
         padding: "20px",
       }}
     >
-      <FormControl sx={{ m: 1, minWidth: 160 }}>
+      <FormControl sx={{ m: 1, minWidth: 160, backgroundColor: "#07294a" }}>
         <InputLabel id="server-dialog-select-label">Sort By</InputLabel>
         <Select
           labelId="server-dialog-select-label"
@@ -51,16 +51,19 @@ export default function AllGamesSorting({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
               color: "#fff",
             },
             "& .Mui-selected": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
+              backgroundColor: "#07294a",
+              color: "#fff", // Text color changed to white
+              "&:hover": {
+                backgroundColor: "#07294a",
+                color: "#fff",
+              },
             },
             "&:hover": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
+              backgroundColor: "#07294a",
+              color: "#fff",
             },
           }}
           MenuProps={{
@@ -73,23 +76,18 @@ export default function AllGamesSorting({
               horizontal: "left",
             },
             getContentAnchorEl: null,
+            PaperProps: {
+              sx: {
+                backgroundColor: "#07294a", // Background color for menu list
+                color: "#fff", // Text color for menu list items
+              },
+            },
           }}
         >
           <MenuItem key={1} value={"Playtime forever"}>
             Playtime forever
           </MenuItem>
-          <MenuItem key={2} value={"Playtime last 2 weeks"}
-          sx={{
-            backgroundColor: "#07294a",
-            color: "#fff",
-            "&.Mui-selected": {
-              color: "#000",
-            },
-            "&:hover": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
-            },
-          }}>
+          <MenuItem key={2} value={"Playtime last 2 weeks"}>
             Playtime last 2 weeks
           </MenuItem>
         </Select>
@@ -107,7 +105,7 @@ export default function AllGamesSorting({
               color: "#000",
             },
             "&:hover": {
-              backgroundColor: "#4dabf5",
+              backgroundColor: "#07294a",
               color: "#000",
             },
           }}

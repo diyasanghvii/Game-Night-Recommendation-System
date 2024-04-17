@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Chip from "@mui/material/Chip";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
@@ -159,136 +160,166 @@ function RecommendGames() {
           padding: "20px",
         }}
       >
-      <MenuHeader />
-      {isFetchingFromDiscord && (
-        <div className="loading-overlay">
-          <div style={{ textAlign: "center" }}>
-            <h3>Fetching data from Discord...</h3>
-            <CircularProgress />
-          </div>
-        </div>
-      )}
-      {openParameterDialog && (
-        <ParameterPopUp
-          onClose={() => {
-            setParameterDialog(false);
-          }}
-          onContinue={async (sliderValues) => {
-            setParameterDialog(false);
-            await setParameterValues(sliderValues);
-            fetchRecommendations(selectedMembers, parameterValues);
-          }}
-        />
-      )}
-      {showPopup && (
-        <RecommendationPopup
-          recommendations={recommendations}
-          selectedChannel={selectedChannel}
-          selectedServer={selectedServer}
-          selectedMembers={selectedMembers}
-          onClose={() => {
-            setRecommendations([]);
-            setShowPopup(false);
-          }}
-        />
-      )}
-      <h1 style={{ marginLeft: "6rem" }}>Select Players from Discord</h1>
-      <p style={{ marginLeft: "6rem", color: "white" }}>
-        Selected Server: {selectedServer}
-        <br />
-        Selected Voice Channel: {selectedChannel}
-      </p>
-      <SelectServerChannel
-        onServerChange={(data) => handleServerChange(data)}
-        onChannelChange={(data) => handleChannelChange(data)}
-      />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          marginLeft: "1.5rem",
-          marginRight: "1.5rem",
-          marginTop: "3rem",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "rgba(99, 168, 255, 0.60)", // Slightly darker blue with 45% transparency
-            paddingBottom: "1em",
-            margin: "1rem",
-            minWidth: "350px",
-            color: "white", // Text color white
-          }}
-        >
-          <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
-            Listening
-          </h3>
-          <CheckboxList
-            items={memberStatus.Voice}
-            onCheckboxToggle={handleCheckboxToggle}
-          />
-        </div>
-        <div
-          style={{
-            backgroundColor: "rgba(99, 255, 180, 0.60)", // Slightly darker green with 45% transparency
-            paddingBottom: "1em",
-            margin: "1rem",
-            minWidth: "350px",
-            color: "white", // Text color white
-          }}
-        >
-          <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Online</h3>
-          <CheckboxList
-            items={memberStatus.Online}
-            onCheckboxToggle={handleCheckboxToggle}
-          />
-        </div>
-        <div
-          style={{
-            backgroundColor: "rgba(250, 87, 87, 0.60)", // Slightly darker red with 45% transparency
-            paddingBottom: "1em",
-            margin: "1rem",
-            minWidth: "350px",
-            color: "white", // Text color white
-          }}
-        >
-          <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Offline</h3>
-          <CheckboxList
-            items={memberStatus.Offline}
-            onCheckboxToggle={handleCheckboxToggle}
-          />
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          flexWrap: "wrap",
-          marginTop: "3rem",
-        }}
-      >
-        <Btn
-          label="Generate Recommendations"
-          onClick={() => setParameterDialog(true)}
-        ></Btn>
-        {isGeneratingRecommendations && (
+        <MenuHeader />
+        {isFetchingFromDiscord && (
           <div className="loading-overlay">
             <div style={{ textAlign: "center" }}>
-              <h3>Generating Recommendations... Hold on tight!</h3>
+              <h3>Fetching data from Discord...</h3>
               <CircularProgress />
-              {/* <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
-        {isGeneratingRecommendations && (
-          <div className="loading-overlay">
-            <div style={{ textAlign: 'center' }}>
-              <h3>Generating Recommendations... Hold on tight!</h3>
-              <CircularProgress /> */}
             </div>
           </div>
         )}
-      </div></div>
+        {openParameterDialog && (
+          <ParameterPopUp
+            onClose={() => {
+              setParameterDialog(false);
+            }}
+            onContinue={async (sliderValues) => {
+              setParameterDialog(false);
+              await setParameterValues(sliderValues);
+              fetchRecommendations(selectedMembers, parameterValues);
+            }}
+          />
+        )}
+        {showPopup && (
+          <RecommendationPopup
+            recommendations={recommendations}
+            selectedChannel={selectedChannel}
+            selectedServer={selectedServer}
+            selectedMembers={selectedMembers}
+            onClose={() => {
+              setRecommendations([]);
+              setShowPopup(false);
+            }}
+          />
+        )}
+        <h2 style={{ marginLeft: "6rem", color:"#fff"}}>Select Players from Discord</h2>
+        <div style={{ marginLeft: "6rem", color: "white", display: "flex" }}>
+          <p>
+            Selected Server:{" "}
+            {selectedServer && (
+              <>
+                <Chip
+                  label={selectedServer}
+                  style={{
+                    backgroundColor: "rgba(50, 50, 50, 0.6)",
+                    color: "lightgrey",
+                    marginRight: "5px",
+                  }}
+                />
+                &nbsp;
+              </>
+            )}
+          </p>
+          <p>
+            Selected Voice Channel:{" "}
+            {selectedChannel && (
+              <>
+                <Chip
+                  label={selectedChannel}
+                  style={{
+                    backgroundColor: "rgba(50, 50, 50, 0.6)",
+                    color: "lightgrey",
+                    marginRight: "5px",
+                  }}
+                />
+                &nbsp;
+              </>
+            )}
+          </p>
+        </div>
+        <SelectServerChannel
+          onServerChange={(data) => handleServerChange(data)}
+          onChannelChange={(data) => handleChannelChange(data)}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            marginLeft: "1.5rem",
+            marginRight: "1.5rem",
+            marginTop: "3rem",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "rgba(99, 168, 255, 0.60)", // Slightly darker blue with 45% transparency
+              paddingBottom: "1em",
+              margin: "1rem",
+              minWidth: "350px",
+              color: "white", // Text color white
+            }}
+          >
+            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
+              Listening
+            </h3>
+            <CheckboxList
+              items={memberStatus.Voice}
+              onCheckboxToggle={handleCheckboxToggle}
+            />
+          </div>
+          <div
+            style={{
+              backgroundColor: "rgba(99, 255, 180, 0.60)", // Slightly darker green with 45% transparency
+              paddingBottom: "1em",
+              margin: "1rem",
+              minWidth: "350px",
+              color: "white", // Text color white
+            }}
+          >
+            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Online</h3>
+            <CheckboxList
+              items={memberStatus.Online}
+              onCheckboxToggle={handleCheckboxToggle}
+            />
+          </div>
+          <div
+            style={{
+              backgroundColor: "rgba(250, 87, 87, 0.60)", // Slightly darker red with 45% transparency
+              paddingBottom: "1em",
+              margin: "1rem",
+              minWidth: "350px",
+              color: "white", // Text color white
+            }}
+          >
+            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Offline</h3>
+            <CheckboxList
+              items={memberStatus.Offline}
+              onCheckboxToggle={handleCheckboxToggle}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexWrap: "wrap",
+            marginTop: "3rem",
+          }}
+        >
+          <Btn
+            label="Generate Recommendations"
+            onClick={() => setParameterDialog(true)}
+          ></Btn>
+          {isGeneratingRecommendations && (
+            <div className="loading-overlay">
+              <div style={{ textAlign: "center" }}>
+                <h3>Generating Recommendations... Hold on tight!</h3>
+                <CircularProgress />
+                {/* <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
+          {isGeneratingRecommendations && (
+            <div className="loading-overlay">
+              <div style={{ textAlign: 'center' }}>
+                <h3>Generating Recommendations... Hold on tight!</h3>
+                <CircularProgress /> */}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
