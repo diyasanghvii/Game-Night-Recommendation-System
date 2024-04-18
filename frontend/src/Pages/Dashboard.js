@@ -275,6 +275,7 @@ class Dashboard extends Component {
             <Btn
               onClick={() => this.setState({ rcmBtnClicked: true })}
               label={"Recommend Multiplayer Games"}
+              sx={{ backgroundColor: "rgba(0, 255, 0, 10)" }} // Adjust the button transparency here
             />
           </span>
         </div>

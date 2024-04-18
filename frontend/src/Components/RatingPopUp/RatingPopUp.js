@@ -12,6 +12,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import StarIcon from "@mui/icons-material/Star";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import "./RatingPopUp.css";
 import Btn from "../Button/Btn";
@@ -62,13 +63,13 @@ const RatingPopUp = ({
 
   const handleRatingSubmit = async () => {
     try {
-      const newpreference = {
+      const newPreference = {
         gameSteamId: gameId,
         gameName: gameName,
         ratings: userRating,
       };
       const data = {
-        preference: newpreference,
+        preference: newPreference,
       };
 
       UpdateUserRating(data)
@@ -94,14 +95,14 @@ const RatingPopUp = ({
 
   const clearRatings = (id) => {
     ClearRatings({ gameSteamId: id })
-      .then((reponse) => {
-        setSaveMessage("Rating saved successfully!");
-        updateRatings(reponse.data.preferences);
+      .then((response) => {
+        setSaveMessage("Rating cleared successfully!");
+        updateRatings(response.data.preferences);
       })
       .catch((error) => {
         console.error("Error clearing rating:", error);
         setSaveMessage(
-          "Error occurred while cleating rating. Please try again."
+          "Error occurred while clearing rating. Please try again."
         );
       });
   };
@@ -190,7 +191,6 @@ const RatingPopUp = ({
                         sx={{
                           "& .MuiRating-iconFilled": {
                             color: "#FFD700", // Filled star color
-                            
                           },
                           "& .MuiRating-iconEmpty": {
                             color: "#ccc", // Empty star color
@@ -198,21 +198,40 @@ const RatingPopUp = ({
                         }}
                       />
                       {userRating !== null && userRating !== undefined && (
-                        <span
-                          className="clear-rating-text"
-                          onClick={() => {
-                            setUserRating(null);
-                            clearRatings(gameId);
-                          }}
-                        >
-                          Clear Rating
-                        </span>
+                        <>
+                          <Button
+                            variant="contained"
+                            style={{
+                              marginTop: "10px",
+                              background: "linear-gradient(45deg, #333333, #555555)",
+                              color: "#DDDDDD", // Light grey
+                              marginLeft: "10px",
+                              boxShadow:
+                                "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
+                            }}
+                            onClick={handleRatingSubmit}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="contained"
+                            style={{
+                              marginTop: "10px",
+                              background: "linear-gradient(45deg, #333333, #555555)",
+                              color: "#DDDDDD", // Light grey
+                              marginLeft: "10px",
+                              boxShadow:
+                                "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
+                            }}
+                            onClick={() => {
+                              setUserRating(null);
+                              clearRatings(gameId);
+                            }}
+                          >
+                            Clear Rating
+                          </Button>
+                        </>
                       )}
-                      <Btn
-                        style={{ marginLeft: "5px", float: "right" }}
-                        label={"Save"}
-                        onClick={handleRatingSubmit}
-                      />
                     </span>
                   </Typography>
                 ) : (
@@ -256,7 +275,20 @@ const RatingPopUp = ({
                         className="clear-rating-text"
                         onClick={() => clearRatings(gameId)}
                       >
-                        Clear Rating
+                        <Button
+                          variant="contained"
+                          style={{
+                            marginTop: "10px",
+                            background: "linear-gradient(45deg, #333333, #555555)",
+                            color: "#DDDDDD", // Light grey
+                            marginLeft: "10px",
+                            boxShadow:
+                              "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
+                          }}
+                          onClick={() => clearRatings(gameId)}
+                        >
+                          Clear Rating
+                        </Button>
                       </span>
                     )}
                   </Typography>

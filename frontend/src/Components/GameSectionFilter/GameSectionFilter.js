@@ -303,38 +303,86 @@ function GameSectionFilter({
                 }}
               >
                 {game.price !== null && game.price !== undefined && (
-                  <h5
+                  <div
                     style={{
-                      margin: 0,
-                      marginBottom: 10,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                     }}
                   >
-                    {game.price ? `$ ${game.price}` : "Free"}
-                  </h5>
+                    <h5
+                      style={{
+                        margin: 0,
+                        marginBottom: 2,
+                      }}
+                    >
+                      {"Price"}
+                    </h5>
+                    <h5
+                      style={{
+                        margin: 0,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {game.price ? `$ ${game.price}` : "Free"}
+                    </h5>
+                  </div>
                 )}
 
                 {game.reviewScore !== null &&
                   game.reviewScore !== undefined && (
-                    <h5
+                    <div
                       style={{
-                        margin: 0,
-                        marginBottom: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                       }}
                     >
-                      {`${game.reviewScore}%`}
-                    </h5>
+                      <h5
+                        style={{
+                          margin: 0,
+                          marginBottom: 2,
+                        }}
+                      >
+                        {"Score"}
+                      </h5>
+                      <h5
+                        style={{
+                          margin: 0,
+                          marginBottom: 10,
+                        }}
+                      >
+                        {`${game.reviewScore}%`}
+                      </h5>
+                    </div>
                   )}
 
                 {game.releaseDate !== null &&
                   game.releaseDate !== undefined && (
-                    <h5
+                    <div
                       style={{
-                        margin: 0,
-                        marginBottom: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                       }}
                     >
-                      {formatDate(game.releaseDate)}
-                    </h5>
+                      <h5
+                        style={{
+                          margin: 0,
+                          marginBottom: 2,
+                        }}
+                      >
+                        {"Release"}
+                      </h5>
+                      <h5
+                        style={{
+                          margin: 0,
+                          marginBottom: 10,
+                        }}
+                      >
+                        {formatDate(game.releaseDate)}
+                      </h5>
+                    </div>
                   )}
               </div>
 
@@ -397,6 +445,10 @@ function GameSectionFilter({
           handleClose={closeSortingModal}
           bodyComponent={
             <AllGamesFilter
+              sx={{
+                backgroundColor: "#07294a",
+                color: "#fff",
+              }}
               genreList={genreList}
               tagsList={tagsList}
               featureList={featureList}

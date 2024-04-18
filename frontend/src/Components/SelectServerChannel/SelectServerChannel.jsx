@@ -126,6 +126,25 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
                 onChange={handleServerChange}
                 input={<OutlinedInput label="Server" />}
                 sx= {{color:"#fff"}}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "left",
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "left",
+                  },
+                  getContentAnchorEl: null,
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#1A2040", // Background color for menu list
+                      color: "#fff", // Text color for menu list items
+                      marginTop: 0, // Remove top white gap
+                      marginBottom: 0, // Remove bottom white gap
+                    },
+                  },
+                }}
               >
                 {servers?.map((server, index) => (
                   <MenuItem key={index} value={server} style={{ color: '#fff', backgroundColor: '#1A2040' }}  >
@@ -180,6 +199,25 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
                 onChange={handleChannelChange}
                 input={<OutlinedInput label="Channel" />}
                 sx= {{color:"#fff"}}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "left",
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "left",
+                  },
+                  getContentAnchorEl: null,
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#1A2040", // Background color for menu list
+                      color: "#fff", // Text color for menu list items
+                      marginTop: 0, // Remove top white gap
+                      marginBottom: 0, // Remove bottom white gap
+                    },
+                  },
+                }}
               >
                 {channels.map((channel, index) => (
                   <MenuItem

@@ -47,11 +47,14 @@ const SignUpIdDetails = () => {
   const isPresenceBot = () => {
     GetServerListSignUp(discordUserName)
       .then((response) => {
-        if (response && response.data && response.data.serverList.length !== 0) {
+        if (
+          response &&
+          response.data &&
+          response.data.serverList.length !== 0
+        ) {
           setdiscordUserNameVerified(true);
           setError("");
-        }
-        else{
+        } else {
           setError(
             "Discord User Name does not exist or does not have at least one server having the Presence Bot."
           );
@@ -191,7 +194,7 @@ const SignUpIdDetails = () => {
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
       <Stepper
-         sx={{
+        sx={{
           marginTop: 5,
           marginBottom: 5,
           "& .MuiStepLabel-root .Mui-completed": {
@@ -321,16 +324,21 @@ const SignUpIdDetails = () => {
 
       <button
         style={{
-          backgroundColor:
-            steamIdVerified && discordUserNameVerified ? "#1976d2" : "#b3e5fc",
-          color: "#fff",
+          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+          color: "white",
           width: "100%",
           borderRadius: "4px",
           padding: "10px 20px",
           fontSize: "16px",
           border: "none",
           cursor: "pointer",
-          transition: "background-color 0.3s ease, filter 0.3s ease",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+          transition: "background-image 0.3s ease, background-color 0.3s ease",
+          "&:hover": {
+            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+          },
           filter:
             steamIdVerified && discordUserNameVerified
               ? "brightness(1)"
