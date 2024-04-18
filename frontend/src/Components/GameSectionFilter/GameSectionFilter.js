@@ -397,6 +397,10 @@ function GameSectionFilter({
           handleClose={closeSortingModal}
           bodyComponent={
             <AllGamesFilter
+              sx={{
+                backgroundColor: "#07294a",
+                color: "#fff",
+              }}
               genreList={genreList}
               tagsList={tagsList}
               featureList={featureList}

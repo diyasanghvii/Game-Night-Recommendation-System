@@ -4,6 +4,7 @@
   background-color: lightgrey; 
   border-radius: 10px; 
   padding: 20px;
+  color:aliceblue;
   }
   
 .gameList {
@@ -36,5 +37,5 @@
   .gameCarousel {
     display: flex; 
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
   }

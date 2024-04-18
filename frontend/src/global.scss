@@ -1,3 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Source+Code+Pro&family=Source+Code+Pro&family=Rajdhani&family=Chivo+Mono&display=swap");
+
+html,
+body {
+}
+
+.home-page-root {
+  font-family: "Jersey 20", sans-serif;
+}
+
 .clear-rating-text {
   margin-left: 15px;
   cursor: pointer;
@@ -8,9 +18,17 @@
   color: rgb(175, 175, 223);
 }
 
+.image-bg {
+  width: 100% !important;
+  height: 500px;
+}
+
 // MODAL\.
 
-.MuiInputBase-root .MuiOutlinedInput-root .MuiInputBase-colorPrimary .Mui-focused {
+.MuiInputBase-root
+  .MuiOutlinedInput-root
+  .MuiInputBase-colorPrimary
+  .Mui-focused {
   color: red !important;
 }
 
@@ -55,11 +73,15 @@
   padding-top: 26px;
   overflow-y: scroll;
   align-items: center;
-} 
+}
 .MuiOutlinedInput-root.Mui-focused {
   border-color: rgb(250, 251, 252) !important;
 }
 
-.MuiOutlinedInput-notchedOutline{
-  border-color: white!important;
+.MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
 }
+.MuiInputBase-input.Mui-disabled{
+  color: white, // Text color for disabled inputs
+}
+
