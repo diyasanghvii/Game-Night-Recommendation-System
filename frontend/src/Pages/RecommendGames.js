@@ -31,10 +31,10 @@ function RecommendGames() {
   const [isFetchingFromDiscord, setIsFetchingFromDiscord] = useState(true);
   const [parameterValues, setParameterValues] = useState({
     ownership: 0.5,
-    preferredGenres: 0.5,
-    ratings: 0.5,
-    interest: 0.5,
-    totalPlaytime: 0.5,
+    ratings: 0.4,
+    interest: 0.3,
+    preferredGenres: 0.2,
+    totalPlaytime: 0.6,
     playtime2Weeks: 0.5,
   });
 
