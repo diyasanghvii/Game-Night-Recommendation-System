@@ -13,7 +13,12 @@ function valuetext(value) {
   return value;
 }
 
-const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) => {
+const RecommendationPopup = ({
+  onClose,
+  onContinue,
+  onSave,
+  parameter_values,
+}) => {
   const [editWeights, setEditWeights] = useState(true);
   const [editWeightBtn, setEditWeightBtn] = useState("Edit");
   const [sliderValues, setSliderValues] = useState(parameter_values);
@@ -22,19 +27,27 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
     setSliderValues({ ...sliderValues, [name]: newValue });
   };
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth  PaperProps={{
-      style: {
-        backgroundColor: '#1A2040',
-      },
-    }}>
-      <DialogTitle style={{color: '#fff', backgroundColor: '#242c53'}}>
+    <Dialog
+      open={true}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        style: {
+          backgroundColor: "#1A2040",
+        },
+      }}
+    >
+      <DialogTitle style={{ color: "#fff", backgroundColor: "#242c53" }}>
         <strong>Set weights for the recommendation parameters</strong>
         <IconButton onClick={onClose} style={{ float: "right" }}>
-        <CloseIcon style={{ color: '#fff' }} />
+          <CloseIcon style={{ color: "#fff" }} />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent style={{color: '#fff', backgroundColor: '#1A2040' ,overflow: 'auto'}}>
+      <DialogContent
+        style={{ color: "#fff", backgroundColor: "#1A2040", overflow: "auto" }}
+      >
         <div
           style={{
             display: "flex",
@@ -51,7 +64,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.ownership}
-          onChange={handleSliderChange('ownership')}
+          onChange={handleSliderChange("ownership")}
           aria-label="Ownership Weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -63,9 +76,6 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           min={0}
           max={1}
           sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-
-
-
         />
         <div
           style={{
@@ -83,7 +93,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.preferredGenres}
-          onChange={handleSliderChange('preferredGenres')}
+          onChange={handleSliderChange("preferredGenres")}
           aria-label="Preferred Genres weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -112,7 +122,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.ratings}
-          onChange={handleSliderChange('ratings')}
+          onChange={handleSliderChange("ratings")}
           aria-label="Ratings weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -141,7 +151,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.interest}
-          onChange={handleSliderChange('interest')}
+          onChange={handleSliderChange("interest")}
           aria-label="Interest weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -170,7 +180,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.totalPlaytime}
-          onChange={handleSliderChange('totalPlaytime')}
+          onChange={handleSliderChange("totalPlaytime")}
           aria-label="Total Playtime weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -199,7 +209,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
         </div>
         <Slider
           value={sliderValues.playtime2Weeks}
-          onChange={handleSliderChange('playtime2Weeks')}
+          onChange={handleSliderChange("playtime2Weeks")}
           aria-label="Playtime (2 weeks) weight"
           defaultValue={0.5}
           getAriaValueText={valuetext}
@@ -215,23 +225,28 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
       </DialogContent>
 
       <div
-        style={{ display: "flex", alignSelf: "center", marginBottom: "15px",backgroundColor: '#1A2040' }}
+        style={{
+          display: "flex",
+          alignSelf: "center",
+          marginBottom: "15px",
+          backgroundColor: "#1A2040",
+        }}
       >
         <Btn
           label={editWeightBtn}
           onClick={() => {
-            if(editWeightBtn==="Save"){
+            if (editWeightBtn === "Save") {
               onSave(sliderValues);
             }
             setEditWeights(!editWeights);
             setEditWeightBtn(editWeights ? "Save" : "Edit");
           }}
         />
-        <div style={{ margin: "20px",backgroundColor: '#1A2040' }}></div>
+        <div style={{ margin: "20px", backgroundColor: "#1A2040" }}></div>
         <Btn
           label={"Reset to Default"}
-          onClick={() => {
-            setSliderValues({
+          onClick={async () => {
+            await setSliderValues({
               ownership: 0.5,
               ratings: 0.4,
               interest: 0.3,
@@ -239,13 +254,26 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
               totalPlaytime: 0.6,
               playtime2Weeks: 0.5,
             });
-            onSave(sliderValues);
             setEditWeights(true);
+            onSave({
+              ownership: 0.5,
+              preferredGenres: 0.5,
+              ratings: 0.5,
+              interest: 0.5,
+              totalPlaytime: 0.5,
+              playtime2Weeks: 0.5,
+            });
           }}
           disable={!editWeights}
         />
-        <div style={{ margin: "20px",backgroundColor: '#1A2040' }}></div>
-        <Btn label={"Continue"} onClick={()=>{onContinue();}} disable={!editWeights} />
+        <div style={{ margin: "20px", backgroundColor: "#1A2040" }}></div>
+        <Btn
+          label={"Continue"}
+          onClick={() => {
+            onContinue();
+          }}
+          disable={!editWeights}
+        />
       </div>
     </Dialog>
   );
