@@ -84,11 +84,14 @@ export default function AllGamesSorting({
             },
           }}
         >
-          <MenuItem key={1} value={"Playtime forever"}>
-            Playtime forever
+          <MenuItem key={1} value={"Release Date"}>
+              Release Date
+            </MenuItem>
+            <MenuItem key={2} value={"Price"}>
+            Price
           </MenuItem>
-          <MenuItem key={2} value={"Playtime last 2 weeks"}>
-            Playtime last 2 weeks
+          <MenuItem key={3} value={"Review Score"}>
+            Review Score
           </MenuItem>
         </Select>
       </FormControl>

@@ -3,6 +3,7 @@ import "./GameSectionFilter.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
 import {
+  formatDate,
   gameRatingMatch,
   getOnlyUnRatedGames,
   getUnownedRatingValue,
@@ -12,8 +13,9 @@ import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
 import Switch from "@mui/material/Switch";
 import CustomModal from "../Modal/CustomModal";
-import AllGamesSorting from "../Sorting/AllGamesSorting";
+import OwnedGamesSorting from "../Sorting/OwnedGamesSorting";
 import AllGamesFilter from "../GameFilter/AllGamesFilter";
+import AllGamesSorting from "../Sorting/AllGamesSorting";
 
 function GameSectionFilter({
   title,
@@ -22,6 +24,7 @@ function GameSectionFilter({
   updateRatings,
   ownedGame,
   isSortable = false,
+  allGamesFilter = false,
   hasFilter = false,
   fetchAllGamesWithFilter,
   loading,
@@ -43,6 +46,11 @@ function GameSectionFilter({
   const [genreList, setGenreList] = React.useState("");
   const [tagsList, setTagsList] = React.useState("");
   const [featureList, setFeatureList] = React.useState("");
+  const [isAllGamesSortingModalOpen, setIsAllGamesSortingModalOpen] =
+    useState(false);
+
+  const [sortByAllGames, setSortByAllGames] = React.useState("Release Date");
+  const [sortTypeAllGames, setSortTypeAllGames] = React.useState("asc");
 
   const handleClick = (game) => {
     setPopupGameData(game);
@@ -103,6 +111,10 @@ function GameSectionFilter({
     setIsFilterModalOpen(true);
   };
 
+  const openAllGamesSortModal = () => {
+    setIsAllGamesSortingModalOpen(true);
+  };
+
   const sortOwnedGames = (sortBy, sortType) => {
     setvisibleGames((prevValues) => {
       let filteredGames = games;
@@ -130,9 +142,40 @@ function GameSectionFilter({
     closeSortingModal();
   };
 
+  const sortAllGames = (sortBy, sortType) => {
+    setvisibleGames((prevValues) => {
+      let filteredGames = games;
+      if (onlyUnRatingChecked) {
+        filteredGames = getOnlyUnRatedGames(games, ratings);
+      }
+      filteredGames.sort((a, b) => {
+        if (sortType === "asc") {
+          if (sortBy === "Release Date") {
+            return a.releaseDate - b.releaseDate;
+          } else if (sortBy === "Price") {
+            return a.price - b.price;
+          } else if (sortBy === "Review Score") {
+            return a.reviewScore - b.reviewScore;
+          }
+        } else {
+          if (sortBy === "Release Date") {
+            return b.releaseDate - a.releaseDate;
+          } else if (sortBy === "Price") {
+            return b.price - a.price;
+          } else if (sortBy === "Review Score") {
+            return b.reviewScore - a.reviewScore;
+          }
+        }
+      });
+      return filteredGames;
+    });
+    closeSortingModal();
+  };
+
   const closeSortingModal = () => {
     setIsSortingModalOpen(false);
     setIsFilterModalOpen(false);
+    setIsAllGamesSortingModalOpen(false);
   };
 
   const handleGenreFilterChange = (event) => {
@@ -210,8 +253,12 @@ function GameSectionFilter({
           <p style={{ marginRight: 20 }}>Show only unrated games</p>
         </div>
         {isSortable && (
-          <div>
-            <Btn label="Sort" size="small" onClick={openSortModal} />
+          <div style={{ marginRight: 10 }}>
+            <Btn
+              label="Sort"
+              size="small"
+              onClick={allGamesFilter ? openAllGamesSortModal : openSortModal}
+            />
           </div>
         )}
         {hasFilter && (
@@ -242,7 +289,54 @@ function GameSectionFilter({
                 src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
                 alt={game.name}
               />
-              <h3>{game.name}</h3>
+              <div style={{ height: 70 }}>
+                <h3>{game.name}</h3>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {game.price !== null && game.price !== undefined && (
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {game.price ? `$ ${game.price}` : "Free"}
+                  </h5>
+                )}
+
+                {game.reviewScore !== null &&
+                  game.reviewScore !== undefined && (
+                    <h5
+                      style={{
+                        margin: 0,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {`${game.reviewScore}%`}
+                    </h5>
+                  )}
+
+                {game.releaseDate !== null &&
+                  game.releaseDate !== undefined && (
+                    <h5
+                      style={{
+                        margin: 0,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {formatDate(game.releaseDate)}
+                    </h5>
+                  )}
+              </div>
 
               {isGameOwned(ownedGame, game) ? (
                 <GameInterestRating
@@ -282,7 +376,7 @@ function GameSectionFilter({
           open={isSortingModalOpen}
           handleClose={closeSortingModal}
           bodyComponent={
-            <AllGamesSorting
+            <OwnedGamesSorting
               sortBy={sortByOwned}
               sortType={sortTypeOwned}
               submitSort={(value1, value2) => {
@@ -324,6 +418,26 @@ function GameSectionFilter({
               }}
               handleChangeFeatureList={(data) => {
                 handleChangeFeatureFilterList(data);
+              }}
+            />
+          }
+        />
+        <CustomModal
+          title={"Sort Games"}
+          open={isAllGamesSortingModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesSorting
+              sortBy={sortByAllGames}
+              sortType={sortTypeAllGames}
+              submitSort={(value1, value2) => {
+                sortAllGames(value1, value2);
+              }}
+              sortByChanged={(data) => {
+                setSortByAllGames(data);
+              }}
+              sortTypeChanged={(data) => {
+                setSortTypeAllGames(data);
               }}
             />
           }
