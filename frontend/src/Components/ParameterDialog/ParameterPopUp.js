@@ -13,7 +13,7 @@ function valuetext(value) {
   return value;
 }
 
-const RecommendationPopup = ({ onClose, onContinue, parameter_values}) => {
+const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) => {
   const [editWeights, setEditWeights] = useState(true);
   const [editWeightBtn, setEditWeightBtn] = useState("Edit");
   const [sliderValues, setSliderValues] = useState(parameter_values);
@@ -207,6 +207,9 @@ const RecommendationPopup = ({ onClose, onContinue, parameter_values}) => {
         <Btn
           label={editWeightBtn}
           onClick={() => {
+            if(editWeightBtn==="Save"){
+              onSave(sliderValues);
+            }
             setEditWeights(!editWeights);
             setEditWeightBtn(editWeights ? "Save" : "Edit");
           }}
@@ -228,7 +231,7 @@ const RecommendationPopup = ({ onClose, onContinue, parameter_values}) => {
           disable={!editWeights}
         />
         <div style={{ margin: "20px" }}></div>
-        <Btn label={"Continue"} onClick={()=>{onContinue(sliderValues);}} disable={!editWeights} />
+        <Btn label={"Continue"} onClick={()=>{onContinue();}} disable={!editWeights} />
       </div>
     </Dialog>
   );

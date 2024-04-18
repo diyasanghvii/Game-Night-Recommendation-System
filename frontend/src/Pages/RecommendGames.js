@@ -160,10 +160,12 @@ function RecommendGames() {
         onClose={() => { 
           setParameterDialog(false); 
       }}
-        onContinue={async (sliderValues) => {
+        onContinue={() => {
           setParameterDialog(false);
-          await setParameterValues(sliderValues);
           fetchRecommendations(selectedMembers, parameterValues);
+        }}
+        onSave={(sliderValues) => {
+          setParameterValues(sliderValues);
         }}
         parameter_values={parameterValues}
       /> 

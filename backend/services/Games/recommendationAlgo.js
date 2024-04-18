@@ -64,7 +64,8 @@ function getReason(maxScore, scores) {
   return reasons[maxIndex];
 }
 
-function recommendGames(gameData) {
+function recommendGames(gameData, selectedNames, parameter_values) {
+  console.log(parameter_values);
   const totalFriends = gameData[0].ownership.length;
 
   const scoredGames = gameData.map((game) =>
