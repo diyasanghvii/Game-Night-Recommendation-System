@@ -13,17 +13,10 @@ function valuetext(value) {
   return value;
 }
 
-const RecommendationPopup = ({ onClose, onContinue }) => {
+const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) => {
   const [editWeights, setEditWeights] = useState(true);
   const [editWeightBtn, setEditWeightBtn] = useState("Edit");
-  const [sliderValues, setSliderValues] = useState({
-    ownership: 0.5,
-    preferredGenres: 0.5,
-    ratings: 0.5,
-    interest: 0.5,
-    totalPlaytime: 0.5,
-    playtime2Weeks: 0.5,
-  });
+  const [sliderValues, setSliderValues] = useState(parameter_values);
 
   const handleSliderChange = (name) => (event, newValue) => {
     setSliderValues({ ...sliderValues, [name]: newValue });
@@ -227,6 +220,9 @@ const RecommendationPopup = ({ onClose, onContinue }) => {
         <Btn
           label={editWeightBtn}
           onClick={() => {
+            if(editWeightBtn==="Save"){
+              onSave(sliderValues);
+            }
             setEditWeights(!editWeights);
             setEditWeightBtn(editWeights ? "Save" : "Edit");
           }}
@@ -248,7 +244,7 @@ const RecommendationPopup = ({ onClose, onContinue }) => {
           disable={!editWeights}
         />
         <div style={{ margin: "20px",backgroundColor: '#1A2040' }}></div>
-        <Btn label={"Continue"} onClick={()=>{onContinue(sliderValues);}} disable={!editWeights} />
+        <Btn label={"Continue"} onClick={()=>{onContinue();}} disable={!editWeights} />
       </div>
     </Dialog>
   );

@@ -3,11 +3,7 @@ import Chip from "@mui/material/Chip";
 import CheckboxList from "../Components/CheckboxList/CheckboxList.jsx";
 import Btn from "../Components/Button/Btn.js";
 import SelectServerChannel from "../Components/SelectServerChannel/SelectServerChannel.jsx";
-import {
-  GetPresence,
-  SendList,
-  GenerateRecommendations,
-} from "../Services/index.js";
+import { GetPresence, GenerateRecommendations } from "../Services/index.js";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import RecommendationPopup from "../Components/RecommendationPopUp/RecommendationPopUp";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -174,11 +170,14 @@ function RecommendGames() {
             onClose={() => {
               setParameterDialog(false);
             }}
-            onContinue={async (sliderValues) => {
+            onContinue={() => {
               setParameterDialog(false);
-              await setParameterValues(sliderValues);
               fetchRecommendations(selectedMembers, parameterValues);
             }}
+            onSave={(sliderValues) => {
+              setParameterValues(sliderValues);
+            }}
+            parameter_values={parameterValues}
           />
         )}
         {showPopup && (
@@ -193,7 +192,9 @@ function RecommendGames() {
             }}
           />
         )}
-        <h2 style={{ marginLeft: "6rem", color:"#fff"}}>Select Players from Discord</h2>
+        <h2 style={{ marginLeft: "6rem", color: "#fff" }}>
+          Select Players from Discord
+        </h2>
         <div style={{ marginLeft: "6rem", color: "white", display: "flex" }}>
           <p>
             Selected Server:{" "}
@@ -284,7 +285,9 @@ function RecommendGames() {
               color: "white", // Text color white
             }}
           >
-            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Offline</h3>
+            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
+              Offline
+            </h3>
             <CheckboxList
               items={memberStatus.Offline}
               onCheckboxToggle={handleCheckboxToggle}
