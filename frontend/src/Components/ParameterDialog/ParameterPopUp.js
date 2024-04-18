@@ -239,6 +239,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
               totalPlaytime: 0.6,
               playtime2Weeks: 0.5,
             });
+            onSave(sliderValues);
             setEditWeights(true);
           }}
           disable={!editWeights}

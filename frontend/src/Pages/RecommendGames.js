@@ -312,12 +312,6 @@ function RecommendGames() {
               <div style={{ textAlign: "center" }}>
                 <h3>Generating Recommendations... Hold on tight!</h3>
                 <CircularProgress />
-                {/* <Btn label="Generate Recommendations" onClick={() => fetchRecommendations(selectedMembers)}></Btn>
-          {isGeneratingRecommendations && (
-            <div className="loading-overlay">
-              <div style={{ textAlign: 'center' }}>
-                <h3>Generating Recommendations... Hold on tight!</h3>
-                <CircularProgress /> */}
               </div>
             </div>
           )}
