@@ -8,6 +8,8 @@ import { Navigate } from "react-router-dom";
 import _ from "lodash";
 import { profileCheck } from "../Services";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 class Dashboard extends Component {
   constructor() {
@@ -273,6 +275,7 @@ class Dashboard extends Component {
             <Btn
               onClick={() => this.setState({ rcmBtnClicked: true })}
               label={"Recommend Multiplayer Games"}
+              sx={{ backgroundColor: "rgba(0, 255, 0, 10)" }} // Adjust the button transparency here
             />
           </span>
         </div>
@@ -288,11 +291,22 @@ class Dashboard extends Component {
               marginTop: "10px",
             }}
           >
-            <input
+            <TextField
               type="text"
               placeholder="Search all games..."
               value={allGamesSearchTerm}
               onChange={this.handleAllGamesSearchChange}
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+              }}
             />
             <GameSectionFilter
               title="All games"
@@ -342,11 +356,22 @@ class Dashboard extends Component {
               marginTop: "10px",
             }}
           >
-            <input
+            <TextField
               type="text"
               placeholder="Search your games..."
               value={yourGamesSearchTerm}
               onChange={this.handleYourGamesSearchChange}
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+              }}
             />
             <GameSectionFilter
               title="Your games"
@@ -374,11 +399,22 @@ class Dashboard extends Component {
               marginTop: "10px",
             }}
           >
-            <input
+            <TextField
               type="text"
               placeholder="Search free games..."
               value={freeGamesSearchTerm}
               onChange={this.handleFreeGamesSearchChange}
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+              }}
             />
             <GameSectionFilter
               title="Free Cross Platform Multi-Player games"
