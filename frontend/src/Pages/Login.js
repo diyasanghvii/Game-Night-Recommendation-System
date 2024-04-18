@@ -131,8 +131,11 @@ const Login = () => {
           fullWidth={true}
           onChange={(e) => setUsername(e.target.value)}
           variant="outlined"
-          color="secondary"
-          sx={{ color: "white", marginBottom: "8px" }} // Change text color to white
+          color="primary" // Change color to primary (blue)
+          sx={{
+            marginBottom: "8px",
+            "& input": { color: "white" }, // Change input text color to white
+          }}
         />
         <TextField
           label="Password"
@@ -141,10 +144,11 @@ const Login = () => {
           fullWidth={true}
           onChange={(e) => setPassword(e.target.value)}
           variant="outlined"
-          color="secondary"
+          color="primary" // Change color to primary (blue)
           sx={{
-            color: "white", // Change text color to white
             marginBottom: "16px",
+            color: "white", // Change text color to white
+            backgroundColor: "transparent", // Keep background transparent
             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
               borderColor: "white", // Change border color to white
             },

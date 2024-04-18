@@ -22,15 +22,19 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
     setSliderValues({ ...sliderValues, [name]: newValue });
   };
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>
+    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth  PaperProps={{
+      style: {
+        backgroundColor: '#1A2040',
+      },
+    }}>
+      <DialogTitle style={{color: '#fff', backgroundColor: '#242c53'}}>
         <strong>Set weights for the recommendation parameters</strong>
         <IconButton onClick={onClose} style={{ float: "right" }}>
-          <CloseIcon />
+        <CloseIcon style={{ color: '#fff' }} />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent>
+      <DialogContent style={{color: '#fff', backgroundColor: '#1A2040' ,overflow: 'auto'}}>
         <div
           style={{
             display: "flex",
@@ -58,6 +62,10 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           disabled={editWeights}
           min={0}
           max={1}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
+
+
+
         />
         <div
           style={{
@@ -85,6 +93,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           marks={true}
           disabled={editWeights}
           min={0}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
           max={1}
         />
         <div
@@ -114,6 +123,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           disabled={editWeights}
           min={0}
           max={1}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
         />
         <div
           style={{
@@ -142,6 +152,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           disabled={editWeights}
           min={0}
           max={1}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
         />
         <div
           style={{
@@ -170,6 +181,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           disabled={editWeights}
           min={0}
           max={1}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
         />
         <div
           style={{
@@ -198,11 +210,12 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           disabled={editWeights}
           min={-1}
           max={1}
+          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
         />
       </DialogContent>
 
       <div
-        style={{ display: "flex", alignSelf: "center", marginBottom: "15px" }}
+        style={{ display: "flex", alignSelf: "center", marginBottom: "15px",backgroundColor: '#1A2040' }}
       >
         <Btn
           label={editWeightBtn}
@@ -214,7 +227,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
             setEditWeightBtn(editWeights ? "Save" : "Edit");
           }}
         />
-        <div style={{ margin: "20px" }}></div>
+        <div style={{ margin: "20px",backgroundColor: '#1A2040' }}></div>
         <Btn
           label={"Reset to Default"}
           onClick={() => {
@@ -230,7 +243,7 @@ const RecommendationPopup = ({ onClose, onContinue, onSave, parameter_values}) =
           }}
           disable={!editWeights}
         />
-        <div style={{ margin: "20px" }}></div>
+        <div style={{ margin: "20px",backgroundColor: '#1A2040' }}></div>
         <Btn label={"Continue"} onClick={()=>{onContinue();}} disable={!editWeights} />
       </div>
     </Dialog>
