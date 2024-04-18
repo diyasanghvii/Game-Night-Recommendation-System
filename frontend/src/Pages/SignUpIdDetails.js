@@ -350,10 +350,10 @@ const SignUpIdDetails = () => {
         Continue
       </button>
 
-      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
-        <DialogTitle>Information</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} >
+        <DialogTitle sx={{ backgroundColor: "#07294a", color: "#fff" }}>Information</DialogTitle>
+        <DialogContent sx={{ backgroundColor: "#07294a", color: "#fff" }}>
+          <DialogContentText sx={{ color: "#fff" }}>
             To find your Steam ID, follow these steps:
             <ol>
               <li>Open the Steam app.</li>
@@ -365,7 +365,7 @@ const SignUpIdDetails = () => {
               </li>
             </ol>
           </DialogContentText>
-          <DialogContentText>
+          <DialogContentText sx={{ color: "#fff" }}>
             The app needs your profile to be public in your STEAM account in
             order to generate recommendations based on games you own. <br />
             <br />
@@ -377,8 +377,15 @@ const SignUpIdDetails = () => {
             style={{ width: "500px", height: "auto" }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setInfoDialogOpen(false)} color="primary">
+        <DialogActions sx={{ backgroundColor: "#07294a", color: "#fff" }}>
+          <Button onClick={() => setInfoDialogOpen(false)} color="primary" style={{
+                              marginTop: "10px",
+                              background: "linear-gradient(45deg, #333333, #555555)",
+                              color: "#DDDDDD", // Light grey
+                              marginLeft: "10px",
+                              boxShadow:
+                                "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
+                            }}>
             Close
           </Button>
         </DialogActions>
