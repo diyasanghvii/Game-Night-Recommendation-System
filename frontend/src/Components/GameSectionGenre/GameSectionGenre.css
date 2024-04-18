@@ -1,15 +1,21 @@
 /* GameSectionGenre.css */
 .gameSection {
     margin: 20px 0;
-  background-color: lightgrey; 
+  background-color: rgb(78, 63, 105); 
   border-radius: 10px; 
   padding: 20px;
+  color: white;
+  }
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
 .gameList {
-    display: flex;
-    flex-wrap: nowrap; 
-    overflow-x: auto; 
+  display: flex;
+  flex-wrap: nowrap; 
+  overflow-x: auto; 
 }
   .gameGrid {
     display: flex;
@@ -21,11 +27,12 @@
     margin: 10px;
     width: 200px; 
     flex: 0 0 auto; 
-    background-color: #f0f0f0; 
+    background-color: #745a92; 
     margin-right: 15px;      
     padding: 15px;           
     border-radius: 5px;      
     transition: transform 0.2s ease-in-out; 
+    color: white;
   }
   
   .gameCard:hover {
@@ -38,3 +45,26 @@
     align-items: center;
     justify-content: space-between; 
   }
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.tag {
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: #ffffff; 
+  padding: 5px 10px;
+  border-radius: 15px;
+  display: inline-block;
+  opacity: 0.8;
+  margin: 2px;
+}
+
+.genres-text {
+  margin-bottom: 10px; /* Adjust the margin bottom as needed */
+}
+
+

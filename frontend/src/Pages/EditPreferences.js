@@ -4,6 +4,8 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   UpdateUserGenre,
   profileCheck,
@@ -185,17 +187,24 @@ class EditPreferences extends Component {
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
-      <div>
+      <div style={{
+        backgroundImage: "url('/images/Game Image.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        padding: "20px"
+      }}>
         <MenuHeader />
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: "17px",
+            marginTop: "20px",
+            color: "white",
           }}
         >
-          <h2>Welcome, {userName}!</h2>
+          <h2 style={{ color: "white" }}>Welcome, {userName}!</h2>
           {this.state.isPopupOpen && (
             <PopupGenre
               genres={userGenre}
@@ -212,11 +221,27 @@ class EditPreferences extends Component {
             genres={userGenre}
           />
           <div>
-            <input
+          <TextField
               type="text"
               placeholder="Search interested games..."
               value={allGamesSearchTerm}
               onChange={this.handleAllGamesSearchChange}
+              fullWidth
+              style={{
+                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                height: "30px", // Adjust the height as needed, for example "30px"
+                marginBottom: "15px", // Add margin if desired
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+              }}
             />
             <GameSection
               title="Interested games"
@@ -232,11 +257,27 @@ class EditPreferences extends Component {
             />
           </div>
           <div>
-            <input
+          <TextField
               type="text"
               placeholder="Search rated games..."
               value={yourGamesSearchTerm}
               onChange={this.handleYourGamesSearchChange}
+              fullWidth
+              style={{
+                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                height: "30px", // Adjust the height as needed, for example "30px"
+                marginBottom: "15px", // Add margin if desired
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+              }}
             />
             <GameSection
               title="Rated games"

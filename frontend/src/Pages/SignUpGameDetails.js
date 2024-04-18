@@ -107,12 +107,43 @@ const SignUpGameDetails = () => {
       });
   };
   return (
+    <div
+    style={{
+      backgroundImage: "url('/images/Game Image.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      minHeight: "100vh",
+      padding: "20px",
+    }}
+  >
     <Container maxWidth="sm">
       <Text variant="h4" gutterBottom={true} label={"Signup"} />
       <Stepper
-        sx={{ marginTop: 5, marginBottom: 5 }}
+         sx={{
+          marginTop: 5,
+          marginBottom: 5,
+          "& .MuiStepLabel-root .Mui-completed": {
+            color: "green", // Completed steps text color
+          },
+          "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel": {
+            color: "green", // Completed alternative steps text color
+          },
+          "& .MuiStepLabel-root .Mui-active": {
+            color: "white", // Active step text color
+          },
+          "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
+            color: "#ADD8E6", // Active alternative step text color (light blue)
+          },
+          "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+            fill: "#0e64ab", // Active step icon color
+          },
+          "& .MuiStepLabel-root .Mui-disabled": {
+            color: "grey", // Incomplete steps text color
+          },
+        }}
         activeStep={2}
         alternativeLabel
+        
       >
         <Step key={0}>
           <StepLabel>Step 1</StepLabel>
@@ -145,9 +176,26 @@ const SignUpGameDetails = () => {
           value={selectedGenres}
           onChange={handleGenreSelection}
           fullWidth
+          style={{ backgroundColor: "hsl(209, 38%, 30%)",color: "white" }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                backgroundColor: "hsl(209, 38%, 20%)",
+                color: "white",
+              },
+            },
+          }}
         >
           {genreList?.map((ele) => {
-            return <MenuItem value={ele}>{ele}</MenuItem>;
+            return (
+              <MenuItem
+                key={ele}
+                value={ele}
+                style={{ color: "white" }}
+              >
+                {ele}
+              </MenuItem>
+            );
           })}
         </Select>
       </Box>
@@ -179,6 +227,15 @@ const SignUpGameDetails = () => {
                 value={game.ratings}
                 onChange={(event) => handleRatingChange(event, index)}
                 max={5}
+                sx={{
+                  "& .MuiRating-iconFilled": {
+                    color: "#FFD700", // Filled star color
+                    
+                  },
+                  "& .MuiRating-iconEmpty": {
+                    color: "#ccc", // Empty star color
+                  },
+                }}
               />
             </Box>
           </div>
@@ -191,6 +248,7 @@ const SignUpGameDetails = () => {
         onClick={handleSignup}
       />
     </Container>
+    </div>
   );
 };
 

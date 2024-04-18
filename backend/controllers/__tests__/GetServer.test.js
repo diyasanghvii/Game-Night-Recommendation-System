@@ -19,7 +19,7 @@ describe("Get User Steam Game List API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -27,7 +27,7 @@ describe("Get User Steam Game List API testing", () => {
     authToken = res.token;
 
     const response2 = await request(app)
-      .post("/user/signupTwo")
+      .post("/api/user/signupTwo")
       .set("Authorization", `Bearer ${authToken}`)
       .send(paramBody2)
       .expect(200);
@@ -40,7 +40,7 @@ describe("Get User Steam Game List API testing", () => {
 
   it("should return 200 status and success message after fetching server list", async () => {
     const response = await request(app)
-      .get("/discord/fetchserverlist?discordUserName=diya_san")
+      .get("/api/discord/fetchserverlist?discordUserName=diya_san")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -50,7 +50,7 @@ describe("Get User Steam Game List API testing", () => {
 
   it("should return 200 status and server list should be array", async () => {
     const response = await request(app)
-      .get("/discord/fetchserverlist?discordUserName=diya_san")
+      .get("/api/discord/fetchserverlist?discordUserName=diya_san")
       .set("Authorization", `Bearer ${authToken}`)
       .send()
       .expect(200);
@@ -60,7 +60,7 @@ describe("Get User Steam Game List API testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .get("/discord/fetchserverlist?discordUserName=diya_san")
+      .get("/api/discord/fetchserverlist?discordUserName=diya_san")
       .send()
       .expect(401);
 

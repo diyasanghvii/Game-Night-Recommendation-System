@@ -148,6 +148,19 @@ export const GetUserDetails = () => {
   });
 };
 
+export const SaveUserDetails = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/saveuserdetails", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 // Update user Genre
 export const UpdateUserGenre = (data) => {
   return new Promise((resolve, reject) => {
@@ -207,6 +220,20 @@ export const GetServerList = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
       .get(`/discord/fetchserverlist?discordUserName=${data}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Server List
+export const GetServerListSignUp = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}&${Date.now()}`)
       .then((response) => {
         resolve(response);
       })
@@ -309,7 +336,7 @@ export const UpdateUnownedUserGameRating = (data) => {
 export const VerifyUserSteamId = (data) => {
   return new Promise((resolve, reject) => {
     authLocalStorageRequest
-      .get(`/user/verifyusersteamid?steamId=${data}`)
+      .post("/user/verifyusersteamid", data)
 
       .then((response) => {
         resolve(response);
@@ -319,11 +346,13 @@ export const VerifyUserSteamId = (data) => {
       });
   });
 };
+
+
 
 export const VerifyUserSteamIdInEditProfile = (data) => {
   return new Promise((resolve, reject) => {
     authRequest
-      .get(`/user/verifyusersteamid?steamId=${data}`)
+      .post("/user/verifyusersteamid", data)
 
       .then((response) => {
         resolve(response);
@@ -333,6 +362,62 @@ export const VerifyUserSteamIdInEditProfile = (data) => {
       });
   });
 };
+// Add CheckUniqueSteamId function for edit profile
+export const CheckUniqueSteamIdAuthReq = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/checkuniquesteamid", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Add CheckUniqueSteamId function
+export const CheckUniqueSteamId = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .post("/user/checkuniquesteamid", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Add CheckUniqueDiscordUserName function
+export const CheckUniqueDiscordUserName = (data) => {
+  return new Promise((resolve, reject) => {
+    authLocalStorageRequest
+      .post("/user/checkuniquediscordusername", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Add CheckUniqueDiscordUserName function for edit profile
+export const CheckUniqueDiscordUserNameAuthReq = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
+      .post("/user/checkuniquediscordusername", data)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 
 // Generate and Fetch recommendations
 export const GenerateRecommendations = (data) => {
@@ -363,10 +448,8 @@ export const CacheUserSteamGames = () => {
 };
 
 // ALl Games API
-export const FetchAllGames = ({ url, searchString }) => {
-  const apiUrl = url
-    ? url
-    : `https://api.gamalytic.com/steam-games/list?fields=name,steamId&title=${searchString}&limit=40`;
+export const FetchAllGames = ({ url }) => {
+  const apiUrl = url;
   return new Promise((resolve, reject) => {
     axios
       .get(apiUrl)

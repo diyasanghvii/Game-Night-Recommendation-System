@@ -6,7 +6,7 @@ const {
   generateJwtToken,
 } = require("../../utils/authHelpers");
 const STEAM_BASE_URL = "http://api.steampowered.com";
-
+const { encrypt, decrypt } = require('../../utils/encryptionUtils');
 // @desc Login API
 // @route POST /user/login
 // @access Public
@@ -102,29 +102,11 @@ const signUpOne = async (req, res) => {
 // @access Private
 const signUpTwo = async (req, res) => {
   try {
-    const { email, steamId, discordUserName } = req.body;
-
-    // Check if the Steam ID or Discord Username already exists in the database
-    const existingUser = await User.findOne({
-      $or: [{ steamId }, { discordUserName }],
-    }).exec();
-
-    if (existingUser) {
-      let errorMessage = "";
-      if (existingUser.steamId === steamId) {
-        errorMessage = "Steam ID already exists!";
-      } else if (existingUser.discordUserName === discordUserName) {
-        errorMessage = "Discord Username already exists!";
-      }
-      return res.status(400).json({ message: errorMessage });
-    }
-
-    // If user does not exist, update the user information
-    let data = await User.findOne({ email }).exec();
+    let data = await User.findOne({ email: req.body.email }).exec();
     if (data) {
       await data.updateOne({
-        steamId,
-        discordUserName,
+        steamId: encrypt(req.body.steamId),
+        discordUserName: req.body.discordUserName,
       });
       res.status(200).json({
         message: "Updated User Information Successfully",
@@ -135,6 +117,7 @@ const signUpTwo = async (req, res) => {
       });
     }
   } catch (e) {
+    console.log(e);
     res.status(500).send("Error Occured, Try again!");
   }
 };
@@ -169,17 +152,52 @@ const signUpThree = async (req, res) => {
 // @access Private
 const getUserDetails = async (req, res) => {
   try {
+    const decryptedSteamId = decrypt(req.user.steamId);
     res.status(200).json({
       email: req.user.email,
       name: req.user.name,
-      steamId: req.user.steamId,
+      age: req.user.age,
+      steamId: decryptedSteamId,
       discordUserName: req.user.discordUserName,
       preferredGenres: req.user.preferredGenres,
       preferences: req.user.preferences,
       message: "User Details Fetched Sucessfully!",
     });
   } catch (e) {
+    console.log(e);
     res.status(500).send("Error Occured, Try again!");
+  }
+};
+
+// @desc Save Edited User Information API
+// @route POST /user/saveuserdetails
+// @access Private
+const saveUserDetails = async (req, res) => {
+  try {
+    const { name, age, steamId, discordUserName } = req.body;
+    const email = req.user.email;
+
+    // Update the user information
+    let user = await User.findOne({ email }).exec();
+    if (user) {
+      const encryptedSteamId = encrypt(steamId);
+      await user.updateOne({
+        name,
+        age,
+        steamId: encryptedSteamId,
+        discordUserName,
+      });
+      res.status(200).json({
+        message: "User Information Updated Successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "User Does Not Exist!",
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Error Occurred, Try again!");
   }
 };
 
@@ -310,7 +328,7 @@ const saveGameUnOwnedRating = async (req, res) => {
 // @access Private
 const verifyUserSteamId = async (req, res) => {
   try {
-    const steamId = req.query.steamId;
+    const steamId = req.body.steamId;
     const email = req.user.email;
     const url = `${STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&format=json&include_appinfo=True&include_played_free_games=True`;
     const response = await axios.get(url);
@@ -318,8 +336,6 @@ const verifyUserSteamId = async (req, res) => {
       const gamesCount = response.data.response.game_count || 0; // Get game count or default to 0
       if (
         email &&
-        response.data &&
-        response.data.response &&
         response.data.response.games &&
         response.data.response.games.length > 0
       ) {
@@ -374,16 +390,58 @@ const clearRating = async (req, res) => {
   }
 };
 
+// @desc Check if Discord Username is unique
+// @route POST /user/checkUniqueDiscordUserName
+// @access Private
+const checkUniqueDiscordUserName = async (req, res) => {
+  try {
+    const discordUserName = req.body.discordUserName;
+    const existingUser = await User.findOne({ discordUserName }).exec();
+    //console.log(discordUserName);
+    if (existingUser) {
+      res.status(200).json({ message: "Discord Username already exists!",status:false,existingUserEmail: existingUser.email });
+    } else {
+      res.status(200).json({ message: "Discord Username is unique!",status:true,existingUserEmail: null});
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+// @desc Check if Steam ID is unique
+// @route POST /user/checkUniqueSteamId
+// @access Private
+const checkUniqueSteamId = async (req, res) => {
+  try {
+    const steamId = req.body.steamId;
+    const encryptedSteamId = encrypt(steamId);
+    const existingUser = await User.findOne({ steamId: encryptedSteamId}).exec();
+    if (existingUser) {
+      res.status(200).json({ message: "Steam ID already exists!",status:false,existingUserEmail: existingUser.email });
+    } else {
+      res.status(200).json({ message: "Steam ID is unique!",status:true, existingUserEmail: null});
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).send("Error occurred, try again!");
+  }
+};
+
+
 module.exports = {
   login,
   signUpOne,
   signUpTwo,
   signUpThree,
   getUserDetails,
+  saveUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,
   saveGameUnOwnedRating,
   verifyUserSteamId,
   clearRating,
+  checkUniqueDiscordUserName,
+  checkUniqueSteamId,
 };

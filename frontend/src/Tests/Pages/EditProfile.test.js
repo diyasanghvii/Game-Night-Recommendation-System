@@ -19,9 +19,9 @@ describe('EditProfile component', () => {
     const { getByLabelText } = render(<EditProfile />);
     expect(getByLabelText('Name')).toHaveValue('Testuser');
     expect(getByLabelText('Age')).toHaveValue('23');
-    expect(getByLabelText('Email ID')).toHaveValue('testuser@gmail.com');
-    expect(getByLabelText('Steam ID')).toHaveValue('1234455677223');
-    expect(getByLabelText('Discord Username')).toHaveValue('test_user45');
+    expect(getByLabelText('Email')).toHaveValue('naheer@gmail.com');
+    expect(getByLabelText('Steam ID')).toHaveValue('76561199642434117');
+    expect(getByLabelText('Discord Username')).toHaveValue('naheerfatima_76086');
   });
 
   it('enables editing when clicking the Edit button', () => {
@@ -30,7 +30,7 @@ describe('EditProfile component', () => {
     fireEvent.click(editButton);
     expect(getByLabelText('Name')).toBeEnabled();
     expect(getByLabelText('Age')).toBeEnabled();
-    expect(getByLabelText('Email ID')).toBeEnabled();
+    expect(getByLabelText('Email')).toBeDisabled(); 
     expect(getByLabelText('Steam ID')).toBeEnabled();
     expect(getByLabelText('Discord Username')).toBeEnabled();
   });

@@ -77,8 +77,8 @@ class PopupGenre extends Component {
             {!allGenres || (allGenres.length === 0 && <p>Loading ...</p>)}
           </div>
           <div className="button-group">
-            <button onClick={this.handleSave}>Save</button>
-            <button onClick={onClose}>Cancel</button>
+            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={this.handleSave}>Save</button>
+            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={onClose}>Cancel</button>
           </div>
         </div>
       </div>

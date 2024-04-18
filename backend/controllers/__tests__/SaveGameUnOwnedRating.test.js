@@ -20,7 +20,7 @@ describe("Save UnOwned Game Rating API testing", () => {
 
   beforeAll(async () => {
     const response = await request(app)
-      .post("/user/signupone")
+      .post("/api/user/signupone")
       .send(paramBody)
       .expect(200);
 
@@ -35,7 +35,7 @@ describe("Save UnOwned Game Rating API testing", () => {
 
   it("should return 200 status and success message after updating game ratings for  unowned game", async () => {
     const response = await request(app)
-      .post("/user/updateunownedgamerating")
+      .post("/api/user/updateunownedgamerating")
       .set("Authorization", `Bearer ${authToken}`)
       .send(paramBodyGenre)
       .expect(200);
@@ -45,7 +45,7 @@ describe("Save UnOwned Game Rating API testing", () => {
 
   it("Game ratings should be successfuly updated and reflected in the response", async () => {
     const response = await request(app)
-      .post("/user/updateunownedgamerating")
+      .post("/api/user/updateunownedgamerating")
       .set("Authorization", `Bearer ${authToken}`)
       .send(paramBodyGenre)
       .expect(200);
@@ -55,7 +55,7 @@ describe("Save UnOwned Game Rating API testing", () => {
 
   it("should return 401 status if user is not authorised, Not passing auth token", async () => {
     const response = await request(app)
-      .post("/user/updateunownedgamerating")
+      .post("/api/user/updateunownedgamerating")
       .send(paramBodyGenre)
       .expect(401);
 

@@ -12,11 +12,15 @@ function GameSectionGenre({ title, onEditGenre, genres }) {
       <div className="gameCarousel">
         <div className="gameList" style={{ textAlign: "left" }}>
           <h3>Saved Genres:</h3>
-          <ul>
+          <br /> {/* Empty row line */}
+          <div className="tag-container">
+            <p>&nbsp;</p>
             {genres.map((genre, index) => (
-              <li key={index}>{genre}</li>
+              <span key={index} className="tag">
+                {genre}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </section>

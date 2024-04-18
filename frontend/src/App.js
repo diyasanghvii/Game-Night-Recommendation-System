@@ -8,24 +8,35 @@ import RecommendGames from "./Pages/RecommendGames";
 import SignUpGameDetails from "./Pages/SignUpGameDetails";
 import SignUpIdDetails from "./Pages/SignUpIdDetails";
 import EditProfile from "./Pages/EditProfile";
+import Home from "./Pages/Home";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route element={<AuthRoutes />}>
-          <Route element={<Dashboard />} path="/" exact />
-          <Route element={<Dashboard />} path="/dashboard" />
-          <Route element={<EditPreferences />} path="/edit-preferences" />
-          <Route element={<RecommendGames />} path="/recommend-games" />
-          <Route element={<EditProfile />} path="/edit-profile" />
-        </Route>
-        <Route element={<Login />} path="/login" />
-        <Route element={<SignUp />} path="/signup" />
-        <Route element={<SignUpIdDetails />} path="/signupiddetails" />
-        <Route element={<SignUpGameDetails />} path="/signupgamedetails" />
-      </Routes>
-    </Router>
+    <div
+      style={{
+        backgroundImage: "url('/images/Game Image.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh", // Set the height of the container to 100% of viewport height
+      }}
+    >
+      <Router>
+        <Routes>
+          <Route element={<AuthRoutes />}>
+            <Route element={<Dashboard />} path="/" exact />
+            <Route element={<Dashboard />} path="/dashboard" />
+            <Route element={<EditPreferences />} path="/edit-preferences" />
+            <Route element={<RecommendGames />} path="/recommend-games" />
+            <Route element={<EditProfile />} path="/edit-profile" />
+          </Route>
+          <Route element={<Login />} path="/login" />
+          <Route element={<SignUp />} path="/signup" />
+          <Route element={<Home />} path="/home" />
+          <Route element={<SignUpIdDetails />} path="/signupiddetails" />
+          <Route element={<SignUpGameDetails />} path="/signupgamedetails" />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
