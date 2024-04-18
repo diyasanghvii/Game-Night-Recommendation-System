@@ -49,7 +49,7 @@ class Dashboard extends Component {
   fetchAllGames1 = () => {
     const { allGamesSearchTerm } = this.state;
     const defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=25&features=Cross-Platform%20Multiplayer";
     FetchAllGames({
       url: allGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: allGamesSearchTerm,
@@ -87,7 +87,7 @@ class Dashboard extends Component {
     console.log("allGamesFeaturesFilter : ", allGamesFeaturesFilter);
 
     let defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=50";
 
     if (allGamesSearchTerm !== "") {
       defaultUrl += `&title=${allGamesSearchTerm}`;
@@ -131,7 +131,7 @@ class Dashboard extends Component {
   fetchFreeGames = () => {
     const { freeGamesSearchTerm } = this.state;
     const defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=50&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer";
     FetchFreeGames({
       url: freeGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: freeGamesSearchTerm,
@@ -314,7 +314,9 @@ class Dashboard extends Component {
             />
             <GameSectionFilter
               title="All games"
+              allGamesFilter={true}
               games={allGamesList}
+              isSortable={true}
               ownedGame={ownedGames}
               searchTerm={allGamesSearchTerm}
               ratings={ratings}
