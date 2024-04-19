@@ -1,6 +1,7 @@
 const axios = require("axios");
 const User = require("../../models/User/userModal");
 const { Client, GatewayIntentBits, Intents } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 // @desc Fetch server list where user is a member
 // @route GET /discord/fetchserverlist
@@ -180,7 +181,7 @@ const sendList = async (req, res) => {
   if (!channelName) {
     return res.status(400).json({ message: "Channel not found." });
   }
-  
+
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -211,17 +212,56 @@ const sendList = async (req, res) => {
             count++;
           }
         }
-        let gamecount=1;
+        const border = new EmbedBuilder().setAuthor({
+          name: "╭⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡✧✧✧⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡╮"
+        });
+        const border1 = new EmbedBuilder().setAuthor({
+          name: "╰⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡✧✧✧⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡╯"
+        });
+        const embed = new EmbedBuilder().setAuthor({
+          name: "Game Night Recommender",
+          iconURL: "https://i.postimg.cc/cL5C4Kcw/game.png",
+        });
+
+        const embed1 = new EmbedBuilder()
+          .setAuthor({
+            name: `Memberlist :`,
+            iconURL:
+              "https://i.postimg.cc/7699w4JW/output-onlinepngtools-2.png",
+          })
+          .addFields({
+            name: ` ${memberlist}`,
+            value: " ",
+          });
+        const embed2 = new EmbedBuilder()
+          .setAuthor({
+            name: ` Recommended Games :`,
+            iconURL:
+              "https://i.postimg.cc/y6JKLWmr/output-onlinepngtools-1.png",
+          })
+          .setTimestamp();
+        let gamecount = 1;
+        const gameEmbedList = [];
+        gameEmbedList.push(border,embed,embed1,embed2);
         for (const key in gameList) {
           if (gameList.hasOwnProperty(key)) {
             const element = gameList[key];
+            const embed = new EmbedBuilder()
+              .setThumbnail(
+                `https://steamcdn-a.akamaihd.net/steam/apps/${element.gameSteamId}/header.jpg`
+              )
+              .addFields({
+                name: `\n${gamecount}. ${element.gameName}`,
+                value: `\nReason for recommendation: ${element.reason}\n`,
+              });
             gamelist += `\n${gamecount}. ${element.gameName}`;
+            gamelist += `\nReason for recommendation: ${element.reason}\n`;
             gamecount++;
+            gameEmbedList.push(embed);
           }
         }
-        channel.send(
-          `-------------------------------\n✿ Memberlist ✿ : ${memberlist} \n\n✿ Recommended Games ✿ : ${gamelist}\n-------------------------------`
-        );
+        gameEmbedList.push(border1);
+        channel.send({ embeds: gameEmbedList });
       }
 
       res.status(200).json({
