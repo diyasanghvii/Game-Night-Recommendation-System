@@ -539,7 +539,6 @@ const EditProfile = () => {
             >
               Delete Profile
             </Button>
-            {error}
           </div>
         )}
       </Container>
