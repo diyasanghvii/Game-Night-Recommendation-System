@@ -161,6 +161,19 @@ export const SaveUserDetails = (data) => {
   });
 };
 
+export const DeleteUserDetails = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest.delete('/user/deleteuserdetails', { data })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+
 // Update user Genre
 export const UpdateUserGenre = (data) => {
   return new Promise((resolve, reject) => {

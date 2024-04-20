@@ -8,6 +8,7 @@ const {
   signUpThree,
   getUserDetails,
   saveUserDetails,
+  deleteUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,
@@ -27,6 +28,7 @@ userRoutes.post("/signuptwo", authoriseCheck, signUpTwo);
 userRoutes.post("/signupthree", authoriseCheck, signUpThree);
 userRoutes.get("/getuserdetails", authoriseCheck, getUserDetails);
 userRoutes.post("/saveuserdetails", authoriseCheck, saveUserDetails);
+userRoutes.delete("/deleteuserdetails", authoriseCheck, deleteUserDetails);
 userRoutes.post("/updategenre", authoriseCheck, updateGenre);
 userRoutes.get("/getpreferences", authoriseCheck, getUserRatings);
 userRoutes.post("/updaterating", authoriseCheck, updateRating);
