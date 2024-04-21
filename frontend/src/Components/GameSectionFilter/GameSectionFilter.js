@@ -17,6 +17,8 @@ import OwnedGamesSorting from "../Sorting/OwnedGamesSorting";
 import AllGamesFilter from "../GameFilter/AllGamesFilter";
 import AllGamesSorting from "../Sorting/AllGamesSorting";
 
+const fontClr = "#2d2d2e";
+
 function GameSectionFilter({
   title,
   games,
@@ -308,6 +310,7 @@ function GameSectionFilter({
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
+                      color: fontClr,
                     }}
                   >
                     <h5
@@ -322,6 +325,7 @@ function GameSectionFilter({
                       style={{
                         margin: 0,
                         marginBottom: 10,
+                        color: "white",
                       }}
                     >
                       {game.price ? `$ ${game.price}` : "Free"}
@@ -342,6 +346,7 @@ function GameSectionFilter({
                         style={{
                           margin: 0,
                           marginBottom: 2,
+                          color: fontClr,
                         }}
                       >
                         {"Score"}
@@ -370,6 +375,7 @@ function GameSectionFilter({
                         style={{
                           margin: 0,
                           marginBottom: 2,
+                          color: fontClr,
                         }}
                       >
                         {"Release"}

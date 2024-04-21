@@ -48,8 +48,7 @@ const MenuHeader = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
-        backdropFilter: "blur(5px)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)", // Black color with 50% transparency
         boxShadow:
           "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
       }}
@@ -62,6 +61,7 @@ const MenuHeader = () => {
           <Button
             key={index}
             size="small"
+            className="toolbar-links"
             sx={{
               color: "inherit",
               marginLeft: "1rem",
@@ -69,6 +69,9 @@ const MenuHeader = () => {
               backdropFilter: "blur(5px)",
               boxShadow:
                 "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+              ":hover": {
+                color: "#8e6ceb",
+              },
             }}
             onClick={link.onClick}
           >

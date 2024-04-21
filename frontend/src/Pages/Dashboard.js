@@ -298,7 +298,7 @@ class Dashboard extends Component {
               onChange={this.handleAllGamesSearchChange}
               fullWidth
               style={{
-                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                width: "20%", // Adjust the width as needed, such as "50%" for half-width
                 height: "30px", // Adjust the height as needed, for example "30px"
                 marginBottom: "15px", // Add margin if desired
               }}
@@ -363,12 +363,12 @@ class Dashboard extends Component {
           >
             <TextField
               type="text"
-              placeholder="Search your games..."
+              placeholder="Search your steam games..."
               value={yourGamesSearchTerm}
               onChange={this.handleYourGamesSearchChange}
               fullWidth
               style={{
-                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                width: "20%", // Adjust the width as needed, such as "50%" for half-width
                 height: "30px", // Adjust the height as needed, for example "30px"
                 marginBottom: "15px", // Add margin if desired
               }}
@@ -416,7 +416,7 @@ class Dashboard extends Component {
               onChange={this.handleFreeGamesSearchChange}
               fullWidth
               style={{
-                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                width: "20%", // Adjust the width as needed, such as "50%" for half-width
                 height: "30px", // Adjust the height as needed, for example "30px"
                 marginBottom: "15px", // Add margin if desired
               }}

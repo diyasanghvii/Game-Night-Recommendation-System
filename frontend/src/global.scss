@@ -1,7 +1,51 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Source+Code+Pro&family=Source+Code+Pro&family=Rajdhani&family=Chivo+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Rajdhani&family=Nunito&display=swap");
+
+:root {
+  --font-family: "Nunito", sans-serif;
+  --font-color: black;
+  --font-size: 1rem;
+}
 
 html,
 body {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+  padding: 0;
+}
+
+label {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+p {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+div {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+button {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+h4 {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+li {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+ul {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
 }
 
 .home-page-root {
@@ -81,7 +125,6 @@ body {
 .MuiOutlinedInput-notchedOutline {
   border-color: white !important;
 }
-.MuiInputBase-input.Mui-disabled{
-  color: white, // Text color for disabled inputs
+.MuiInputBase-input.Mui-disabled {
+  color: white; // Text color for disabled inputs
 }
-
