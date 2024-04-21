@@ -8,10 +8,23 @@ import InfoIcon from "@mui/icons-material/Info";
 import Slider from "@mui/material/Slider";
 import Tooltip from "@mui/material/Tooltip";
 import Btn from "../Button/Btn";
+import Collapse from "@mui/material/Collapse";
 
 function valuetext(value) {
   return value;
 }
+
+const weightInfo = {
+  ownership: {"label":"Ownership", "info_text": "How much weight to give to games that everybody already owns."},
+  interest: {"label":"Interest", "info_text": "How much weight to give to everybody's interest level in a game."},
+  playtime2Weeks: {"label":"Last 2 Weeks Playtime", "info_text": "How much weight to give to the everybody's playtime in the last 2 weeks for a game (can be negative to prioritize less recently played games)."},
+};
+
+const advancedWeightInfo = {
+  preferredGenres: {"label":"Genre Preferences", "info_text":"How much weight to give to games that match the everyone's preferred genres."},
+  ratings: {"label":"User Ratings", "info_text":"How much weight to give to the everyone's ratings for games."},
+  totalPlaytime: {"label":"Total Playtime", "info_text":"How much weight to give to the total playtime everybody has on a game."},
+};
 
 const RecommendationPopup = ({
   onClose,
@@ -22,6 +35,7 @@ const RecommendationPopup = ({
   const [editWeights, setEditWeights] = useState(true);
   const [editWeightBtn, setEditWeightBtn] = useState("Edit");
   const [sliderValues, setSliderValues] = useState(parameter_values);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSliderChange = (name) => (event, newValue) => {
     setSliderValues({ ...sliderValues, [name]: newValue });
@@ -48,180 +62,66 @@ const RecommendationPopup = ({
       <DialogContent
         style={{ color: "#fff", backgroundColor: "#1A2040", overflow: "auto" }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Ownership weight</p>
-          <Tooltip title="Ownership weight info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.ownership}
-          onChange={handleSliderChange("ownership")}
-          aria-label="Ownership Weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={0}
-          max={1}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
+         <p style={{ marginBottom: "1rem" }}>
+          Adjust the parameters below to prioritize what's most important to you when generating the recommendations for your group.
+        </p>
+        {Object.entries(weightInfo).map(([name, info]) => (
+            <div key={name} style={{ display: "flex", alignItems: "flex-start", flexWrap: "wrap", margin: "10px 0" }}>
+              <p>{info.label}</p>
+              <Tooltip title={info.info_text}>
+                <IconButton>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+              <Slider
+                value={sliderValues[name]}
+                onChange={handleSliderChange(name)}
+                aria-label={`${name} Weight`}
+                defaultValue={0.5}
+                getAriaValueText={valuetext}
+                valueLabelDisplay="auto"
+                shiftStep={0.1}
+                step={0.1}
+                marks={true}
+                disabled={editWeights}
+                min={name === "playtime2Weeks" ? -1 : 0}
+                max={1}
+                sx={{ color: "rgba(255, 192, 203, 0.5)" }}
+              />
+            </div>
+          ))}
+          <Btn
+          label={showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"}
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          style={{float: "right"}}
         />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Preferred Genres weight</p>
-          <Tooltip title="Preferred Genres weight info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.preferredGenres}
-          onChange={handleSliderChange("preferredGenres")}
-          aria-label="Preferred Genres weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={0}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-          max={1}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Ratings weight</p>
-          <Tooltip title="Ratings weight info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.ratings}
-          onChange={handleSliderChange("ratings")}
-          aria-label="Ratings weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={0}
-          max={1}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Interest weight</p>
-          <Tooltip title="Interest weight info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.interest}
-          onChange={handleSliderChange("interest")}
-          aria-label="Interest weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={0}
-          max={1}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Total Playtime weight</p>
-          <Tooltip title="Total Playtime info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.totalPlaytime}
-          onChange={handleSliderChange("totalPlaytime")}
-          aria-label="Total Playtime weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={0}
-          max={1}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <p>Playtime (2 weeks) weight</p>
-          <Tooltip title="Total Playtime info">
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Slider
-          value={sliderValues.playtime2Weeks}
-          onChange={handleSliderChange("playtime2Weeks")}
-          aria-label="Playtime (2 weeks) weight"
-          defaultValue={0.5}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="auto"
-          shiftStep={0.1}
-          step={0.1}
-          marks={true}
-          disabled={editWeights}
-          min={-1}
-          max={1}
-          sx={{ color: "rgba(255, 192, 203, 0.5)" }}
-        />
+        <Collapse in={showAdvanced}>
+        {Object.entries(advancedWeightInfo).map(([name, info]) => (
+            <div key={name} style={{ display: "flex", alignItems: "flex-start", flexWrap: "wrap", margin: "10px 0" }}>
+              <p>{info.label}</p>
+              <Tooltip title={info.info_text}>
+                <IconButton>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+              <Slider
+                value={sliderValues[name]}
+                onChange={handleSliderChange(name)}
+                aria-label={`${name} Weight`}
+                defaultValue={0.5}
+                getAriaValueText={valuetext}
+                valueLabelDisplay="auto"
+                shiftStep={0.1}
+                step={0.1}
+                marks={true}
+                disabled={editWeights}
+                min={name === "playtime2Weeks" ? -1 : 0}
+                max={1}
+                sx={{ color: "rgba(255, 192, 203, 0.5)" }}
+              />
+            </div>
+          ))}
+        </Collapse>
       </DialogContent>
 
       <div

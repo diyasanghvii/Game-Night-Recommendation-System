@@ -63,7 +63,7 @@ function RecommendGames() {
       })
       .catch((error) => {
         console.log(error);
-        alert(error?.response?.data?.message);
+        alert(error?.response?.data?.error || 'Failed to fetch recommendations. Please try again later.');
       })
       .finally(() => setIsGeneratingRecommendations(false));
   };
