@@ -119,7 +119,12 @@ const RatingPopUp = ({
           opacity: 1,
         }}
       >
-        <DialogTitle style={{ color: "white", opacity: 1 }}>
+        <DialogTitle
+          style={{
+            color: "white",
+            opacity: 1,
+          }}
+        >
           <strong>{gameData?.name}</strong>
           <IconButton onClick={onClose} style={{ float: "right" }}>
             <CloseIcon sx={{ color: "white" }} />
@@ -135,7 +140,7 @@ const RatingPopUp = ({
           {error && <p>Error fetching data: {error.message}</p>}
           {!isLoading && !error && gameData && (
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={9}>
                 <img
                   src={`https://steamcdn-a.akamaihd.net/steam/apps/${gameData?.steamId}/header.jpg`}
                   alt={gameData?.name}
@@ -180,9 +185,16 @@ const RatingPopUp = ({
                 <hr />
 
                 {isOwned ? (
-                  <Typography variant="body1" sx={{ color: "white" }}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "white",
+                      alignContent: "center",
+                      textAlign: "center",
+                    }}
+                  >
                     <span className="icon-container">
-                      <strong>Rate it:</strong>
+                      <strong style={{ marginRight: 10 }}>RATE IT</strong>
                       <Rating
                         name="game-rating"
                         value={userRating}
@@ -193,7 +205,7 @@ const RatingPopUp = ({
                             color: "#FFD700", // Filled star color
                             fontSize: "1.5rem !important",
                           },
-                          
+
                           "& .MuiRating-iconEmpty": {
                             color: "#ccc", // Empty star color
                             fontSize: "1.5rem !important",
@@ -206,12 +218,14 @@ const RatingPopUp = ({
                             variant="contained"
                             style={{
                               marginTop: "10px",
-                              background: "linear-gradient(45deg, #333333, #555555)",
+                              background:
+                                "linear-gradient(45deg, #333333, #555555)",
                               color: "#DDDDDD", // Light grey
                               marginLeft: "10px",
                               boxShadow:
                                 "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
                             }}
+                            className="game-popup-button"
                             onClick={handleRatingSubmit}
                           >
                             Save
@@ -220,12 +234,14 @@ const RatingPopUp = ({
                             variant="contained"
                             style={{
                               marginTop: "10px",
-                              background: "linear-gradient(45deg, #333333, #555555)",
+                              background:
+                                "linear-gradient(45deg, #333333, #555555)",
                               color: "#DDDDDD", // Light grey
                               marginLeft: "10px",
                               boxShadow:
                                 "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
                             }}
+                            className="game-popup-button"
                             onClick={() => {
                               setUserRating(null);
                               clearRatings(gameId);
@@ -238,7 +254,10 @@ const RatingPopUp = ({
                     </span>
                   </Typography>
                 ) : (
-                  <Typography sx={{ color: "white" }} variant="body1">
+                  <Typography
+                    sx={{ color: "white", display: "flex" }}
+                    variant="body1"
+                  >
                     <strong>Interested?</strong>
                     <Tooltip title="Love this!!">
                       <FavoriteIcon
@@ -282,12 +301,14 @@ const RatingPopUp = ({
                           variant="contained"
                           style={{
                             marginTop: "10px",
-                            background: "linear-gradient(45deg, #333333, #555555)",
+                            background:
+                              "linear-gradient(45deg, #333333, #555555)",
                             color: "#DDDDDD", // Light grey
                             marginLeft: "10px",
                             boxShadow:
                               "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
                           }}
+                          className="game-popup-button"
                           onClick={() => clearRatings(gameId)}
                         >
                           Clear Rating

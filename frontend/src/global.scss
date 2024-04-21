@@ -92,7 +92,7 @@ ul {
   padding-bottom: 50px !important;
   outline: 0 !important;
   box-sizing: border-box;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .modal-containter-root {
@@ -112,10 +112,9 @@ ul {
 }
 
 .modal-body-root {
-  height: 70%;
   margin-top: 8px;
   padding-top: 26px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   align-items: center;
 }
 .MuiOutlinedInput-root.Mui-focused {
@@ -127,4 +126,21 @@ ul {
 }
 .MuiInputBase-input.Mui-disabled {
   color: white; // Text color for disabled inputs
+}
+
+.game-popup-button {
+  min-width: 100px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+.glow {
+  font-size: 1.8rem !important;
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073,
+    0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+}
+
+.glow-header {
 }

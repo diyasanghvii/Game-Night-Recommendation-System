@@ -269,13 +269,13 @@ class Dashboard extends Component {
             color: "white",
           }}
         >
-          <h2>Welcome, {userName}!</h2>
+          <h2 class="glow">Welcome, {userName}!</h2>
           <span>
             {rcmBtnClicked && <Navigate to="/recommend-games" replace={true} />}
             <Btn
               onClick={() => this.setState({ rcmBtnClicked: true })}
               label={"Recommend Multiplayer Games"}
-              sx={{ backgroundColor: "rgba(0, 255, 0, 10)" }} // Adjust the button transparency here
+              customStyle={{ backgroundColor: "rgba(0, 0, 0, 1)" }} // Adjust the button transparency here
             />
           </span>
         </div>
@@ -305,12 +305,15 @@ class Dashboard extends Component {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                    <IconButton aria-label="search" sx={{ color: "#fff" }}>
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
                 ),
-                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+                style: {
+                  backgroundColor: "rgba(64, 64, 64, 0.75)",
+                  color: "#fff",
+                },
               }}
             />
             <GameSectionFilter
@@ -375,12 +378,15 @@ class Dashboard extends Component {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                    <IconButton aria-label="search" sx={{ color: "#fff" }}>
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
                 ),
-                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+                style: {
+                  backgroundColor: "rgba(64, 64, 64, 0.75)",
+                  color: "#fff",
+                },
               }}
             />
             <GameSectionFilter
@@ -423,12 +429,15 @@ class Dashboard extends Component {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton aria-label="search" sx={{color:"#fff"}}>
+                    <IconButton aria-label="search" sx={{ color: "#fff" }}>
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
                 ),
-                style: { backgroundColor: "rgba(64, 64, 64, 0.75)" , color: "#fff"}
+                style: {
+                  backgroundColor: "rgba(64, 64, 64, 0.75)",
+                  color: "#fff",
+                },
               }}
             />
             <GameSectionFilter

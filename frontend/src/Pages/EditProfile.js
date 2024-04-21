@@ -227,7 +227,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <div>
+      <div style={{ padding: 20 }}>
         <MenuHeader />
         <div
           style={{

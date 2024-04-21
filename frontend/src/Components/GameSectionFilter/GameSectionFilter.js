@@ -239,7 +239,9 @@ function GameSectionFilter({
       <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <h2 style={{ marginRight: 20 }}>{title}</h2>
+        <h2 className="glow-header" style={{ marginRight: 20 }}>
+          {title}
+        </h2>
         <div
           style={{
             display: "flex",
@@ -259,13 +261,19 @@ function GameSectionFilter({
             <Btn
               label="Sort"
               size="small"
+              className="game-popup-button"
               onClick={allGamesFilter ? openAllGamesSortModal : openSortModal}
             />
           </div>
         )}
         {hasFilter && (
           <div>
-            <Btn label="Filter" size="small" onClick={openFilterModal} />
+            <Btn
+              className="game-popup-button"
+              label="Filter"
+              size="small"
+              onClick={openFilterModal}
+            />
           </div>
         )}
         {loading && (
