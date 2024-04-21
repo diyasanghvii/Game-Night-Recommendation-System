@@ -196,12 +196,6 @@ function getReason(maxScore, scores, weights) {
       if (maxIndices[i] === 5 && currentWeight > 0) {
         currentWeight *= 2;
       }
-      //TO EXPLORE:
-      /*
-      if (maxIndices[i] === 5) {
-        currentWeight = Math.abs(currentWeight);
-      }
-      */
       
       if (currentWeight > maxWeight) {
         maxWeightIndex = maxIndices[i];

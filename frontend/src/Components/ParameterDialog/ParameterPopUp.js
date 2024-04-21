@@ -93,7 +93,6 @@ const RecommendationPopup = ({
           <Btn
           label={showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"}
           onClick={() => setShowAdvanced(!showAdvanced)}
-          style={{float: "right"}}
         />
         <Collapse in={showAdvanced}>
         {Object.entries(advancedWeightInfo).map(([name, info]) => (
