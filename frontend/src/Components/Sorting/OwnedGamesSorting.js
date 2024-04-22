@@ -161,7 +161,7 @@ export default function OwnedGamesSorting({
                 }}
               />
             }
-            label="Asc"
+            label="Ascending"
           />
           <FormControlLabel
           sx={{
@@ -183,7 +183,7 @@ export default function OwnedGamesSorting({
                 }}
               />
             }
-            label="Desc"
+            label="Descending"
           />
         </RadioGroup>
       </div>

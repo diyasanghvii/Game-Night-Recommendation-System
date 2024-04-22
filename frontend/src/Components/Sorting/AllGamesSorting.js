@@ -171,7 +171,7 @@ export default function AllGamesSorting({
                 }}
               />
             }
-            label="Asc"
+            label="Ascending"
           />
           <FormControlLabel
             value="desc"
@@ -191,7 +191,7 @@ export default function AllGamesSorting({
                 }}
               />
             }
-            label="Desc"
+            label="Descending"
           />
         </RadioGroup>
       </div>
