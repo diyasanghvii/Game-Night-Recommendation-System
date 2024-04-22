@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 // Images
 import IMAGE3 from "../Assets/Image3.jpg";
-import IMAGE2 from "../Assets/Image2.jpg";
 import { useNavigate } from "react-router-dom";
+import GAME from "../Assets/game.svg";
 
 const Font_Color = "white";
 
@@ -102,6 +102,9 @@ const Home = () => {
           sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)", color: Font_Color }}
         >
           <Toolbar>
+            <div style={{ marginRight: 20 }}>
+              <img src={GAME} width={30} height={30} />
+            </div>
             <Typography
               variant="h6"
               component="div"
@@ -253,7 +256,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Gamalytic</p>
                 <p style={cardSubHeader}>
-                  Get real-time Steam game statistics.  Release dates, price, rating scores and more !
+                  Get real-time Steam game statistics. Release dates, price,
+                  rating scores and more !
                 </p>
               </div>
             </div>
@@ -287,7 +291,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Steam</p>
                 <p style={cardSubHeader}>
-                  To retrieve your customized gaming group's latest gaming activity data
+                  To retrieve your customized gaming group's latest gaming
+                  activity data
                 </p>
               </div>
             </div>
@@ -321,8 +326,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Discord</p>
                 <p style={cardSubHeader}>
-                  Send your personalized group game recommendations to a
-                  channel of your choice
+                  Send your personalized group game recommendations to a channel
+                  of your choice
                 </p>
               </div>
             </div>
@@ -331,7 +336,8 @@ const Home = () => {
           {/* CARDS CONTAINER - END */}
         </div>
         {/* ROW CARDS - START */}
-        <div style={{
+        <div
+          style={{
             display: "flex",
             flex: "wrap",
             flexDirection: "column",
@@ -344,8 +350,9 @@ const Home = () => {
             borderStyle: "inset",
             boxShadow: "0 0 20px 2px #7c5295",
             borderColor: "#D69EF8",
-          }}>
-            <p
+          }}
+        >
+          <p
             style={{
               fontSize: "2.5rem",
               color: "white",
@@ -355,29 +362,36 @@ const Home = () => {
             Features
           </p>
           {/* FIRST */}
-          <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-                borderRadius: "20px",
-                width: "70%",
-                height: "auto",
-                borderStyle: "inset",
-                boxShadow: "0 0 20px 2px #312CC7",
-                borderColor: "#D69EF8",
-              }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "70%",
+              height: "auto",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
             <div style={bigCardContainer}>
-              <div style={{padding: 40 }} >
+              <div style={{ padding: 40 }}>
                 <img src={IMAGE3} width={300} height={300} />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
-                DISCOVER  <br /> GAMES
+                  DISCOVER <br /> GAMES
                 </p>
                 <p style={bigCardSubHeader}>
-                Dive into Steam's vast library of games tailored to your tastes. Filter by tags, genres, and features to find the perfect match. Sort options allow you to arrange games by price, release date, or rating, ensuring you find exactly what you're looking for. With comprehensive game info, you'll make informed decisions about your next gaming experience.
+                  Dive into Steam's vast library of games tailored to your
+                  tastes. Filter by tags, genres, and features to find the
+                  perfect match. Sort options allow you to arrange games by
+                  price, release date, or rating, ensuring you find exactly what
+                  you're looking for. With comprehensive game info, you'll make
+                  informed decisions about your next gaming experience.
                 </p>
               </div>
             </div>

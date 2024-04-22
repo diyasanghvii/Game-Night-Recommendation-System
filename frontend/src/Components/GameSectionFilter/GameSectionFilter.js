@@ -300,7 +300,7 @@ function GameSectionFilter({
               src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
               alt={game.name}
             />
-            <div style={{ height: 70 }}>
+            <div style={{ height: 100 }}>
               <h3>{game.name}</h3>
             </div>
 
