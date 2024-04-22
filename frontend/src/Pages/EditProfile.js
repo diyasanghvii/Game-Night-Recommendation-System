@@ -601,7 +601,7 @@ const EditProfile = () => {
               </div>
             )}
             {!isEditing && (
-          <div style={{ marginTop: 20, width: "80%" }}>
+          <div style={{ marginTop: 20, width: "100%" }}>
             <Button
               variant="contained"
               color="secondary"
