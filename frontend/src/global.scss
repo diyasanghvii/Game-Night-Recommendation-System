@@ -1,11 +1,56 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Source+Code+Pro&family=Source+Code+Pro&family=Rajdhani&family=Chivo+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Rajdhani&family=Nunito&display=swap");
+
+:root {
+  
+  --font-color: black;
+  --font-size: 1rem;
+}
 
 html,
 body {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+  padding: 0;
+}
+
+label {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+p {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+div {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+button {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+h4 {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+li {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
+}
+
+ul {
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 .home-page-root {
   font-family: "Jersey 20", sans-serif;
+  
 }
 
 .clear-rating-text {
@@ -81,7 +126,6 @@ body {
 .MuiOutlinedInput-notchedOutline {
   border-color: white !important;
 }
-.MuiInputBase-input.Mui-disabled{
-  color: white, // Text color for disabled inputs
+.MuiInputBase-input.Mui-disabled {
+  color: white; // Text color for disabled inputs
 }
-

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, TextField, Button,Typography } from "@mui/material";
+import { Container, TextField, Button, Typography } from "@mui/material";
 import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import { isValidDiscordUsername } from "../Utils";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../Services";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import Text from "../Components/Typography/Text";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
@@ -35,7 +36,8 @@ const EditProfile = () => {
   const [detailsChanged, setDetailsChanged] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [steamIdError, setSteamIdError] = useState(false);
-  const [discordUsernameFieldError, setDiscordUsernameFieldError] = useState(false);
+  const [discordUsernameFieldError, setDiscordUsernameFieldError] =
+    useState(false);
   const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
@@ -111,15 +113,16 @@ const EditProfile = () => {
           if (steamId != tempSteamId) {
             console.log("Steam ID changed.. Caching owned games again");
             CacheUserSteamGames()
-            .then((response) => {
-              if (response) {
-              }
-            })
-            .catch((e) => {
-              const steamErrorMessage = "Error fetching games for new Steam ID";
-              console.log(steamErrorMessage, error);
-              setError(steamErrorMessage);
-            });;
+              .then((response) => {
+                if (response) {
+                }
+              })
+              .catch((e) => {
+                const steamErrorMessage =
+                  "Error fetching games for new Steam ID";
+                console.log(steamErrorMessage, error);
+                setError(steamErrorMessage);
+              });
           }
         }
       })
@@ -204,7 +207,9 @@ const EditProfile = () => {
               setSteamIdError(true);
             });
         } else {
-          setError("The STEAM account ID might be invalid, or it may have fewer than 5 games.");
+          setError(
+            "The STEAM account ID might be invalid, or it may have fewer than 5 games."
+          );
           setSteamIdVerified(false);
           setSteamIdError(true);
         }
@@ -219,7 +224,9 @@ const EditProfile = () => {
   const handleVerifyDiscordUsername = () => {
     const trimmedDiscordUsername = discordUsername.trim();
     if (isValidDiscordUsername(trimmedDiscordUsername)) {
-      CheckUniqueDiscordUserNameAuthReq({ discordUserName: trimmedDiscordUsername })
+      CheckUniqueDiscordUserNameAuthReq({
+        discordUserName: trimmedDiscordUsername,
+      })
         .then((res) => {
           if (res && res.data && res.data.status) {
             setDiscordUsernameVerified(true);
@@ -253,281 +260,347 @@ const EditProfile = () => {
 
   return (
     <>
-      <MenuHeader />
-      <Container maxWidth="sm">
-        <span style={{ marginLeft: 5, color: "red" }}>{deleteError}</span>
-        <div style={{ width: "80%", marginTop: 20 }}>
-          <TextField
-            label={<Typography style={{ color: "white" }}>Name</Typography>}
-            fullWidth
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            disabled={!isEditing}
-            error={nameError}
-            helperText={nameError ? "Name is required" : ""}
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#fff",
-            },
-          }}
-            onBlur={() => {
-              if (name.trim() === "") {
-                setNameError(true);
-              } else {
-                setNameError(false);
-              }
-            }}
-            InputProps={{
-              style: {  color: "white" }, // Set text color dynamically based on isEditing
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-          />
-        </div>
-        <div style={{ width: "80%", marginTop: 20 }}>
-          <TextField
-            label={<Typography style={{ color: "white" }}>Age</Typography>}
-            fullWidth
-            value={age}
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#fff",
-            },
-          }}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (!value <= 7 || !value >= 120) {
-                setAge(value);
-              }
-            }}
-            disabled={!isEditing}
-            type="number"
-            InputProps={{
-              style: { color: "white" }, // Set text color dynamically based on isEditing
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            
-          />
-        </div>
-        <div style={{ width: "80%", marginTop: 20 }}>
-          <TextField
-            label={<Typography style={{ color: "white" }}>Email</Typography>}
-            fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={true}
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#fff",
-            },
-          }}
-            InputProps={{
-              style: {  color: "white" }, // Set text color dynamically based on isEditing
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-          />
-        </div>
+      <div>
+        <MenuHeader />
         <div
           style={{
+            minHeight: "80vh",
             display: "flex",
-            justifyContent: "space-between",
-            marginTop: 20,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <div style={{ width: "80%" }}>
-            <TextField
-              label={<Typography style={{ color: "white" }}>Steam ID</Typography>}
-              fullWidth
-              value={steamId}
-              onChange={(e) => setSteamId(e.target.value)}
-              disabled={!isEditing}
-              error={steamIdError}
-              sx={{
-                "& .MuiInputBase-input.Mui-disabled": {
-                  WebkitTextFillColor: "#fff",
-              },
+          <Container
+            maxWidth="sm"
+            sx={{
+              background: "rgba(0, 0, 0, 0.4)",
+              padding: 8,
+              borderRadius: 8,
             }}
-              InputProps={{
-                style: {  color: "white"}, // Set text color dynamically based on isEditing
-              }}
-              InputLabelProps={{
-                style: { color: "white" },
-              }}
+          >
+            <Text
+              customStyle={{ fontSize: "1.4rem !important" }}
+              variant="h4"
+              gutterBottom={true}
+              label={"Edit Profile"}
             />
-            {isEditing && (
-              <div
-                style={{ display: "flex", alignItems: "center", marginTop: 5 }}
-              >
-                {steamIdVerified ? (
-                  <>
-                    <CheckIcon style={{ color: "green" }} />
-                    <span style={{ marginLeft: 5, color: "green" }}>
-                      Steam ID Verified
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <ClearIcon style={{ color: "red" }} />
-                    <span style={{ marginLeft: 5, color: "red" }}>{error}</span>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-          <div style={{ width: "13%", display: "flex", alignItems: "center" }}>
-            {isEditing && (
-              <Button
-                variant="contained"
-                onClick={handleVerifySteamId}
-                style={{ width: "100%" }}
-                 sx={{
-          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-          color: "white",
-          transition: "background-image 0.3s ease, background-color 0.3s ease",
-          "&:hover": {
-            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-          },
-        }}
-              >
-                Verify
-              </Button>
-            )}
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "80%" }}>
-            <TextField
-              label={<Typography style={{ color: "white" }}>Discord Username</Typography>}
-              fullWidth
-              value={discordUsername}
-              onChange={(e) => setDiscordUsername(e.target.value)}
-              disabled={!isEditing}
-              error={discordUsernameFieldError}
-              sx={{
-                "& .MuiInputBase-input.Mui-disabled": {
-                  WebkitTextFillColor: "#fff",
-              },
-            }}
-              InputProps={{
-                style: {  color: "white"}, // Set text color dynamically based on isEditing
-              }}
-              InputLabelProps={{
-                style: { color: "white" },
-              }}
-            />
-            {isEditing && (
-              <div
-                style={{ display: "flex", alignItems: "center", marginTop: 5 }}
-              >
-                {discordUsernameVerified ? (
-                  <>
-                    <CheckIcon style={{ color: "green" }} />
-                    <span style={{ marginLeft: 5, color: "green" }}>
-                      Discord Username Verified
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <ClearIcon style={{ color: "red" }} />
-                    <span style={{ marginLeft: 5, color: "red" }}>
-                      {discordUsernameError}
-                    </span>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-          <div style={{ width: "13%", display: "flex", alignItems: "center" }}>
-            {isEditing && (
-              <Button
-                variant="contained"
-                onClick={handleVerifyDiscordUsername}
-                style={{ width: "100%" }}
-                sx={{
-                  backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-                  backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-                  color: "white",
-                  transition: "background-image 0.3s ease, background-color 0.3s ease",
-                  "&:hover": {
-                    backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-                    backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-                  },
-                }}
-              >
-                Verify
-              </Button>
-            )}
-          </div>
-        </div>
-        {isEditing ? (
-          <>
-            <div style={{ marginTop: 20, width: "80%" }}>
-              <Button
-                variant="contained"
-                onClick={handleSave}
+            <span style={{ marginLeft: 5, color: "red" }}>{deleteError}</span>
+        <div style={{ width: "100%", marginTop: 40 }}>
+              <TextField
+                label={<Typography style={{ color: "white" }}>Name</Typography>}
                 fullWidth
-                disabled={saveDisabled}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={!isEditing}
+                error={nameError}
+                helperText={nameError ? "Name is required" : ""}
                 sx={{
-                  backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-                  backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-                  color: "white",
-                  transition: "background-image 0.3s ease, background-color 0.3s ease",
-                  "&:hover": {
-                    backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-                    backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "#fff",
                   },
                 }}
+                onBlur={() => {
+                  if (name.trim() === "") {
+                    setNameError(true);
+                  } else {
+                    setNameError(false);
+                  }
+                }}
+                InputProps={{
+                  style: { color: "white" }, // Set text color dynamically based on isEditing
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+              />
+            </div>
+            <div style={{ width: "100%", marginTop: 20 }}>
+              <TextField
+                label={<Typography style={{ color: "white" }}>Age</Typography>}
+                fullWidth
+                value={age}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "#fff",
+                  },
+                }}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (!value <= 7 || !value >= 120) {
+                    setAge(value);
+                  }
+                }}
+                disabled={!isEditing}
+                type="number"
+                InputProps={{
+                  style: { color: "white" }, // Set text color dynamically based on isEditing
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+              />
+            </div>
+            <div style={{ width: "100%", marginTop: 20 }}>
+              <TextField
+                label={
+                  <Typography style={{ color: "white" }}>Email</Typography>
+                }
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={true}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "#fff",
+                  },
+                }}
+                InputProps={{
+                  style: { color: "white" }, // Set text color dynamically based on isEditing
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginTop: 20,
+              }}
+            >
+              <div style={{ width: "80%" }}>
+                <TextField
+                  label={
+                    <Typography style={{ color: "white" }}>Steam ID</Typography>
+                  }
+                  fullWidth
+                  value={steamId}
+                  onChange={(e) => setSteamId(e.target.value)}
+                  disabled={!isEditing}
+                  error={steamIdError}
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: "#fff",
+                    },
+                  }}
+                  InputProps={{
+                    style: { color: "white" }, // Set text color dynamically based on isEditing
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+                />
+                {isEditing && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    {steamIdVerified ? (
+                      <>
+                        <CheckIcon style={{ color: "green" }} />
+                        <span style={{ marginLeft: 5, color: "green" }}>
+                          Steam ID Verified
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <ClearIcon style={{ color: "red" }} />
+                        <span style={{ marginLeft: 5, color: "red" }}>
+                          {error}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div style={{ width: "13%" }}>
+                {isEditing && (
+                  <Button
+                    variant="contained"
+                    onClick={handleVerifySteamId}
+                    style={{ width: "100%" }}
+                    sx={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+                      backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+                      color: "white",
+                      transition:
+                        "background-image 0.3s ease, background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                        backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                      },
+                    }}
+                  >
+                    Verify
+                  </Button>
+                )}
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginTop: 20,
+              }}
+            >
+              <div style={{ width: "80%" }}>
+                <TextField
+                  label={
+                    <Typography style={{ color: "white" }}>
+                      Discord Username
+                    </Typography>
+                  }
+                  fullWidth
+                  value={discordUsername}
+                  onChange={(e) => setDiscordUsername(e.target.value)}
+                  disabled={!isEditing}
+                  error={discordUsernameFieldError}
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: "#fff",
+                    },
+                  }}
+                  InputProps={{
+                    style: { color: "white" }, // Set text color dynamically based on isEditing
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+                />
+                {isEditing && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    {discordUsernameVerified ? (
+                      <>
+                        <CheckIcon style={{ color: "green" }} />
+                        <span style={{ marginLeft: 5, color: "green" }}>
+                          Discord Username Verified
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <ClearIcon style={{ color: "red" }} />
+                        <span style={{ marginLeft: 5, color: "red" }}>
+                          {discordUsernameError}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div
+                style={{ width: "13%", display: "flex", alignItems: "center" }}
               >
-                Save
-              </Button>
+                {isEditing && (
+                  <Button
+                    variant="contained"
+                    onClick={handleVerifyDiscordUsername}
+                    style={{ width: "100%" }}
+                    sx={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+                      backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+                      color: "white",
+                      transition:
+                        "background-image 0.3s ease, background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                        backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                      },
+                    }}
+                  >
+                    Verify
+                  </Button>
+                )}
+              </div>
             </div>
-            <div style={{ marginTop: 20, width: "80%" }}>
-              <Button variant="outlined" onClick={handleCancel} fullWidth  
-              sx={{
-          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-          color: "white",
-          transition: "background-image 0.3s ease, background-color 0.3s ease",
-          "&:hover": {
-            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-          },
-        }}>
-                Cancel
-              </Button>
-            </div>
-          </>
-        ) : (
-          <div style={{ marginTop: 20, width: "80%" }}>
-            <Button variant="contained" onClick={handleEdit} fullWidth
-             sx={{
-              backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
-              backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
-              color: "white",
-              transition: "background-image 0.3s ease, background-color 0.3s ease",
-              "&:hover": {
-                backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-                backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-              },
-            }}>
-              Edit
-            </Button>
-          </div>
-        )}
-        {!isEditing && (
+            {isEditing ? (
+              <>
+                <div style={{ marginTop: 20, width: "100%" }}>
+                  <Button
+                    variant="contained"
+                    onClick={handleSave}
+                    fullWidth
+                    disabled={saveDisabled}
+                    sx={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+                      backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+                      color: "white",
+                      transition:
+                        "background-image 0.3s ease, background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                        backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                      },
+                    }}
+                  >
+                    Save
+                  </Button>
+                </div>
+                <div style={{ marginTop: 20, width: "100%" }}>
+                  <Button
+                    variant="outlined"
+                    onClick={handleCancel}
+                    fullWidth
+                    sx={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+                      backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+                      color: "white",
+                      transition:
+                        "background-image 0.3s ease, background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                        backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                      },
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div style={{ marginTop: 20, width: "100%" }}>
+                <Button
+                  variant="contained"
+                  onClick={handleEdit}
+                  fullWidth
+                  sx={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))", // Metallic gradient
+                    backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 60% transparency
+                    color: "white",
+                    transition:
+                      "background-image 0.3s ease, background-color 0.3s ease",
+                    "&:hover": {
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                      backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+                    },
+                  }}
+                >
+                  Edit
+                </Button>
+              </div>
+            )}
+            {!isEditing && (
           <div style={{ marginTop: 20, width: "80%" }}>
             <Button
               variant="contained"
@@ -542,6 +615,8 @@ const EditProfile = () => {
           </div>
         )}
       </Container>
+        </div>
+      </div>
     </>
   );
 };
