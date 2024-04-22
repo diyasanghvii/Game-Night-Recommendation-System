@@ -188,6 +188,7 @@ class EditPreferences extends Component {
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
       <div
+        className="all-root"
         style={{
           backgroundImage: "url('/images/Game Image.png')",
           backgroundSize: "cover",

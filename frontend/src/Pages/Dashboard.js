@@ -252,6 +252,7 @@ class Dashboard extends Component {
     return (
       <>
         <div
+          className="all-root"
           style={{
             backgroundImage: "url('/images/Game Image.png')",
             backgroundSize: "cover",
@@ -371,7 +372,7 @@ class Dashboard extends Component {
                   Error fetching data. Please check your API key and Steam ID.
                 </p>
               ) : isLoading ? (
-                <p style={{color: "white"}}>Loading game data...</p>
+                <p style={{ color: "white" }}>Loading game data...</p>
               ) : (
                 <div
                   style={{

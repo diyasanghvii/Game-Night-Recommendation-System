@@ -148,6 +148,7 @@ function RecommendGames() {
   return (
     <>
       <div
+        className="all-root"
         style={{
           backgroundColor: "rgba(0, 0, 0, 0.7)",
           backgroundSize: "cover",

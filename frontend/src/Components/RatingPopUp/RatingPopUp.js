@@ -112,7 +112,13 @@ const RatingPopUp = ({
   };
 
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog
+      className="all-root"
+      open={true}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+    >
       <div
         style={{
           backgroundImage: `url(https://cdn.akamai.steamstatic.com/steam/apps/${gameData?.steamId}/page_bg_generated_v6b.jpg?t=1647357402)`,

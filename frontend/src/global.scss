@@ -1,57 +1,54 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Rajdhani&family=Nunito&display=swap");
 
 :root {
-  
   --font-color: black;
   --font-size: 1rem;
+  --font-family: "Nunito";
 }
 
 html,
 body {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
   padding: 0;
   margin: 0;
 }
 
-label {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root label {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
 }
 
-p {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root p {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
 }
 
-div {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root div {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
 }
 
-button {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root button {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
 }
 
-h4 {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root h4 {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
 }
 
-li {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root li {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
 }
 
-ul {
-  font-family: var(--font-family) ;
-  font-size: var(--font-size) ;
+.all-root ul {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
 }
 
 .home-page-root {
   font-family: "Jersey 20", sans-serif;
-  
 }
 
 .clear-rating-text {

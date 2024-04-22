@@ -192,6 +192,7 @@ const SignUpIdDetails = () => {
 
   return (
     <div
+      className="all-root"
       style={{
         minHeight: "100vh",
         display: "flex",

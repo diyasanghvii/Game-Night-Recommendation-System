@@ -96,6 +96,7 @@ const Login = () => {
 
   return (
     <div
+      className="all-root"
       style={{
         display: "flex",
         backgroundColor: "rgba(0, 0, 0, 0.4)",

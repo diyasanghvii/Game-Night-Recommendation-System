@@ -228,6 +228,7 @@ const EditProfile = () => {
   return (
     <>
       <div
+        className="all-root"
         style={{
           backgroundColor: "rgba(0, 0, 0, 0.4)",
           backgroundSize: "cover",
