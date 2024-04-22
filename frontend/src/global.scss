@@ -2,10 +2,14 @@
 
 html,
 body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 !important;
 }
 
 .home-page-root {
   font-family: "Jersey 20", sans-serif;
+  
 }
 
 .clear-rating-text {

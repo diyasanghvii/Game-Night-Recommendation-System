@@ -213,10 +213,10 @@ const sendList = async (req, res) => {
           }
         }
         const border = new EmbedBuilder().setAuthor({
-          name: "╭⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡✧✧✧⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡╮"
+          name: "•───────────────⋅☾ ☽⋅───────────────•"
         });
         const border1 = new EmbedBuilder().setAuthor({
-          name: "╰⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡✧✧✧⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡╯"
+          name: "•───────────────⋅☾ ☽⋅───────────────•"
         });
         const embed = new EmbedBuilder().setAuthor({
           name: "Game Night Recommender",
@@ -242,7 +242,7 @@ const sendList = async (req, res) => {
           .setTimestamp();
         let gamecount = 1;
         const gameEmbedList = [];
-        gameEmbedList.push(border,embed,embed1,embed2);
+        channel.send({ embeds: [border,embed,embed1,embed2] });
         for (const key in gameList) {
           if (gameList.hasOwnProperty(key)) {
             const element = gameList[key];
