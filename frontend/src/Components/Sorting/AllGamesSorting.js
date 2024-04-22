@@ -28,7 +28,7 @@ export default function AllGamesSorting({
   return (
     <Box
       sx={{
-        backgroundColor: "#07294a",
+        backgroundColor: "rgb(78, 63, 105)",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
@@ -37,7 +37,9 @@ export default function AllGamesSorting({
         padding: "20px",
       }}
     >
-      <FormControl sx={{ m: 1, minWidth: 160, backgroundColor: "#07294a" }}>
+      <FormControl
+        sx={{ m: 1, minWidth: 160, backgroundColor: "rgb(78, 63, 105)" }}
+      >
         <InputLabel id="server-dialog-select-label">Sort By</InputLabel>
         <Select
           labelId="server-dialog-select-label"
@@ -51,20 +53,14 @@ export default function AllGamesSorting({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
-              backgroundColor: "#07294a",
-              color: "#fff", // Text color changed to white
-              "&:hover": {
-                backgroundColor: "#07294a",
-                color: "#fff",
-              },
+              backgroundColor: "#4dabf5",
+              color: "#000",
             },
-            "&:hover": {
-              backgroundColor: "#07294a",
-              color: "#fff",
-            },
+            
           }}
           MenuProps={{
             anchorOrigin: {
@@ -78,16 +74,15 @@ export default function AllGamesSorting({
             getContentAnchorEl: null,
             PaperProps: {
               sx: {
-                backgroundColor: "#07294a", // Background color for menu list
-                color: "#fff", // Text color for menu list items
+                backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
               },
             },
           }}
         >
           <MenuItem key={1} value={"Release Date"}>
-              Release Date
-            </MenuItem>
-            <MenuItem key={2} value={"Price"}>
+            Release Date
+          </MenuItem>
+          <MenuItem key={2} value={"Price"}>
             Price
           </MenuItem>
           <MenuItem key={3} value={"Review Score"}>
@@ -102,13 +97,13 @@ export default function AllGamesSorting({
           name="controlled-radio-buttons-group"
           value={sortType}
           sx={{
-            backgroundColor: "#07294a",
+            backgroundColor: "rgb(78, 63, 105)",
             color: "#fff",
             "&.Mui-selected": {
               color: "#000",
             },
             "&:hover": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#000",
             },
           }}

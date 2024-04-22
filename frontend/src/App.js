@@ -17,7 +17,7 @@ function App() {
         backgroundImage: "url('/images/Game Image.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "100vh", // Set the height of the container to 100% of viewport height
+        height: "100vh",
       }}
     >
       <Router>

@@ -98,6 +98,7 @@ const Login = () => {
     <div
       style={{
         display: "flex",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",

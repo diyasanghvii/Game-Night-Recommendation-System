@@ -136,7 +136,9 @@ const RatingPopUp = ({
             opacity: 1,
           }}
         >
-          {isLoading && <p>Loading game details...</p>}
+          {isLoading && (
+            <p style={{ color: "white" }}>Loading game details...</p>
+          )}
           {error && <p>Error fetching data: {error.message}</p>}
           {!isLoading && !error && gameData && (
             <Grid container spacing={2}>

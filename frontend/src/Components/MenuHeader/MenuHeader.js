@@ -49,7 +49,7 @@ const MenuHeader = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "rgba(0, 0, 0, 0.9)", // Black color with 50% transparency
+        backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 50% transparency
         boxShadow:
           "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
       }}
@@ -74,7 +74,18 @@ const MenuHeader = () => {
               <img src={GAME} width={30} height={30} />
             </div>
             <div>
-              <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="h6"
+                component="h1"
+                sx={{
+                  flexGrow: 1,
+                  cursor: "pointer",
+                  ":hover": {
+                    color: "#8e6ceb",
+                  },
+                }}
+                onClick={() => navigate("/dashboard")}
+              >
                 Game Night Recommender
               </Typography>
             </div>
@@ -89,8 +100,6 @@ const MenuHeader = () => {
                 sx={{
                   color: "inherit",
                   marginLeft: "1rem",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
-                  backdropFilter: "blur(5px)",
                   boxShadow:
                     "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
                   ":hover": {

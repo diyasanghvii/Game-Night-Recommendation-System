@@ -56,7 +56,7 @@ function GameSection({
       )}
       <h2>{title}</h2>
       {visibleGames.length > 0 ? (
-        <div className="gameCarousel">
+        <div className="gameCarouselPreference">
           <Btn
             fullWidth={true}
             label={"Prev"}

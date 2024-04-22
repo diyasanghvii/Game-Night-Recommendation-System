@@ -40,15 +40,14 @@ class PopupGenre extends Component {
   handleSave = () => {
     const { selectedGenres } = this.state;
     const { onClose, onSelection } = this.props;
-  
+
     if (selectedGenres.length >= 5) {
-      onSelection(selectedGenres); 
-      onClose(); 
+      onSelection(selectedGenres);
+      onClose();
     } else {
       alert("Please select at least 5 genres...");
     }
   };
-  
 
   render() {
     const { selectedGenres, allGenres } = this.state;
@@ -74,11 +73,24 @@ class PopupGenre extends Component {
             ))}
           </div>
           <div>
-            {!allGenres || (allGenres.length === 0 && <p>Loading ...</p>)}
+            {!allGenres ||
+              (allGenres.length === 0 && (
+                <p style={{ color: "white" }}>Loading ...</p>
+              ))}
           </div>
           <div className="button-group">
-            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={this.handleSave}>Save</button>
-            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={onClose}>Cancel</button>
+            <button
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={this.handleSave}
+            >
+              Save
+            </button>
+            <button
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={onClose}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>

@@ -197,6 +197,7 @@ const SignUpIdDetails = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
       }}
     >
       <Container

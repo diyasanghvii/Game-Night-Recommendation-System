@@ -66,6 +66,7 @@ const SignUp = () => {
         alignItems: "center",
         backgroundColor: "none",
         backgroundColor: "red !important",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
       }}
     >
       <Container
