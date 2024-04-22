@@ -107,7 +107,8 @@ export default function AllGamesSorting({
           >
             Release Date
           </MenuItem>
-          <MenuItem sx={{
+          <MenuItem
+            sx={{
               color: "white",
               "&.Mui-selected": {
                 backgroundColor: "#868387",
@@ -118,10 +119,14 @@ export default function AllGamesSorting({
               "&:hover": {
                 backgroundColor: "rgba(134, 131, 135, 0.4)",
               },
-            }} key={2} value={"Price"}>
+            }}
+            key={2}
+            value={"Price"}
+          >
             Price
           </MenuItem>
-          <MenuItem sx={{
+          <MenuItem
+            sx={{
               color: "white",
               "&.Mui-selected": {
                 backgroundColor: "#868387",
@@ -132,7 +137,10 @@ export default function AllGamesSorting({
               "&:hover": {
                 backgroundColor: "rgba(134, 131, 135, 0.4)",
               },
-            }} key={3} value={"Review Score"}>
+            }}
+            key={3}
+            value={"Review Score"}
+          >
             Review Score
           </MenuItem>
         </Select>
@@ -145,30 +153,46 @@ export default function AllGamesSorting({
           value={sortType}
           onChange={handleSortTypeChange}
         >
-          <FormControlLabel value="asc" control={<Radio sx={{
-              color: "white",
-              "&.Mui-checked": {
-                color: "white",
-              },
-              "&.Mui-checked:hover": {
-                color: "white",
-              },
-              "&:hover": {
-                color: "white",
-              },
-            }}/>} label="Asc" />
-          <FormControlLabel value="desc" control={<Radio sx={{
-              color: "white",
-              "&.Mui-checked": {
-                color: "white",
-              },
-              "&.Mui-checked:hover": {
-                color: "white",
-              },
-              "&:hover": {
-                color: "white",
-              },
-            }}/>} label="Desc" />
+          <FormControlLabel
+            value="asc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Asc"
+          />
+          <FormControlLabel
+            value="desc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Desc"
+          />
         </RadioGroup>
       </div>
       <div style={{ marginTop: 20 }}>

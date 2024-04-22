@@ -52,12 +52,82 @@ export default function OwnedGamesSorting({
             id="server-dialog-select"
             value={sortBy}
             onChange={handleChange}
-            input={<OutlinedInput label="Sort By" />}
+            input={
+              <OutlinedInput
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
+                label="Sort By"
+              />
+            }
+            sx={{
+              color: "#fff",
+              "& .MuiSelect-icon": {
+                color: "#fff",
+              },
+              "& .MuiSelect-selectMenu": {
+                backgroundColor: "#1A2040",
+                color: "#fff",
+              },
+              "& .Mui-selected": {
+                backgroundColor: "#424042",
+                color: "#000",
+              },
+            }}
+            MenuProps={{
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "top",
+                horizontal: "left",
+              },
+              getContentAnchorEl: null,
+              PaperProps: {
+                sx: {
+                  backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+                },
+              },
+            }}
           >
-            <MenuItem key={1} value={"Playtime forever"}>
+            <MenuItem
+              sx={{
+                color: "white",
+                "&.Mui-selected": {
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
+                },
+                "&:hover": {
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
+                },
+              }}
+              key={1}
+              value={"Playtime forever"}
+            >
               Playtime forever
             </MenuItem>
-            <MenuItem key={2} value={"Playtime last 2 weeks"}>
+            <MenuItem
+              sx={{
+                color: "white",
+                "&.Mui-selected": {
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
+                },
+                "&:hover": {
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
+                },
+              }}
+              key={2}
+              value={"Playtime last 2 weeks"}
+            >
               Playtime last 2 weeks
             </MenuItem>
           </Select>
@@ -71,8 +141,50 @@ export default function OwnedGamesSorting({
           value={sortType}
           onChange={handleSortTypeChange}
         >
-          <FormControlLabel value="asc" control={<Radio />} label="Asc" />
-          <FormControlLabel value="desc" control={<Radio />} label="Desc" />
+          <FormControlLabel
+           sx={{
+            color: "white",}}
+            value="asc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Asc"
+          />
+          <FormControlLabel
+          sx={{
+            color: "white",}}
+            value="desc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Desc"
+          />
         </RadioGroup>
       </div>
       <div style={{ marginTop: 20 }}>
