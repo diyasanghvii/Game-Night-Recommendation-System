@@ -16,7 +16,11 @@ async function getRecommendations(req, res) {
     res.status(200).json({ recommendedGames });
   } catch (error) {
     console.error("Error fetching recommendations:", error);
-    res.status(500).json({ error: "Failed to fetch recommendations" });
+    if (error.message === 'API_KEY_LIMIT_REACHED_OR_ZERO_GAMES_USER') {
+      res.status(500).json({ error: 'The API key limit was reached or a user has zero games. Please try again later.' });
+    } else {
+      res.status(500).json({ error: "Failed to fetch recommendations. Please try again later." });
+    }
   }
 }
 module.exports = {
