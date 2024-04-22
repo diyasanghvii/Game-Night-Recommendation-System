@@ -60,13 +60,18 @@ const SignUp = () => {
   return (
     <div
       style={{
-        backgroundImage: "url('/images/Game Image.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "none",
+        backgroundColor: "red !important",
       }}
     >
-      <Container maxWidth="sm">
+      <Container
+        maxWidth="sm"
+        sx={{ background: "rgba(0, 0, 0, 0.4)", padding: 8, borderRadius: 8 }}
+      >
         <Text
           variant="h4"
           gutterBottom={true}
@@ -74,15 +79,16 @@ const SignUp = () => {
           sx={{ color: "white" }}
         />
         <Stepper
-           sx={{
+          sx={{
             marginTop: 5,
             marginBottom: 5,
             "& .MuiStepLabel-root .Mui-completed": {
               color: "green", // Completed steps text color
             },
-            "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel": {
-              color: "green", // Completed alternative steps text color
-            },
+            "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel":
+              {
+                color: "green", // Completed alternative steps text color
+              },
             "& .MuiStepLabel-root .Mui-active": {
               color: "white", // Active step text color
             },
@@ -190,7 +196,9 @@ const SignUp = () => {
             variant="outlined"
           />
         </div>
-        <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
+        <div style={{ marginTop: 20 }}>
+          <Btn fullWidth={true} label={"Sign Up"} onClick={handleSignUp} />
+        </div>
       </Container>
     </div>
   );

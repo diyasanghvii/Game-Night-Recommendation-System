@@ -228,7 +228,7 @@ class EditPreferences extends Component {
               onChange={this.handleAllGamesSearchChange}
               fullWidth
               style={{
-                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                width: "20%", // Adjust the width as needed, such as "50%" for half-width
                 height: "30px", // Adjust the height as needed, for example "30px"
                 marginBottom: "15px", // Add margin if desired
               }}
@@ -264,7 +264,7 @@ class EditPreferences extends Component {
               onChange={this.handleYourGamesSearchChange}
               fullWidth
               style={{
-                width: "50%", // Adjust the width as needed, such as "50%" for half-width
+                width: "20%", // Adjust the width as needed, such as "50%" for half-width
                 height: "30px", // Adjust the height as needed, for example "30px"
                 marginBottom: "15px", // Add margin if desired
               }}
