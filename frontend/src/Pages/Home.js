@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 // Images
 import IMAGE3 from "../Assets/Image3.jpg";
-import IMAGE2 from "../Assets/Image2.jpg";
+import GAME from "../Assets/game.svg";
 import { useNavigate } from "react-router-dom";
 
 const Font_Color = "white";
@@ -102,6 +102,9 @@ const Home = () => {
           sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)", color: Font_Color }}
         >
           <Toolbar>
+            <div style={{ marginLeft: 30, }}>
+              <img src={GAME} width={40} height={40} />
+            </div>
             <Typography
               variant="h6"
               component="div"
@@ -253,7 +256,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Gamalytic</p>
                 <p style={cardSubHeader}>
-                  Get real-time Steam game statistics.  Release dates, price, rating scores and more !
+                  Get real-time Steam game statistics. Release dates, price,
+                  rating scores and more !
                 </p>
               </div>
             </div>
@@ -287,7 +291,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Steam</p>
                 <p style={cardSubHeader}>
-                  To retrieve your customized gaming group's latest gaming activity data
+                  To retrieve your customized gaming group's latest gaming
+                  activity data
                 </p>
               </div>
             </div>
@@ -321,8 +326,8 @@ const Home = () => {
               <div style={{ padding: "0px 20px 20px 20px" }}>
                 <p style={cardHeadingStyle}>Discord</p>
                 <p style={cardSubHeader}>
-                  Send your personalized group game recommendations to a
-                  channel of your choice
+                  Send your personalized group game recommendations to a channel
+                  of your choice
                 </p>
               </div>
             </div>
@@ -331,7 +336,8 @@ const Home = () => {
           {/* CARDS CONTAINER - END */}
         </div>
         {/* ROW CARDS - START */}
-        <div style={{
+        <div
+          style={{
             display: "flex",
             flex: "wrap",
             flexDirection: "column",
@@ -344,8 +350,9 @@ const Home = () => {
             borderStyle: "inset",
             boxShadow: "0 0 20px 2px #7c5295",
             borderColor: "#D69EF8",
-          }}>
-            <p
+          }}
+        >
+          <p
             style={{
               fontSize: "2.5rem",
               color: "white",
@@ -355,48 +362,130 @@ const Home = () => {
             Features
           </p>
           {/* FIRST */}
-          <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-                borderRadius: "20px",
-                width: "80%",
-                height: "auto",
-                borderStyle: "inset",
-                boxShadow: "0 0 20px 2px #312CC7",
-                borderColor: "#D69EF8",
-              }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              height: "auto",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
             <div style={bigCardContainer}>
-              <div style={{padding: 40 }} >
-                <img src={IMAGE3} width="auto" height={300} />
+              <div style={{ padding: 40 }}>
+                <img src="https://i.postimg.cc/nLHtXBWS/pngegg-overlay-4-overlay.png" width="auto" height={500} />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
-                DISCOVER  <br /> GAMES
+                  DISCOVER <br /> GAMES
                 </p>
                 <p style={bigCardSubHeader}>
-                Dive into Steam's vast library of games tailored to your tastes. Filter by tags, genres, and features to find the perfect match. Sort options allow you to arrange games by price, release date, or rating, ensuring you find exactly what you're looking for. With comprehensive game info, you'll make informed decisions about your next gaming experience.
+                  Dive into Steam's vast library of games tailored to your
+                  tastes. Filter by tags, genres, and features to find the
+                  perfect match. Sort options allow you to arrange games by
+                  price, release date, or rating, ensuring you find exactly what
+                  you're looking for. With comprehensive game info, you'll make
+                  informed decisions about your next gaming experience.
                 </p>
               </div>
             </div>
           </div>
           {/* SECOND */}
-          <div style={{ marginTop: 60 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              height: "auto",
+              marginTop: "30px",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
             <div style={bigCardContainer}>
-              <div>
-                <img src={IMAGE3} width={400} height={500} />
+              <div style={{ padding: 40 }}>
+                <img src="https://i.postimg.cc/1XN12DkL/pngegg-overlay-1-overlay.png" width="auto" height={500} />
               </div>
-              <div style={{ padding: 80 }}>
+              <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
-                  GAME <br /> NIGHT
-                  <br /> RECOMMENDER
+                  RATE GAMES AND <br /> EXPRESS YOUR INTEREST
                 </p>
                 <p style={bigCardSubHeader}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                Shape your gaming journey by rating games you own and expressing interest in new titles. These ratings will later be considered by the algorithm for recommending games, both for you and the members you select.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* THIRD */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              height: "auto",
+              marginTop: "30px",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
+            <div style={bigCardContainer}>
+              <div style={{ padding: 40 }}>
+                <img src="https://i.postimg.cc/7LtpscB0/pngegg-overlay-2-overlay.png" width="auto" height={500} />
+              </div>
+              <div style={{ padding: 40 }}>
+                <p style={bigCardHeader}>
+                  GENERATE <br /> RECOMMENDATIONS
+                </p>
+                <p style={bigCardSubHeader}>
+                Customize your gaming experience like never before. Select members from any Discord server, and our algorithm will analyze everyone's ratings, expressed interests, playtime, and preferred genres to generate personalized recommendations. Plus, you have the flexibility to weight each parameter according to your liking, ensuring that the recommendations perfectly align with your gaming preferences.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* FOURTH */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              marginTop: "30px",
+              marginBottom: "40px",
+              height: "auto",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
+            <div style={bigCardContainer}>
+              <div style={{ padding: 40 }}>
+                <img src="https://i.postimg.cc/TY4ZVJ5b/pngegg-overlay-3-overlay.png" width="auto" height={500} />
+              </div>
+              <div style={{ padding: 40 }}>
+                <p style={bigCardHeader}>
+                  SHARE <br /> RECOMMENDATIONS
+                </p>
+                <p style={bigCardSubHeader}>
+                Share your gaming discoveries effortlessly with friends on Discord. Whether it's a hidden gem or a classic favorite, our integration lets you send detailed recommendations directly to your Discord server's channels.
                 </p>
               </div>
             </div>

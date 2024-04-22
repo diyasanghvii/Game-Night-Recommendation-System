@@ -67,8 +67,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(126, 125, 126) !important;
+  background-color: rgba(56, 55, 54,0.8) !important;
   border-radius: 8px;
+  border: 0.5px solid rgba(66, 26, 77, 0.8);
+  box-shadow: 0 0 20px 2px #7c5295; 
 }
 
 .clear-rating-text:hover {

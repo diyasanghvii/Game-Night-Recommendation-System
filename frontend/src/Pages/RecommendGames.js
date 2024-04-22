@@ -254,7 +254,7 @@ function RecommendGames() {
           >
             <div
               style={{
-                backgroundColor: "rgba(99, 168, 255, 0.60)", // Slightly darker blue with 45% transparency
+                backgroundColor: "rgba(9, 92, 150, 0.40)", // Slightly darker blue with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",
@@ -271,7 +271,7 @@ function RecommendGames() {
             </div>
             <div
               style={{
-                backgroundColor: "rgba(99, 255, 180, 0.60)", // Slightly darker green with 45% transparency
+                backgroundColor: "rgba(0, 69, 14, 0.40)", // Slightly darker green with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",
@@ -288,7 +288,7 @@ function RecommendGames() {
             </div>
             <div
               style={{
-                backgroundColor: "rgba(250, 87, 87, 0.60)", // Slightly darker red with 45% transparency
+                backgroundColor: "rgba(122, 1, 11, 0.40)", // Slightly darker red with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",

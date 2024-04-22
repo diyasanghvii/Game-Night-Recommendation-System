@@ -36,7 +36,17 @@ export default function OwnedGamesSorting({
     >
       <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
         <FormControl sx={{ m: 1, minWidth: 160 }}>
-          <InputLabel id="server-dialog-select-label">Sort By</InputLabel>
+          <InputLabel
+            sx={{
+              color: "white",
+              "&.Mui-focused": {
+                color: "#fff",
+              },
+            }}
+            id="server-dialog-select-label"
+          >
+            Sort By
+          </InputLabel>
           <Select
             labelId="server-dialog-select-label"
             id="server-dialog-select"
