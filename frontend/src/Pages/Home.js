@@ -362,7 +362,7 @@ const Home = () => {
                 alignItems: "center",
                 backgroundColor: "rgba(0, 0, 0, 0.6)",
                 borderRadius: "20px",
-                width: "70%",
+                width: "80%",
                 height: "auto",
                 borderStyle: "inset",
                 boxShadow: "0 0 20px 2px #312CC7",
@@ -370,7 +370,7 @@ const Home = () => {
               }}>
             <div style={bigCardContainer}>
               <div style={{padding: 40 }} >
-                <img src={IMAGE3} width={300} height={300} />
+                <img src={IMAGE3} width="auto" height={300} />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>

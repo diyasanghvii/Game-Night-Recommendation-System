@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+.scroller {
+  background-color: #007 #bada55 !important;
+}
+
 .all-root label {
   font-family: var(--font-family) !important;
   font-size: var(--font-size) !important;
@@ -55,6 +59,16 @@ body {
   margin-left: 15px;
   cursor: pointer;
   margin-right: 15px;
+}
+
+::-webkit-scrollbar {
+  background-color: black !important;
+  border: 0.5px solid black;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(126, 125, 126) !important;
+  border-radius: 8px;
 }
 
 .clear-rating-text:hover {
