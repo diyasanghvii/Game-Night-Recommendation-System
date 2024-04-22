@@ -284,7 +284,7 @@ const SignUpIdDetails = () => {
               onClick={handleVerifySteamId}
             />
             <InfoIcon
-              style={{ cursor: "pointer", color: "#1976d2" }}
+              style={{ cursor: "pointer", color: "#ffffff" }}
               onClick={() => handleOpenDialog("info")}
             />
           </div>
@@ -335,7 +335,7 @@ const SignUpIdDetails = () => {
               }
               placement="right"
             >
-              <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+              <InfoIcon style={{ cursor: "pointer", color: "#ffffff" }} />
             </Tooltip>
           </div>
         </div>

@@ -119,12 +119,12 @@ const SignUpGameDetails = () => {
     >
       <Container
         maxWidth="sm"
-        sx={{ background: "rgba(0, 0, 0, 0.7)", padding: 8, borderRadius: 8 }}
+        sx={{ background: "rgba(0, 0, 0, 0.7)", padding: 4, borderRadius: 8 }}
       >
-        <Text variant="h4" gutterBottom={true} label={"Signup"} />
+        <Text variant="h4" gutterBottom={true} label={"Signup"} customStyle={{ fontSize: "30px", marginBottom:"25px" }} />
         <Stepper
           sx={{
-            marginTop: 5,
+            marginTop: 0,
             marginBottom: 5,
             "& .MuiStepLabel-root .Mui-completed": {
               color: "green", // Completed steps text color
@@ -171,28 +171,43 @@ const SignUpGameDetails = () => {
           }}
         >
           <Text
-            variant="body1"
+            variant="header5"
             gutterBottom={true}
             label={"Select your preferred Genre:"}
+            customStyle={{ fontSize: "20px"}}
           />
           <Select
             multiple
             value={selectedGenres}
             onChange={handleGenreSelection}
             fullWidth
-            style={{ backgroundColor: "hsl(209, 38%, 30%)", color: "white" }}
+            style={{ backgroundColor: "rgba(255,255,255, 0.2)", color: "white", marginTop:"15px" }}
             MenuProps={{
               PaperProps: {
                 style: {
-                  backgroundColor: "hsl(209, 38%, 20%)",
+                  backgroundColor: "rgb(78, 63, 105)",
                   color: "white",
+                  border: "4px solid #424042" 
+                  
                 },
               },
             }}
           >
             {genreList?.map((ele) => {
               return (
-                <MenuItem key={ele} value={ele} style={{ color: "white" }}>
+                <MenuItem key={ele} value={ele} sx={{
+                
+                  color: "white",
+                  "&.Mui-selected": {
+                    backgroundColor: "#868387",
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "#868387",
+                  },
+                  "&:hover": {
+                    backgroundColor: "rgba(134, 131, 135, 0.4)",
+                  },
+                }}>
                   {ele}
                 </MenuItem>
               );
@@ -202,14 +217,15 @@ const SignUpGameDetails = () => {
 
         <Box style={{ marginBottom: "20px" }}>
           <Text
-            variant="body1"
+            variant="header4"
             gutterBottom={true}
             label={"Rate your games:"}
             style={{ marginRight: "20px" }}
+            customStyle={{ fontSize: "20px"}}
           />
         </Box>
 
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
           {games.map((game, index) => (
             <div
               key={index}
