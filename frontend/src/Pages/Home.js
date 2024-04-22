@@ -99,7 +99,7 @@ const Home = () => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
-          sx={{ backgroundColor: "rgba(0, 0, 0, 0.0)", color: Font_Color }}
+          sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)", color: Font_Color }}
         >
           <Toolbar>
             <Typography
@@ -111,7 +111,7 @@ const Home = () => {
               sx={{
                 boxShadow: "0 0 10px 2px #7c5295",
                 margin: "0 10px 0 10px",
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                backgroundColor: "rgba(0, 0, 0, 0.0)",
                 borderStyle: "inset",
                 borderWidth: "0.25px",
                 borderColor: "#D69EF8",
@@ -125,7 +125,7 @@ const Home = () => {
               sx={{
                 boxShadow: "0 0 10px 2px #7c5295",
                 margin: "0 35px 0 10px",
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                backgroundColor: "rgba(0, 0, 0, 0.0)",
                 borderStyle: "inset",
                 borderWidth: "0.25px",
                 borderColor: "#D69EF8",
@@ -147,7 +147,7 @@ const Home = () => {
             position: "relative",
             display: "flex",
             flexDirection: "row",
-            marginTop: 10,
+            marginTop: 30,
           }}
         >
           <div
@@ -374,13 +374,10 @@ const Home = () => {
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
-                  GAME <br /> NIGHT
-                  <br /> RECOMMENDER
+                DISCOVER  <br /> GAMES
                 </p>
                 <p style={bigCardSubHeader}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                Dive into Steam's vast library of games tailored to your tastes. Filter by tags, genres, and features to find the perfect match. Sort options allow you to arrange games by price, release date, or rating, ensuring you find exactly what you're looking for. With comprehensive game info, you'll make informed decisions about your next gaming experience.
                 </p>
               </div>
             </div>

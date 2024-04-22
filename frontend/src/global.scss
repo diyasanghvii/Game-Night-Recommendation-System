@@ -1,51 +1,51 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Rajdhani&family=Nunito&display=swap");
 
 :root {
-  --font-family: "Nunito", sans-serif;
+  
   --font-color: black;
   --font-size: 1rem;
 }
 
 html,
 body {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
   padding: 0;
 }
 
 label {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 p {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 div {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 button {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 h4 {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 li {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 ul {
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-family: var(--font-family) ;
+  font-size: var(--font-size) ;
 }
 
 .home-page-root {
