@@ -191,206 +191,237 @@ const SignUpIdDetails = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      <Stepper
-        sx={{
-          marginTop: 5,
-          marginBottom: 5,
-          "& .MuiStepLabel-root .Mui-completed": {
-            color: "green", // Completed steps text color
-          },
-          "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel": {
-            color: "green", // Completed alternative steps text color
-          },
-          "& .MuiStepLabel-root .Mui-active": {
-            color: "white", // Active step text color
-          },
-          "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
-            color: "#ADD8E6", // Active alternative step text color
-          },
-          "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
-            fill: "#0e64ab", // Active step icon color
-          },
-          "& .MuiStepLabel-root .Mui-disabled": {
-            color: "grey", // Incomplete steps text color
-          },
-        }}
-        activeStep={1}
-        alternativeLabel
+    <div
+      className="all-root"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
+      }}
+    >
+      <Container
+        maxWidth="sm"
+        sx={{ background: "rgba(0, 0, 0, 0.4)", padding: 8, borderRadius: 8 }}
       >
-        <Step key={0}>
-          <StepLabel>Step 1</StepLabel>
-        </Step>
-        <Step key={1}>
-          <StepLabel>Step 2</StepLabel>
-        </Step>
-        <Step key={2}>
-          <StepLabel>Step 3</StepLabel>
-        </Step>
-      </Stepper>
-      {error && <ErrorMessage message={error} />}
-      {warning && <ErrorMessage message={warning} />}
+        <Text variant="h4" gutterBottom={true} label={"Signup"} />
+        <Stepper
+          sx={{
+            marginTop: 5,
+            marginBottom: 5,
+            "& .MuiStepLabel-root .Mui-completed": {
+              color: "green", // Completed steps text color
+            },
+            "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel":
+              {
+                color: "green", // Completed alternative steps text color
+              },
+            "& .MuiStepLabel-root .Mui-active": {
+              color: "white", // Active step text color
+            },
+            "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
+              color: "#ADD8E6", // Active alternative step text color
+            },
+            "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+              fill: "#0e64ab", // Active step icon color
+            },
+            "& .MuiStepLabel-root .Mui-disabled": {
+              color: "grey", // Incomplete steps text color
+            },
+          }}
+          activeStep={1}
+          alternativeLabel
+        >
+          <Step key={0}>
+            <StepLabel>Step 1</StepLabel>
+          </Step>
+          <Step key={1}>
+            <StepLabel>Step 2</StepLabel>
+          </Step>
+          <Step key={2}>
+            <StepLabel>Step 3</StepLabel>
+          </Step>
+        </Stepper>
+        {error && <ErrorMessage message={error} />}
+        {warning && <ErrorMessage message={warning} />}
 
-      <div
-        style={{
-          maxWidth: "700px",
-          margin: "auto",
-          marginTop: "20px",
-          display: "flex",
-          flexDirection: "column",
-          rowGap: "10px",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <TextBox
-            label="Steam ID"
-            value={steamId}
-            fullWidth={true}
-            type="number"
-            style={{ width: "80%" }}
-            onChange={(e) => {
-              setSteamId(e.target.value);
-              setSteamIdVerified(false);
-              handleFieldChange();
-            }}
-          />
-          {steamIdVerified ? (
-            <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
-          ) : (
-            <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
-          )}
+        <div
+          style={{
+            maxWidth: "700px",
+            margin: "auto",
+            marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "10px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <TextBox
+              label="Steam ID"
+              value={steamId}
+              fullWidth={true}
+              type="number"
+              style={{ width: "80%" }}
+              onChange={(e) => {
+                setSteamId(e.target.value);
+                setSteamIdVerified(false);
+                handleFieldChange();
+              }}
+            />
+            {steamIdVerified ? (
+              <span style={{ color: "green", fontSize: "1.5em" }}>
+                &#10004;
+              </span>
+            ) : (
+              <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
+            )}
 
-          <Btn
-            label="Verify"
-            disabled={steamIdVerified}
-            style={{ width: "5%" }}
-            onClick={handleVerifySteamId}
-          />
-          <InfoIcon
-            style={{ cursor: "pointer", color: "#1976d2" }}
-            onClick={() => handleOpenDialog("info")}
-          />
+            <Btn
+              label="Verify"
+              disabled={steamIdVerified}
+              style={{ width: "5%" }}
+              onClick={handleVerifySteamId}
+            />
+            <InfoIcon
+              style={{ cursor: "pointer", color: "#1976d2" }}
+              onClick={() => handleOpenDialog("info")}
+            />
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <TextBox
+              label="Discord Username"
+              value={discordUserName}
+              fullWidth={true}
+              style={{ width: "80%" }}
+              onChange={(e) => {
+                setdiscordUserName(e.target.value);
+                setdiscordUserNameVerified(false);
+                handleFieldChange();
+              }}
+            />
+            {discordUserNameVerified ? (
+              <span style={{ color: "green", fontSize: "1.5em" }}>
+                &#10004;
+              </span>
+            ) : (
+              <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
+            )}
+            <Btn
+              label="Verify"
+              disabled={discordUserNameVerified}
+              style={{ width: "5%" }}
+              onClick={handleVerifydiscordUserName}
+            />
+            <Tooltip
+              title={
+                <div style={{ width: "300px", maxHeight: "800px" }}>
+                  <span style={{ fontSize: "10px" }}>
+                    <p>
+                      Only server owners can invite the bot.{" "}
+                      <a
+                        href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
+                      >
+                        Click here to invite the bot.
+                      </a>
+                    </p>
+                  </span>
+                  <br />
+                </div>
+              }
+              placement="right"
+            >
+              <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+            </Tooltip>
+          </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <TextBox
-            label="Discord Username"
-            value={discordUserName}
-            fullWidth={true}
-            style={{ width: "80%" }}
-            onChange={(e) => {
-              setdiscordUserName(e.target.value);
-              setdiscordUserNameVerified(false);
-              handleFieldChange();
+        <div style={{ marginTop: 20 }}>
+          <button
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              color: "white",
+              width: "100%",
+              borderRadius: "4px",
+              padding: "10px 20px",
+              fontSize: "16px",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+              transition:
+                "background-image 0.3s ease, background-color 0.3s ease",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
+                backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
+              },
+              filter:
+                steamIdVerified && discordUserNameVerified
+                  ? "brightness(1)"
+                  : "brightness(0.8)",
             }}
-          />
-          {discordUserNameVerified ? (
-            <span style={{ color: "green", fontSize: "1.5em" }}>&#10004;</span>
-          ) : (
-            <span style={{ color: "red", fontSize: "1.5em" }}>&#10006;</span>
-          )}
-          <Btn
-            label="Verify"
-            disabled={discordUserNameVerified}
-            style={{ width: "5%" }}
-            onClick={handleVerifydiscordUserName}
-          />
-          <Tooltip
-            title={
-              <div style={{ width: "300px", maxHeight: "800px" }}>
-                <span style={{ fontSize: "10px" }}>
-                  <p>
-                    Only server owners can invite the bot.{" "}
-                    <a
-                      href="https://discord.com/oauth2/authorize?client_id=1201316942959611964"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: "pink", textDecoration: "underline" }} // Apply lighter color and underline
-                    >
-                      Click here to invite the bot.
-                    </a>
-                  </p>
-                </span>
-                <br />
-              </div>
-            }
-            placement="right"
+            onClick={handleSignup}
+            disabled={!steamIdVerified || !discordUserNameVerified}
           >
-            <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
-          </Tooltip>
+            Continue
+          </button>
         </div>
-      </div>
 
-      <button
-        style={{
-          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))",
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-          color: "white",
-          width: "100%",
-          borderRadius: "4px",
-          padding: "10px 20px",
-          fontSize: "16px",
-          border: "none",
-          cursor: "pointer",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-          transition: "background-image 0.3s ease, background-color 0.3s ease",
-          "&:hover": {
-            backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3))", // Slightly brighter gradient on hover
-            backgroundColor: "rgba(32, 32, 32, 0.8)", // Darker black color on hover
-          },
-          filter:
-            steamIdVerified && discordUserNameVerified
-              ? "brightness(1)"
-              : "brightness(0.8)",
-        }}
-        onClick={handleSignup}
-        disabled={!steamIdVerified || !discordUserNameVerified}
-      >
-        Continue
-      </button>
-
-      <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} >
-        <DialogTitle sx={{ backgroundColor: "#07294a", color: "#fff" }}>Information</DialogTitle>
-        <DialogContent sx={{ backgroundColor: "#07294a", color: "#fff" }}>
-          <DialogContentText sx={{ color: "#fff" }}>
-            To find your Steam ID, follow these steps:
-            <ol>
-              <li>Open the Steam app.</li>
-              <li>Click on your profile icon.</li>
-              <li>Select "Account details".</li>
-              <li>
-                Your Steam ID is located below your name and is a 17-digit
-                number.
-              </li>
-            </ol>
-          </DialogContentText>
-          <DialogContentText sx={{ color: "#fff" }}>
-            The app needs your profile to be public in your STEAM account in
-            order to generate recommendations based on games you own. <br />
-            <br />
-            <strong>Note:</strong> This data is not shared with any third party.
-          </DialogContentText>
-          <img
-            src={process.env.PUBLIC_URL + "/images/STEAMv2.png"}
-            alt="Tooltip Image"
-            style={{ width: "500px", height: "auto" }}
-          />
-        </DialogContent>
-        <DialogActions sx={{ backgroundColor: "#07294a", color: "#fff" }}>
-          <Button onClick={() => setInfoDialogOpen(false)} color="primary" style={{
-                              marginTop: "10px",
-                              background: "linear-gradient(45deg, #333333, #555555)",
-                              color: "#DDDDDD", // Light grey
-                              marginLeft: "10px",
-                              boxShadow:
-                                "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
-                            }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+        <Dialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)}>
+          <DialogTitle sx={{ backgroundColor: "#07294a", color: "#fff" }}>
+            Information
+          </DialogTitle>
+          <DialogContent sx={{ backgroundColor: "#07294a", color: "#fff" }}>
+            <DialogContentText sx={{ color: "#fff" }}>
+              To find your Steam ID, follow these steps:
+              <ol>
+                <li>Open the Steam app.</li>
+                <li>Click on your profile icon.</li>
+                <li>Select "Account details".</li>
+                <li>
+                  Your Steam ID is located below your name and is a 17-digit
+                  number.
+                </li>
+              </ol>
+            </DialogContentText>
+            <DialogContentText sx={{ color: "#fff" }}>
+              The app needs your profile to be public in your STEAM account in
+              order to generate recommendations based on games you own. <br />
+              <br />
+              <strong>Note:</strong> This data is not shared with any third
+              party.
+            </DialogContentText>
+            <img
+              src={process.env.PUBLIC_URL + "/images/STEAMv2.png"}
+              alt="Tooltip Image"
+              style={{ width: "500px", height: "auto" }}
+            />
+          </DialogContent>
+          <DialogActions sx={{ backgroundColor: "#07294a", color: "#fff" }}>
+            <Button
+              onClick={() => setInfoDialogOpen(false)}
+              color="primary"
+              style={{
+                marginTop: "10px",
+                background: "linear-gradient(45deg, #333333, #555555)",
+                color: "#DDDDDD", // Light grey
+                marginLeft: "10px",
+                boxShadow:
+                  "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)", // Metallic shine
+              }}
+            >
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    </div>
   );
 };
 

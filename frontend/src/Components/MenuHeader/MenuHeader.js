@@ -1,6 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import GAME from "../../Assets/game.svg";
 
 const MenuHeader = () => {
   let navigate = useNavigate();
@@ -27,7 +28,7 @@ const MenuHeader = () => {
       case "Sign Out":
         sessionStorage.clear();
         localStorage.clear();
-        navigate("/login");
+        navigate("/home");
         break;
       case "Dashboard":
         navigate("/dashboard");
@@ -48,33 +49,71 @@ const MenuHeader = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
-        backdropFilter: "blur(5px)",
+        padding: 2,
+        backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 50% transparency
         boxShadow:
           "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
       }}
     >
       <Toolbar variant="dense">
-        <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
-          Game Night Recommender
-        </Typography>
-        {links.map((link, index) => (
-          <Button
-            key={index}
-            size="small"
-            sx={{
-              color: "inherit",
-              marginLeft: "1rem",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Black color with 50% transparency
-              backdropFilter: "blur(5px)",
-              boxShadow:
-                "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
             }}
-            onClick={link.onClick}
           >
-            {link.label}
-          </Button>
-        ))}
+            <div style={{ marginRight: 20 }}>
+              <img src={GAME} width={30} height={30} />
+            </div>
+            <div>
+              <Typography
+                variant="h6"
+                component="h1"
+                sx={{
+                  flexGrow: 1,
+                  cursor: "pointer",
+                  ":hover": {
+                    color: "#8e6ceb",
+                  },
+                }}
+                onClick={() => navigate("/dashboard")}
+              >
+                Game Night Recommender
+              </Typography>
+            </div>
+          </div>
+
+          <div>
+            {links.map((link, index) => (
+              <Button
+                key={index}
+                size="small"
+                className="toolbar-links"
+                sx={{
+                  color: "inherit",
+                  marginLeft: "1rem",
+                  boxShadow:
+                    "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+                  ":hover": {
+                    color: "#8e6ceb",
+                  },
+                }}
+                onClick={link.onClick}
+              >
+                {link.label}
+              </Button>
+            ))}
+          </div>
+        </div>
       </Toolbar>
     </AppBar>
   );

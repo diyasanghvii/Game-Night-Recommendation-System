@@ -51,7 +51,7 @@ export default function AllGamesFilter({
   return (
     <Box
       sx={{
-        backgroundColor: "#07294a",
+        backgroundColor: "rgb(78, 63, 105)",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
@@ -61,10 +61,7 @@ export default function AllGamesFilter({
       }}
     >
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="genre-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="genre-checkbox-label" sx={{ color: "#fff" }}>
           Genre
         </InputLabel>
         <Select
@@ -78,14 +75,10 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
-            },
-            "&:hover": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
@@ -96,7 +89,7 @@ export default function AllGamesFilter({
               key={name}
               value={name}
               sx={{
-                backgroundColor: "#07294a",
+                backgroundColor: "rgb(78, 63, 105)",
                 color: "#fff",
                 "&.Mui-selected": {
                   color: "#000",
@@ -113,10 +106,7 @@ export default function AllGamesFilter({
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="tagsList-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="tagsList-checkbox-label" sx={{ color: "#fff" }}>
           Tags
         </InputLabel>
         <Select
@@ -130,14 +120,10 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
-            },
-            "&:hover": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
@@ -148,7 +134,7 @@ export default function AllGamesFilter({
               key={tag}
               value={tag}
               sx={{
-                backgroundColor: "#07294a",
+                backgroundColor: "rgb(78, 63, 105)",
                 color: "#fff",
                 "&.Mui-selected": {
                   color: "#000",
@@ -165,10 +151,7 @@ export default function AllGamesFilter({
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="feature-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="feature-checkbox-label" sx={{ color: "#fff" }}>
           Features
         </InputLabel>
         <Select
@@ -182,14 +165,10 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
-            },
-            "&:hover": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
@@ -200,7 +179,7 @@ export default function AllGamesFilter({
               key={feature}
               value={feature}
               sx={{
-                backgroundColor: "#07294a",
+                backgroundColor: "rgb(78, 63, 105)",
                 color: "#fff",
                 "&.Mui-selected": {
                   color: "#000",
