@@ -8,13 +8,16 @@ import {
   CheckUniqueDiscordUserNameAuthReq,
   GetUserDetails,
   SaveUserDetails,
+  DeleteUserDetails,
   CacheUserSteamGames,
 } from "../Services";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import Text from "../Components/Typography/Text";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [steamId, setSteamId] = useState("");
@@ -35,6 +38,7 @@ const EditProfile = () => {
   const [steamIdError, setSteamIdError] = useState(false);
   const [discordUsernameFieldError, setDiscordUsernameFieldError] =
     useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
     fetchUserDetails();
@@ -126,6 +130,39 @@ const EditProfile = () => {
         console.log(e);
         setError(e.message);
       });
+  };
+
+  const handleDeleteProfile = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your profile? Please confirm your password."
+    );
+    if (confirmDelete) {
+      let password = "";
+      while (!password) {
+        password = prompt("Enter your password to confirm:");
+        if (password === null) {
+          // User clicked Cancel
+          return;
+        }
+      }
+      DeleteUserDetails({ password })
+        .then((res) => {
+          if (res && res.status == 200 && res.data) {
+            sessionStorage.clear();
+            localStorage.clear();
+            navigate("/login");
+          } else {
+            setDeleteError("Failed to delete profile1.");
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          //setError("Failed to delete profile.");
+          setDeleteError(
+            e?.response?.data?.message || "Failed to delete profile."
+          );
+        });
+    }
   };
 
   const handleCancel = () => {
@@ -259,6 +296,7 @@ const EditProfile = () => {
               }}
             >
               <h2 style={{ color: "white" }}>Edit Profile</h2>
+              <span style={{ marginLeft: 5, color: "red" }}>{deleteError}</span>
               <div style={{ width: "100%", marginTop: 40 }}>
                 <TextField
                   label={
@@ -581,6 +619,19 @@ const EditProfile = () => {
                     }}
                   >
                     Edit
+                  </Button>
+                </div>
+              )}
+              {!isEditing && (
+                <div style={{ marginTop: 20, width: "100%" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleDeleteProfile}
+                    fullWidth
+                    sx={{}}
+                  >
+                    Delete Profile
                   </Button>
                 </div>
               )}
