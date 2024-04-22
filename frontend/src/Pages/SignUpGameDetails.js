@@ -225,7 +225,7 @@ const SignUpGameDetails = () => {
           />
         </Box>
 
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}>
           {games.map((game, index) => (
             <div
               key={index}
@@ -236,7 +236,10 @@ const SignUpGameDetails = () => {
                   variant="body1"
                   gutterBottom={true}
                   label={game.name}
-                  style={{ marginRight: "20px" }}
+                  customStyle={{
+                    marginRight: "20px",
+                    minWidth: "200px",
+                  }}
                 />
                 <Rating
                   name={`rating-${index}`}

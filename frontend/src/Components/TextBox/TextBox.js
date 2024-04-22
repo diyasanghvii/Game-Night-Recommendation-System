@@ -19,6 +19,9 @@ function TextBox({
         type={type}
         variant={variant}
         onChange={onChange}
+        InputLabelProps={{
+          style: { color: '#fff' },
+        }}
         sx={{
           "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
             borderColor: "white", // Change the border color to white
