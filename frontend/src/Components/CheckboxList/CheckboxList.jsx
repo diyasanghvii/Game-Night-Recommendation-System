@@ -15,16 +15,25 @@ export default function CheckboxList({ items, onCheckboxToggle }) {
   };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: "auto" }}>
+    <List 
+      sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: "auto", paddingBottom: 0 }}
+    >
       {items.map((item, index) => {
         const labelId = `checkbox-list-label-${index}`;
 
         return (
           <React.Fragment key={index}>
-            <ListItem disablePadding>
-              <ListItemButton role={undefined}  dense>
+            <ListItem disablePadding sx={{borderBottom: "1px solid rgba(134, 131, 135, 0.4)",}}>
+              <ListItemButton role={undefined} dense>
                 <ListItemIcon>
-                  <Checkbox onClick={handleToggle(item)}
+                  <Checkbox
+                    sx={{
+                      color: "white",
+                      "&.Mui-checked": {
+                        color: "white",
+                      },
+                    }}
+                    onClick={handleToggle(item)}
                     edge="start"
                     tabIndex={-1}
                     disableRipple
@@ -51,7 +60,9 @@ export default function CheckboxList({ items, onCheckboxToggle }) {
                 />
               </ListItemButton>
             </ListItem>
-            {index !== items.length - 1 && <Divider variant="middle" component="li" />}
+            {index !== items.length - 1 && (
+              <Divider variant="middle" component="li" />
+            )}
           </React.Fragment>
         );
       })}

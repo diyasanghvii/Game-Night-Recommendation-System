@@ -13,7 +13,7 @@ export default function CustomModal({
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
-        <Box className="modal-box">
+        <Box className="modal-box" sx={{ backgroundColor: "rgb(78, 63, 105)", border: "4px solid #424042" }}>
           <div className="modal-containter-root">
             <div>
               <Text variant="h5" gutterBottom={true} label={title} />
@@ -24,6 +24,7 @@ export default function CustomModal({
                   <CloseIcon
                     className="icon-curser-pointer"
                     onClick={handleClose}
+                    sx={{ color: "#fff" }} 
                   />
                 </Tooltip>
               </div>

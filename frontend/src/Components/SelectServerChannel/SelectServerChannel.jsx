@@ -13,7 +13,10 @@ import Select from "@mui/material/Select";
 import Btn from "../Button/Btn.js";
 import { GetServerList, GetChannelList } from "../../Services/index";
 
-export default function SelectServerChannel({ onServerChange, onChannelChange }) {
+export default function SelectServerChannel({
+  onServerChange,
+  onChannelChange,
+}) {
   const [openServerDialog, setOpenServerDialog] = useState(false);
   const [openChannelDialog, setOpenChannelDialog] = useState(false);
   const [servers, setServers] = useState([]);
@@ -95,16 +98,19 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
         PaperProps={{
           sx: {
             backgroundColor: "#1A2040",
+            minWidth: "250px",
+            minHeight: "250px",
+            border: "4px solid #424042",
           },
         }}
       >
         <DialogTitle sx={{ margin: "0", paddingBottom: "5px", color: "#fff" }}>
-          Select a server
+          Select a Discord server
         </DialogTitle>
         {!selectedServer && (
           <DialogTitle
             sx={{
-              fontSize: "10px",
+              fontSize: "13px",
               color: "pink",
               margin: "0",
               paddingTop: "0",
@@ -115,20 +121,81 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
           </DialogTitle>
         )}
         <DialogContent>
-          {loadingServers && <p>Loading servers...</p>}
+          {loadingServers && (
+            <p style={{ color: "white" }}>Loading servers...</p>
+          )}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-              <InputLabel id="server-dialog-select-label" sx={{ color: "#fff" }}>Server</InputLabel>
+            <FormControl sx={{ m: 1, marginTop: "50px", minWidth: 300, color: "white" }}>
+              <InputLabel
+                id="server-dialog-select-label"
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
+              >
+                Server
+              </InputLabel>
               <Select
                 labelId="server-dialog-select-label"
                 id="server-dialog-select"
                 value={selectedServer}
                 onChange={handleServerChange}
-                input={<OutlinedInput label="Server" />}
-                sx= {{color:"#fff"}}
+                input={
+                  <OutlinedInput
+                    sx={{
+                      color: "white",
+                      "&.Mui-focused": {
+                        color: "#fff",
+                      },
+                    }}
+                    label="Server"
+                  />
+                }
+                sx={{ color: "#fff", minWidth: 300,"& .MuiSelect-icon": {
+                  color: "#fff",
+                } }}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "left",
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "left",
+                  },
+                  getContentAnchorEl: null,
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#1A2040", // Background color for menu list
+                      color: "#fff", // Text color for menu list items
+                      marginTop: 0, // Remove top white gap
+                      marginBottom: 0, // Remove bottom white gap
+                      border:  "1px solid rgba(255, 255, 255, 0.7)",
+                    },
+                  },
+                }}
               >
                 {servers?.map((server, index) => (
-                  <MenuItem key={index} value={server} style={{ color: '#fff', backgroundColor: '#1A2040' }}  >
+                  <MenuItem
+                    key={index}
+                    value={server}
+                    sx={{
+                      minWidth: "296px",
+                      color: "white",
+                      "&.Mui-selected": {
+                        backgroundColor: "#868387",
+                      },
+                      "&.Mui-selected:hover": {
+                        backgroundColor: "#868387",
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(134, 131, 135, 0.4)",
+                      },
+                      borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+                    }}
+                  >
                     {server}
                   </MenuItem>
                 ))}
@@ -137,7 +204,7 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleServerOk}>Ok</Button>
+          <Btn onClick={handleServerOk} label="Ok"></Btn>
         </DialogActions>
       </Dialog>
 
@@ -147,6 +214,9 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
         onClose={() => {}}
         PaperProps={{
           sx: {
+            minWidth: "250px",
+            minHeight: "250px",
+            border: "4px solid #424042",
             backgroundColor: "#1A2040",
           },
         }}
@@ -157,45 +227,94 @@ export default function SelectServerChannel({ onServerChange, onChannelChange })
         {!selectedChannel && (
           <DialogTitle
             sx={{
-              fontSize: "10px",
+              fontSize: "13px",
               color: "pink",
               margin: "0",
               paddingTop: "0",
               paddingBottom: "0",
-            
             }}
           >
             (Please select a channel to continue..)
           </DialogTitle>
         )}
         <DialogContent>
-          {loadingChannels && <p>Loading channels...</p>}
+          {loadingChannels && (
+            <p style={{ color: "white" }}>Loading channels...</p>
+          )}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-              <InputLabel id="channel-dialog-select-label" sx={{ color: "#fff" }}>Channel</InputLabel>
+            <FormControl sx={{ m: 1, marginTop: "50px",minWidth: 300 }}>
+              <InputLabel
+                id="channel-dialog-select-label"
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
+              >
+                Channel
+              </InputLabel>
               <Select
                 labelId="channel-dialog-select-label"
                 id="channel-dialog-select"
                 value={selectedChannel}
                 onChange={handleChannelChange}
-                input={<OutlinedInput label="Channel" />}
-                sx= {{color:"#fff"}}
+                input={<OutlinedInput sx={{
+                  color: "white",
+                  "& .MuiSelect-icon": {
+                    color: "#fff",
+                  }
+                }} label="Channel" />}
+                sx={{ color: "#fff" }}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "left",
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "left",
+                  },
+                  getContentAnchorEl: null,
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#1A2040", // Background color for menu list
+                      color: "#fff", // Text color for menu list items
+                      marginTop: 0, // Remove top white gap
+                      marginBottom: 0, // Remove bottom white gap
+                      border:  "1px solid rgba(255, 255, 255, 0.7)",
+                    },
+                  },
+                }}
               >
                 {channels.map((channel, index) => (
                   <MenuItem
-                  key={index}
-                  value={channel}
-                  style={{ color: '#fff', backgroundColor: '#1A2040' }}
-                >
-                  {channel}
-                </MenuItem>
+                    key={index}
+                    value={channel}
+                    sx={{
+                      minWidth: "296px",
+                      color: "white",
+                      "&.Mui-selected": {
+                        backgroundColor: "#868387",
+                      },
+                      "&.Mui-selected:hover": {
+                        backgroundColor: "#868387",
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(134, 131, 135, 0.4)",
+                      },
+                      borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+                    }}
+                  >
+                    {channel}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleChannelOk}>Ok</Button>
+          <Btn onClick={handleChannelOk} label="Ok"></Btn>
         </DialogActions>
       </Dialog>
     </div>

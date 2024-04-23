@@ -4,6 +4,8 @@ import MenuHeader from "../Components/MenuHeader/MenuHeader";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
 import GameSection from "../Components/GameSection/GameSection";
 import PopupGenre from "../Components/PopupGenre/PopupGenre";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   UpdateUserGenre,
   profileCheck,
@@ -185,74 +187,139 @@ class EditPreferences extends Component {
     const userName = localStorage.getItem("userName");
     const userGenre = localStorage.getItem("userGenre")?.split(",") || [];
     return (
-      <div style={{
-        backgroundImage: "url('/images/Game Image.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        padding: "20px"
-      }}>
-        <MenuHeader />
+      <div
+        className="all-root"
+        style={{
+          backgroundImage: "url('/images/Game Image.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+        }}
+      >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px",
-            color: "white",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "100vh",
           }}
         >
-          <h2 style={{ color: "white" }}>Welcome, {userName}!</h2>
-          {this.state.isPopupOpen && (
-            <PopupGenre
-              genres={userGenre}
-              onClose={this.handleClosePopup}
-              onSelection={this.handleGenreSelection}
-            />
-          )}
-        </div>
+          <MenuHeader />
+          <div style={{ padding: 20 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "20px",
+                color: "white",
+              }}
+            >
+              <h2 style={{ color: "white" }}>Welcome, {userName}!</h2>
+              {this.state.isPopupOpen && (
+                <PopupGenre
+                  genres={userGenre}
+                  onClose={this.handleClosePopup}
+                  onSelection={this.handleGenreSelection}
+                />
+              )}
+            </div>
 
-        <div>
-          <GameSectionGenre
-            title="Preferred Genres"
-            onEditGenre={this.handleEditGenre}
-            genres={userGenre}
-          />
-          <div>
-            <input
-              type="text"
-              placeholder="Search interested games..."
-              value={allGamesSearchTerm}
-              onChange={this.handleAllGamesSearchChange}
-            />
-            <GameSection
-              title="Interested games"
-              games={interestedGames}
-              searchTerm={yourGamesSearchTerm}
-              ratings={ratings}
-              isOwned={false}
-              updateRatings={this.updateRatings}
-              onSearchChange={this.handleAllGamesSearchChange}
-              interestChanged={(data, value, game) =>
-                this.interestChanged(data, value, game)
-              }
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Search rated games..."
-              value={yourGamesSearchTerm}
-              onChange={this.handleYourGamesSearchChange}
-            />
-            <GameSection
-              title="Rated games"
-              games={ratedGames}
-              searchTerm={yourGamesSearchTerm}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-              onSearchChange={this.handleYourGamesSearchChange}
-            />
+            <div>
+              <GameSectionGenre
+                title="Preferred Genres"
+                onEditGenre={this.handleEditGenre}
+                genres={userGenre}
+              />
+              <div
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                }}
+              >
+                <TextField
+                  type="text"
+                  placeholder="Search interested games..."
+                  value={allGamesSearchTerm}
+                  onChange={this.handleAllGamesSearchChange}
+                  fullWidth
+                  style={{
+                    width: "20%", // Adjust the width as needed, such as "50%" for half-width
+                    height: "30px", // Adjust the height as needed, for example "30px"
+                    marginBottom: "15px", // Add margin if desired
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton aria-label="search" sx={{ color: "#fff" }}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    style: {
+                      backgroundColor: "rgba(64, 64, 64, 0.75)",
+                      color: "#fff",
+                    },
+                  }}
+                />
+                <GameSection
+                  title="Interested games"
+                  games={interestedGames}
+                  searchTerm={yourGamesSearchTerm}
+                  ratings={ratings}
+                  isOwned={false}
+                  updateRatings={this.updateRatings}
+                  onSearchChange={this.handleAllGamesSearchChange}
+                  interestChanged={(data, value, game) =>
+                    this.interestChanged(data, value, game)
+                  }
+                />
+              </div>
+              <div
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                }}
+              >
+                <TextField
+                  type="text"
+                  placeholder="Search rated games..."
+                  value={yourGamesSearchTerm}
+                  onChange={this.handleYourGamesSearchChange}
+                  fullWidth
+                  style={{
+                    width: "20%", // Adjust the width as needed, such as "50%" for half-width
+                    height: "30px", // Adjust the height as needed, for example "30px"
+                    marginBottom: "15px", // Add margin if desired
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton aria-label="search" sx={{ color: "#fff" }}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    style: {
+                      backgroundColor: "rgba(64, 64, 64, 0.75)",
+                      color: "#fff",
+                    },
+                  }}
+                />
+                <GameSection
+                  title="Rated games"
+                  games={ratedGames}
+                  searchTerm={yourGamesSearchTerm}
+                  ratings={ratings}
+                  updateRatings={this.updateRatings}
+                  onSearchChange={this.handleYourGamesSearchChange}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -26,33 +26,127 @@ export default function AllGamesSorting({
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
+        backgroundColor: "rgb(78, 63, 105)",
+
+        color: "#fff",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        padding: "20px",
       }}
     >
-      <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-        <FormControl sx={{ m: 1, minWidth: 160 }}>
-          <InputLabel id="server-dialog-select-label">Sort By</InputLabel>
-          <Select
-            labelId="server-dialog-select-label"
-            id="server-dialog-select"
-            value={sortBy}
-            onChange={handleChange}
-            input={<OutlinedInput label="Sort By" />}
+      <FormControl
+        sx={{ m: 1, minWidth: 160, backgroundColor: "rgb(78, 63, 105)" }}
+      >
+        <InputLabel
+          sx={{
+            color: "white",
+            "&.Mui-focused": {
+              color: "#fff",
+            },
+          }}
+          id="server-dialog-select-label"
+        >
+          Sort By
+        </InputLabel>
+        <Select
+          labelId="server-dialog-select-label"
+          id="server-dialog-select"
+          value={sortBy}
+          onChange={handleChange}
+          input={<OutlinedInput sx={{ color: "white" }} label="Sort By" />}
+          sx={{
+            color: "#fff",
+            "& .MuiSelect-icon": {
+              color: "#fff",
+            },
+            "& .MuiSelect-selectMenu": {
+              backgroundColor: "#1A2040",
+              color: "#fff",
+            },
+            "& .Mui-selected": {
+              backgroundColor: "#424042",
+              color: "#000",
+            },
+          }}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+            PaperProps: {
+              sx: {
+                backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+              },
+            },
+          }}
+        >
+          <MenuItem
+            sx={{
+              color: "white",
+              "&.Mui-selected": {
+                backgroundColor: "#868387",
+              },
+              "&.Mui-selected:hover": {
+                backgroundColor: "#868387",
+              },
+              "&:hover": {
+                backgroundColor: "rgba(134, 131, 135, 0.4)",
+              },
+              borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+            }}
+            key={1}
+            value={"Release Date"}
           >
-            <MenuItem key={1} value={"Playtime forever"}>
-              Playtime forever
-            </MenuItem>
-            <MenuItem key={2} value={"Playtime last 2 weeks"}>
-              Playtime last 2 weeks
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+            Release Date
+          </MenuItem>
+          <MenuItem
+            sx={{
+              color: "white",
+              "&.Mui-selected": {
+                backgroundColor: "#868387",
+              },
+              "&.Mui-selected:hover": {
+                backgroundColor: "#868387",
+              },
+              "&:hover": {
+                backgroundColor: "rgba(134, 131, 135, 0.4)",
+              },
+              borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+            }}
+            key={2}
+            value={"Price"}
+          >
+            Price
+          </MenuItem>
+          <MenuItem
+            sx={{
+              color: "white",
+              "&.Mui-selected": {
+                backgroundColor: "#868387",
+              },
+              "&.Mui-selected:hover": {
+                backgroundColor: "#868387",
+              },
+              "&:hover": {
+                backgroundColor: "rgba(134, 131, 135, 0.4)",
+              },
+            }}
+            key={3}
+            value={"Review Score"}
+          >
+            Review Score
+          </MenuItem>
+        </Select>
+      </FormControl>
       <div style={{ marginTop: 20 }}>
         <RadioGroup
           row
@@ -61,13 +155,51 @@ export default function AllGamesSorting({
           value={sortType}
           onChange={handleSortTypeChange}
         >
-          <FormControlLabel value="asc" control={<Radio />} label="Asc" />
-          <FormControlLabel value="desc" control={<Radio />} label="Desc" />
+          <FormControlLabel
+            value="asc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Ascending"
+          />
+          <FormControlLabel
+            value="desc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Descending"
+          />
         </RadioGroup>
       </div>
       <div style={{ marginTop: 20 }}>
         <Btn label={"Submit"} onClick={() => submitSort(sortBy, sortType)} />
       </div>
-    </div>
+    </Box>
   );
 }

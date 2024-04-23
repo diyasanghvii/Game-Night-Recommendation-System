@@ -201,6 +201,31 @@ const saveUserDetails = async (req, res) => {
   }
 };
 
+// @desc Delete User Profile API
+// @route DELETE /user/deleteuserdetails
+// @access Private
+const deleteUserDetails = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const email = req.user.email;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const passwordMatch = await comparePasswords(password, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ message: "Incorrect Password. Please try again." });
+    }
+
+    await User.deleteOne({ email });
+    res.status(200).json({ message: "User profile deleted successfully." });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Error occurred while deleting the user profile.");
+  }
+};
+
 // @desc Update User Genre API
 // @route POST /user/updategenre
 // @access Private
@@ -436,6 +461,7 @@ module.exports = {
   signUpThree,
   getUserDetails,
   saveUserDetails,
+  deleteUserDetails,
   updateGenre,
   getUserRatings,
   updateRating,

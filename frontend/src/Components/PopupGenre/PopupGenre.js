@@ -40,15 +40,14 @@ class PopupGenre extends Component {
   handleSave = () => {
     const { selectedGenres } = this.state;
     const { onClose, onSelection } = this.props;
-  
+
     if (selectedGenres.length >= 5) {
-      onSelection(selectedGenres); 
-      onClose(); 
+      onSelection(selectedGenres);
+      onClose();
     } else {
       alert("Please select at least 5 genres...");
     }
   };
-  
 
   render() {
     const { selectedGenres, allGenres } = this.state;
@@ -60,25 +59,41 @@ class PopupGenre extends Component {
             &times;
           </span>
           <h2>Select Genres</h2>
-          <div>
+          <div class="checkbox">
             {allGenres.map((genre) => (
-              <label key={genre}>
+              <label for={genre} class="checkbox-container" key={genre} style={{paddingRight:"10px"}}>
+                &nbsp;{genre}
                 <input
+                  id={genre}
                   type="checkbox"
                   value={genre}
+                  style={{margin: "25px"}}
                   checked={selectedGenres.includes(genre)}
                   onChange={() => this.handleGenreChange(genre)}
-                />{" "}
-                {genre}
+                />
+                <span className="checkmark"></span> 
               </label>
             ))}
           </div>
           <div>
-            {!allGenres || (allGenres.length === 0 && <p>Loading ...</p>)}
+            {!allGenres ||
+              (allGenres.length === 0 && (
+                <p style={{ color: "white" }}>Loading ...</p>
+              ))}
           </div>
           <div className="button-group">
-            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={this.handleSave}>Save</button>
-            <button style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }} onClick={onClose}>Cancel</button>
+            <button
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={this.handleSave}
+            >
+              Save
+            </button>
+            <button
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={onClose}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import "./GameSectionFilter.css";
 import Btn from "../Button/Btn";
 import RatingPopUp from "../RatingPopUp/RatingPopUp";
 import {
+  formatDate,
   gameRatingMatch,
   getOnlyUnRatedGames,
   getUnownedRatingValue,
@@ -12,8 +13,11 @@ import GameInterestRating from "../GameInterestRating/GameInterestRating";
 import { UpdateUnownedUserGameRating } from "../../Services";
 import Switch from "@mui/material/Switch";
 import CustomModal from "../Modal/CustomModal";
-import AllGamesSorting from "../Sorting/AllGamesSorting";
+import OwnedGamesSorting from "../Sorting/OwnedGamesSorting";
 import AllGamesFilter from "../GameFilter/AllGamesFilter";
+import AllGamesSorting from "../Sorting/AllGamesSorting";
+
+const fontClr = "#2d2d2e";
 
 function GameSectionFilter({
   title,
@@ -22,6 +26,7 @@ function GameSectionFilter({
   updateRatings,
   ownedGame,
   isSortable = false,
+  allGamesFilter = false,
   hasFilter = false,
   fetchAllGamesWithFilter,
   loading,
@@ -43,6 +48,11 @@ function GameSectionFilter({
   const [genreList, setGenreList] = React.useState("");
   const [tagsList, setTagsList] = React.useState("");
   const [featureList, setFeatureList] = React.useState("");
+  const [isAllGamesSortingModalOpen, setIsAllGamesSortingModalOpen] =
+    useState(false);
+
+  const [sortByAllGames, setSortByAllGames] = React.useState("Release Date");
+  const [sortTypeAllGames, setSortTypeAllGames] = React.useState("asc");
 
   const handleClick = (game) => {
     setPopupGameData(game);
@@ -83,15 +93,15 @@ function GameSectionFilter({
   useEffect(() => {
     setStartIndex(0);
     setEndIndex(5);
-    setvisibleGames(games?.slice(startIndex, endIndex) || []);
+    setvisibleGames(games);
   }, [games]);
 
   useEffect(() => {
     if (onlyUnRatingChecked) {
       const filteredGames = getOnlyUnRatedGames(games, ratings);
-      setvisibleGames(filteredGames?.slice(startIndex, endIndex) || []);
+      setvisibleGames(filteredGames);
     } else {
-      setvisibleGames(games?.slice(startIndex, endIndex) || []);
+      setvisibleGames(games);
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
 
@@ -101,6 +111,10 @@ function GameSectionFilter({
 
   const openFilterModal = () => {
     setIsFilterModalOpen(true);
+  };
+
+  const openAllGamesSortModal = () => {
+    setIsAllGamesSortingModalOpen(true);
   };
 
   const sortOwnedGames = (sortBy, sortType) => {
@@ -130,9 +144,40 @@ function GameSectionFilter({
     closeSortingModal();
   };
 
+  const sortAllGames = (sortBy, sortType) => {
+    setvisibleGames((prevValues) => {
+      let filteredGames = games;
+      if (onlyUnRatingChecked) {
+        filteredGames = getOnlyUnRatedGames(games, ratings);
+      }
+      filteredGames.sort((a, b) => {
+        if (sortType === "asc") {
+          if (sortBy === "Release Date") {
+            return a.releaseDate - b.releaseDate;
+          } else if (sortBy === "Price") {
+            return a.price - b.price;
+          } else if (sortBy === "Review Score") {
+            return a.reviewScore - b.reviewScore;
+          }
+        } else {
+          if (sortBy === "Release Date") {
+            return b.releaseDate - a.releaseDate;
+          } else if (sortBy === "Price") {
+            return b.price - a.price;
+          } else if (sortBy === "Review Score") {
+            return b.reviewScore - a.reviewScore;
+          }
+        }
+      });
+      return filteredGames;
+    });
+    closeSortingModal();
+  };
+
   const closeSortingModal = () => {
     setIsSortingModalOpen(false);
     setIsFilterModalOpen(false);
+    setIsAllGamesSortingModalOpen(false);
   };
 
   const handleGenreFilterChange = (event) => {
@@ -194,7 +239,9 @@ function GameSectionFilter({
       <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <h2 style={{ marginRight: 20 }}>{title}</h2>
+        <h2 className="glow-header" style={{ marginRight: 20 }}>
+          {title}
+        </h2>
         <div
           style={{
             display: "flex",
@@ -210,79 +257,188 @@ function GameSectionFilter({
           <p style={{ marginRight: 20 }}>Show only unrated games</p>
         </div>
         {isSortable && (
-          <div>
-            <Btn label="Sort" size="small" onClick={openSortModal} />
+          <div style={{ marginRight: 10 }}>
+            <Btn
+              label="Sort"
+              size="small"
+              className="game-popup-button"
+              onClick={allGamesFilter ? openAllGamesSortModal : openSortModal}
+            />
           </div>
         )}
         {hasFilter && (
           <div>
-            <Btn label="Filter" size="small" onClick={openFilterModal} />
+            <Btn
+              className="game-popup-button"
+              label="Filter"
+              size="small"
+              onClick={openFilterModal}
+            />
           </div>
         )}
         {loading && (
-          <p style={{ marginLeft: 10 }}>Loading filtered games ...</p>
+          <p style={{ marginLeft: 10, color: "white" }}>
+            Loading filtered games ...
+          </p>
         )}
       </div>
       <div className="gameCarousel">
-        <Btn
+        {/* <Btn
           fullWidth={true}
           label={"Prev"}
           onClick={handlePrev}
           disabled={startIndex === 0}
-        />
-        <div className="gameList">
-          {visibleGames.map((game, index) => (
-            <div
-              className="gameCard"
-              key={index}
-              onClick={() => handleClick(game)}
-            >
-              <img
-                style={{ width: 200, height: 100 }}
-                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
-                alt={game.name}
-              />
+        /> */}
+        {visibleGames.map((game, index) => (
+          <div
+            className="gameCard"
+            key={index}
+            onClick={() => handleClick(game)}
+          >
+            <img
+              style={{ width: 200, height: 100 }}
+              src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
+              alt={game.name}
+            />
+            <div style={{ height: 70 }}>
               <h3>{game.name}</h3>
+            </div>
 
-              {isGameOwned(ownedGame, game) ? (
-                <GameInterestRating
-                  isOwned={true}
-                  userRating={gameRatingMatch(
-                    ratings,
-                    game.name,
-                    game.appid,
-                    game.appid
-                  )}
-                  isEnabled={false}
-                />
-              ) : (
-                <GameInterestRating
-                  userRating={gameRatingMatch(
-                    ratings,
-                    game.name,
-                    game.appid,
-                    null
-                  )}
-                  interestChanged={(data) => {}}
-                  isOwned={false}
-                  isEnabled={false}
-                />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {game.price !== null && game.price !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: fontClr,
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 2,
+                    }}
+                  >
+                    {"Price"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                      color: "white",
+                    }}
+                  >
+                    {game.price ? `$ ${game.price}` : "Free"}
+                  </h5>
+                </div>
+              )}
+
+              {game.reviewScore !== null && game.reviewScore !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 2,
+                      color: fontClr,
+                    }}
+                  >
+                    {"Score"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {`${game.reviewScore}%`}
+                  </h5>
+                </div>
+              )}
+
+              {game.releaseDate !== null && game.releaseDate !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 2,
+                      color: fontClr,
+                    }}
+                  >
+                    {"Release"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {formatDate(game.releaseDate)}
+                  </h5>
+                </div>
               )}
             </div>
-          ))}
-        </div>
-        <Btn
+
+            {isGameOwned(ownedGame, game) ? (
+              <GameInterestRating
+                isOwned={true}
+                userRating={gameRatingMatch(
+                  ratings,
+                  game.name,
+                  game.appid,
+                  game.appid
+                )}
+                isEnabled={false}
+              />
+            ) : (
+              <GameInterestRating
+                userRating={gameRatingMatch(
+                  ratings,
+                  game.name,
+                  game.appid,
+                  null
+                )}
+                interestChanged={(data) => {}}
+                isOwned={false}
+                isEnabled={false}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+      <div>
+        {/* <Btn
           fullWidth={true}
           label={"Next"}
           onClick={handleNext}
           disabled={endIndex === games.length}
-        />
+        /> */}
         <CustomModal
           title={"Sort Games"}
           open={isSortingModalOpen}
           handleClose={closeSortingModal}
           bodyComponent={
-            <AllGamesSorting
+            <OwnedGamesSorting
               sortBy={sortByOwned}
               sortType={sortTypeOwned}
               submitSort={(value1, value2) => {
@@ -303,6 +459,10 @@ function GameSectionFilter({
           handleClose={closeSortingModal}
           bodyComponent={
             <AllGamesFilter
+              sx={{
+                backgroundColor: "#07294a",
+                color: "#fff",
+              }}
               genreList={genreList}
               tagsList={tagsList}
               featureList={featureList}
@@ -320,6 +480,26 @@ function GameSectionFilter({
               }}
               handleChangeFeatureList={(data) => {
                 handleChangeFeatureFilterList(data);
+              }}
+            />
+          }
+        />
+        <CustomModal
+          title={"Sort Games"}
+          open={isAllGamesSortingModalOpen}
+          handleClose={closeSortingModal}
+          bodyComponent={
+            <AllGamesSorting
+              sortBy={sortByAllGames}
+              sortType={sortTypeAllGames}
+              submitSort={(value1, value2) => {
+                sortAllGames(value1, value2);
+              }}
+              sortByChanged={(data) => {
+                setSortByAllGames(data);
+              }}
+              sortTypeChanged={(data) => {
+                setSortTypeAllGames(data);
               }}
             />
           }

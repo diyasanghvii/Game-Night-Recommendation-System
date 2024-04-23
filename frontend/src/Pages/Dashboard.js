@@ -8,6 +8,8 @@ import { Navigate } from "react-router-dom";
 import _ from "lodash";
 import { profileCheck } from "../Services";
 import GameSectionFilter from "../Components/GameSectionFilter/GameSectionFilter";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 class Dashboard extends Component {
   constructor() {
@@ -47,7 +49,7 @@ class Dashboard extends Component {
   fetchAllGames1 = () => {
     const { allGamesSearchTerm } = this.state;
     const defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=25&features=Cross-Platform%20Multiplayer";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=25&features=Cross-Platform%20Multiplayer";
     FetchAllGames({
       url: allGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: allGamesSearchTerm,
@@ -80,12 +82,8 @@ class Dashboard extends Component {
       allGamesGenreFilter,
     } = this.state;
 
-    console.log("allGamesGenreFilter : ", allGamesGenreFilter);
-    console.log("allGamesTagFilter : ", allGamesTagFilter);
-    console.log("allGamesFeaturesFilter : ", allGamesFeaturesFilter);
-
     let defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=50";
 
     if (allGamesSearchTerm !== "") {
       defaultUrl += `&title=${allGamesSearchTerm}`;
@@ -129,7 +127,7 @@ class Dashboard extends Component {
   fetchFreeGames = () => {
     const { freeGamesSearchTerm } = this.state;
     const defaultUrl =
-      "https://api.gamalytic.com/steam-games/list?fields=name,steamId&limit=50&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer";
+      "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=50&genres=Free%20to%20Play&features=Cross-Platform%20Multiplayer";
     FetchFreeGames({
       url: freeGamesSearchTerm === "" ? defaultUrl : undefined,
       searchString: freeGamesSearchTerm,
@@ -248,149 +246,236 @@ class Dashboard extends Component {
     } = this.state;
     const userName = localStorage.getItem("userName");
     return (
-      <div
-        style={{
-          backgroundImage: "url('/images/Game Image.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          padding: "20px",
-        }}
-      >
-        <MenuHeader />
+      <>
         <div
+          className="all-root"
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "35px",
-            color: "white",
+            backgroundImage: "url('/images/Game Image.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "100vh",
+            // padding: "20px",
           }}
         >
-          <h2>Welcome, {userName}!</h2>
-          <span>
-            {rcmBtnClicked && <Navigate to="/recommend-games" replace={true} />}
-            <Btn
-              onClick={() => this.setState({ rcmBtnClicked: true })}
-              label={"Recommend Multiplayer Games"}
-            />
-          </span>
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              minHeight: "100vh",
+            }}
+          >
+            <MenuHeader />
+            <div style={{ padding: 20 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "35px",
+                  color: "white",
+                }}
+              >
+                <h2 style={{ marginLeft: 10 }} class="glow">
+                  Welcome, {userName}!
+                </h2>
+                <span>
+                  {rcmBtnClicked && (
+                    <Navigate to="/recommend-games" replace={true} />
+                  )}
+                  <Btn
+                    onClick={() => this.setState({ rcmBtnClicked: true })}
+                    label={"Recommend Multiplayer Games"}
+                    customStyle={{ backgroundColor: "rgba(0, 0, 0, 1)" }} // Adjust the button transparency here
+                  />
+                </span>
+              </div>
+
+              {isAllGamesLoading ? (
+                <p style={{ color: "white" }}>Loading All games data...</p>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <TextField
+                    type="text"
+                    placeholder="Search all games..."
+                    value={allGamesSearchTerm}
+                    onChange={this.handleAllGamesSearchChange}
+                    fullWidth
+                    style={{
+                      width: "20%", // Adjust the width as needed, such as "50%" for half-width
+                      height: "30px", // Adjust the height as needed, for example "30px"
+                      marginBottom: "15px", // Add margin if desired
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton
+                            aria-label="search"
+                            sx={{ color: "#fff" }}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "rgba(64, 64, 64, 0.75)",
+                        color: "#fff",
+                      },
+                    }}
+                  />
+                  <GameSectionFilter
+                    title="All games"
+                    allGamesFilter={true}
+                    games={allGamesList}
+                    isSortable={true}
+                    ownedGame={ownedGames}
+                    searchTerm={allGamesSearchTerm}
+                    ratings={ratings}
+                    updateRatings={this.updateRatings}
+                    fetchAllGamesWithFilter={this.fetchAllGames}
+                    hasFilter={true}
+                    loading={isLoadingAllFilterGames}
+                    setGenreListInParent={(data) => {
+                      this.setState({ allGamesGenreFilter: data });
+                    }}
+                    setTagListInParent={(data) => {
+                      this.setState({ allGamesTagFilter: data });
+                    }}
+                    setFeatureListInParent={(data) => {
+                      this.setState({ allGamesFeaturesFilter: data });
+                    }}
+                    clearFilterInParent={() => {
+                      this.setState({
+                        allGamesGenreFilter: [],
+                        allGamesTagFilter: [],
+                        allGamesFeaturesFilter: [],
+                      });
+                    }}
+                    backgroundColor="rgba(0, 0, 0, 0.5)"
+                  />
+                </div>
+              )}
+
+              {error ? (
+                <p style={{ color: "white" }}>
+                  Error fetching data. Please check your API key and Steam ID.
+                </p>
+              ) : isLoading ? (
+                <p style={{ color: "white" }}>Loading game data...</p>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <TextField
+                    type="text"
+                    placeholder="Search your steam games..."
+                    value={yourGamesSearchTerm}
+                    onChange={this.handleYourGamesSearchChange}
+                    fullWidth
+                    style={{
+                      width: "20%", // Adjust the width as needed, such as "50%" for half-width
+                      height: "30px", // Adjust the height as needed, for example "30px"
+                      marginBottom: "15px", // Add margin if desired
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton
+                            aria-label="search"
+                            sx={{ color: "#fff" }}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "rgba(64, 64, 64, 0.75)",
+                        color: "#fff",
+                      },
+                    }}
+                  />
+                  <GameSectionFilter
+                    title="Your games"
+                    games={filteredOwnedGames}
+                    isSortable={true}
+                    isOwned={true}
+                    ownedGame={ownedGames}
+                    searchTerm={yourGamesSearchTerm}
+                    onSearchChange={this.handleYourGamesSearchChange}
+                    ratings={ratings}
+                    updateRatings={this.updateRatings}
+                    backgroundColor="rgba(0, 0, 0, 0.5)"
+                  />
+                </div>
+              )}
+
+              {isFreeGamesLoading ? (
+                <p>Loading Free games data...</p>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <TextField
+                    type="text"
+                    placeholder="Search free games..."
+                    value={freeGamesSearchTerm}
+                    onChange={this.handleFreeGamesSearchChange}
+                    fullWidth
+                    style={{
+                      width: "20%", // Adjust the width as needed, such as "50%" for half-width
+                      height: "30px", // Adjust the height as needed, for example "30px"
+                      marginBottom: "15px", // Add margin if desired
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton
+                            aria-label="search"
+                            sx={{ color: "#fff" }}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        backgroundColor: "rgba(64, 64, 64, 0.75)",
+                        color: "#fff",
+                      },
+                    }}
+                  />
+                  <GameSectionFilter
+                    title="Free Cross Platform Multi-Player games"
+                    games={freeGamesList}
+                    ownedGame={ownedGames}
+                    searchTerm={allGamesSearchTerm}
+                    onSearchChange={this.handleFreeGamesSearchChange}
+                    ratings={ratings}
+                    updateRatings={this.updateRatings}
+                    backgroundColor="rgba(0, 0, 0, 0.5)"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-
-        {isAllGamesLoading ? (
-          <p>Loading All games data...</p>
-        ) : (
-          <div
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              padding: "20px",
-              borderRadius: "10px",
-              marginTop: "10px",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Search all games..."
-              value={allGamesSearchTerm}
-              onChange={this.handleAllGamesSearchChange}
-            />
-            <GameSectionFilter
-              title="All games"
-              games={allGamesList}
-              ownedGame={ownedGames}
-              searchTerm={allGamesSearchTerm}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-              fetchAllGamesWithFilter={this.fetchAllGames}
-              hasFilter={true}
-              loading={isLoadingAllFilterGames}
-              setGenreListInParent={(data) => {
-                this.setState({ allGamesGenreFilter: data });
-              }}
-              setTagListInParent={(data) => {
-                this.setState({ allGamesTagFilter: data });
-              }}
-              setFeatureListInParent={(data) => {
-                this.setState({ allGamesFeaturesFilter: data });
-              }}
-              clearFilterInParent={() => {
-                this.setState({
-                  allGamesGenreFilter: [],
-                  allGamesTagFilter: [],
-                  allGamesFeaturesFilter: [],
-                });
-              }}
-              backgroundColor="rgba(0, 0, 0, 0.5)"
-            />
-          </div>
-        )}
-
-        {error ? (
-          <p style={{ color: "white" }}>
-            Error fetching data. Please check your API key and Steam ID.
-          </p>
-        ) : isLoading ? (
-          <p>Loading game data...</p>
-        ) : (
-          <div
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              padding: "20px",
-              borderRadius: "10px",
-              marginTop: "10px",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Search your games..."
-              value={yourGamesSearchTerm}
-              onChange={this.handleYourGamesSearchChange}
-            />
-            <GameSectionFilter
-              title="Your games"
-              games={filteredOwnedGames}
-              isSortable={true}
-              isOwned={true}
-              ownedGame={ownedGames}
-              searchTerm={yourGamesSearchTerm}
-              onSearchChange={this.handleYourGamesSearchChange}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-              backgroundColor="rgba(0, 0, 0, 0.5)"
-            />
-          </div>
-        )}
-
-        {isFreeGamesLoading ? (
-          <p>Loading Free games data...</p>
-        ) : (
-          <div
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              padding: "20px",
-              borderRadius: "10px",
-              marginTop: "10px",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Search free games..."
-              value={freeGamesSearchTerm}
-              onChange={this.handleFreeGamesSearchChange}
-            />
-            <GameSectionFilter
-              title="Free Cross Platform Multi-Player games"
-              games={freeGamesList}
-              ownedGame={ownedGames}
-              searchTerm={allGamesSearchTerm}
-              onSearchChange={this.handleFreeGamesSearchChange}
-              ratings={ratings}
-              updateRatings={this.updateRatings}
-              backgroundColor="rgba(0, 0, 0, 0.5)"
-            />
-          </div>
-        )}
-      </div>
+      </>
     );
   }
 }

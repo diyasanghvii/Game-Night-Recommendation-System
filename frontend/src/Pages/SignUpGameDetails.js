@@ -33,7 +33,7 @@ const SignUpGameDetails = () => {
             ...ele,
             gameSteamId: ele.appid,
           }));
-          setGames(modifiedSteamGames.slice(0, 9)); // Limiting to 9 games
+          setGames(modifiedSteamGames.slice(0, 8)); // Limiting to 8 games
         }
       })
       .catch((error) => {
@@ -65,7 +65,9 @@ const SignUpGameDetails = () => {
 
   const handleSignup = () => {
     const numSelectedGenres = selectedGenres.length;
-    const numRatedGames = games.filter((game) => game.ratings !== null).length;
+    const numRatedGames = games.filter((game) =>
+      game.ratings ? game.ratings : null !== null
+    ).length;
     if (numSelectedGenres < 5 && numRatedGames < 5) {
       setError("Please select at least 5 genres and rate at least 5 games.");
       return;
@@ -107,90 +109,188 @@ const SignUpGameDetails = () => {
       });
   };
   return (
-    <Container maxWidth="sm">
-      <Text variant="h4" gutterBottom={true} label={"Signup"} />
-      <Stepper
-        sx={{ marginTop: 5, marginBottom: 5 }}
-        activeStep={2}
-        alternativeLabel
-      >
-        <Step key={0}>
-          <StepLabel>Step 1</StepLabel>
-        </Step>
-        <Step key={1}>
-          <StepLabel>Step 2</StepLabel>
-        </Step>
-        <Step key={2}>
-          <StepLabel>Step 3</StepLabel>
-        </Step>
-      </Stepper>
-
-      {error && <ErrorMessage message={error} />}
-
-      <Box
-        style={{
-          maxWidth: "700px",
-          margin: "auto",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
+    <div
+      className="all-root"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
+      }}
+    >
+      <Container
+        maxWidth="sm"
+        sx={{ background: "rgba(0, 0, 0, 0.7)", padding: 4, borderRadius: 8 }}
       >
         <Text
-          variant="body1"
+          variant="h4"
           gutterBottom={true}
-          label={"Select your preferred Genre:"}
+          label={"Sign Up"}
+          customStyle={{ fontSize: "30px", marginBottom: "25px" }}
         />
-        <Select
-          multiple
-          value={selectedGenres}
-          onChange={handleGenreSelection}
-          fullWidth
+        <Stepper
+          sx={{
+            marginTop: 0,
+            marginBottom: 5,
+            "& .MuiStepLabel-root .Mui-completed": {
+              color: "green", // Completed steps text color
+            },
+            "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel":
+              {
+                color: "green", // Completed alternative steps text color
+              },
+            "& .MuiStepLabel-root .Mui-active": {
+              color: "white", // Active step text color
+            },
+            "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel": {
+              color: "#ADD8E6", // Active alternative step text color (light blue)
+            },
+            "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+              fill: "#0e64ab", // Active step icon color
+            },
+            "& .MuiStepLabel-root .Mui-disabled": {
+              color: "grey", // Incomplete steps text color
+            },
+          }}
+          activeStep={2}
+          alternativeLabel
         >
-          {genreList?.map((ele) => {
-            return <MenuItem value={ele}>{ele}</MenuItem>;
-          })}
-        </Select>
-      </Box>
+          <Step key={0}>
+            <StepLabel>Step 1</StepLabel>
+          </Step>
+          <Step key={1}>
+            <StepLabel>Step 2</StepLabel>
+          </Step>
+          <Step key={2}>
+            <StepLabel>Step 3</StepLabel>
+          </Step>
+        </Stepper>
 
-      <Box style={{ marginBottom: "20px" }}>
-        <Text
-          variant="body1"
-          gutterBottom={true}
-          label={"Rate your games:"}
-          style={{ marginRight: "20px" }}
-        />
-      </Box>
+        {error && <ErrorMessage message={error} />}
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {games.map((game, index) => (
-          <div
-            key={index}
-            style={{ marginRight: "20px", marginBottom: "20px" }}
+        <Box
+          style={{
+            maxWidth: "700px",
+            margin: "auto",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <Text
+            variant="header5"
+            gutterBottom={true}
+            label={"Select your preferred Genre:"}
+            customStyle={{ fontSize: "20px" }}
+          />
+          <Select
+            multiple
+            value={selectedGenres}
+            onChange={handleGenreSelection}
+            fullWidth
+            style={{
+              backgroundColor: "rgba(255,255,255, 0.2)",
+              color: "white",
+              marginTop: "15px",
+            }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  backgroundColor: "rgb(78, 63, 105)",
+                  color: "white",
+                  border: "4px solid #424042",
+                },
+              },
+            }}
           >
-            <Box>
-              <Text
-                variant="body1"
-                gutterBottom={true}
-                label={game.name}
-                style={{ marginRight: "20px" }}
-              />
-              <Rating
-                name={`rating-${index}`}
-                value={game.ratings}
-                onChange={(event) => handleRatingChange(event, index)}
-                max={5}
-              />
-            </Box>
-          </div>
-        ))}
-      </div>
+            {genreList?.map((ele) => {
+              return (
+                <MenuItem
+                  key={ele}
+                  value={ele}
+                  sx={{
+                    color: "white",
+                    "&.Mui-selected": {
+                      backgroundColor: "#868387",
+                    },
+                    "&.Mui-selected:hover": {
+                      backgroundColor: "#868387",
+                    },
+                    "&:hover": {
+                      backgroundColor: "rgba(134, 131, 135, 0.4)",
+                    },
+                    borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+                  }}
+                >
+                  {ele}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Box>
 
-      <Btn
-        fullWidth={true}
-        label={"Complete Registration"}
-        onClick={handleSignup}
-      />
-    </Container>
+        <Box style={{ marginBottom: "20px" }}>
+          <Text
+            variant="header4"
+            gutterBottom={true}
+            label={"Rate your games:"}
+            style={{ marginRight: "20px" }}
+            customStyle={{ fontSize: "20px" }}
+          />
+        </Box>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "flex-start",
+          }}
+        >
+          {games.map((game, index) => (
+            <div
+              key={index}
+              style={{ marginRight: "20px", marginBottom: "20px" }}
+            >
+              <Box>
+                <Text
+                  variant="body1"
+                  gutterBottom={true}
+                  label={game.name}
+                  customStyle={{
+                    marginRight: "20px",
+                    minWidth: "200px",
+                  }}
+                />
+                <Rating
+                  name={`rating-${index}`}
+                  value={game.ratings}
+                  onChange={(event) => handleRatingChange(event, index)}
+                  max={5}
+                  sx={{
+                    "& .MuiRating-iconFilled": {
+                      color: "#FFD700", // Filled star color
+                      fontSize: "1.5rem !important",
+                    },
+                    "& .MuiRating-iconEmpty": {
+                      color: "#ccc", // Empty star color
+                      fontSize: "1.5rem !important",
+                    },
+                  }}
+                />
+              </Box>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <Btn
+            fullWidth={true}
+            label={"Complete Registration"}
+            onClick={handleSignup}
+          />
+        </div>
+      </Container>
+    </div>
   );
 };
 

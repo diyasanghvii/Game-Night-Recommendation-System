@@ -28,7 +28,20 @@ const GameInterestRating = ({
         {isOwned ? (
           <>
             {isEnabled && <strong display>Rate it:</strong>}
-            <Rating value={userRating} disabled={!isEnabled} />
+            <Rating
+              value={userRating}
+              disabled={!isEnabled}
+              sx={{
+                "& .MuiRating-iconFilled": {
+                  color: "#FFFF00", // Filled star color
+                  fontSize: "1.5rem !important",
+                },
+                "& .MuiRating-iconEmpty": {
+                  color: "#ccc", // Empty star color
+                  fontSize: "1.5rem !important",
+                },
+              }}
+            />
             {isEnabled && (
               <Btn
                 style={{ marginLeft: "5px", float: "right" }}
