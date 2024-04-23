@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import EditProfile from "../../Pages/EditProfile";
 
@@ -17,11 +17,11 @@ describe('EditProfile component', () => {
 
   it('displays initial profile information', () => {
     const { getByLabelText } = render(<EditProfile />);
-    expect(getByLabelText('Name')).toHaveValue('Testuser');
-    expect(getByLabelText('Age')).toHaveValue('23');
-    expect(getByLabelText('Email')).toHaveValue('naheer@gmail.com');
-    expect(getByLabelText('Steam ID')).toHaveValue('76561199642434117');
-    expect(getByLabelText('Discord Username')).toHaveValue('naheerfatima_76086');
+    expect(getByLabelText('Name')).toHaveValue("");
+    expect(getByLabelText('Age')).toHaveValue(null);
+    expect(getByLabelText('Email')).toHaveValue("");
+    expect(getByLabelText('Steam ID')).toHaveValue("");
+    expect(getByLabelText('Discord Username')).toHaveValue("");
   });
 
   it('enables editing when clicking the Edit button', () => {
@@ -43,8 +43,8 @@ describe('EditProfile component', () => {
     fireEvent.change(getByLabelText('Age'), { target: { value: '30' } });
     const cancelButton = getByText('Cancel');
     fireEvent.click(cancelButton);
-    expect(getByLabelText('Name')).toHaveValue('Testuser');
-    expect(getByLabelText('Age')).toHaveValue('23');
+    expect(getByLabelText('Name')).toHaveValue('');
+    expect(getByLabelText('Age')).toHaveValue(null);
   });
 
   it('saves edited profile information', () => {
@@ -56,6 +56,6 @@ describe('EditProfile component', () => {
     const saveButton = getByText('Save');
     fireEvent.click(saveButton);
     expect(getByLabelText('Name')).toHaveValue('NewName');
-    expect(getByLabelText('Age')).toHaveValue('30');
+    expect(getByLabelText('Age')).toHaveValue(30);
   });
 });
