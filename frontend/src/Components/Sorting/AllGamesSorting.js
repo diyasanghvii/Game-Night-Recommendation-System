@@ -101,6 +101,7 @@ export default function AllGamesSorting({
               "&:hover": {
                 backgroundColor: "rgba(134, 131, 135, 0.4)",
               },
+              borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
             }}
             key={1}
             value={"Release Date"}
@@ -119,6 +120,7 @@ export default function AllGamesSorting({
               "&:hover": {
                 backgroundColor: "rgba(134, 131, 135, 0.4)",
               },
+              borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
             }}
             key={2}
             value={"Price"}

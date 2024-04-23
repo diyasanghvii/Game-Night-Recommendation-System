@@ -206,10 +206,10 @@ const SignUpIdDetails = () => {
         sx={{ background: "rgba(0, 0, 0, 0.4)", padding: 8, borderRadius: 8 }}
       >
         <Text
-          variant="p"
+          variant="h4"
           gutterBottom={true}
-          label={"Signup"}
-          customStyle={{ color: "white", fontSize: "1.5rem" }}
+          label={"Sign Up"}
+          customStyle={{ color: "white", fontSize: "30px" }}
         />
         <Stepper
           sx={{

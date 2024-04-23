@@ -78,7 +78,7 @@ const SignUp = () => {
           variant="h4"
           gutterBottom={true}
           label={"Sign Up"}
-          sx={{ color: "white" }}
+          customStyle={{ color: "white", fontSize: "30px" }}
         />
         <Stepper
           sx={{

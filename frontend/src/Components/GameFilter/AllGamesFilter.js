@@ -121,6 +121,7 @@ export default function AllGamesFilter({
                 "&:hover": {
                   backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={name} />
@@ -189,6 +190,7 @@ export default function AllGamesFilter({
                 "&:hover": {
                   backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={tag} />
@@ -258,6 +260,7 @@ export default function AllGamesFilter({
                 "&:hover": {
                   backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={feature} />

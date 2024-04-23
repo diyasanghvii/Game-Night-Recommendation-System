@@ -102,7 +102,7 @@ const Home = () => {
           sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)", color: Font_Color }}
         >
           <Toolbar>
-            <div style={{ marginLeft: 30, }}>
+            <div style={{ marginLeft: 30 }}>
               <img src={GAME} width={40} height={40} />
             </div>
             <Typography
@@ -379,7 +379,11 @@ const Home = () => {
           >
             <div style={bigCardContainer}>
               <div style={{ padding: 40 }}>
-                <img src="https://i.postimg.cc/nLHtXBWS/pngegg-overlay-4-overlay.png" width="auto" height={500} />
+                <img
+                  src="https://i.postimg.cc/nLHtXBWS/pngegg-overlay-4-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
@@ -415,14 +419,21 @@ const Home = () => {
           >
             <div style={bigCardContainer}>
               <div style={{ padding: 40 }}>
-                <img src="https://i.postimg.cc/1XN12DkL/pngegg-overlay-1-overlay.png" width="auto" height={500} />
+                <img
+                  src="https://i.postimg.cc/1XN12DkL/pngegg-overlay-1-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
                   RATE GAMES AND <br /> EXPRESS YOUR INTEREST
                 </p>
                 <p style={bigCardSubHeader}>
-                Shape your gaming journey by rating games you own and expressing interest in new titles. These ratings will later be considered by the algorithm for recommending games, both for you and the members you select.
+                  Shape your gaming journey by rating games you own and
+                  expressing interest in new titles. These ratings will later be
+                  considered by the algorithm for recommending games, both for
+                  you and the members you select.
                 </p>
               </div>
             </div>
@@ -446,14 +457,24 @@ const Home = () => {
           >
             <div style={bigCardContainer}>
               <div style={{ padding: 40 }}>
-                <img src="https://i.postimg.cc/7LtpscB0/pngegg-overlay-2-overlay.png" width="auto" height={500} />
+                <img
+                  src="https://i.postimg.cc/7LtpscB0/pngegg-overlay-2-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
                   GENERATE <br /> RECOMMENDATIONS
                 </p>
                 <p style={bigCardSubHeader}>
-                Customize your gaming experience like never before. Select members from any Discord server, and our algorithm will analyze everyone's ratings, expressed interests, playtime, and preferred genres to generate personalized recommendations. Plus, you have the flexibility to weight each parameter according to your liking, ensuring that the recommendations perfectly align with your gaming preferences.
+                  Customize your gaming experience like never before. Select
+                  members from any Discord server, and our algorithm will
+                  analyze everyone's ratings, expressed interests, playtime, and
+                  preferred genres to generate personalized recommendations.
+                  Plus, you have the flexibility to weight each parameter
+                  according to your liking, ensuring that the recommendations
+                  perfectly align with your gaming preferences.
                 </p>
               </div>
             </div>
@@ -478,14 +499,21 @@ const Home = () => {
           >
             <div style={bigCardContainer}>
               <div style={{ padding: 40 }}>
-                <img src="https://i.postimg.cc/TY4ZVJ5b/pngegg-overlay-3-overlay.png" width="auto" height={500} />
+                <img
+                  src="https://i.postimg.cc/TY4ZVJ5b/pngegg-overlay-3-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
                   SHARE <br /> RECOMMENDATIONS
                 </p>
                 <p style={bigCardSubHeader}>
-                Share your gaming discoveries effortlessly with friends on Discord. Whether it's a hidden gem or a classic favorite, our integration lets you send detailed recommendations directly to your Discord server's channels.
+                  Share your gaming discoveries effortlessly with friends on
+                  Discord. Whether it's a hidden gem or a classic favorite, our
+                  integration lets you send detailed recommendations directly to
+                  your Discord server's channels.
                 </p>
               </div>
             </div>

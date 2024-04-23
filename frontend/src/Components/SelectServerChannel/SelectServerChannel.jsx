@@ -98,16 +98,19 @@ export default function SelectServerChannel({
         PaperProps={{
           sx: {
             backgroundColor: "#1A2040",
+            minWidth: "250px",
+            minHeight: "250px",
+            border: "4px solid #424042",
           },
         }}
       >
         <DialogTitle sx={{ margin: "0", paddingBottom: "5px", color: "#fff" }}>
-          Select a server
+          Select a Discord server
         </DialogTitle>
         {!selectedServer && (
           <DialogTitle
             sx={{
-              fontSize: "10px",
+              fontSize: "13px",
               color: "pink",
               margin: "0",
               paddingTop: "0",
@@ -122,10 +125,15 @@ export default function SelectServerChannel({
             <p style={{ color: "white" }}>Loading servers...</p>
           )}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
+            <FormControl sx={{ m: 1, marginTop: "50px", minWidth: 300, color: "white" }}>
               <InputLabel
                 id="server-dialog-select-label"
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
               >
                 Server
               </InputLabel>
@@ -134,8 +142,20 @@ export default function SelectServerChannel({
                 id="server-dialog-select"
                 value={selectedServer}
                 onChange={handleServerChange}
-                input={<OutlinedInput label="Server" />}
-                sx={{ color: "#fff" }}
+                input={
+                  <OutlinedInput
+                    sx={{
+                      color: "white",
+                      "&.Mui-focused": {
+                        color: "#fff",
+                      },
+                    }}
+                    label="Server"
+                  />
+                }
+                sx={{ color: "#fff", minWidth: 300,"& .MuiSelect-icon": {
+                  color: "#fff",
+                } }}
                 MenuProps={{
                   anchorOrigin: {
                     vertical: "bottom",
@@ -152,6 +172,7 @@ export default function SelectServerChannel({
                       color: "#fff", // Text color for menu list items
                       marginTop: 0, // Remove top white gap
                       marginBottom: 0, // Remove bottom white gap
+                      border:  "1px solid rgba(255, 255, 255, 0.7)",
                     },
                   },
                 }}
@@ -160,7 +181,20 @@ export default function SelectServerChannel({
                   <MenuItem
                     key={index}
                     value={server}
-                    style={{ color: "#fff", backgroundColor: "#1A2040" }}
+                    sx={{
+                      minWidth: "296px",
+                      color: "white",
+                      "&.Mui-selected": {
+                        backgroundColor: "#868387",
+                      },
+                      "&.Mui-selected:hover": {
+                        backgroundColor: "#868387",
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(134, 131, 135, 0.4)",
+                      },
+                      borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+                    }}
                   >
                     {server}
                   </MenuItem>
@@ -180,6 +214,9 @@ export default function SelectServerChannel({
         onClose={() => {}}
         PaperProps={{
           sx: {
+            minWidth: "250px",
+            minHeight: "250px",
+            border: "4px solid #424042",
             backgroundColor: "#1A2040",
           },
         }}
@@ -190,7 +227,7 @@ export default function SelectServerChannel({
         {!selectedChannel && (
           <DialogTitle
             sx={{
-              fontSize: "10px",
+              fontSize: "13px",
               color: "pink",
               margin: "0",
               paddingTop: "0",
@@ -205,10 +242,15 @@ export default function SelectServerChannel({
             <p style={{ color: "white" }}>Loading channels...</p>
           )}
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
+            <FormControl sx={{ m: 1, marginTop: "50px",minWidth: 300 }}>
               <InputLabel
                 id="channel-dialog-select-label"
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
               >
                 Channel
               </InputLabel>
@@ -217,7 +259,12 @@ export default function SelectServerChannel({
                 id="channel-dialog-select"
                 value={selectedChannel}
                 onChange={handleChannelChange}
-                input={<OutlinedInput label="Channel" />}
+                input={<OutlinedInput sx={{
+                  color: "white",
+                  "& .MuiSelect-icon": {
+                    color: "#fff",
+                  }
+                }} label="Channel" />}
                 sx={{ color: "#fff" }}
                 MenuProps={{
                   anchorOrigin: {
@@ -235,6 +282,7 @@ export default function SelectServerChannel({
                       color: "#fff", // Text color for menu list items
                       marginTop: 0, // Remove top white gap
                       marginBottom: 0, // Remove bottom white gap
+                      border:  "1px solid rgba(255, 255, 255, 0.7)",
                     },
                   },
                 }}
@@ -243,7 +291,20 @@ export default function SelectServerChannel({
                   <MenuItem
                     key={index}
                     value={channel}
-                    style={{ color: "#fff", backgroundColor: "#1A2040" }}
+                    sx={{
+                      minWidth: "296px",
+                      color: "white",
+                      "&.Mui-selected": {
+                        backgroundColor: "#868387",
+                      },
+                      "&.Mui-selected:hover": {
+                        backgroundColor: "#868387",
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(134, 131, 135, 0.4)",
+                      },
+                      borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+                    }}
                   >
                     {channel}
                   </MenuItem>

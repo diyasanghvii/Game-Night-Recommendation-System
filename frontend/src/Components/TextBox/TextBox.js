@@ -20,7 +20,7 @@ function TextBox({
         variant={variant}
         onChange={onChange}
         InputLabelProps={{
-          style: { color: '#fff' },
+          style: { color: "#fff" },
         }}
         sx={{
           "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -35,9 +35,10 @@ function TextBox({
           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "white", // Change the border color on hover to white
           },
-          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white", // Change the border color on focus to white
-          },
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: "white", // Change the border color on focus to white
+            },
         }}
       />
     </div>

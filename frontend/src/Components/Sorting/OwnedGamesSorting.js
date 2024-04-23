@@ -106,6 +106,7 @@ export default function OwnedGamesSorting({
                 "&:hover": {
                   backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
               key={1}
               value={"Playtime forever"}
@@ -142,8 +143,9 @@ export default function OwnedGamesSorting({
           onChange={handleSortTypeChange}
         >
           <FormControlLabel
-           sx={{
-            color: "white",}}
+            sx={{
+              color: "white",
+            }}
             value="asc"
             control={
               <Radio
@@ -164,8 +166,9 @@ export default function OwnedGamesSorting({
             label="Ascending"
           />
           <FormControlLabel
-          sx={{
-            color: "white",}}
+            sx={{
+              color: "white",
+            }}
             value="desc"
             control={
               <Radio

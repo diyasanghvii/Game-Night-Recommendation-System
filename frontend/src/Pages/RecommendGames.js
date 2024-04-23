@@ -160,8 +160,8 @@ function RecommendGames() {
         <div style={{ padding: "20px" }}>
           {isFetchingFromDiscord && (
             <div className="loading-overlay">
-              <div style={{ textAlign: "center" }}>
-                <h3>Fetching data from Discord...</h3>
+              <div style={{ textAlign: "center", fontWeight: "bold", color: "white"  }}>
+                <h2>Fetching data from Discord...</h2>
                 <CircularProgress />
               </div>
             </div>
@@ -211,7 +211,7 @@ function RecommendGames() {
                   <Chip
                     label={selectedServer}
                     style={{
-                      backgroundColor: "rgba(50, 50, 50, 0.6)",
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
                       color: "lightgrey",
                       marginRight: "5px",
                     }}
@@ -227,7 +227,7 @@ function RecommendGames() {
                   <Chip
                     label={selectedChannel}
                     style={{
-                      backgroundColor: "rgba(50, 50, 50, 0.6)",
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
                       color: "lightgrey",
                       marginRight: "5px",
                     }}
@@ -319,8 +319,8 @@ function RecommendGames() {
             ></Btn>
             {isGeneratingRecommendations && (
               <div className="loading-overlay">
-                <div style={{ textAlign: "center" }}>
-                  <h3>Generating Recommendations... Hold on tight!</h3>
+                <div style={{ textAlign: "center", fontWeight: "bold", color: "white" }}>
+                  <h2>Generating Recommendations... Hold on tight!</h2>
                   <CircularProgress />
                 </div>
               </div>
