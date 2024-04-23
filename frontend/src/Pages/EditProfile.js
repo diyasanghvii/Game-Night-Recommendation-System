@@ -275,7 +275,7 @@ const EditProfile = () => {
       >
         <div
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.4)",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
             backgroundSize: "cover",
             backgroundPosition: "center",
             minHeight: "100vh",
@@ -304,6 +304,9 @@ const EditProfile = () => {
                 }}
               >
                 <h2 style={{ color: "white" }}>Edit Profile</h2>
+                <span style={{ marginLeft: 5, color: "red" }}>
+                  {deleteError}
+                </span>
                 <div style={{ width: "100%", marginTop: 40 }}>
                   <TextField
                     label={

@@ -59,16 +59,19 @@ class PopupGenre extends Component {
             &times;
           </span>
           <h2>Select Genres</h2>
-          <div>
+          <div class="checkbox">
             {allGenres.map((genre) => (
-              <label key={genre}>
+              <label for={genre} class="checkbox-container" key={genre} style={{paddingRight:"10px"}}>
+                &nbsp;{genre}
                 <input
+                  id={genre}
                   type="checkbox"
                   value={genre}
+                  style={{margin: "25px"}}
                   checked={selectedGenres.includes(genre)}
                   onChange={() => this.handleGenreChange(genre)}
-                />{" "}
-                {genre}
+                />
+                <span className="checkmark"></span> 
               </label>
             ))}
           </div>

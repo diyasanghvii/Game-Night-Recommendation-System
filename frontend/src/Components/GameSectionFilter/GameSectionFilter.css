@@ -37,7 +37,7 @@
 
 .gameCarousel {
   display: flex;
-  overflow: scroll;
+  overflow-y: scroll;
   align-items: center;
   flex-wrap: wrap;
   height: 400px;

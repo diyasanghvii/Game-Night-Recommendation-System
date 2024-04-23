@@ -19,7 +19,7 @@
 
 .gameCarousel {
   display: flex;
-  overflow: scroll;
+  overflow-y: scroll;
   align-items: center;
   height: 400px !important;
   flex-direction: row;
@@ -27,7 +27,7 @@
 
 .gameCarouselPreference {
   display: flex;
-  overflow: scroll;
+  /* overflow: scroll; */
   align-items: center;
   justify-content: space-between;
   height: 300px !important;

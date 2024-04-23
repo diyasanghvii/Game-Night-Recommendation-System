@@ -36,18 +36,99 @@ export default function OwnedGamesSorting({
     >
       <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
         <FormControl sx={{ m: 1, minWidth: 160 }}>
-          <InputLabel id="server-dialog-select-label">Sort By</InputLabel>
+          <InputLabel
+            sx={{
+              color: "white",
+              "&.Mui-focused": {
+                color: "#fff",
+              },
+            }}
+            id="server-dialog-select-label"
+          >
+            Sort By
+          </InputLabel>
           <Select
             labelId="server-dialog-select-label"
             id="server-dialog-select"
             value={sortBy}
             onChange={handleChange}
-            input={<OutlinedInput label="Sort By" />}
+            input={
+              <OutlinedInput
+                sx={{
+                  color: "white",
+                  "&.Mui-focused": {
+                    color: "#fff",
+                  },
+                }}
+                label="Sort By"
+              />
+            }
+            sx={{
+              color: "#fff",
+              "& .MuiSelect-icon": {
+                color: "#fff",
+              },
+              "& .MuiSelect-selectMenu": {
+                backgroundColor: "#1A2040",
+                color: "#fff",
+              },
+              "& .Mui-selected": {
+                backgroundColor: "#424042",
+                color: "#000",
+              },
+            }}
+            MenuProps={{
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "top",
+                horizontal: "left",
+              },
+              getContentAnchorEl: null,
+              PaperProps: {
+                sx: {
+                  backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+                },
+              },
+            }}
           >
-            <MenuItem key={1} value={"Playtime forever"}>
+            <MenuItem
+              sx={{
+                color: "white",
+                "&.Mui-selected": {
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
+                },
+                "&:hover": {
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
+                },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
+              }}
+              key={1}
+              value={"Playtime forever"}
+            >
               Playtime forever
             </MenuItem>
-            <MenuItem key={2} value={"Playtime last 2 weeks"}>
+            <MenuItem
+              sx={{
+                color: "white",
+                "&.Mui-selected": {
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
+                },
+                "&:hover": {
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
+                },
+              }}
+              key={2}
+              value={"Playtime last 2 weeks"}
+            >
               Playtime last 2 weeks
             </MenuItem>
           </Select>
@@ -61,8 +142,52 @@ export default function OwnedGamesSorting({
           value={sortType}
           onChange={handleSortTypeChange}
         >
-          <FormControlLabel value="asc" control={<Radio />} label="Asc" />
-          <FormControlLabel value="desc" control={<Radio />} label="Desc" />
+          <FormControlLabel
+            sx={{
+              color: "white",
+            }}
+            value="asc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Ascending"
+          />
+          <FormControlLabel
+            sx={{
+              color: "white",
+            }}
+            value="desc"
+            control={
+              <Radio
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                  "&.Mui-checked:hover": {
+                    color: "white",
+                  },
+                  "&:hover": {
+                    color: "white",
+                  },
+                }}
+              />
+            }
+            label="Descending"
+          />
         </RadioGroup>
       </div>
       <div style={{ marginTop: 20 }}>

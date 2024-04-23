@@ -49,10 +49,10 @@ const MenuHeader = () => {
     <AppBar
       position="static"
       sx={{
-        padding: 2,
         backgroundColor: "rgba(0, 0, 0, 0.6)", // Black color with 50% transparency
         boxShadow:
           "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+          padding: 1
       }}
     >
       <Toolbar variant="dense">

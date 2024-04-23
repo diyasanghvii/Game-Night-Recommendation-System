@@ -82,10 +82,6 @@ class Dashboard extends Component {
       allGamesGenreFilter,
     } = this.state;
 
-    console.log("allGamesGenreFilter : ", allGamesGenreFilter);
-    console.log("allGamesTagFilter : ", allGamesTagFilter);
-    console.log("allGamesFeaturesFilter : ", allGamesFeaturesFilter);
-
     let defaultUrl =
       "https://api.gamalytic.com/steam-games/list?fields=name,steamId,price,reviewScore,releaseDate&limit=50";
 

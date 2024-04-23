@@ -205,7 +205,12 @@ const SignUpIdDetails = () => {
         maxWidth="sm"
         sx={{ background: "rgba(0, 0, 0, 0.4)", padding: 8, borderRadius: 8 }}
       >
-        <Text variant="h4" gutterBottom={true} label={"Signup"} />
+        <Text
+          variant="h4"
+          gutterBottom={true}
+          label={"Sign Up"}
+          customStyle={{ color: "white", fontSize: "30px" }}
+        />
         <Stepper
           sx={{
             marginTop: 5,
@@ -284,7 +289,7 @@ const SignUpIdDetails = () => {
               onClick={handleVerifySteamId}
             />
             <InfoIcon
-              style={{ cursor: "pointer", color: "#1976d2" }}
+              style={{ cursor: "pointer", color: "#ffffff" }}
               onClick={() => handleOpenDialog("info")}
             />
           </div>
@@ -335,7 +340,7 @@ const SignUpIdDetails = () => {
               }
               placement="right"
             >
-              <InfoIcon style={{ cursor: "pointer", color: "#1976d2" }} />
+              <InfoIcon style={{ cursor: "pointer", color: "#ffffff" }} />
             </Tooltip>
           </div>
         </div>

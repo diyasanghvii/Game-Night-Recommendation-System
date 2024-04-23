@@ -70,7 +70,7 @@ const RecommendationPopup = ({
               <p>{info.label}</p>
               <Tooltip title={info.info_text}>
                 <IconButton>
-                  <InfoIcon />
+                  <InfoIcon sx={{ color: "white" }}/>
                 </IconButton>
               </Tooltip>
               <Slider
@@ -86,7 +86,6 @@ const RecommendationPopup = ({
                 disabled={editWeights}
                 min={name === "playtime2Weeks" ? -1 : 0}
                 max={1}
-                sx={{ color: "rgba(255, 192, 203, 0.5)" }}
               />
             </div>
           ))}
@@ -100,7 +99,7 @@ const RecommendationPopup = ({
               <p>{info.label}</p>
               <Tooltip title={info.info_text}>
                 <IconButton>
-                  <InfoIcon />
+                  <InfoIcon sx={{ color: "white" }}/>
                 </IconButton>
               </Tooltip>
               <Slider
@@ -116,7 +115,6 @@ const RecommendationPopup = ({
                 disabled={editWeights}
                 min={name === "playtime2Weeks" ? -1 : 0}
                 max={1}
-                sx={{ color: "rgba(255, 192, 203, 0.5)" }}
               />
             </div>
           ))}

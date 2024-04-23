@@ -160,8 +160,8 @@ function RecommendGames() {
         <div style={{ padding: "20px" }}>
           {isFetchingFromDiscord && (
             <div className="loading-overlay">
-              <div style={{ textAlign: "center" }}>
-                <h3>Fetching data from Discord...</h3>
+              <div style={{ textAlign: "center", fontWeight: "bold", color: "white"  }}>
+                <h2>Fetching data from Discord...</h2>
                 <CircularProgress />
               </div>
             </div>
@@ -211,7 +211,7 @@ function RecommendGames() {
                   <Chip
                     label={selectedServer}
                     style={{
-                      backgroundColor: "rgba(50, 50, 50, 0.6)",
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
                       color: "lightgrey",
                       marginRight: "5px",
                     }}
@@ -227,7 +227,7 @@ function RecommendGames() {
                   <Chip
                     label={selectedChannel}
                     style={{
-                      backgroundColor: "rgba(50, 50, 50, 0.6)",
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
                       color: "lightgrey",
                       marginRight: "5px",
                     }}
@@ -254,7 +254,7 @@ function RecommendGames() {
           >
             <div
               style={{
-                backgroundColor: "rgba(99, 168, 255, 0.60)", // Slightly darker blue with 45% transparency
+                backgroundColor: "rgba(9, 92, 150, 0.40)", // Slightly darker blue with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",
@@ -271,7 +271,7 @@ function RecommendGames() {
             </div>
             <div
               style={{
-                backgroundColor: "rgba(99, 255, 180, 0.60)", // Slightly darker green with 45% transparency
+                backgroundColor: "rgba(0, 69, 14, 0.40)", // Slightly darker green with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",
@@ -288,7 +288,7 @@ function RecommendGames() {
             </div>
             <div
               style={{
-                backgroundColor: "rgba(250, 87, 87, 0.60)", // Slightly darker red with 45% transparency
+                backgroundColor: "rgba(122, 1, 11, 0.40)", // Slightly darker red with 45% transparency
                 paddingBottom: "1em",
                 margin: "1rem",
                 minWidth: "350px",
@@ -319,8 +319,8 @@ function RecommendGames() {
             ></Btn>
             {isGeneratingRecommendations && (
               <div className="loading-overlay">
-                <div style={{ textAlign: "center" }}>
-                  <h3>Generating Recommendations... Hold on tight!</h3>
+                <div style={{ textAlign: "center", fontWeight: "bold", color: "white" }}>
+                  <h2>Generating Recommendations... Hold on tight!</h2>
                   <CircularProgress />
                 </div>
               </div>

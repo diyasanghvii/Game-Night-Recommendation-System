@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 // Images
 import IMAGE3 from "../Assets/Image3.jpg";
-import { useNavigate } from "react-router-dom";
 import GAME from "../Assets/game.svg";
+import { useNavigate } from "react-router-dom";
 
 const Font_Color = "white";
 
@@ -102,8 +102,8 @@ const Home = () => {
           sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)", color: Font_Color }}
         >
           <Toolbar>
-            <div style={{ marginRight: 20 }}>
-              <img src={GAME} width={30} height={30} />
+            <div style={{ marginLeft: 30 }}>
+              <img src={GAME} width={40} height={40} />
             </div>
             <Typography
               variant="h6"
@@ -370,7 +370,7 @@ const Home = () => {
               alignItems: "center",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               borderRadius: "20px",
-              width: "70%",
+              width: "80%",
               height: "auto",
               borderStyle: "inset",
               boxShadow: "0 0 20px 2px #312CC7",
@@ -379,7 +379,11 @@ const Home = () => {
           >
             <div style={bigCardContainer}>
               <div style={{ padding: 40 }}>
-                <img src={IMAGE3} width={300} height={300} />
+                <img
+                  src="https://i.postimg.cc/nLHtXBWS/pngegg-overlay-4-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
               <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
@@ -397,20 +401,119 @@ const Home = () => {
             </div>
           </div>
           {/* SECOND */}
-          <div style={{ marginTop: 60 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              height: "auto",
+              marginTop: "30px",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
             <div style={bigCardContainer}>
-              <div>
-                <img src={IMAGE3} width={400} height={500} />
+              <div style={{ padding: 40 }}>
+                <img
+                  src="https://i.postimg.cc/1XN12DkL/pngegg-overlay-1-overlay.png"
+                  width="auto"
+                  height={500}
+                />
               </div>
-              <div style={{ padding: 80 }}>
+              <div style={{ padding: 40 }}>
                 <p style={bigCardHeader}>
-                  GAME <br /> NIGHT
-                  <br /> RECOMMENDER
+                  RATE GAMES AND <br /> EXPRESS YOUR INTEREST
                 </p>
                 <p style={bigCardSubHeader}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                  Shape your gaming journey by rating games you own and
+                  expressing interest in new titles. These ratings will later be
+                  considered by the algorithm for recommending games, both for
+                  you and the members you select.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* THIRD */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              height: "auto",
+              marginTop: "30px",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
+            <div style={bigCardContainer}>
+              <div style={{ padding: 40 }}>
+                <img
+                  src="https://i.postimg.cc/7LtpscB0/pngegg-overlay-2-overlay.png"
+                  width="auto"
+                  height={500}
+                />
+              </div>
+              <div style={{ padding: 40 }}>
+                <p style={bigCardHeader}>
+                  GENERATE <br /> RECOMMENDATIONS
+                </p>
+                <p style={bigCardSubHeader}>
+                  Customize your gaming experience like never before. Select
+                  members from any Discord server, and our algorithm will
+                  analyze everyone's ratings, expressed interests, playtime, and
+                  preferred genres to generate personalized recommendations.
+                  Plus, you have the flexibility to weight each parameter
+                  according to your liking, ensuring that the recommendations
+                  perfectly align with your gaming preferences.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* FOURTH */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              borderRadius: "20px",
+              width: "80%",
+              marginTop: "30px",
+              marginBottom: "40px",
+              height: "auto",
+              borderStyle: "inset",
+              boxShadow: "0 0 20px 2px #312CC7",
+              borderColor: "#D69EF8",
+            }}
+          >
+            <div style={bigCardContainer}>
+              <div style={{ padding: 40 }}>
+                <img
+                  src="https://i.postimg.cc/TY4ZVJ5b/pngegg-overlay-3-overlay.png"
+                  width="auto"
+                  height={500}
+                />
+              </div>
+              <div style={{ padding: 40 }}>
+                <p style={bigCardHeader}>
+                  SHARE <br /> RECOMMENDATIONS
+                </p>
+                <p style={bigCardSubHeader}>
+                  Share your gaming discoveries effortlessly with friends on
+                  Discord. Whether it's a hidden gem or a classic favorite, our
+                  integration lets you send detailed recommendations directly to
+                  your Discord server's channels.
                 </p>
               </div>
             </div>
