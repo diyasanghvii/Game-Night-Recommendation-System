@@ -123,6 +123,7 @@ const RatingPopUp = ({
         style={{
           backgroundImage: `url(https://cdn.akamai.steamstatic.com/steam/apps/${gameData?.steamId}/page_bg_generated_v6b.jpg?t=1647357402)`,
           opacity: 1,
+          border: "5px solid rgba(0,0,0,0.5)"
         }}
       >
         <DialogTitle
