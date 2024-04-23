@@ -40,21 +40,21 @@ const RecommendationPopup = ({
             <TableHead>
               <TableRow>
                 <TableCell sx={{ color: "#fff" }}>
+                  <b>Rank</b>
+                </TableCell>
+                <TableCell sx={{ color: "#fff" }}>
                   <b>Game Name</b>
                 </TableCell>
                 <TableCell sx={{ color: "#fff" }}>
-                  <b>Overall Score</b>
-                </TableCell>
-                <TableCell sx={{ color: "#fff" }}>
-                  <b>Top Contributing Factor</b>
+                  <b>Top Contributing Factor(s)</b>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {recommendations?.map((recommendation) => (
+              {recommendations?.map((recommendation, index) => (
                 <TableRow key={recommendation.gameSteamId}>
+                  <TableCell sx={{ color: "#fff" }}>{index+1}</TableCell>
                   <TableCell sx={{ color: "#fff" }}>{recommendation.gameName}</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>{(recommendation.totalScore * 10).toFixed(2)} / {(recommendation.maxTotalScore).toFixed(0)}</TableCell>
                   <TableCell sx={{ color: "#fff" }}>{recommendation.reason}</TableCell>
                 </TableRow>
               ))}

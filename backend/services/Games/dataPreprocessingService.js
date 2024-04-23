@@ -18,6 +18,10 @@ async function preprocessGameData(selected_users) {
       element.preferences = data.preferences;
       const url = `${BASE_URL}/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${decryptedSteamId}&format=json&include_appinfo=True&include_played_free_games=True`;
       const response = await axios.get(url);
+      //const response = {'data': {'response': {'games':[]}}};
+      if (!response.data.response.games || response.data.response.games.length === 0) {
+        throw new Error("API_KEY_LIMIT_REACHED_OR_ZERO_GAMES_USER");
+      }
       const ownedGames = response.data.response.games;
       element.ownedgames = ownedGames ? ownedGames : [];
       const allGames = element.ownedgames.concat(element.preferences);

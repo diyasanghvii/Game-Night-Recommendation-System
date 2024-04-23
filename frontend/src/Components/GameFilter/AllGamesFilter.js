@@ -51,7 +51,7 @@ export default function AllGamesFilter({
   return (
     <Box
       sx={{
-        backgroundColor: "#07294a",
+        backgroundColor: "rgb(78, 63, 105)",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
@@ -61,10 +61,12 @@ export default function AllGamesFilter({
       }}
     >
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="genre-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="genre-checkbox-label" sx={{
+              color: "white",
+              "&.Mui-focused": {
+                color: "#fff",
+              },
+            }}>
           Genre
         </InputLabel>
         <Select
@@ -78,16 +80,28 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
-            "&:hover": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
+          }}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+            PaperProps: {
+              sx: {
+                backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+              },
             },
           }}
         >
@@ -96,15 +110,18 @@ export default function AllGamesFilter({
               key={name}
               value={name}
               sx={{
-                backgroundColor: "#07294a",
-                color: "#fff",
+                
+                color: "white",
                 "&.Mui-selected": {
-                  color: "#000",
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
                 },
                 "&:hover": {
-                  backgroundColor: "#4dabf5",
-                  color: "#000",
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={name} />
@@ -113,10 +130,12 @@ export default function AllGamesFilter({
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="tagsList-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="tagsList-checkbox-label" sx={{
+              color: "white",
+              "&.Mui-focused": {
+                color: "#fff",
+              },
+            }}>
           Tags
         </InputLabel>
         <Select
@@ -130,16 +149,28 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
-            "&:hover": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
+          }}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+            PaperProps: {
+              sx: {
+                backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+              },
             },
           }}
         >
@@ -148,15 +179,18 @@ export default function AllGamesFilter({
               key={tag}
               value={tag}
               sx={{
-                backgroundColor: "#07294a",
-                color: "#fff",
+                
+                color: "white",
                 "&.Mui-selected": {
-                  color: "#000",
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
                 },
                 "&:hover": {
-                  backgroundColor: "#4dabf5",
-                  color: "#000",
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={tag} />
@@ -165,10 +199,12 @@ export default function AllGamesFilter({
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, width: 400 }}>
-        <InputLabel
-          id="feature-checkbox-label"
-          sx={{ color: "#fff" }}
-        >
+        <InputLabel id="feature-checkbox-label" sx={{
+              color: "white",
+              "&.Mui-focused": {
+                color: "#fff",
+              },
+            }}>
           Features
         </InputLabel>
         <Select
@@ -182,16 +218,28 @@ export default function AllGamesFilter({
               color: "#fff",
             },
             "& .MuiSelect-selectMenu": {
-              backgroundColor: "#07294a",
+              backgroundColor: "rgb(78, 63, 105)",
               color: "#fff",
             },
             "& .Mui-selected": {
               backgroundColor: "#4dabf5",
               color: "#000",
             },
-            "&:hover": {
-              backgroundColor: "#4dabf5",
-              color: "#000",
+          }}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+            PaperProps: {
+              sx: {
+                backgroundColor: "rgb(78, 63, 105)", // Background color for menu list
+              },
             },
           }}
         >
@@ -199,16 +247,20 @@ export default function AllGamesFilter({
             <MenuItem
               key={feature}
               value={feature}
+              
               sx={{
-                backgroundColor: "#07294a",
-                color: "#fff",
+                
+                color: "white",
                 "&.Mui-selected": {
-                  color: "#000",
+                  backgroundColor: "#868387",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#868387",
                 },
                 "&:hover": {
-                  backgroundColor: "#4dabf5",
-                  color: "#000",
+                  backgroundColor: "rgba(134, 131, 135, 0.4)",
                 },
+                borderBottom: "1px solid rgba(134, 131, 135, 0.4)",
               }}
             >
               <ListItemText primary={feature} />

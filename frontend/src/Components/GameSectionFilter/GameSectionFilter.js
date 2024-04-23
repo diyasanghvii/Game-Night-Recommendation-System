@@ -17,6 +17,8 @@ import OwnedGamesSorting from "../Sorting/OwnedGamesSorting";
 import AllGamesFilter from "../GameFilter/AllGamesFilter";
 import AllGamesSorting from "../Sorting/AllGamesSorting";
 
+const fontClr = "#2d2d2e";
+
 function GameSectionFilter({
   title,
   games,
@@ -91,15 +93,15 @@ function GameSectionFilter({
   useEffect(() => {
     setStartIndex(0);
     setEndIndex(5);
-    setvisibleGames(games?.slice(startIndex, endIndex) || []);
+    setvisibleGames(games);
   }, [games]);
 
   useEffect(() => {
     if (onlyUnRatingChecked) {
       const filteredGames = getOnlyUnRatedGames(games, ratings);
-      setvisibleGames(filteredGames?.slice(startIndex, endIndex) || []);
+      setvisibleGames(filteredGames);
     } else {
-      setvisibleGames(games?.slice(startIndex, endIndex) || []);
+      setvisibleGames(games);
     }
   }, [games, startIndex, endIndex, onlyUnRatingChecked]);
 
@@ -237,7 +239,9 @@ function GameSectionFilter({
       <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <h2 style={{ marginRight: 20 }}>{title}</h2>
+        <h2 className="glow-header" style={{ marginRight: 20 }}>
+          {title}
+        </h2>
         <div
           style={{
             display: "flex",
@@ -257,168 +261,178 @@ function GameSectionFilter({
             <Btn
               label="Sort"
               size="small"
+              className="game-popup-button"
               onClick={allGamesFilter ? openAllGamesSortModal : openSortModal}
             />
           </div>
         )}
         {hasFilter && (
           <div>
-            <Btn label="Filter" size="small" onClick={openFilterModal} />
+            <Btn
+              className="game-popup-button"
+              label="Filter"
+              size="small"
+              onClick={openFilterModal}
+            />
           </div>
         )}
         {loading && (
-          <p style={{ marginLeft: 10 }}>Loading filtered games ...</p>
+          <p style={{ marginLeft: 10, color: "white" }}>
+            Loading filtered games ...
+          </p>
         )}
       </div>
       <div className="gameCarousel">
-        <Btn
+        {/* <Btn
           fullWidth={true}
           label={"Prev"}
           onClick={handlePrev}
           disabled={startIndex === 0}
-        />
-        <div className="gameList">
-          {visibleGames.map((game, index) => (
-            <div
-              className="gameCard"
-              key={index}
-              onClick={() => handleClick(game)}
-            >
-              <img
-                style={{ width: 200, height: 100 }}
-                src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
-                alt={game.name}
-              />
-              <div style={{ height: 70 }}>
-                <h3>{game.name}</h3>
-              </div>
+        /> */}
+        {visibleGames.map((game, index) => (
+          <div
+            className="gameCard"
+            key={index}
+            onClick={() => handleClick(game)}
+          >
+            <img
+              style={{ width: 200, height: 100 }}
+              src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg`}
+              alt={game.name}
+            />
+            <div style={{ height: 70 }}>
+              <h3>{game.name}</h3>
+            </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                {game.price !== null && game.price !== undefined && (
-                  <div
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {game.price !== null && game.price !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: fontClr,
+                  }}
+                >
+                  <h5
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
+                      margin: 0,
+                      marginBottom: 2,
                     }}
                   >
-                    <h5
-                      style={{
-                        margin: 0,
-                        marginBottom: 2,
-                      }}
-                    >
-                      {"Price"}
-                    </h5>
-                    <h5
-                      style={{
-                        margin: 0,
-                        marginBottom: 10,
-                      }}
-                    >
-                      {game.price ? `$ ${game.price}` : "Free"}
-                    </h5>
-                  </div>
-                )}
+                    {"Price"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                      color: "white",
+                    }}
+                  >
+                    {game.price ? `$ ${game.price}` : "Free"}
+                  </h5>
+                </div>
+              )}
 
-                {game.reviewScore !== null &&
-                  game.reviewScore !== undefined && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <h5
-                        style={{
-                          margin: 0,
-                          marginBottom: 2,
-                        }}
-                      >
-                        {"Score"}
-                      </h5>
-                      <h5
-                        style={{
-                          margin: 0,
-                          marginBottom: 10,
-                        }}
-                      >
-                        {`${game.reviewScore}%`}
-                      </h5>
-                    </div>
-                  )}
+              {game.reviewScore !== null && game.reviewScore !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 2,
+                      color: fontClr,
+                    }}
+                  >
+                    {"Score"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {`${game.reviewScore}%`}
+                  </h5>
+                </div>
+              )}
 
-                {game.releaseDate !== null &&
-                  game.releaseDate !== undefined && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <h5
-                        style={{
-                          margin: 0,
-                          marginBottom: 2,
-                        }}
-                      >
-                        {"Release"}
-                      </h5>
-                      <h5
-                        style={{
-                          margin: 0,
-                          marginBottom: 10,
-                        }}
-                      >
-                        {formatDate(game.releaseDate)}
-                      </h5>
-                    </div>
-                  )}
-              </div>
-
-              {isGameOwned(ownedGame, game) ? (
-                <GameInterestRating
-                  isOwned={true}
-                  userRating={gameRatingMatch(
-                    ratings,
-                    game.name,
-                    game.appid,
-                    game.appid
-                  )}
-                  isEnabled={false}
-                />
-              ) : (
-                <GameInterestRating
-                  userRating={gameRatingMatch(
-                    ratings,
-                    game.name,
-                    game.appid,
-                    null
-                  )}
-                  interestChanged={(data) => {}}
-                  isOwned={false}
-                  isEnabled={false}
-                />
+              {game.releaseDate !== null && game.releaseDate !== undefined && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 2,
+                      color: fontClr,
+                    }}
+                  >
+                    {"Release"}
+                  </h5>
+                  <h5
+                    style={{
+                      margin: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {formatDate(game.releaseDate)}
+                  </h5>
+                </div>
               )}
             </div>
-          ))}
-        </div>
-        <Btn
+
+            {isGameOwned(ownedGame, game) ? (
+              <GameInterestRating
+                isOwned={true}
+                userRating={gameRatingMatch(
+                  ratings,
+                  game.name,
+                  game.appid,
+                  game.appid
+                )}
+                isEnabled={false}
+              />
+            ) : (
+              <GameInterestRating
+                userRating={gameRatingMatch(
+                  ratings,
+                  game.name,
+                  game.appid,
+                  null
+                )}
+                interestChanged={(data) => {}}
+                isOwned={false}
+                isEnabled={false}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+      <div>
+        {/* <Btn
           fullWidth={true}
           label={"Next"}
           onClick={handleNext}
           disabled={endIndex === games.length}
-        />
+        /> */}
         <CustomModal
           title={"Sort Games"}
           open={isSortingModalOpen}

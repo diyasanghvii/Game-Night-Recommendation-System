@@ -63,7 +63,7 @@ function RecommendGames() {
       })
       .catch((error) => {
         console.log(error);
-        alert(error?.response?.data?.message);
+        alert(error?.response?.data?.error || 'Failed to fetch recommendations. Please try again later.');
       })
       .finally(() => setIsGeneratingRecommendations(false));
   };
@@ -148,173 +148,187 @@ function RecommendGames() {
   return (
     <>
       <div
+        className="all-root"
         style={{
-          backgroundImage: "url('/images/Game Image.png')",
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
-          padding: "20px",
         }}
       >
         <MenuHeader />
-        {isFetchingFromDiscord && (
-          <div className="loading-overlay">
-            <div style={{ textAlign: "center" }}>
-              <h3>Fetching data from Discord...</h3>
-              <CircularProgress />
-            </div>
-          </div>
-        )}
-        {openParameterDialog && (
-          <ParameterPopUp
-            onClose={() => {
-              setParameterDialog(false);
-            }}
-            onContinue={() => {
-              setParameterDialog(false);
-              fetchRecommendations(selectedMembers, parameterValues);
-            }}
-            onSave={(sliderValues) => {
-              setParameterValues(sliderValues);
-            }}
-            parameter_values={parameterValues}
-          />
-        )}
-        {showPopup && (
-          <RecommendationPopup
-            recommendations={recommendations}
-            selectedChannel={selectedChannel}
-            selectedServer={selectedServer}
-            selectedMembers={selectedMembers}
-            onClose={() => {
-              setRecommendations([]);
-              setShowPopup(false);
-            }}
-          />
-        )}
-        <h2 style={{ marginLeft: "6rem", color: "#fff" }}>
-          Select Players from Discord
-        </h2>
-        <div style={{ marginLeft: "6rem", color: "white", display: "flex" }}>
-          <p>
-            Selected Server:{" "}
-            {selectedServer && (
-              <>
-                <Chip
-                  label={selectedServer}
-                  style={{
-                    backgroundColor: "rgba(50, 50, 50, 0.6)",
-                    color: "lightgrey",
-                    marginRight: "5px",
-                  }}
-                />
-                &nbsp;
-              </>
-            )}
-          </p>
-          <p>
-            Selected Voice Channel:{" "}
-            {selectedChannel && (
-              <>
-                <Chip
-                  label={selectedChannel}
-                  style={{
-                    backgroundColor: "rgba(50, 50, 50, 0.6)",
-                    color: "lightgrey",
-                    marginRight: "5px",
-                  }}
-                />
-                &nbsp;
-              </>
-            )}
-          </p>
-        </div>
-        <SelectServerChannel
-          onServerChange={(data) => handleServerChange(data)}
-          onChannelChange={(data) => handleChannelChange(data)}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            marginLeft: "1.5rem",
-            marginRight: "1.5rem",
-            marginTop: "3rem",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "rgba(99, 168, 255, 0.60)", // Slightly darker blue with 45% transparency
-              paddingBottom: "1em",
-              margin: "1rem",
-              minWidth: "350px",
-              color: "white", // Text color white
-            }}
-          >
-            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
-              Listening
-            </h3>
-            <CheckboxList
-              items={memberStatus.Voice}
-              onCheckboxToggle={handleCheckboxToggle}
-            />
-          </div>
-          <div
-            style={{
-              backgroundColor: "rgba(99, 255, 180, 0.60)", // Slightly darker green with 45% transparency
-              paddingBottom: "1em",
-              margin: "1rem",
-              minWidth: "350px",
-              color: "white", // Text color white
-            }}
-          >
-            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>Online</h3>
-            <CheckboxList
-              items={memberStatus.Online}
-              onCheckboxToggle={handleCheckboxToggle}
-            />
-          </div>
-          <div
-            style={{
-              backgroundColor: "rgba(250, 87, 87, 0.60)", // Slightly darker red with 45% transparency
-              paddingBottom: "1em",
-              margin: "1rem",
-              minWidth: "350px",
-              color: "white", // Text color white
-            }}
-          >
-            <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
-              Offline
-            </h3>
-            <CheckboxList
-              items={memberStatus.Offline}
-              onCheckboxToggle={handleCheckboxToggle}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexWrap: "wrap",
-            marginTop: "3rem",
-          }}
-        >
-          <Btn
-            label="Generate Recommendations"
-            onClick={() => setParameterDialog(true)}
-          ></Btn>
-          {isGeneratingRecommendations && (
+        <div style={{ padding: "10px" }}>
+          {isFetchingFromDiscord && (
             <div className="loading-overlay">
-              <div style={{ textAlign: "center" }}>
-                <h3>Generating Recommendations... Hold on tight!</h3>
+              <div style={{ textAlign: "center", fontWeight: "bold", color: "white"  }}>
+                <h2>Fetching data from Discord...</h2>
                 <CircularProgress />
               </div>
             </div>
           )}
+          {openParameterDialog && (
+            <ParameterPopUp
+              onClose={() => {
+                setParameterDialog(false);
+              }}
+              onContinue={() => {
+                setParameterDialog(false);
+                fetchRecommendations(selectedMembers, parameterValues);
+              }}
+              onSave={(sliderValues) => {
+                setParameterValues(sliderValues);
+              }}
+              parameter_values={parameterValues}
+            />
+          )}
+          {showPopup && (
+            <RecommendationPopup
+              recommendations={recommendations}
+              selectedChannel={selectedChannel}
+              selectedServer={selectedServer}
+              selectedMembers={selectedMembers}
+              onClose={() => {
+                setRecommendations([]);
+                setShowPopup(false);
+              }}
+            />
+          )}
+          <h2 style={{display: "flex" , justifyContent: "center", color: "#fff" }}>
+            Select Players from Discord
+          </h2>
+          <div
+            style={{
+              marginLeft: "6rem",
+              color: "white",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <p>
+              Selected Server:{" "}
+              {selectedServer && (
+                <>
+                  <Chip
+                    label={selectedServer}
+                    style={{
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
+                      color: "lightgrey",
+                      marginRight: "5px",
+                    }}
+                  />
+                  &nbsp;
+                </>
+              )}
+            </p>
+            <p>
+              Selected Voice Channel:{" "}
+              {selectedChannel && (
+                <>
+                  <Chip
+                    label={selectedChannel}
+                    style={{
+                      backgroundColor: "rgba(50, 50, 50, 0.8)",
+                      color: "lightgrey",
+                      marginRight: "5px",
+                    }}
+                  />
+                  &nbsp;
+                </>
+              )}
+            </p>
+          </div>
+          <SelectServerChannel
+            onServerChange={(data) => handleServerChange(data)}
+            onChannelChange={(data) => handleChannelChange(data)}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+              marginLeft: "1.5rem",
+              marginRight: "1.5rem",
+              marginTop: "3rem",
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "rgba(9, 92, 150, 0.40)", // Slightly darker blue with 45% transparency
+                paddingBottom: "1em",
+                margin: "1rem",
+                minWidth: "350px",
+                color: "white", // Text color white
+                border: "4px solid #424042",
+              }}
+            >
+              <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
+                Listening
+              </h3>
+              <CheckboxList
+                items={memberStatus.Voice}
+                onCheckboxToggle={handleCheckboxToggle}
+              />
+            </div>
+            <div
+              style={{
+                backgroundColor: "rgba(0, 69, 14, 0.40)", // Slightly darker green with 45% transparency
+                paddingBottom: "1em",
+                margin: "1rem",
+                minWidth: "350px",
+                color: "white", // Text color white
+                border: "4px solid #424042"
+              }}
+            >
+              <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
+                Online
+              </h3>
+              <CheckboxList
+                items={memberStatus.Online}
+                onCheckboxToggle={handleCheckboxToggle}
+              />
+            </div>
+            <div
+              style={{
+                backgroundColor: "rgba(122, 1, 11, 0.40)", // Slightly darker red with 45% transparency
+                paddingBottom: "1em",
+                margin: "1rem",
+                minWidth: "350px",
+                color: "white", // Text color white
+                border: "4px solid #424042"
+              }}
+            >
+              <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
+                Offline
+              </h3>
+              <CheckboxList
+                items={memberStatus.Offline}
+                onCheckboxToggle={handleCheckboxToggle}
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              flexWrap: "wrap",
+              marginTop: "3rem",
+            }}
+          >
+            <Btn
+              label="Generate Recommendations"
+              onClick={() => setParameterDialog(true)}
+            ></Btn>
+            {isGeneratingRecommendations && (
+              <div className="loading-overlay">
+                <div style={{ textAlign: "center", fontWeight: "bold", color: "white" }}>
+                  <h2>Generating Recommendations... Hold on tight!</h2>
+                  <CircularProgress />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

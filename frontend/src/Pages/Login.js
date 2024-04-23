@@ -6,6 +6,7 @@ import {
   InputAdornment,
   TextField,
   Box,
+  Divider,
 } from "@mui/material";
 import Btn from "../Components/Button/Btn";
 import Text from "../Components/Typography/Text";
@@ -95,34 +96,26 @@ const Login = () => {
 
   return (
     <div
+      className="all-root"
       style={{
         display: "flex",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        backgroundImage: "url('/images/Game Image.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
     >
-      <Container maxWidth="sm">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+      <Container
+        maxWidth="sm"
+        sx={{ background: "rgba(0, 0, 0, 0.4)", padding: 8, borderRadius: 8 }}
+      >
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           {/* Apply the color style directly to the Text component */}
           <Text
-            variant="h4"
+            variant="p"
             gutterBottom={true}
-            label={"Login"}
-            style={{ color: "white" }} // Change text color to white
-          />
-          <Btn
-            label="Sign Up"
-            onClick={handleSignUp}
-            color="success"
-            sx={{ backgroundColor: "green" }}
+            label={"Log in to your account"}
+            customStyle={{ color: "white", fontSize: "1.5rem" }} // Change text color to white
           />
         </Box>
         <TextBox
@@ -137,57 +130,77 @@ const Login = () => {
             "& input": { color: "white" }, // Change input text color to white
           }}
         />
-        <TextField
-          label="Password"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          fullWidth={true}
-          onChange={(e) => setPassword(e.target.value)}
-          variant="outlined"
-          color="primary" // Change color to primary (blue)
-          sx={{
-            marginBottom: "16px",
-            color: "white", // Change text color to white
-            backgroundColor: "transparent", // Keep background transparent
-            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-              borderColor: "white", // Change border color to white
-            },
-            "& .MuiInputLabel-outlined": {
-              color: "white", // Change label color to white
-            },
-            "& .MuiOutlinedInput-input": {
-              color: "white", // Change input text color to white
-            },
-            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "white", // Change border color on hover to white
-            },
-            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "white", // Change border color on focus to white
-            },
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={handleTogglePasswordVisibility}
-                  sx={{ color: "white" }} // Change icon color to white
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <div style={{ marginTop: 20 }}>
+          <TextField
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            fullWidth={true}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="outlined"
+            color="primary" // Change color to primary (blue)
+            sx={{
+              "& input": { color: "white" }, // Change input text color to white
+              marginBottom: "16px",
+              "& input": { color: "white" },
+              color: "white", // Change text color to white
+              backgroundColor: "transparent", // Keep background transparent
+              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white", // Change border color to white
+              },
+              "& .MuiFormLabel-root": {
+                color: "white !important", // Change label color to white
+              },
+              "& .MuiInputLabel-outlined": {
+                color: "white", // Change label color to white
+              },
+              "& .MuiOutlinedInput-input": {
+                color: "white", // Change input text color to white
+              },
+              "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                {
+                  borderColor: "white", // Change border color on hover to white
+                },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                {
+                  borderColor: "white", // Change border color on focus to white
+                },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Toggle password visibility"
+                    onClick={handleTogglePasswordVisibility}
+                    sx={{ color: "white" }} // Change icon color to white
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
 
         {error && <ErrorMessage message={error} />}
-        <Btn
-          fullWidth={true}
-          label={"Submit"}
-          onClick={handleLogin}
-          color="success"
-          sx={{ backgroundColor: "green" }}
-        />
+        <div style={{ marginTop: 10 }}>
+          <Btn
+            fullWidth={true}
+            label={"Log In"}
+            onClick={handleLogin}
+            color="success"
+            sx={{ backgroundColor: "green" }}
+          />
+        </div>
+        <div style={{ marginTop: 30 }}>
+          <Btn
+            fullWidth={true}
+            label={"Don't have an account? Sign Up"}
+            onClick={handleSignUp}
+            color="success"
+            sx={{ backgroundColor: "green" }}
+          />
+        </div>
       </Container>
     </div>
   );

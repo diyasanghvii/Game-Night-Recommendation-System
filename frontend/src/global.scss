@@ -1,7 +1,54 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Source+Code+Pro&family=Source+Code+Pro&family=Rajdhani&family=Chivo+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Jersey+20&family=Rajdhani&family=Nunito&display=swap");
+
+:root {
+  --font-color: black;
+  --font-size: 1rem;
+  --font-family: "Nunito";
+}
 
 html,
 body {
+  padding: 0;
+  margin: 0;
+}
+
+.scroller {
+  background-color: #007 #bada55 !important;
+}
+
+.all-root label {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+.all-root p {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+.all-root div {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+}
+
+.all-root button {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
+}
+
+.all-root h4 {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
+}
+
+.all-root li {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
+}
+
+.all-root ul {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size);
 }
 
 .home-page-root {
@@ -12,6 +59,18 @@ body {
   margin-left: 15px;
   cursor: pointer;
   margin-right: 15px;
+}
+
+::-webkit-scrollbar {
+  background-color: black !important;
+  border: 0.5px solid black;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(56, 55, 54,0.8) !important;
+  border-radius: 8px;
+  border: 0.5px solid rgba(66, 26, 77, 0.8);
+  box-shadow: 0 0 20px 2px #7c5295; 
 }
 
 .clear-rating-text:hover {
@@ -48,7 +107,7 @@ body {
   padding-bottom: 50px !important;
   outline: 0 !important;
   box-sizing: border-box;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .modal-containter-root {
@@ -68,10 +127,9 @@ body {
 }
 
 .modal-body-root {
-  height: 70%;
   margin-top: 8px;
   padding-top: 26px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   align-items: center;
 }
 .MuiOutlinedInput-root.Mui-focused {
@@ -81,7 +139,22 @@ body {
 .MuiOutlinedInput-notchedOutline {
   border-color: white !important;
 }
-.MuiInputBase-input.Mui-disabled{
-  color: white, // Text color for disabled inputs
+.MuiInputBase-input.Mui-disabled {
+  color: white; // Text color for disabled inputs
 }
 
+.game-popup-button {
+  min-width: 100px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+.glow {
+  font-size: 1.8rem !important;
+  color: white;
+}
+
+.glow-header {
+}

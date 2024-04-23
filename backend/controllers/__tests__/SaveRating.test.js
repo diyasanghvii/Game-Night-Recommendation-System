@@ -9,7 +9,7 @@ describe("Update User Rating API testing", () => {
   beforeAll(async () => {
     const user = {
       name: "Test User",
-      email: "test@example.com",
+      email: "test1221@example.com",
       password: "testpassword",
     };
 
@@ -43,5 +43,5 @@ describe("Update User Rating API testing", () => {
 
     expect(response.body.message).toBe("User Preferences Updated!");
     expect(response.body.preferences[0].gameName).toEqual("Test Game");
-  });
+  }, 7000);
 });

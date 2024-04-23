@@ -64,4 +64,37 @@
 .button-group button {
   margin-right: 10px;
 }
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
 
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 17px;
+  width: 17px;
+  background-color: rgb(78, 63, 105); /* Default checkbox color */
+  border-radius: 3px;
+  border: 2px solid white;
+}
+
+.checkbox-container input:checked ~ .checkmark:before {
+  content: "\2713";
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  font-size: 17px;
+  color: #fff;
+  text-align: center;
+  line-height: 12px;
+}

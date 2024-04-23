@@ -34,10 +34,11 @@ const GameInterestRating = ({
               sx={{
                 "& .MuiRating-iconFilled": {
                   color: "#FFFF00", // Filled star color
-                  
+                  fontSize: "1.5rem !important",
                 },
                 "& .MuiRating-iconEmpty": {
                   color: "#ccc", // Empty star color
+                  fontSize: "1.5rem !important",
                 },
               }}
             />
