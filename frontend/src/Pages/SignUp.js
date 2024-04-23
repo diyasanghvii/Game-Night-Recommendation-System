@@ -11,6 +11,7 @@ import { SignUpOne } from "../Services";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ErrorMessage from "../Components/ErrorMessage/ErrorMessage";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -19,6 +20,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -30,7 +32,7 @@ const SignUp = () => {
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
 
@@ -42,6 +44,7 @@ const SignUp = () => {
 
     SignUpOne(data)
       .then((response) => {
+        setError(null);
         if (response && response.data) {
           localStorage.setItem("signUpToken", response.data.token);
           localStorage.setItem("email", email);
@@ -49,7 +52,7 @@ const SignUp = () => {
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.message);
+        setError(error?.response?.data?.message);
       });
   };
 
@@ -118,11 +121,21 @@ const SignUp = () => {
           </Step>
         </Stepper>
         <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: "20px" }}>
+            {error && <ErrorMessage message={error} />}
+          </div>
           <TextField
             label="Name"
             value={username}
             fullWidth={true}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length > 35) {
+                setError("Name should be less than 35 character");
+              } else {
+                setError(null);
+                setUsername(e.target.value);
+              }
+            }}
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={{
               style: { color: "white" },
@@ -152,7 +165,10 @@ const SignUp = () => {
             type={showPassword ? "text" : "password"}
             value={password}
             fullWidth={true}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setError(null);
+              setPassword(e.target.value);
+            }}
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={{
               style: { color: "white" },
@@ -178,7 +194,10 @@ const SignUp = () => {
             type={showPassword ? "text" : "password"}
             value={confirmPassword}
             fullWidth={true}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setError(null);
+              setConfirmPassword(e.target.value);
+            }}
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={{
               style: { color: "white" },
