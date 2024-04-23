@@ -215,7 +215,7 @@ const deleteUserDetails = async (req, res) => {
 
     const passwordMatch = await comparePasswords(password, user.password);
     if (!passwordMatch) {
-      return res.status(400).json({ message: "Password does not match!" });
+      return res.status(400).json({ message: "Incorrect Password. Please try again." });
     }
 
     await User.deleteOne({ email });
