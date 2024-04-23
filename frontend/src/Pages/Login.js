@@ -140,11 +140,15 @@ const Login = () => {
             variant="outlined"
             color="primary" // Change color to primary (blue)
             sx={{
+              "& input": { color: "white" }, // Change input text color to white
               marginBottom: "16px",
               color: "white", // Change text color to white
               backgroundColor: "transparent", // Keep background transparent
               "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                 borderColor: "white", // Change border color to white
+              },
+              "& .MuiFormLabel-root": {
+                color: "white !important", // Change label color to white
               },
               "& .MuiInputLabel-outlined": {
                 color: "white", // Change label color to white
