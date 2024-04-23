@@ -75,6 +75,7 @@ const EditProfile = () => {
     setTempAge(age);
     setTempSteamId(steamId);
     setTempDiscordUsername(discordUsername);
+    setDeleteError("");
   };
 
   const handleSave = () => {
@@ -153,7 +154,7 @@ const EditProfile = () => {
             localStorage.clear();
             navigate("/login");
           } else {
-            setDeleteError("Failed to delete profile1.");
+            setDeleteError("Failed to delete profile.");
           }
         })
         .catch((e) => {
@@ -324,7 +325,7 @@ const EditProfile = () => {
                 maxWidth="sm"
                 sx={{
                   background: "rgba(0, 0, 0, 0.4)",
-                  padding: 8,
+                  padding: 4,
                   borderRadius: 8,
                 }}
               >
@@ -332,7 +333,7 @@ const EditProfile = () => {
                 <span style={{ marginLeft: 5, color: "red" }}>
                   {deleteError}
                 </span>
-                <div style={{ width: "100%", marginTop: 40 }}>
+                <div style={{ width: "100%", marginTop: 20 }}>
                   <TextField
                     label={
                       <Typography style={{ color: "white" }}>Name</Typography>

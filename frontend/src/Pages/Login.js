@@ -142,6 +142,7 @@ const Login = () => {
             sx={{
               "& input": { color: "white" }, // Change input text color to white
               marginBottom: "16px",
+              "& input": { color: "white" },
               color: "white", // Change text color to white
               backgroundColor: "transparent", // Keep background transparent
               "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
