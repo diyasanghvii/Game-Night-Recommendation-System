@@ -15,6 +15,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import Text from "../Components/Typography/Text";
 import { useNavigate } from "react-router-dom";
+import { GetServerListEditProfile } from "../Services";
 
 const EditProfile = () => {
   let navigate = useNavigate();
@@ -225,6 +226,36 @@ const EditProfile = () => {
       });
   };
 
+  const isPresenceBot = () => {
+    const trimmedDiscordUsername = discordUsername.trim();
+    GetServerListEditProfile(trimmedDiscordUsername)
+      .then((response) => {
+        if (
+          response &&
+          response.data &&
+          response.data.serverList.length !== 0
+        ) {
+          setDiscordUsernameVerified(true);
+          setDiscordUsernameError("");
+          setDiscordUsernameFieldError(false);
+          setDetailsChanged(true);
+        } else {
+          setDiscordUsernameError(
+            "Discord User Name does not exist or does not have at least one server having the Presence Bot."
+          );
+          setDiscordUsernameVerified(false);
+          setDiscordUsernameFieldError(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setDiscordUsernameError(
+          "Discord User Name does not exist or does not have at least one server having the Presence Bot."
+        );
+        setDiscordUsernameVerified(false);
+      });
+  };
+
   const handleVerifyDiscordUsername = () => {
     const trimmedDiscordUsername = discordUsername.trim();
     if (isValidDiscordUsername(trimmedDiscordUsername)) {
@@ -233,16 +264,10 @@ const EditProfile = () => {
       })
         .then((res) => {
           if (res && res.data && res.data.status) {
-            setDiscordUsernameVerified(true);
-            setDiscordUsernameError("");
-            setDetailsChanged(true);
-            setDiscordUsernameFieldError(false);
+            isPresenceBot();
           } else {
             if (res && res.data && res.data.existingUserEmail === email) {
-              setDiscordUsernameVerified(true);
-              setDiscordUsernameError("");
-              setDetailsChanged(true);
-              setDiscordUsernameFieldError(false);
+              isPresenceBot();
             } else {
               setDiscordUsernameError("Discord Username already exists.");
               setDiscordUsernameVerified(false);

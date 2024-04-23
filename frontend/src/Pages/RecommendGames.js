@@ -157,7 +157,7 @@ function RecommendGames() {
         }}
       >
         <MenuHeader />
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "10px" }}>
           {isFetchingFromDiscord && (
             <div className="loading-overlay">
               <div style={{ textAlign: "center", fontWeight: "bold", color: "white"  }}>
