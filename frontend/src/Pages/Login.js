@@ -182,13 +182,15 @@ const Login = () => {
         </div>
 
         {error && <ErrorMessage message={error} />}
-        <Btn
-          fullWidth={true}
-          label={"Log In"}
-          onClick={handleLogin}
-          color="success"
-          sx={{ backgroundColor: "green" }}
-        />
+        <div style={{ marginTop: 10 }}>
+          <Btn
+            fullWidth={true}
+            label={"Log In"}
+            onClick={handleLogin}
+            color="success"
+            sx={{ backgroundColor: "green" }}
+          />
+        </div>
         <div style={{ marginTop: 30 }}>
           <Btn
             fullWidth={true}
