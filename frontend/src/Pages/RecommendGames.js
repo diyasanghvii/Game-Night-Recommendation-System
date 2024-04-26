@@ -157,7 +157,7 @@ function RecommendGames() {
         }}
       >
         <MenuHeader />
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "10px" }}>
           {isFetchingFromDiscord && (
             <div className="loading-overlay">
               <div style={{ textAlign: "center", fontWeight: "bold", color: "white"  }}>
@@ -193,7 +193,7 @@ function RecommendGames() {
               }}
             />
           )}
-          <h2 style={{ marginLeft: "6rem", color: "#fff" }}>
+          <h2 style={{display: "flex" , justifyContent: "center", color: "#fff" }}>
             Select Players from Discord
           </h2>
           <div
@@ -259,6 +259,7 @@ function RecommendGames() {
                 margin: "1rem",
                 minWidth: "350px",
                 color: "white", // Text color white
+                border: "4px solid #424042",
               }}
             >
               <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
@@ -276,6 +277,7 @@ function RecommendGames() {
                 margin: "1rem",
                 minWidth: "350px",
                 color: "white", // Text color white
+                border: "4px solid #424042"
               }}
             >
               <h3 style={{ textAlign: "center", marginBottom: "0px" }}>
@@ -293,6 +295,7 @@ function RecommendGames() {
                 margin: "1rem",
                 minWidth: "350px",
                 color: "white", // Text color white
+                border: "4px solid #424042"
               }}
             >
               <h3 style={{ textAlign: "center", marginBottom: "0px" }}>

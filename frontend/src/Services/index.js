@@ -242,10 +242,24 @@ export const GetServerList = (data) => {
   });
 };
 
-// Get Server List
+// Get Server List Sign Up
 export const GetServerListSignUp = (data) => {
   return new Promise((resolve, reject) => {
     authLocalStorageRequest
+      .get(`/discord/fetchserverlist?discordUserName=${data}&${Date.now()}`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Get Server List Edit Profile
+export const GetServerListEditProfile = (data) => {
+  return new Promise((resolve, reject) => {
+    authRequest
       .get(`/discord/fetchserverlist?discordUserName=${data}&${Date.now()}`)
       .then((response) => {
         resolve(response);

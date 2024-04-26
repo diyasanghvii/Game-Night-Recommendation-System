@@ -15,15 +15,15 @@ export default function CheckboxList({ items, onCheckboxToggle }) {
   };
 
   return (
-    <List
-      sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: "auto" }}
+    <List 
+      sx={{ width: "100%", maxWidth: 560, maxHeight: 400, overflow: "auto", paddingBottom: 0 }}
     >
       {items.map((item, index) => {
         const labelId = `checkbox-list-label-${index}`;
 
         return (
           <React.Fragment key={index}>
-            <ListItem disablePadding>
+            <ListItem disablePadding sx={{borderBottom: "1px solid rgba(134, 131, 135, 0.4)",}}>
               <ListItemButton role={undefined} dense>
                 <ListItemIcon>
                   <Checkbox

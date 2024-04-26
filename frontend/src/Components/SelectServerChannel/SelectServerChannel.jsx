@@ -204,7 +204,7 @@ export default function SelectServerChannel({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleServerOk}>Ok</Button>
+          <Btn onClick={handleServerOk} label="Ok"></Btn>
         </DialogActions>
       </Dialog>
 
@@ -314,7 +314,7 @@ export default function SelectServerChannel({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleChannelOk}>Ok</Button>
+          <Btn onClick={handleChannelOk} label="Ok"></Btn>
         </DialogActions>
       </Dialog>
     </div>
