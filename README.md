@@ -38,3 +38,4 @@ STEAM_SECRET_IV=<STEAM_SECRET_IV_HERE>
 3. Scss - for css.
 
 ### Access the Application locally in : http://localhost:3000
+### Access AWS Application URL: http://ec2-54-208-76-220.compute-1.amazonaws.com/home
