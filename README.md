@@ -1,3 +1,49 @@
+# Welcome to the Game Night Recommender Repository
+
+This tool is designed to enhance your multiplayer gaming sessions by providing personalized game recommendations based on user preferences and social interactions.
+
+## Project Overview
+
+The Game Night Recommender is a web application that helps groups of friends choose video games to play together more efficiently. It integrates with platforms like Discord for seamless communication and leverages APIs such as Steam to fetch game data.
+
+### Key Features
+
+- **User Authentication:** Secure login and registration. Steam ID credential stored in encrypted format.
+
+  ![Games dashboard](images/SignUp.png)
+
+- **Game Discovery:** Browse games your friends are playing or explore top-rated games.
+
+  ![Games dashboard](images/Dashboard.png)
+
+  <div style="display:flex; justify-content:space-between;">
+    <img src="images/GameInfo.png" alt="Game Info Popup" width="50%">
+    <img src="images/GameSearchOptions.png" alt="Game Search Options" height="40%">
+  </div><br>
+
+- **Game Interaction:** Rate games, express interest, and select preferred genres.
+
+  ![Games dashboard](images/GameGenres.png)
+
+- **Recommendation System:** Get personalized game suggestions based on collective preferences of your group.
+
+  <div style="display:flex; justify-content:space-between;">
+    <img src="images/GameParameters.png" alt="Game Recommendation Parameters" width="50%">
+    <img src="images/GameParametersAdvanced.png" alt="Advanced Game Recommendation Parameters" width="50%">
+  </div>
+
+  ![Game recommendations for group](images/GameRecommendations.png)
+
+- **Discord Integration:** Connect with friends and send game recommendations directly to your Discord server's channel.
+
+  <div style="display:flex; justify-content:space-between;">
+    <img src="images/DiscordServerList.png" alt="Select a server from Discord servers list" width="50%">
+    <img src="images/DiscordServerChannelsList.png" alt="Select a channel from Discord server's channels list" width="50%">
+  </div>
+
+  ![Game recommendations shared on Discord](images/GameRecommendationsSharedDiscord.png)
+
+## Installation Guide
 ### STEPS TO RUN THE APPLICATION
 
 ### Add .env to Frontend folder and add the below contents to it
@@ -38,4 +84,4 @@ STEAM_SECRET_IV=<STEAM_SECRET_IV_HERE>
 3. Scss - for css.
 
 ### Access the Application locally in : http://localhost:3000
-### Access AWS Application URL: http://ec2-54-208-76-220.compute-1.amazonaws.com/home
+### Access AWS Application URL (is down sometimes, working on AWS limits): http://ec2-54-208-76-220.compute-1.amazonaws.com/home
